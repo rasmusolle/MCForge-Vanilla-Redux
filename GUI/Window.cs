@@ -115,7 +115,7 @@ namespace MCForge.Gui {
             }).Start();
 
 
-            notifyIcon1.Text = ( "MCForge Server" ).Truncate(64);
+            notifyIcon1.Text = ( "MCForge Server: " + Server.name ).Truncate(64);
 
             this.notifyIcon1.ContextMenuStrip = this.iconContext;
             this.notifyIcon1.Icon = this.Icon;
@@ -155,7 +155,6 @@ namespace MCForge.Gui {
 
             UpdateListTimer.Elapsed += delegate {
                 try {
-                    UpdateSettings();
                     UpdateClientList(Player.players);
                     UpdateMapList();
                 }
@@ -204,8 +203,8 @@ namespace MCForge.Gui {
                 this.Invoke(new VoidDelegate(SettingsUpdate));
             }
             else {
-                this.Text = "MCForge " + Server.VersionString;
-                notifyIcon1.Text = ("MCForge Server").Truncate(64);
+                this.Text = Server.name + " - MCForge " + Server.VersionString;
+                notifyIcon1.Text = ( "MCForge Server: " + Server.name ).Truncate(64);
             }
         }
 
@@ -338,14 +337,6 @@ namespace MCForge.Gui {
 
         public delegate void UpdateList();
 
-        public void UpdateSettings() {
-            if (InvokeRequired) {
-                Invoke(new UpdateList(UpdateSettings));
-            } else {
-                txtServerrName.Text = Server.name;
-            }
-        }
-
         public void UpdateMapList() {
             if ( InvokeRequired )
                 Invoke(new UpdateList(UpdateMapList));
@@ -434,11 +425,14 @@ namespace MCForge.Gui {
             }
         }
 
-        private void txtInput_KeyDown(object sender, KeyEventArgs e) {
-            if ( e.KeyCode == Keys.Enter ) {
+        private void txtInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
                 string text = txtInput.Text.Trim();
-                if ( String.IsNullOrEmpty(text) ) return;
-                switch ( text[0] ) {
+                if (String.IsNullOrEmpty(text)) return;
+                switch (text[0])
+                {
                     case '#':
                         text = text.Remove(0, 1);
                         Player.GlobalMessageOps(text);
@@ -663,10 +657,10 @@ namespace MCForge.Gui {
                 }
             }
             catch { }
-            foreach ( TextBox txtBox in ( from TabPage tP in tcMain.TabPages from Control ctrl in tP.Controls select ctrl ).OfType<TextBox>() ) {
+            foreach ( TextBox txtBox in ( from TabPage tP in tabControl1.TabPages from Control ctrl in tP.Controls select ctrl ).OfType<TextBox>() ) {
                 txtBox.Update();
             }
-            tcMain.Update();
+            tabControl1.Update();
         }
 
         private void Restart_Click(object sender, EventArgs e) {
@@ -1621,21 +1615,24 @@ namespace MCForge.Gui {
         }*/
         #endregion
 
-        private void txtOpInput_KeyDown(object sender, KeyEventArgs e) {
-            if ( e.KeyCode == Keys.Enter ) {
-                if ( txtOpInput.Text == null || txtOpInput.Text.Trim() == "" ) { return; }
+        private void txtOpInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (txtOpInput.Text == null || txtOpInput.Text.Trim() == "") { return; }
                 string optext = txtOpInput.Text.Trim();
                 string opnewtext = optext;
                 Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + opnewtext);
                 Server.s.Log("(OPs): Console: " + opnewtext, false, LogType.Op);
                 txtOpInput.Clear();
             }
-
         }
 
-        private void txtAdminInput_KeyDown(object sender, KeyEventArgs e) {
-            if ( e.KeyCode == Keys.Enter ) {
-                if ( txtAdminInput.Text == null || txtAdminInput.Text.Trim() == "" ) { return; }
+        private void txtAdminInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (txtAdminInput.Text == null || txtAdminInput.Text.Trim() == "") { return; }
                 string admintext = txtAdminInput.Text.Trim();
                 string adminnewtext = admintext;
                 Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + adminnewtext);
@@ -1818,12 +1815,12 @@ namespace MCForge.Gui {
         }
         #endregion
 
-        private void button1_Click_1( object sender, EventArgs e ) {
-            try {
-                System.Diagnostics.Process.Start( txtUrl.Text );
-            } catch {
-                MessageBox.Show( "Failed to open browser.", "MCForge Redux" );
-            }
+        private void tabPage8_Click(object sender, EventArgs e)
+        {
+
         }
+
+
+
     }
 }
