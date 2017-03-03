@@ -1,5 +1,7 @@
-/*
-	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl) Licensed under the
+﻿/*
+	Copyright 2010 MCLawl Team - Written by Valek
+ 
+    Licensed under the
 	Educational Community License, Version 2.0 (the "License"); you may
 	not use this file except in compliance with the License. You may
 	obtain a copy of the License at
@@ -13,32 +15,35 @@
 	permissions and limitations under the License.
 */
 using System;
-
 namespace MCForge.Commands
 {
-    public class CmdSpawn : Command
+    public class CmdIrc : Command
     {
-        public override string name { get { return "spawn"; } }
+        public override string name { get { return "irc"; } }
         public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
-        public CmdSpawn() { }
-
         public override void Use(Player p, string message)
         {
-            if (message != "") { Help(p); return; }
-            ushort x = (ushort)((0.5 + p.level.spawnx) * 32);
-            ushort y = (ushort)((1 + p.level.spawny) * 32);
-            ushort z = (ushort)((0.5 + p.level.spawnz) * 32);
-            unchecked
+            string hasirc;
+            string ircdetails = "";
+            if (Server.irc)
             {
-                p.SendPos((byte)-1, x, y, z,
-                            p.level.rotx,
-                            p.level.roty);
+                hasirc = "&aEnabled" + Server.DefaultColor + ".";
+                ircdetails = Server.ircServer + " > " + Server.ircChannel;
+            }
+            else
+            {
+                hasirc = "&cDisabled" + Server.DefaultColor + ".";
+            }
+            Player.SendMessage(p, "IRC is " + hasirc);
+            if (ircdetails != "")
+            {
+                Player.SendMessage(p, "Location: " + ircdetails);
             }
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/spawn - Teleports yourself to the spawn location.");
+            Player.SendMessage(p, "/irc - Displays the server and channel information.");
         }
     }
 }

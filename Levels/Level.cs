@@ -95,7 +95,6 @@ namespace MCForge
         public bool backedup;
         public List<Blockchange> blockCache = new List<Blockchange>();
         public ushort[] blocks;
-        public Physics physic = new Physics();
         public bool cancelsave1;
         public bool cancelunload;
         public bool changed;
@@ -192,7 +191,7 @@ namespace MCForge
             set
             {
                 if (value > 0 && Physicsint == 0)
-                    physic.StartPhysics(this);
+                    //physic.StartPhysics(this);
                 Physicsint = value;
             }
         }
@@ -214,8 +213,6 @@ namespace MCForge
         public ushort width; // x
         public bool worldChat = true;
         public List<BlockQueue.block> blockqueue = new List<BlockQueue.block>();
-
-        public List<C4.C4s> C4list = new List<C4.C4s>();
 
         public Level(string n, ushort x, ushort y, ushort z, string type, int seed = 0, bool useSeed = false, MapType mt = MapType.General)
         {
@@ -396,19 +393,6 @@ namespace MCForge
 
             Server.levels.Remove(this);
 
-            try
-            {
-                //physChecker.Stop();
-                //physChecker.Dispose();
-                physic.physThread.Abort();
-                physic.physThread.Join();
-
-            }
-            catch
-            {
-            }
-
-            finally
             {
                 Dispose();
                 GC.Collect();
@@ -422,9 +406,6 @@ namespace MCForge
 
         public void Dispose()
         {
-            physic.Extras.Clear();
-            physic.liquids.Clear();
-            physic.leaves.Clear();
             ListCheck.Clear();
             ListUpdate.Clear();
             UndoBuffer.Clear();
@@ -645,10 +626,6 @@ namespace MCForge
                 if (Block.Convert(b) != Block.Convert(type) && !Instant)
                     Player.GlobalBlockchange(this, x, y, z, type);
 
-                if (b == Block.sponge && physics > 0 && type != Block.sponge) physic.PhysSpongeRemoved(this, PosToInt(x, y, z));
-                if (b == Block.lava_sponge && physics > 0 && type != Block.lava_sponge)
-                    physic.PhysSpongeRemoved(p.level, PosToInt(x, y, z), true);
-
                 errorLocation = "Undo buffer filling";
                 Player.UndoPos Pos;
                 Pos.x = x;
@@ -796,12 +773,6 @@ namespace MCForge
                     //Should save bandwidth sending identical looking blocks, like air/op_air changes.
                     Player.GlobalBlockchange(this, b, type);
 
-                if (b == Block.sponge && physics > 0 && type != Block.sponge)
-                    physic.PhysSpongeRemoved(this, b);
-
-                if (b == Block.lava_sponge && physics > 0 && type != Block.lava_sponge)
-                    physic.PhysSpongeRemoved(this, b, true);
-
                 try
                 {
                     UndoPos uP;
@@ -855,12 +826,6 @@ namespace MCForge
                 if (Block.Convert(b) != Block.Convert(type))
                     //Should save bandwidth sending identical looking blocks, like air/op_air changes.
                     Player.GlobalBlockchange(this, x, y, z, type);
-
-                if (b == Block.sponge && physics > 0 && type != Block.sponge)
-                    physic.PhysSpongeRemoved(this, PosToInt(x, y, z));
-
-                if (b == Block.lava_sponge && physics > 0 && type != Block.lava_sponge)
-                    physic.PhysSpongeRemoved(this, PosToInt(x, y, z), true);
 
                 try
                 {
@@ -947,10 +912,7 @@ namespace MCForge
 
                 if (changed || !File.Exists(path) || Override || (physicschanged && clearPhysics))
                 {
-                    if (clearPhysics)
-                    {
-                        physic.ClearPhysics(this);
-                    }
+
                     
                     string backFile = string.Format("{0}.back", path);
                     string backupFile = string.Format("{0}.backup", path);
@@ -1234,7 +1196,7 @@ namespace MCForge
                     level.jailz = (ushort)(level.spawnz * 32);
                     level.jailrotx = level.rotx;
                     level.jailroty = level.roty;
-                    level.physic.StartPhysics(level);
+                    //level.physic.StartPhysics(level);
                     //level.physChecker.Elapsed += delegate
                     //{
                     //    if (!level.physicssate && level.physics > 0)
@@ -1570,8 +1532,6 @@ namespace MCForge
                         }
                     }
                 }
-                if (!physic.physicssate && physics > 0)
-                    physic.StartPhysics(this);
             }
             catch
             {
@@ -1592,7 +1552,7 @@ namespace MCForge
                     Blockchange(x, y, z, (ushort)type, true, extraInfo);
                     return true;
                 }
-
+/*
                 if (!ListUpdate.Exists(Update => Update.b == b))
                 {
                     ListUpdate.Add(new Update(b, (byte)type, extraInfo));
@@ -1611,6 +1571,7 @@ namespace MCForge
                         return true;
                     }
                 }
+ */
 
                 return false;
             }

@@ -1,30 +1,25 @@
-/*
-	Copyright © 2011-2014 MCForge-Redux
-		
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
+ï»¿/*
+	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl) Licensed under the
+	Educational Community License, Version 2.0 (the "License"); you may
+	not use this file except in compliance with the License. You may
+	obtain a copy of the License at
 	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
+	http://www.osedu.org/licenses/ECL-2.0
 	
 	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
+	software distributed under the License is distributed on an "AS IS"
 	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+	or implied. See the License for the specific language governing
+	permissions and limitations under the License.
 */
+using System;
 namespace MCForge.Commands
 {
     public class CmdXban : Command
     {
         public override string name { get { return "xban"; } }
-        public override string shortcut { get { return  ""; } }
-        public override string type { get { return "mod"; } }
-        public override bool museumUsable { get { return false; } }
+        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public CmdXban() { }
         public override void Use(Player p, string message)
         {
 
@@ -32,6 +27,19 @@ namespace MCForge.Commands
 
             Player who = Player.Find(message.Split(' ')[0]);
             string msg = message.Split(' ')[0];
+            if (Server.devs.Contains(who == null ? msg.ToLower() : who.name.ToLower()))
+            {
+                Player.SendMessage(p, "You can't ban a MCForge Developer!");
+                if (p != null)
+                {
+                    Player.GlobalMessage(p.color + p.name + Server.DefaultColor + " attempted to ban a MCForge Developer!");
+                }
+                else
+                {
+                    Player.GlobalMessage(Server.DefaultColor + "The Console attempted to ban a MCForge Developer!");
+                }
+                return;
+            }
             if (p != null)
             {
                 p.ignorePermission = true;
@@ -40,18 +48,15 @@ namespace MCForge.Commands
             {
                 if (who != null)
                 {
-                    Command.all.Find("xundo").Use(p, msg);
                     Command.all.Find("ban").Use(p, msg);
                     Command.all.Find("banip").Use(p, "@" + msg);
                     Command.all.Find("kick").Use(p, message);
-                    Command.all.Find("xundo").Use(p, msg);
 
                 }
                 else
                 {
                     Command.all.Find("ban").Use(p, msg);
                     Command.all.Find("banip").Use(p, "@" + msg);
-                    Command.all.Find("xundo").Use(p, msg);
                 }
 
             }
@@ -67,7 +72,7 @@ namespace MCForge.Commands
 
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/xban [name] [message]- Bans, banips, undoes, and kicks [name] with [message], if specified.");
+            Player.SendMessage(p, "/xban [name] - Bans and kicks [name].");
         }
     }
 }

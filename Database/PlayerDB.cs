@@ -66,18 +66,6 @@ namespace MCForge {
 								break;
 							}
 
-							EXPLevel currLevel = null;
-							foreach ( EXPLevel lvl in EXPLevel.levels ) {
-								if ( lvl.requiredEXP <= p.points ) {
-									currLevel = lvl;
-								}
-							}
-
-							if ( currLevel != null ) {
-								p.explevel = currLevel;
-							} else {
-								p.explevel = EXPLevel.levels[0];
-							}
 						} catch(Exception e) {
 							Server.s.Log( "Loading " + p.name + "'s database failed at section: " + section );
 							Server.ErrorLog( e );
@@ -101,7 +89,6 @@ namespace MCForge {
 				p.points = 0;
 				p.time = "0 0 0 1";
 				p.timeLogged = DateTime.Now;
-				p.explevel = EXPLevel.levels[0];
 				Save( p );
 				return false;
 			}

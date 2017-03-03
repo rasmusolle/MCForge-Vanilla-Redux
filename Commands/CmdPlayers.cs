@@ -1,30 +1,28 @@
 /*
-	Copyright © 2009-2014 MCSharp team (Modified for use with MCZall/MCLawl/MCForge/MCForge-Redux)
+	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl) Licensed under the
+	Educational Community License, Version 2.0 (the "License"); you may
+	not use this file except in compliance with the License. You may
+	obtain a copy of the License at
 	
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
+	http://www.osedu.org/licenses/ECL-2.0
 	
 	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
+	software distributed under the License is distributed on an "AS IS"
 	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+	or implied. See the License for the specific language governing
+	permissions and limitations under the License.
 */
 using System;
 using System.Collections.Generic;
+using System.Text;
+
 namespace MCForge.Commands
 {
-    public class CmdPlayers : Command
+    class CmdPlayers : Command
     {
+
         public override string name { get { return "players"; } }
-        public override string shortcut { get { return  "who"; } }
-        public override string type { get { return "information"; } }
-        public override bool museumUsable { get { return true; } }
+        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
         public CmdPlayers() { }
 
@@ -39,110 +37,64 @@ namespace MCForge.Commands
                 {
                     if (grp.name != "nobody")
                     {
-                        if (String.IsNullOrEmpty(message) || !Group.Exists(message))
-                        {
-                            groups groups;
-                            groups.group = grp;
-                            groups.players = new List<string>();
-                            playerList.Add(groups);
-                        }
-                        else
-                        {
-                            Group grp2 = Group.Find(message);
-                            if (grp2 != null && grp == grp2)
-                            {
-                                groups groups;
-                                groups.group = grp;
-                                groups.players = new List<string>();
-                                playerList.Add(groups);
-                            }
-                        }
+                        groups groups;
+                        groups.group = grp;
+                        groups.players = new List<string>();
+                        playerList.Add(groups);
                     }
                 }
 
                 string devs = "";
-                string mods = "";
-                string gcmods = "";
                 int totalPlayers = 0;
                 foreach (Player pl in Player.players)
                 {
-                    if (!pl.hidden || p == null || p.group.Permission > LevelPermission.Operator)
+                    if (!pl.hidden || p.group.Permission > LevelPermission.Operator || Server.devs.Contains(p.name.ToLower()))
                     {
-                        if (String.IsNullOrEmpty(message) || !Group.Exists(message) || Group.Find(message) == pl.group)
+                        totalPlayers++;
+                        string foundName = pl.name;
+
+                        if (Server.afkset.Contains(pl.name))
                         {
-                            totalPlayers++;
-                            string foundName = pl.DisplayName;
+                            foundName = pl.name + "-afk";
+                        }
 
-                            if (Server.afkset.Contains(pl.name))
-                            {
-                                foundName += "-afk";
-                            }
-
-                            if (pl.muted) foundName += "[muted]";
-
-
-                            if (pl.isDev)
-                            {
-                                if (pl.voice)
-                                    devs += " " + "&f+" + Server.DefaultColor + foundName + " (" + pl.level.name + "),";
-                                else
-                                    devs += " " + foundName + " (" + pl.level.name + "),";
-                            }
-                            if (pl.isMod) {
-                                if (pl.voice)
-                                    mods += " " + "&f+" + Server.DefaultColor + foundName + " (" + pl.level.name + "),";
-                                else
-                                    mods += " " + foundName + " (" + pl.level.name + "),";
-                            }
-                            if (pl.isGCMod) {
-                                if (pl.voice)
-                                    gcmods += " " + "&f+" + Server.DefaultColor + foundName + " (" + pl.level.name + "),";
-                                else
-                                    gcmods += " " + foundName + " (" + pl.level.name + "),";
-                            }
-
+                        if (Server.devs.Contains(pl.name.ToLower()))
+                        {
+                            if (pl.voice)
+                                devs += " " + "&f+" + Server.DefaultColor + foundName + " (" + pl.level.name + "),";
+                            else
+                                devs += " " + foundName + " (" + pl.level.name + "),";
+                        }
+                        else
+                        {
                             if (pl.voice)
                                 playerList.Find(grp => grp.group == pl.group).players.Add("&f+" + Server.DefaultColor + foundName + " (" + pl.level.name + ")");
                             else
                                 playerList.Find(grp => grp.group == pl.group).players.Add(foundName + " (" + pl.level.name + ")");
                         }
-                        else
-                        {
-                            Player.SendMessage(p, "There are no players of that rank online.");
-                            return;
-                        }
                     }
                 }
-
-                Player.SendMessage(p, "There are %a" + totalPlayers + Server.DefaultColor + " players online.");
-                bool staff = devs.Length > 0 || mods.Length > 0 || gcmods.Length > 0;
-                if (staff) Player.SendMessage(p, "%cMCForge Staff Online:");
+                Player.SendMessage(p, "There are " + totalPlayers + " players online.");
                 if (devs.Length > 0)
                 {
-                    Player.SendMessage(p, "#%9MCForge Devs:" + Server.DefaultColor + devs.Trim(','));
+                    Player.SendMessage(p, ":&9Developers:" + Server.DefaultColor + devs.Trim(','));
                 }
-                if (mods.Length > 0) {
-                    Player.SendMessage(p, "#%2MCForge Mods:" + Server.DefaultColor + mods.Trim(','));
-                }
-                if (gcmods.Length > 0) {
-                    Player.SendMessage(p, "#%6MCForge GCMods:" + Server.DefaultColor + gcmods.Trim(','));
-                }
-                if (staff) Player.SendMessage(p, "%aNormal Players Online:");
+
                 for (int i = playerList.Count - 1; i >= 0; i--)
                 {
                     groups groups = playerList[i];
-                    if (groups.players.Count > 0 || Server.showEmptyRanks)
+                    string appendString = "";
+
+                    foreach (string player in groups.players)
                     {
-                        string appendString = "";
-                        foreach (string player in groups.players)
-                            appendString += ", " + player;
-
-                        if (appendString != "")
-                            appendString = appendString.Remove(0, 2);
-                        appendString = ":" + groups.group.color + getPlural(groups.group.trueName) + ": " + appendString;
-
-                        Player.SendMessage(p, appendString);
+                        appendString += ", " + player;
                     }
+
+                    if (appendString != "")
+                        appendString = appendString.Remove(0, 2);
+                    appendString = ":" + groups.group.color + getPlural(groups.group.trueName) + ": " + appendString;
+
+                    Player.SendMessage(p, appendString);
                 }
             }
             catch (Exception e) { Server.ErrorLog(e); }
@@ -167,7 +119,7 @@ namespace MCForge.Commands
 
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/players [rank] - Shows name and general rank of all players");
+            Player.SendMessage(p, "/players - Shows name and general rank of all players");
         }
     }
 }

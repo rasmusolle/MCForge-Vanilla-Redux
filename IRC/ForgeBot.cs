@@ -187,11 +187,11 @@ namespace MCForge {
 			
 			if (channel == opchannel) {
 				Server.s.Log(String.Format("(OPs): [IRC] {0}: {1}", user.Nick, message));
-				Player.GlobalMessageOps(String.Format("To Ops &f-{0}[IRC] {1}&f- {2}", Server.IRCColour, user.Nick, Server.profanityFilter ? ProfanityFilter.Parse(message) : message));
+				Player.GlobalMessageOps(String.Format("To Ops &f-{0}[IRC] {1}&f- {2}", Server.IRCColour, user.Nick));
 			}
 			else {
 				Server.s.Log(String.Format("[IRC] {0}: {1}", user.Nick, message));
-				Player.GlobalMessage(String.Format("{0}[IRC] {1}: &f{2}", Server.IRCColour, user.Nick, Server.profanityFilter ? ProfanityFilter.Parse(message) : message));
+				Player.GlobalMessage(String.Format("{0}[IRC] {1}: &f{2}", Server.IRCColour, user.Nick));
 			}
 		}
 

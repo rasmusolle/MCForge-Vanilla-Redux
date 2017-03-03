@@ -71,7 +71,6 @@ namespace MCForge
                     try
                     {
                         if (!l.changed) return;
-                        if (Server.lava.active && Server.lava.HasMap(l.name)) { l.saveChanges(); return; }
 
                         l.Save();
                         if (count == 0)

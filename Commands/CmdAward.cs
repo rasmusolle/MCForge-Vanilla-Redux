@@ -1,46 +1,30 @@
 /*
-	Copyright © 2009-2014 MCSharp team (Modified for use with MCZall/MCLawl/MCForge/MCForge-Redux)
+	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl) Licensed under the
+	Educational Community License, Version 2.0 (the "License"); you may
+	not use this file except in compliance with the License. You may
+	obtain a copy of the License at
 	
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
+	http://www.osedu.org/licenses/ECL-2.0
 	
 	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
+	software distributed under the License is distributed on an "AS IS"
 	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+	or implied. See the License for the specific language governing
+	permissions and limitations under the License.
 */
+using System;
+using System.Collections.Generic;
+
 namespace MCForge.Commands
 {
     public class CmdAward : Command
     {
         public override string name { get { return "award"; } }
-        public override string shortcut { get { return  ""; } }
-        public override string type { get { return "other"; } }
-        public override bool museumUsable { get { return true; } }
+        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public CmdAward() { }
-
         public override void Use(Player p, string message)
         {
             if (message == "" || message.IndexOf(' ') == -1) { Help(p); return; }
-
-            bool give = true;
-            if (message.Split(' ')[0].ToLower() == "give")
-            {
-                give = true;
-                message = message.Substring(message.IndexOf(' ') + 1);
-            }
-            else if (message.Split(' ')[0].ToLower() == "take")
-            {
-                give = false;
-                message = message.Substring(message.IndexOf(' ') + 1);
-            }
             
             string foundPlayer = message.Split(' ')[0];
             Player who = Player.Find(message);
@@ -53,35 +37,20 @@ namespace MCForge.Commands
                 return;
             }
 
-            if (give)
+            if (Awards.giveAward(foundPlayer, awardName))
             {
-                if (Awards.giveAward(foundPlayer, awardName))
-                {
-                    Player.GlobalMessage(Server.FindColor(foundPlayer) + foundPlayer + Server.DefaultColor + " was awarded: &b" + Awards.camelCase(awardName));
-                }
-                else
-                {
-                    Player.SendMessage(p, "The player already has that award!");
-                }
+                Player.GlobalChat(p, Server.FindColor(foundPlayer) + foundPlayer + Server.DefaultColor + " was awarded: &b" + Awards.camelCase(awardName), false);
             }
             else
             {
-                if (Awards.takeAward(foundPlayer, awardName))
-                {
-                    Player.GlobalMessage(Server.FindColor(foundPlayer) + foundPlayer + Server.DefaultColor + " had their &b" + Awards.camelCase(awardName) + Server.DefaultColor + " award removed");
-                }
-                else
-                {
-                    Player.SendMessage(p, "The player didn't have the award you tried to take");
-                }
+                Player.SendMessage(p, "The player already has that award!");
             }
 
             Awards.Save();
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/award <give/take> [player] [award] - Gives [player] the [award]");
-            Player.SendMessage(p, "If no Give or Take is given, Give is used");
+            Player.SendMessage(p, "/award [player] [award] - Gives [player] the [award]");
             Player.SendMessage(p, "[award] needs to be the full award's name. Not partial");
         }
     }

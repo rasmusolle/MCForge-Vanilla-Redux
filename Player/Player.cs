@@ -1247,7 +1247,7 @@ namespace MCForge
                         if (this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false)
                         {
                             GlobalMessageOps(temp);
-                            //IRCBot.Say(temp, true); //Tells people in op channel on IRC
+                            //Server.IRC.Say(temp, true); //Tells people in op channel on IRC
                         }
 
                         Server.s.Log(temp);
@@ -2585,7 +2585,6 @@ namespace MCForge
                     break;
 
                 case Block.c4det:
-                    C4.BlowUp(new ushort[] { x, y, z }, level);
                     level.Blockchange(x, y, z, Block.air);
                     break;
 
@@ -2922,7 +2921,7 @@ namespace MCForge
                     {
                         Server.afkset.Remove(this.name);
                         Player.GlobalMessage("-" + this.color + this.name + Server.DefaultColor + "- is no longer AFK");
-                        //IRCBot.Say(this.name + " is no longer AFK");
+                        //Server.IRC.Say(this.name + " is no longer AFK");
                     }
                 }
                 // This will allow people to type
@@ -3044,7 +3043,7 @@ namespace MCForge
                         SendMessage("To Ops &f-" + color + name + "&f- " + newtext);
                     Server.s.Log("(OPs): " + name + ": " + newtext);
                     //Server.s.OpLog("(OPs): " + name + ": " + newtext);
-                    //IRCBot.Say(name + ": " + newtext, true);
+                    //Server.IRC.Say(name + ": " + newtext, true);
                     Server.IRC.Say(name + ": " + newtext, true);
                     return;
                 }
@@ -3071,7 +3070,7 @@ namespace MCForge
                     //else
                         Player.SendMessage(this, "You must be on a team to use team chat!");
                     Server.s.Log("(Team): " + name + ": " + newtext);
-                    //IRCBot.Say(name + ": " + newtext, true);
+                    //Server.IRC.Say(name + ": " + newtext, true);
                     Server.IRC.Say(name + ": " + newtext, false);
                     return;
                 }*/
@@ -3151,7 +3150,7 @@ return;
                         GlobalChat(this, newtext);
                     }
                     Server.s.Log("<" + name + "> " + newtext);
-                    //IRCBot.Say("<" + name + "> " + newtext);
+                    //Server.IRC.Say("<" + name + "> " + newtext);
                     if (OnChat != null)
                         OnChat(this, text);
                     if (PlayerChat != null)
@@ -3179,7 +3178,7 @@ return;
                     GlobalChatLevel(this, text, true);
                 }
 
-                //IRCBot.Say(name + ": " + text);
+                //Server.IRC.Say(name + ": " + text);
             }
             catch (Exception e) { Server.ErrorLog(e); Player.GlobalMessage("An error occurred: " + e.Message); }
         }
@@ -3324,14 +3323,6 @@ return;
                     if (group.CanExecute(command))
                     {
                         if (cmd != "repeat") lastCMD = cmd + " " + message;
-                        if (level.name.Contains("Museum " + Server.DefaultColor))
-                        {
-                            if (!command.museumUsable)
-                            {
-                                SendMessage("Cannot use this command while in a museum!");
-                                return;
-                            }
-                        }
                         if (this.joker == true || this.muted == true)
                         {
                             if (cmd.ToLower() == "me")
@@ -3344,19 +3335,6 @@ return;
                         {
                             Server.s.CommandUsed(name + " used /" + cmd + " " + message);
                         }
-
-                        try
-                        { //opstats patch (since 5.5.11)
-                   //         if (Server.opstats.Contains(cmd.ToLower()) || (cmd.ToLower() == "review" && message.ToLower() == "next" && Server.reviewlist.Count > 0))
-                    //        {
-                      //          Database.AddParams("@Time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                  //              Database.AddParams("@Name", name);
-                  //              Database.AddParams("@Cmd", cmd);
-                 //               Database.AddParams("@Cmdmsg", message);
-                  //              Database.executeQuery("INSERT INTO Opstats (Time, Name, Cmd, Cmdmsg) VALUES (@Time, @Name, @Cmd, @Cmdmsg)");
-                           // }
-                        }
-                        catch { }
 
                         this.commThread = new Thread(new ThreadStart(delegate
                         {
@@ -3524,7 +3502,7 @@ return;
                         Server.s.Log(message);
                     else
                         Server.IRC.Pm(Server.IRC.usedCmd, message);
-                    //IRCBot.Say(message, true);
+                    //Server.IRC.Say(message, true);
                 }
                 return;
             }
@@ -4890,14 +4868,14 @@ changed |= 4;*/
                                 });
                             }
                         }
-                        //IRCBot.Say(name + " left the game.");
+                        //Server.IRC.Say(name + " left the game.");
                         Server.s.Log(name + " disconnected.");
                     }
                     else
                     {
                         totalKicked++;
                         GlobalChat(this, "&c- " + color + prefix + name + Server.DefaultColor + " kicked (" + kickString + Server.DefaultColor + ").", false);
-                        //IRCBot.Say(name + " kicked (" + kickString + ").");
+                        //Server.IRC.Say(name + " kicked (" + kickString + ").");
                         Server.s.Log(name + " kicked (" + kickString + ").");
                     }
 

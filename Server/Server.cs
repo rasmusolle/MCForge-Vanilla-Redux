@@ -67,7 +67,6 @@ namespace MCForge
         public event PlayerListHandler OnPlayerListChange;
         public event VoidHandler OnSettingsUpdate;
         public static ForgeBot IRC;
-        public static GlobalChatBot GlobalChat;
         public static Thread locationChecker;
         public static bool UseTextures = false;
         public static Thread blockThread;
@@ -605,9 +604,6 @@ namespace MCForge
 
                     addLevel(mainLevel);
 
-                    // fenderrock - Make sure the level does have a physics thread
-                    if (mainLevel.physic.physThread == null)
-                        mainLevel.physic.StartPhysics(mainLevel);
                 }
                 catch (Exception e) { ErrorLog(e); }
             });
@@ -773,10 +769,8 @@ namespace MCForge
 				{
                 IRC = new ForgeBot(Server.ircChannel, Server.ircOpChannel, Server.ircNick, Server.ircServer);
 				}
-                GlobalChat = new GlobalChatBot(GlobalChatNick);
 
                 if (Server.irc) IRC.Connect();
-                if (Server.UseGlobalChat) GlobalChat.Connect();
 
                 // OmniBan stuff!
                 new Thread(new ThreadStart(() => omniban.Load(true))).Start();
@@ -893,7 +887,6 @@ namespace MCForge
                 Log("Finished setting up server");
                 ServerSetupFinished = true;
                 Checktimer.StartTimer();
-                Commands.CommandKeywords.SetKeyWords();
 
                 BlockQueue.Start();
             });
@@ -912,7 +905,6 @@ namespace MCForge
             Block.SetBlocks();
             Awards.Load();
             Warp.LOAD();
-            CommandOtherPerms.Load();
         }
 
         public static void Setup()
@@ -988,11 +980,6 @@ namespace MCForge
             {
                 listen.Close();
             }
-            try
-            {
-                GlobalChat.Disconnect(!AutoRestart ? "Server is shutting down." : "Server is restarting.");
-            }
-            catch { }
             try
             {
                 IRC.Disconnect(!AutoRestart ? "Server is shutting down." : "Server is restarting.");

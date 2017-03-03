@@ -1,62 +1,46 @@
-
-	/*
-	Copyright © 2009-2014 MCSharp team (Modified for use with MCZall/MCLawl/MCForge/MCForge-Redux)
+/*
+	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl) Licensed under the
+	Educational Community License, Version 2.0 (the "License"); you may
+	not use this file except in compliance with the License. You may
+	obtain a copy of the License at
 	
-	Dual-licensed under the	Educational Community License, Version 2.0 and
-	the GNU General Public License, Version 3 (the "Licenses"); you may
-	not use this file except in compliance with the Licenses. You may
-	obtain a copy of the Licenses at
-	
-	http://www.opensource.org/licenses/ecl2.php
-	http://www.gnu.org/licenses/gpl-3.0.html
+	http://www.osedu.org/licenses/ECL-2.0
 	
 	Unless required by applicable law or agreed to in writing,
-	software distributed under the Licenses are distributed on an "AS IS"
+	software distributed under the License is distributed on an "AS IS"
 	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the Licenses for the specific language governing
-	permissions and limitations under the Licenses.
+	or implied. See the License for the specific language governing
+	permissions and limitations under the License.
 */
 using System;
+using System.Collections.Generic;
+using System.Text;
+
 namespace MCForge.Commands
 {
-    public class CmdNewLvl : Command
+    class CmdNewLvl : Command
     {
         public override string name { get { return "newlvl"; } }
-        public override string shortcut { get { return  ""; } }
-        public override string type { get { return "mod"; } }
-        public override bool museumUsable { get { return true; } }
+        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
-        public CmdNewLvl() { }
-
         public override void Use(Player p, string message)
         {
             if (message == "") { Help(p); return; }
 
             string[] parameters = message.Split(' '); // Grab the parameters from the player's message
-            if (parameters.Length >= 5 && parameters.Length <= 6) // make sure there are 5 or 6 params
+            if (parameters.Length == 5) // make sure there are 5 params
             {
                 switch (parameters[4])
                 {
                     case "flat":
-                    case "pixel":
-                    case "island":
-                    case "mountains":
-                    case "ocean":
-                    case "forest":
-                    case "desert":
-                    case "space":
-                    case "rainbow":
-                    case "hell":
                         break;
 
                     default:
-                        Player.SendMessage(p, "Valid types: island, mountains, forest, ocean, flat, pixel, desert, space, rainbow, and hell"); return;
+                        Player.SendMessage(p, "Valid type: flat"); return;
                 }
 
                 string name = parameters[0].ToLower();
                 ushort x = 1, y = 1, z = 1;
-                int seed = 0;
-                bool useSeed = false;
                 try
                 {
                     x = Convert.ToUInt16(parameters[1]);
@@ -64,20 +48,13 @@ namespace MCForge.Commands
                     z = Convert.ToUInt16(parameters[3]);
                 }
                 catch { Player.SendMessage(p, "Invalid dimensions."); return; }
-                if (parameters.Length == 6)
-                {
-                    try { seed = Convert.ToInt32(parameters[5]); }
-                    catch { seed = parameters[5].GetHashCode(); }
-                    useSeed = true;
-                }
-                if (!isGood(x)) { Player.SendMessage(p, x + " is not a good dimension! Use a power of 2 next time."); return; }
-                if (!isGood(y)) { Player.SendMessage(p, y + " is not a good dimension! Use a power of 2 next time."); return; }
-                if (!isGood(z)) { Player.SendMessage(p, z + " is not a good dimension! Use a power of 2 next time."); return; }
+                if (!isGood(x)) { Player.SendMessage(p, x + " is not a good dimension! Use a power of 2 next time."); }
+                if (!isGood(y)) { Player.SendMessage(p, y + " is not a good dimension! Use a power of 2 next time."); }
+                if (!isGood(z)) { Player.SendMessage(p, z + " is not a good dimension! Use a power of 2 next time."); }
 
                 if (!Player.ValidName(name)) { Player.SendMessage(p, "Invalid name!"); return; }
-                if (System.IO.File.Exists("levels/" + name + ".mcf") || System.IO.File.Exists("levels/byte/" + name + ".mcf")) { Player.SendMessage(p, "Level \"" + name + "\" already exists!"); return; }
 
-                /*try
+                try
                 {
                     if (p != null)
                     if (p.group.Permission < LevelPermission.Admin)
@@ -92,24 +69,20 @@ namespace MCForge.Commands
                 catch 
                 { 
                     Player.SendMessage(p, "An error occured"); 
-                }*/
+                }
 
                 // create a new level...
                 try
                 {
-                    using (Level lvl = new Level(name, x, y, z, parameters[4], seed, useSeed))
-                    {
-                        lvl.Save(true); //... and save it.
-                        lvl.Dispose(); // Then take out the garbage.
-                    }
+                    Level lvl = new Level(name, x, y, z, parameters[4]);
+                    lvl.Save(true); //... and save it.
                 }
                 finally
                 {
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                 }
-                Player.GlobalMessage("Level \"" + name + "\" created" + (useSeed ? " with seed \"" + parameters[5] + "\"" : "")); // The player needs some form of confirmation.
-
+                Player.GlobalMessage("Level " + name + " created");
             }
             else
                 Help(p);
@@ -117,22 +90,17 @@ namespace MCForge.Commands
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/newlvl - creates a new level.");
-            Player.SendMessage(p, "/newlvl mapname 128 64 128 type seed");
-            Player.SendMessage(p, "Valid sizes: 16, 32, 64, 128, 256, 512, 1024"); //Update this to add more?
-            Player.SendMessage(p, "Valid types: island, mountains, forest, ocean, flat, pixel, desert, space, rainbow, and hell");
-            Player.SendMessage(p, "The seed is optional, and controls how the level is generated.");
-            Player.SendMessage(p, "If the seed is the same, the level will be the same.");
-            Player.SendMessage(p, "The seed does not do anything on flat and pixel type maps.");
+            Player.SendMessage(p, "/newlvl mapname 128 64 128");
         }
 
         public bool isGood(ushort value)
         {
             switch (value)
             {
-                //case 2:
-                //case 4:
-                //case 8:
-                case 16: // below this is currently invalid.
+                case 2:
+                case 4:
+                case 8:
+                case 16:
                 case 32:
                 case 64:
                 case 128:
