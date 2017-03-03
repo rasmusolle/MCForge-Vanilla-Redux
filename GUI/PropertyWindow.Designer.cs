@@ -177,7 +177,6 @@ namespace MCForge.Gui
             this.listRanks = new System.Windows.Forms.ListBox();
             this.label85 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.buttonEco = new System.Windows.Forms.Button();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.chkPrmOnly = new System.Windows.Forms.CheckBox();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
@@ -258,7 +257,6 @@ namespace MCForge.Gui
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.ChkPort = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label21 = new System.Windows.Forms.Label();
             this.numPlayers = new System.Windows.Forms.NumericUpDown();
@@ -1929,7 +1927,6 @@ namespace MCForge.Gui
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage4.Controls.Add(this.buttonEco);
             this.tabPage4.Controls.Add(this.groupBox18);
             this.tabPage4.Controls.Add(this.groupBox19);
             this.tabPage4.Controls.Add(this.groupBox13);
@@ -1945,13 +1942,6 @@ namespace MCForge.Gui
             this.tabPage4.Size = new System.Drawing.Size(488, 509);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Misc";
-            // 
-            // buttonEco
-            // 
-            this.buttonEco.Location = new System.Drawing.Point(0, 0);
-            this.buttonEco.Name = "buttonEco";
-            this.buttonEco.Size = new System.Drawing.Size(75, 23);
-            this.buttonEco.TabIndex = 0;
             // 
             // groupBox18
             // 
@@ -2785,10 +2775,9 @@ namespace MCForge.Gui
             this.groupBox1.Controls.Add(this.txtMOTD);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtPort);
-            this.groupBox1.Controls.Add(this.ChkPort);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(397, 126);
+            this.groupBox1.Size = new System.Drawing.Size(396, 126);
             this.groupBox1.TabIndex = 41;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General Configuration";
@@ -2819,16 +2808,6 @@ namespace MCForge.Gui
             this.label3.Size = new System.Drawing.Size(30, 13);
             this.label3.TabIndex = 3;
             this.label3.Text = "Port:";
-            // 
-            // ChkPort
-            // 
-            this.ChkPort.Location = new System.Drawing.Point(242, 83);
-            this.ChkPort.Name = "ChkPort";
-            this.ChkPort.Size = new System.Drawing.Size(149, 23);
-            this.ChkPort.TabIndex = 25;
-            this.ChkPort.Text = "Server Port Utilities";
-            this.ChkPort.UseVisualStyleBackColor = true;
-            this.ChkPort.Click += new System.EventHandler(this.ChkPort_Click);
             // 
             // groupBox6
             // 
@@ -4593,7 +4572,6 @@ namespace MCForge.Gui
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.TextBox txtMOTD;
         private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.Button ChkPort;
         private System.Windows.Forms.CheckBox chkLogBeat;
         private System.Windows.Forms.ComboBox cmbOpChat;
         private System.Windows.Forms.Label lblOpChat;
@@ -4828,7 +4806,6 @@ namespace MCForge.Gui
         private System.Windows.Forms.CheckBox TntWrsStreaksChck;
         private System.Windows.Forms.CheckBox txechx;
         private System.Windows.Forms.CheckBox chkIgnoreOmnibans;
-        private System.Windows.Forms.Button buttonEco;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.ComboBox comboBoxProtection;
         private System.Windows.Forms.Label label91;

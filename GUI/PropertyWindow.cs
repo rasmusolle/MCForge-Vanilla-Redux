@@ -22,7 +22,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
-using MCForge.Gui.Popups;
+//using MCForge.Gui.Popups;
 using MCForge.Util;
 using Microsoft.Win32;
 
@@ -1144,15 +1144,6 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
             messageInfo += Player.storedHelp;
             MessageBox.Show(messageInfo);
         }
-
-
-        private void ChkPort_Click(object sender, EventArgs e) {
-            using ( var form = new PortTools() ) {
-                form.ShowDialog();
-            }
-        }
-
-
 
         private void CrtCustCmd_Click(object sender, EventArgs e) {
             if ( txtCommandName.Text != null ) {
