@@ -3,10 +3,6 @@
 #Visual Studio files
 /bin
 /obj
-/updater/bin
-/updater/obj
-/Updater/bin
-/Updater/obj
 /StarterCLI/bin
 /StarterCLI/obj
 *.suo

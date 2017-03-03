@@ -538,36 +538,6 @@ namespace MCForge {
                                                                     break;
                                                                 }
                                                                 break;
-                                                            case "check-updates":
-                                                                try
-                                                                {
-                                                                    Server.autonotify = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
-                                                            case "auto-update":
-                                                                Server.autoupdate = (value.ToLower() == "true") ? true : false;
-                                                                break;
-                                                            case "use-beta-version":
-                                                                Server.DownloadBeta = (value.ToLower() == "true") ? true : false;
-                                                                break;
-                                                            case "in-game-update-notify":
-                                                                Server.notifyPlayers = (value.ToLower() == "true") ? true : false;
-                                                                break;
-                                                            case "update-countdown":
-                                                                try
-                                                                {
-                                                                    Server.restartcountdown = Convert.ToInt32(value).ToString();
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.restartcountdown = "10";
-                                                                }
-                                                                break;
                                                             case "autoload":
                                                                 try
                                                                 {
@@ -1609,11 +1579,6 @@ namespace MCForge {
 			w.WriteLine("max-maps = " + Server.maps.ToString());
 			w.WriteLine("texture-url = " + Server.textureUrl);
 			w.WriteLine("world-chat = " + Server.worldChat.ToString().ToLower());
-			w.WriteLine("check-updates = " + Server.checkUpdates.ToString().ToLower());
-			w.WriteLine("auto-update = " + Server.autoupdate.ToString().ToLower());
-			w.WriteLine("use-beta-version = " + Server.DownloadBeta.ToString().ToLower());
-			w.WriteLine("in-game-update-notify = " + Server.notifyPlayers.ToString().ToLower());
-			w.WriteLine("update-countdown = " + Server.restartcountdown.ToString().ToLower());
 			w.WriteLine("autoload = " + Server.AutoLoad.ToString().ToLower());
 			w.WriteLine("auto-restart = " + Server.autorestart.ToString().ToLower());
 			w.WriteLine("restarttime = " + Server.restarttime.ToShortTimeString());

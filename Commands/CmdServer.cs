@@ -109,9 +109,6 @@ namespace MCForge.Commands
             Server.afkmessages = new List<string>();
             Server.messages = new List<string>();
 
-            Server.restartcountdown = "";
-            Server.selectedrevision = "";
-
             Server.chatmod = false;
 
             //Global VoteKick In Progress Flag

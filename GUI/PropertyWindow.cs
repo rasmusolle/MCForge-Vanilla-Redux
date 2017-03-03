@@ -487,22 +487,6 @@ namespace MCForge.Gui {
                             try { txtAFKKick.Text = Convert.ToInt16(value).ToString(); }
                             catch { txtAFKKick.Text = "45"; }
                             break;
-                        case "check-updates":
-                            chkUpdates.Checked = ( value.ToLower() == "true" );
-                            break;
-                        case "use-beta-version":
-                            usebeta.Checked = ( value.ToLower() == "true" );
-                            break;
-                        case "auto-update":
-                            autoUpdate.Checked = ( value.ToLower() == "true" );
-                            break;
-                        case "in-game-update-notify":
-                            notifyInGameUpdate.Checked = ( value.ToLower() == "true" );
-                            break;
-                        case "update-countdown":
-                            try { updateTimeNumeric.Value = Convert.ToDecimal(value); }
-                            catch { updateTimeNumeric.Value = 10; }
-                            break;
                         case "autoload":
                             chkAutoload.Checked = ( value.ToLower() == "true" );
                             break;
@@ -715,7 +699,6 @@ namespace MCForge.Gui {
             Server.maxGuests = (byte)numGuests.Value;
             Server.maps = byte.Parse(txtMaps.Text);
             Server.worldChat = chkWorld.Checked;
-            Server.autonotify = chkNotifyOnJoinLeave.Checked;
             Server.AutoLoad = chkAutoload.Checked;
             Server.autorestart = chkRestartTime.Checked;
             try { Server.restarttime = DateTime.Parse(txtRestartTime.Text); }
@@ -793,14 +776,10 @@ namespace MCForge.Gui {
             Server.higherranktp = chkTpToHigherRanks.Checked;
             Server.globalignoreops = chkIgnoreGlobal.Checked; // Wasn't in previous setting-saver
 
-            Server.checkUpdates = chkUpdates.Checked;
-
             Server.cheapMessage = chkCheap.Checked;
             Server.cheapMessageGiven = txtCheap.Text;
             Server.rankSuper = chkrankSuper.Checked;
             Server.defaultRank = cmbDefaultRank.SelectedItem.ToString();
-            
-            Server.DownloadBeta = usebeta.Checked;
 
             Server.hackrank_kick = hackrank_kick.Checked;
             Server.hackrank_kick_time = int.Parse(hackrank_kick_time.Text);
@@ -1633,18 +1612,6 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
 
         }
 
-        private void forceUpdateBtn_Click(object sender, EventArgs e) {
-            forceUpdateBtn.Enabled = false;
-            if ( MessageBox.Show("Would you like to force update MCForge now?", "Force Update", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK ) {
-                saveStuff();
-                MCForge_.Gui.Program.PerformUpdate();
-                Dispose();
-            }
-            else {
-                forceUpdateBtn.Enabled = true;
-            }
-        }
-
         private int oldnumber;
         private Command oldcmd;
         private void listCommandsExtraCmdPerms_SelectedIndexChanged(object sender, EventArgs e) {
@@ -2232,26 +2199,6 @@ txtBackupLocation.Text = folderDialog.SelectedPath;
         }
         private void txechx_CheckedChanged(object sender, EventArgs e) {
             Server.UseTextures = txechx.Checked;
-        }
-
-        
-        void AutoUpdateCheckedChanged(object sender, EventArgs e)
-        {
-        	
-        }
-        
-        void UsebetaCheckedChanged(object sender, EventArgs e)
-        {
-        	
-        }
-        
-        void UsebetaClick(object sender, EventArgs e)
-        {
-        	if (usebeta.Checked) {
-        		DialogResult d = MessageBox.Show("Would you like to check for beta versions now?", "Check for updates.", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-        		if (d == DialogResult.Yes)
-        			MCForge_.Gui.Program.UpdateCheck();
-        	}
         }
         
         private void lstCommands_SelectedIndexChanged ( object sender, EventArgs e ) {

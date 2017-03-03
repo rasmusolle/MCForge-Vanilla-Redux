@@ -45,8 +45,6 @@ namespace Starter
             Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             try
             {
-                if (File.Exists("Updater.exe"))
-                    File.Delete("Updater.exe");
                 if (File.Exists("MCForge_.dll.backup"))
                     File.Delete("MCForge_.dll.backup");
             }

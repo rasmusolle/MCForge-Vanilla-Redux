@@ -259,14 +259,6 @@ namespace MCForge.Gui
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.ChkPort = new System.Windows.Forms.Button();
-            this.groupBox17 = new System.Windows.Forms.GroupBox();
-            this.usebeta = new System.Windows.Forms.CheckBox();
-            this.forceUpdateBtn = new System.Windows.Forms.Button();
-            this.updateTimeNumeric = new System.Windows.Forms.NumericUpDown();
-            this.label71 = new System.Windows.Forms.Label();
-            this.notifyInGameUpdate = new System.Windows.Forms.CheckBox();
-            this.autoUpdate = new System.Windows.Forms.CheckBox();
-            this.chkUpdates = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label21 = new System.Windows.Forms.Label();
             this.numPlayers = new System.Windows.Forms.NumericUpDown();
@@ -438,8 +430,6 @@ namespace MCForge.Gui
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.groupBox17.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.updateTimeNumeric)).BeginInit();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPlayers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numGuests)).BeginInit();
@@ -1956,6 +1946,13 @@ namespace MCForge.Gui
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Misc";
             // 
+            // buttonEco
+            // 
+            this.buttonEco.Location = new System.Drawing.Point(0, 0);
+            this.buttonEco.Name = "buttonEco";
+            this.buttonEco.Size = new System.Drawing.Size(75, 23);
+            this.buttonEco.TabIndex = 0;
+            // 
             // groupBox18
             // 
             this.groupBox18.AutoSize = true;
@@ -2535,10 +2532,10 @@ namespace MCForge.Gui
             this.tabPage1.Controls.Add(this.groupBox5);
             this.tabPage1.Controls.Add(this.groupBox4);
             this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.chkWomDirect);
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Controls.Add(this.groupBox17);
             this.tabPage1.Controls.Add(this.groupBox6);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -2675,7 +2672,6 @@ namespace MCForge.Gui
             this.groupBox2.Controls.Add(this.txechx);
             this.groupBox2.Controls.Add(this.editTxtsBt);
             this.groupBox2.Controls.Add(this.txtHost);
-            this.groupBox2.Controls.Add(this.chkWomDirect);
             this.groupBox2.Controls.Add(this.chkRestart);
             this.groupBox2.Controls.Add(this.chkPublic);
             this.groupBox2.Controls.Add(this.chkVerify);
@@ -2730,7 +2726,7 @@ namespace MCForge.Gui
             // 
             // chkWomDirect
             // 
-            this.chkWomDirect.Location = new System.Drawing.Point(0, 0);
+            this.chkWomDirect.Location = new System.Drawing.Point(352, 179);
             this.chkWomDirect.Name = "chkWomDirect";
             this.chkWomDirect.Size = new System.Drawing.Size(104, 24);
             this.chkWomDirect.TabIndex = 45;
@@ -2833,109 +2829,6 @@ namespace MCForge.Gui
             this.ChkPort.Text = "Server Port Utilities";
             this.ChkPort.UseVisualStyleBackColor = true;
             this.ChkPort.Click += new System.EventHandler(this.ChkPort_Click);
-            // 
-            // groupBox17
-            // 
-            this.groupBox17.AutoSize = true;
-            this.groupBox17.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBox17.Controls.Add(this.usebeta);
-            this.groupBox17.Controls.Add(this.forceUpdateBtn);
-            this.groupBox17.Controls.Add(this.updateTimeNumeric);
-            this.groupBox17.Controls.Add(this.label71);
-            this.groupBox17.Controls.Add(this.notifyInGameUpdate);
-            this.groupBox17.Controls.Add(this.autoUpdate);
-            this.groupBox17.Controls.Add(this.chkUpdates);
-            this.groupBox17.Location = new System.Drawing.Point(370, 136);
-            this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(112, 259);
-            this.groupBox17.TabIndex = 44;
-            this.groupBox17.TabStop = false;
-            this.groupBox17.Text = "Update Settings";
-            // 
-            // usebeta
-            // 
-            this.usebeta.Appearance = System.Windows.Forms.Appearance.Button;
-            this.usebeta.AutoSize = true;
-            this.usebeta.Location = new System.Drawing.Point(5, 180);
-            this.usebeta.Name = "usebeta";
-            this.usebeta.Size = new System.Drawing.Size(96, 23);
-            this.usebeta.TabIndex = 30;
-            this.usebeta.Text = "Use Beta Version";
-            this.usebeta.UseVisualStyleBackColor = true;
-            this.usebeta.CheckedChanged += new System.EventHandler(this.UsebetaCheckedChanged);
-            this.usebeta.Click += new System.EventHandler(this.UsebetaClick);
-            // 
-            // forceUpdateBtn
-            // 
-            this.forceUpdateBtn.AutoSize = true;
-            this.forceUpdateBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.forceUpdateBtn.Location = new System.Drawing.Point(5, 140);
-            this.forceUpdateBtn.Name = "forceUpdateBtn";
-            this.forceUpdateBtn.Size = new System.Drawing.Size(79, 23);
-            this.forceUpdateBtn.TabIndex = 6;
-            this.forceUpdateBtn.Text = "Force update";
-            this.forceUpdateBtn.UseVisualStyleBackColor = true;
-            this.forceUpdateBtn.Click += new System.EventHandler(this.forceUpdateBtn_Click);
-            // 
-            // updateTimeNumeric
-            // 
-            this.updateTimeNumeric.Location = new System.Drawing.Point(54, 218);
-            this.updateTimeNumeric.Maximum = new decimal(new int[] {
-            128,
-            0,
-            0,
-            0});
-            this.updateTimeNumeric.Name = "updateTimeNumeric";
-            this.updateTimeNumeric.Size = new System.Drawing.Size(39, 21);
-            this.updateTimeNumeric.TabIndex = 29;
-            this.updateTimeNumeric.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // label71
-            // 
-            this.label71.AutoSize = true;
-            this.label71.Location = new System.Drawing.Point(5, 220);
-            this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(49, 13);
-            this.label71.TabIndex = 5;
-            this.label71.Text = "Seconds:";
-            // 
-            // notifyInGameUpdate
-            // 
-            this.notifyInGameUpdate.Appearance = System.Windows.Forms.Appearance.Button;
-            this.notifyInGameUpdate.AutoSize = true;
-            this.notifyInGameUpdate.Location = new System.Drawing.Point(5, 100);
-            this.notifyInGameUpdate.Name = "notifyInGameUpdate";
-            this.notifyInGameUpdate.Size = new System.Drawing.Size(86, 23);
-            this.notifyInGameUpdate.TabIndex = 7;
-            this.notifyInGameUpdate.Text = "Notify In-Game";
-            this.notifyInGameUpdate.UseVisualStyleBackColor = true;
-            // 
-            // autoUpdate
-            // 
-            this.autoUpdate.Appearance = System.Windows.Forms.Appearance.Button;
-            this.autoUpdate.AutoSize = true;
-            this.autoUpdate.Location = new System.Drawing.Point(5, 60);
-            this.autoUpdate.Name = "autoUpdate";
-            this.autoUpdate.Size = new System.Drawing.Size(76, 23);
-            this.autoUpdate.TabIndex = 6;
-            this.autoUpdate.Text = "Auto Update";
-            this.autoUpdate.UseVisualStyleBackColor = true;
-            this.autoUpdate.CheckedChanged += new System.EventHandler(this.AutoUpdateCheckedChanged);
-            // 
-            // chkUpdates
-            // 
-            this.chkUpdates.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkUpdates.AutoSize = true;
-            this.chkUpdates.Location = new System.Drawing.Point(5, 20);
-            this.chkUpdates.Name = "chkUpdates";
-            this.chkUpdates.Size = new System.Drawing.Size(101, 23);
-            this.chkUpdates.TabIndex = 4;
-            this.chkUpdates.Text = "Check for updates";
-            this.chkUpdates.UseVisualStyleBackColor = true;
             // 
             // groupBox6
             // 
@@ -4537,9 +4430,6 @@ namespace MCForge.Gui
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox17.ResumeLayout(false);
-            this.groupBox17.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.updateTimeNumeric)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPlayers)).EndInit();
@@ -4599,7 +4489,6 @@ namespace MCForge.Gui
             this.ResumeLayout(false);
 
         }
-        private System.Windows.Forms.CheckBox usebeta;
 
         #endregion
 
@@ -4716,7 +4605,6 @@ namespace MCForge.Gui
         private System.Windows.Forms.CheckBox chkPublic;
         private System.Windows.Forms.CheckBox chkAutoload;
         private System.Windows.Forms.CheckBox chkWorld;
-        private System.Windows.Forms.CheckBox chkUpdates;
         private System.Windows.Forms.CheckBox chkVerify;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label27;
@@ -4855,12 +4743,6 @@ namespace MCForge.Gui
         private System.Windows.Forms.Label label69;
         private System.Windows.Forms.CheckBox chkWomDirect;
         private System.Windows.Forms.NumericUpDown lsNudLives;
-        private System.Windows.Forms.GroupBox groupBox17;
-        private System.Windows.Forms.CheckBox autoUpdate;
-        private System.Windows.Forms.NumericUpDown updateTimeNumeric;
-        private System.Windows.Forms.Label label71;
-        private System.Windows.Forms.CheckBox notifyInGameUpdate;
-        private System.Windows.Forms.Button forceUpdateBtn;
         private System.Windows.Forms.TabPage tabPage12;
         private System.Windows.Forms.ListBox listCommandsExtraCmdPerms;
         private System.Windows.Forms.Label label74;

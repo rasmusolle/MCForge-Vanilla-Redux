@@ -166,14 +166,10 @@ namespace MCForge
 
         public static DateTime timeOnline;
         public static string IP;
-        //auto updater stuff
-        public static bool autoupdate;
-        public static bool autonotify;
-        public static bool notifyPlayers;
-        public static string restartcountdown = "";
-        public static string selectedrevision = "";
+
         public static bool autorestart;
         public static DateTime restarttime;
+
 
         public static bool chatmod = false;
 
@@ -430,22 +426,6 @@ namespace MCForge
             shuttingDown = false;
             Log("Starting Server");
             {
-                try
-                {
-                    if (File.Exists("Restarter.exe"))
-                    {
-                        File.Delete("Restarter.exe");
-                    }
-                }
-                catch { }
-                try
-                {
-                    if (File.Exists("Restarter.pdb"))
-                    {
-                        File.Delete("Restarter.pdb");
-                    }
-                }
-                catch { }
                 if (!File.Exists("MySql.Data.dll"))
                 {
                     Log("MySql.Data.dll doesn't exist, Downloading");
@@ -1018,7 +998,6 @@ namespace MCForge
         public static void LoadAllSettings()
         {
             SrvProperties.Load("properties/server.properties");
-            Updater.Load("properties/update.properties");
             Group.InitAll();
             Command.InitAll();
 			BlocksDB.Load ();
