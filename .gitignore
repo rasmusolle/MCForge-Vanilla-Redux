@@ -8,6 +8,7 @@
 /Updater/bin
 /Updater/obj
 /StarterCLI/bin
+/StarterCLI/obj
 *.suo
 *.user
 *.[Cc]ache
