@@ -440,122 +440,7 @@ namespace MCForge
         public static System.Timers.Timer makeauraTimer;
         public static System.Timers.Timer invincibleTimer;
 
-        public EXPLevel explevel;
-
-        //Countdown
-        public bool playerofcountdown = false;
-        public bool incountdown = false;
-        public ushort countdowntempx;
-        public ushort countdowntempz;
-        public bool countdownsettemps = false;
-
-        //Zombie
-        public string Original = "";
-        public bool referee = false;
-        public int blockCount = 50;
-        public bool voted = false;
-        public int blocksStacked = 0;
-        public int infectThisRound = 0;
-        public int lastYblock = 0;
-        public int lastXblock = 0;
-        public int lastZblock = 0;
-        public bool infected = false;
-        public bool aka = false;
-        public bool flipHead = true;
-        public int playersInfected = 0;
-        public int NoClipcount = 0;
-
-        //LAVA extra
-        public int spongesLeft = 0;
-        public bool ironmanActivated = false;
-        public bool ironmanFailed = false;
-        //public int lives = 1;
-        //public int countOfTimes = 0;
-        public bool gotInvite = false;
-        public bool sentInvite = false;
-        public string sentInvitePlayer = "";
-        public string goToPlayer = "";
-
-        //SMP Mode
-        /*public bool InSMP = false;
-
-        public uint rock = (uint)0;
-        public uint grass = (uint)0;
-        public uint dirt = (uint)0;
-        public uint stone = (uint)0;
-        public uint wood = (uint)0;
-        public uint shrub = (uint)0;
-        public uint blackrock = (uint)0;// adminium
-        public uint water = (uint)0;
-        public uint waterstill = (uint)0;
-        public uint lava = (uint)0;
-        public uint lavastill = (uint)0;
-        public uint sand = (uint)0;
-        public uint gravel = (uint)0;
-        public uint goldrock = (uint)0;
-        public uint ironrock = (uint)0;
-        public uint coal = (uint)0;
-        public uint trunk = (uint)0;
-        public uint leaf = (uint)0;
-        public uint sponge = (uint)0;
-        public uint glass = (uint)0;
-        public uint red = (uint)0;
-        public uint orange = (uint)0;
-        public uint yellow = (uint)0;
-        public uint lightgreen = (uint)0;
-        public uint green = (uint)0;
-        public uint aquagreen = (uint)0;
-        public uint cyan = (uint)0;
-        public uint lightblue = (uint)0;
-        public uint blue = (uint)0;
-        public uint purple = (uint)0;
-        public uint lightpurple = (uint)0;
-        public uint pink = (uint)0;
-        public uint darkpink = (uint)0;
-        public uint darkgrey = (uint)0;
-        public uint lightgrey = (uint)0;
-        public uint white = (uint)0;
-        public uint yellowflower = (uint)0;
-        public uint redflower = (uint)0;
-        public uint mushroom = (uint)0;
-        public uint redmushroom = (uint)0;
-        public uint goldsolid = (uint)0;
-        public uint iron = (uint)0;
-        public uint staircasefull = (uint)0;
-        public uint staircasestep = (uint)0;
-        public uint brick = (uint)0;
-        public uint tnt = (uint)0;
-        public uint bookcase = (uint)0;
-        public uint stonevine = (uint)0;
-        public uint obsidian = (uint)0;
-        public uint cobblestoneslab = (uint)0;
-        public uint rope = (uint)0;
-        public uint sandstone = (uint)0;
-        public uint snowreal = (uint)0;
-        public uint firereal = (uint)0;
-        public uint lightpinkwool = (uint)0;
-        public uint forestgreenwool = (uint)0;
-        public uint brownwool = (uint)0;
-        public uint deepblue = (uint)0;
-        public uint turquoise = (uint)0;
-        public uint ice = (uint)0;
-        public uint ceramictile = (uint)0;
-        public uint magmablock = (uint)0;
-        public uint pillar = (uint)0;
-        public uint crate = (uint)0;
-        public uint stonebrick = (uint)0;*/
         public bool spawned = false;
-
-        //Tnt Wars
-        public bool PlayingTntWars = false;
-        public int CurrentAmountOfTnt = 0;
-        public int CurrentTntGameNumber; //For keeping track of which game is which
-        public int TntWarsHealth = 2;
-        public int TntWarsKillStreak = 0;
-        public float TntWarsScoreMultiplier = 1f;
-        public int TNTWarsLastKillStreakAnnounced = 0;
-        public bool inTNTwarsMap = false;
-        public Player HarmedBy = null; //For Assists
 
         //Copy
         public List<CopyPos> CopyBuffer = new List<CopyPos>();
@@ -565,14 +450,6 @@ namespace MCForge
         public ushort[] copystart = new ushort[3] { 0, 0, 0 };
 
 		public bool sentCustomBlockSupport = false;
-
-        public bool Mojangaccount
-        {
-            get
-            {
-                return truename.Contains('@');
-            }
-        }
 
         //Undo
         public struct UndoPos { public ushort x, y, z; public ushort type, newtype; public string mapName; public DateTime timePlaced; }
@@ -629,9 +506,6 @@ namespace MCForge
         //public static int spamChatCount = 3;
         //public static int spamChatTimer = 4;
         //Queue<DateTime> spamChatLog = new Queue<DateTime>(spamChatCount);
-
-        // CmdVoteKick
-        public VoteKickChoice voteKickChoice = VoteKickChoice.HasntVoted;
 
         // Extra storage for custom commands
         public ExtrasCollection Extras = new ExtrasCollection();
@@ -824,13 +698,7 @@ namespace MCForge
                         if (!Group.Find("Nobody").commands.Contains("award") && !Group.Find("Nobody").commands.Contains("awards") && !Group.Find("Nobody").commands.Contains("awardmod")) SendMessage("You have " + Awards.awardAmount(name) + " awards.");
                     }
                     catch { }
-                    try
-                    {
-                        ZombieGame.alive.Remove(this);
-                        ZombieGame.infectd.Remove(this);
-                    }
-                    catch { }
-                    if (Server.lava.active) SendMessage("There is a &aLava Survival " + Server.DefaultColor + "game active! Join it by typing /ls go");
+
                     extraTimer.Dispose();
                 };
 
@@ -887,7 +755,6 @@ namespace MCForge
         public void save()
 		{
 			PlayerDB.Save(this);
-            EXPDB.Save(this);
 
             try
             {
@@ -1103,13 +970,7 @@ namespace MCForge
                 SkinName = name;
                 truename = name;
                 if (Server.omniban.CheckPlayer(this)) { Kick(Server.omniban.kickMsg); return; } //deprecated
-                if (name.Split('@').Length > 1)
-                {
-                    name = name.Split('@')[0];
-                    if (!MojangAccount.HasID(truename))
-                        MojangAccount.AddUser(truename);
-                    name += "_" + MojangAccount.GetID(truename);
-                }
+
                 string verify = enc.GetString(message, 65, 32).Trim();
                 ushort type = message[129];
 
@@ -1295,7 +1156,7 @@ namespace MCForge
                 }
 
                 //server maxplayer check
-                if (!isDev && !isMod && !VIP.Find(this))
+                if (!isDev && !isMod)
                 {
                     // Check to see how many guests we have
                     if (Player.players.Count >= Server.players && !IPInPrivateRange(ip)) { Kick("Server full!"); return; }
@@ -1471,11 +1332,6 @@ namespace MCForge
                     GlobalMessage(name + " is still muted from the last time they went offline.");
                 }
             }
-			if(!Directory.Exists("exp"))
-			{
-				Directory.CreateDirectory ("exp");
-			}
-            EXPDB.Load(this);
 			if(!Directory.Exists("players/economy"))
 			{
 				Directory.CreateDirectory ("players/economy");
@@ -1711,12 +1567,6 @@ namespace MCForge
             {
                 Server.s.Log(name + " [" + ip + "]" + "(" + ID + ") + has joined the server.");
             }
-
-            if (Server.zombie.GameInProgess())
-            {
-                if (level.name == Server.zombie.currentLevelName)
-                    Server.zombie.InfectedPlayerLogin(this);
-            }
         }
 
         public void SetPrefix()
@@ -1743,33 +1593,6 @@ namespace MCForge
                 ushort z = NTHO(message, 4);
                 byte action = message[6];
                 ushort type = message[7];
-
-                if (action == 1 && Server.ZombieModeOn && Server.noPillaring)
-                {
-                    if (!referee)
-                    {
-                        if (lastYblock == y - 1 && lastXblock == x && lastZblock == z)
-                        {
-                            blocksStacked++;
-                        }
-                        else
-                        {
-                            blocksStacked = 0;
-                        }
-                        if (blocksStacked == 2)
-                        {
-                            SendMessage("You are pillaring! Stop before you get kicked!");
-                        }
-                        if (blocksStacked == 4)
-                        {
-                            Command.all.Find("kick").Use(null, name + " No pillaring allowed!");
-                        }
-                    }
-                }
-
-                lastYblock = y;
-                lastXblock = x;
-                lastZblock = z;
 
                 manualChange(x, y, z, action, type);
             }
@@ -2041,53 +1864,6 @@ namespace MCForge
                 }
             }
 
-            if (Server.ZombieModeOn && (action == 1 || (action == 0 && this.painting)))
-            {
-                if (Server.zombie != null && this.level.name == Server.zombie.currentLevelName && Server.limitedblocks)
-                {
-                    if (blockCount == 0)
-                    {
-                        if (!referee)
-                        {
-                            SendMessage("You have no blocks left.");
-                            SendBlockchange(x, y, z, b); return;
-                        }
-                    }
-
-                    if (!referee)
-                    {
-                        blockCount--;
-                        if (blockCount == 40 || blockCount == 30 || blockCount == 20 || blockCount <= 10 && blockCount >= 0)
-                        {
-                            SendMessage("Blocks Left: " + c.maroon + blockCount + Server.DefaultColor);
-                        }
-                    }
-                }
-            }
-
-            if (Server.lava.active)
-            {
-
-                if (Server.lava.HasPlayer(this) && Server.lava.IsPlayerDead(this))
-                {
-                    SendMessage("You are out of the round, and cannot build.");
-                    SendBlockchange(x, y, z, b);
-                    return;
-                }
-
-                if (this.spongesLeft == 0 && type == Block.sponge && (action == 1 || (action == 0 && this.painting)))
-                {
-                    SendMessage(c.green + "You need to purchase more sponges at the /store!");
-                    SendBlockchange(x, y, z, b); return;
-                }
-                else if (this.spongesLeft >= 0 && type == Block.sponge && (action == 1 || (action == 0 && this.painting)))
-                {
-                    this.spongesLeft = this.spongesLeft - 1;
-                    Player.SendMessage(this, c.lime + "You have " + c.red + spongesLeft + c.lime + " sponges left!");
-                    type = Block.lava_sponge;
-                }
-            }
-
             Blockchange bP = new Blockchange();
             bP.username = name;
 			bP.level = level.name;
@@ -2141,7 +1917,7 @@ namespace MCForge
 
                 if (Server.antiTunnel)
                 {
-                    if (!ignoreGrief && !PlayingTntWars)
+                    if (!ignoreGrief)
                     {
                         if (y < level.depth / 2 - Server.maxDepth)
                         {
@@ -2819,7 +2595,6 @@ namespace MCForge
             }
             if ((level.physics == 0 || level.physics == 5) && level.GetTile(x, (ushort)(y - 1), z) == 3) level.Blockchange(this, x, (ushort)(y - 1), z, 2);
         }
-        public Inventory inventory = new Inventory();
         public void placeBlock(ushort b, ushort type, ushort x, ushort y, ushort z)
         {
             if (Block.odoor(b) != Block.Zero) { SendMessage("oDoor here!"); return; }
@@ -2879,137 +2654,43 @@ namespace MCForge
         {
             if (!loggedIn || trainGrab || following != "" || frozen)
                 return;
-            /*if (CheckIfInsideBlock())
-{
-unchecked { this.SendPos((byte)-1, (ushort)(clippos[0] - 18), (ushort)(clippos[1] - 18), (ushort)(clippos[2] - 18), cliprot[0], cliprot[1]); }
-return;
-}*/
 
             byte[] message = (byte[])m;
             //      byte thisid = message[0];
 
-            if (this.incountdown == true && CountdownGame.gamestatus == CountdownGameStatus.InProgress && CountdownGame.freezemode == true)
+            ushort x = NTHO(message, 1);
+            ushort y = NTHO(message, 3);
+            ushort z = NTHO(message, 5);
+
+            try
             {
-                if (this.countdownsettemps == true)
+                int xx, yy, zz; Random rand = new Random(); int size = 0;
+                Player.players.ForEach(delegate(Player player)
                 {
-                    countdowntempx = NTHO(message, 1);
-                    Thread.Sleep(100);
-                    countdowntempz = NTHO(message, 5);
-                    Thread.Sleep(100);
-                    countdownsettemps = false;
-                }
-                ushort x = countdowntempx;
-                ushort y = NTHO(message, 3);
-                ushort z = countdowntempz;
-                byte rotx = message[7];
-                byte roty = message[8];
-                pos = new ushort[3] { x, y, z };
-                rot = new byte[2] { rotx, roty };
-                if (countdowntempx != NTHO(message, 1) || countdowntempz != NTHO(message, 5))
-                {
-                    unchecked { this.SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
-                }
+
+                });
             }
-            else
-            {
-                ushort x = NTHO(message, 1);
-                ushort y = NTHO(message, 3);
-                ushort z = NTHO(message, 5);
+            catch { }
+            if (OnMove != null)
+                OnMove(this, x, y, z);
+            if (PlayerMove != null)
+                PlayerMove(this, x, y, z);
+            PlayerMoveEvent.Call(this, x, y, z);
 
-                if (!this.referee && Server.noRespawn && Server.ZombieModeOn)
-                {
-                    if (this.pos[0] >= x + 70 || this.pos[0] <= x - 70)
-                    {
-                        unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
-                        return;
-                    }
-                    if (this.pos[2] >= z + 70 || this.pos[2] <= z - 70)
-                    {
-                        unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
-                        return;
-                    }
-                }
-                try
-                {
-                    int xx, yy, zz; Random rand = new Random(); int size = 0;
-                    Player.players.ForEach(delegate(Player player)
-                    {
-                    /*    #region Traps
-                        for (xx = ((x / 32) - (size + 1 + player.trapUpgrade)); xx <= ((x / 32) + (size + 1 + player.trapUpgrade)); ++xx)
-                            for (yy = ((y / 32) - (size + 1 + player.trapUpgrade)); yy <= ((y / 32) + (size + 1 + player.trapUpgrade)); ++yy)
-                                for (zz = ((z / 32) - (size + 1 + player.trapUpgrade)); zz <= ((z / 32) + (size + 1 + player.trapUpgrade)); ++zz)
-                                {
-                                    if ((this.level.GetTile(Convert.ToUInt16((int)xx), Convert.ToUInt16((int)yy), Convert.ToUInt16((int)zz)) == 260))
-                                    {
-                                        if (player.trapsPlaced >= 1)
-                                        {
-                                            if (xx == (player.trapPlacement[0] / 32) && zz == (player.trapPlacement[2] / 32) && yy == (player.trapPlacement[1] / 32) && Server.pctf.getTeam(player) != Server.pctf.getTeam(this))
-                                            {
-                                                player.SendMessage(c.gray + " - " + Server.DefaultColor + "Your trap has been activated!" + c.gray + " - ");
-                                                Level level = player.level;
-                                                if (!hasBeenTrapped)
-                                                {
-                                                    hasBeenTrapped = true;
-                                                    Player.SendMessage(this, c.gray + " - " + Server.DefaultColor + "You have been trapped! To get out break the mushroom" + c.gray + " - ");
-                                                }
-                                                return;
-                                            }
-                                        }
-                                    }
-                                }
-                        #endregion
-
-                        #region Mines
-                        for (xx = ((x / 32) - (size + 1 + (player.mineUpgrade + 1))); xx <= ((x / 32) + (size + 1 + (player.mineUpgrade + 1))); ++xx)
-                            for (yy = ((y / 32) - (size + 2)); yy <= ((y / 32) + (size + 2)); ++yy)
-                                for (zz = ((z / 32) - (size + 1 + (player.mineUpgrade + 1))); zz <= ((z / 32) + (size + 1 + (player.mineUpgrade + 1))); ++zz)
-                                {
-                                    if ((this.level.GetTile(Convert.ToUInt16((int)xx), Convert.ToUInt16((int)yy), Convert.ToUInt16((int)zz)) == 259))
-                                    {
-                                        if (player.minesPlaced >= 1)
-                                        {
-                                            if (xx == (player.minePlacement[0] / 32) && zz == (player.minePlacement[2] / 32) && yy == (player.minePlacement[1] / 32) && Server.pctf.getTeam(player) != Server.pctf.getTeam(this))
-                                            {
-                                                Level level = player.level;
-                                                player.SendMessage(c.gray + " - " + Server.DefaultColor + "Your mine has been activated!" + c.gray + " - ");
-                                                player.minePlacement[0] = 0; player.minePlacement[1] = 0; player.minePlacement[2] = 0;
-                                                player.minesPlaced = player.minesPlaced - 1;
-                                                level.MakeExplosion(player.name, Convert.ToUInt16((int)(x / 32)), Convert.ToUInt16((int)(y / 32) - 1), Convert.ToUInt16((int)(z / 32)), 0, false, false, false);
-                                                level.placeBlock(Convert.ToUInt16((int)xx), Convert.ToUInt16((int)yy), Convert.ToUInt16((int)zz), Block.air);
-                                            }
-                                        }
-                                    }
-                                }
-                        #endregion*/
-                    });
-                }
-                catch { }
-                if (OnMove != null)
-                    OnMove(this, x, y, z);
-                if (PlayerMove != null)
-                    PlayerMove(this, x, y, z);
-                PlayerMoveEvent.Call(this, x, y, z);
-
-                if (OnRotate != null)
+            if (OnRotate != null)
                     OnRotate(this, rot);
-                if (PlayerRotate != null)
+            if (PlayerRotate != null)
                     PlayerRotate(this, rot);
-                PlayerRotateEvent.Call(this, rot);
-                if (cancelmove)
-                {
-                    unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
-                    return;
-                }
-                byte rotx = message[7];
-                byte roty = message[8];
-                pos = new ushort[3] { x, y, z };
-                rot = new byte[2] { rotx, roty };
-                /*if (!CheckIfInsideBlock())
-{
-clippos = pos;
-cliprot = rot;
-}*/
+            PlayerRotateEvent.Call(this, rot);
+            if (cancelmove)
+            {
+                unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
+                return;
             }
+            byte rotx = message[7];
+            byte roty = message[8];
+            pos = new ushort[3] { x, y, z };
+            rot = new byte[2] { rotx, roty };
         }
 
         public void RealDeath(ushort x, ushort y, ushort z)
@@ -3093,16 +2774,9 @@ cliprot = rot;
                     }
                 }
             }
-            if((b == Block.tntexplosion || b1 == Block.tntexplosion) && Server.CTFOnlyServer)
-            {
-                return;
-            }
 
-            if ((b == Block.tntexplosion || b1 == Block.tntexplosion) && PlayingTntWars) { }
-            else if (Block.Death(b)) HandleDeath(b); else if (Block.Death(b1)) HandleDeath(b1);
+            if (Block.Death(b)) HandleDeath(b); else if (Block.Death(b1)) HandleDeath(b1);
         }
-
-        public LavaSurvival lavasurvival;
 
         public void HandleDeath(ushort b, string customMessage = "", bool explode = false)
         {
@@ -3118,8 +2792,6 @@ cliprot = rot;
             if (PlayerDeath != null)
                 PlayerDeath(this, b);
             OnPlayerDeathEvent.Call(this, b);
-            if (Server.lava.active && Server.lava.HasPlayer(this) && Server.lava.IsPlayerDead(this))
-                return;
             if (lastDeath.AddSeconds(2) < DateTime.Now)
             {
 
@@ -3141,66 +2813,23 @@ cliprot = rot;
                         case Block.train: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was hit by a &ctrain.", false); break;
                         case Block.fishshark: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was eaten by a &cshark.", false); break;
                         case Block.fire: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " burnt to a &ccrisp.", false); break;
-                        case Block.rockethead: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cin a fiery explosion.", false); level.MakeExplosion(x, y, z, 0); break;
                         case Block.zombiebody: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " died due to lack of &5brain.", false); break;
-                        case Block.creeper: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was killed &cb-SSSSSSSSSSSSSS", false); level.MakeExplosion(x, y, z, 1); break;
                         case Block.air: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " hit the floor &chard.", false); break;
                         case Block.water: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " &cdrowned.", false); break;
                         case Block.Zero: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cterminated", false); break;
                         case Block.fishlavashark: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was eaten by a ... LAVA SHARK?!", false); break;
                         case Block.rock:
-                            if (explode) level.MakeExplosion(x, y, z, 1);
                             GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
                             break;
                         case Block.stone:
-                            if (explode) level.MakeExplosion(x, y, z, 1);
                             GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
                             break;
                     }
-                    if (ironmanActivated)
+                    
+                    if (pteam == 0)
                     {
-                        Player.GlobalMessage(this.group.color + name + " " + c.lime + "failed the IRONMAN challenge!");
-                        ironmanFailed = true;
-                        ironmanActivated = false;
-                        if (lavasurvival.lifeNum <= 2)
-                            lavasurvival.lifeNum = 0;
-                        else
-                            lavasurvival.lifeNum = lavasurvival.lifeNum / 2;
-
-                        if (money <= 2)
-                            money = 0;
-                        else
-                            money = (int)Math.Round(money / 1.2);
-                    }
-                  /*  if(pteam != 0)
-                    {
-                        Server.pctf.sendToTeamSpawn(this);
-                    }*/
-                    if (CountdownGame.playersleftlist.Contains(this))
-                    {
-                        CountdownGame.Death(this);
                         Command.all.Find("spawn").Use(this, "");
-                    }
-                    else if (PlayingTntWars)
-                    {
-                        TntWarsKillStreak = 0;
-                        TntWarsScoreMultiplier = 1f;
-                    }
-                    else if (Server.lava.active && Server.lava.HasPlayer(this))
-                    {
-                        if (!Server.lava.IsPlayerDead(this))
-                        {
-                            Server.lava.KillPlayer(this);
-                            Command.all.Find("spawn").Use(this, "");
-                        }
-                    }
-                    else
-                    {
-                        if (pteam == 0)
-                        {
-                            Command.all.Find("spawn").Use(this, "");
-                            overallDeath++;
-                        }
+                        overallDeath++;
                     }
 
                     if (Server.deathcount)
@@ -3210,44 +2839,6 @@ cliprot = rot;
 
             }
         }
-
-        /* void HandleFly(Player p, ushort x, ushort y, ushort z) {
-FlyPos pos;
-
-ushort xx; ushort yy; ushort zz;
-
-TempFly.Clear();
-
-if (!flyGlass) y = (ushort)(y + 1);
-
-for (yy = y; yy >= (ushort)(y - 1); --yy)
-for (xx = (ushort)(x - 2); xx <= (ushort)(x + 2); ++xx)
-for (zz = (ushort)(z - 2); zz <= (ushort)(z + 2); ++zz)
-if (p.level.GetTile(xx, yy, zz) == Block.air) {
-pos.x = xx; pos.y = yy; pos.z = zz;
-TempFly.Add(pos);
-}
-
-FlyBuffer.ForEach(delegate(FlyPos pos2) {
-try { if (!TempFly.Contains(pos2)) SendBlockchange(pos2.x, pos2.y, pos2.z, Block.air); } catch { }
-});
-
-FlyBuffer.Clear();
-
-TempFly.ForEach(delegate(FlyPos pos3){
-FlyBuffer.Add(pos3);
-});
-
-if (flyGlass) {
-FlyBuffer.ForEach(delegate(FlyPos pos1) {
-try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.glass); } catch { }
-});
-} else {
-FlyBuffer.ForEach(delegate(FlyPos pos1) {
-try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
-});
-}
-} */
 
         void SendWomUsers()
         {
@@ -3370,54 +2961,11 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                 // People who are muted can't speak or vote
                 if (muted) { this.SendMessage("You are muted."); return; } //Muted: Only allow commands
 
-                // Lava Survival map vote recorder
-                if (Server.lava.HasPlayer(this) && Server.lava.HasVote(text.ToLower()))
-                {
-                    if (Server.lava.AddVote(this, text.ToLower()))
-                    {
-                        SendMessage("Your vote for &5" + text.ToLower().UppercaseFirst() + Server.DefaultColor + " has been placed. Thanks!");
-                        Server.lava.map.ChatLevelOps(name + " voted for &5" + text.ToLower().UppercaseFirst() + Server.DefaultColor + ".");
-                        return;
-                    }
-                    else
-                    {
-                        SendMessage("&cYou already voted!");
-                        return;
-                    }
-                }
-
-                //CmdVoteKick core vote recorder
-                if (Server.voteKickInProgress && text.Length == 1)
-                {
-                    if (text.ToLower() == "y")
-                    {
-                        this.voteKickChoice = VoteKickChoice.Yes;
-                        SendMessage("Thanks for voting!");
-                        return;
-                    }
-                    if (text.ToLower() == "n")
-                    {
-                        this.voteKickChoice = VoteKickChoice.No;
-                        SendMessage("Thanks for voting!");
-                        return;
-                    }
-                }
-
                 // Put this after vote collection so that people can vote even when chat is moderated
                 if (Server.chatmod && !this.voice) { this.SendMessage("Chat moderation is on, you cannot speak."); return; }
 
-                // Filter out bad words
-                if (Server.profanityFilter == true)
-                {
-                    text = ProfanityFilter.Parse(text);
-                }
-
                 if (Server.checkspam == true)
                 {
-                    //if (consecutivemessages == 0)
-                    //{
-                    // consecutivemessages++;
-                    //}
                     if (Player.lastMSG == this.name)
                     {
                         consecutivemessages++;
@@ -3532,27 +3080,6 @@ try { SendBlockchange(pos1.x, pos1.y, pos1.z, Block.waterstill); } catch { }
                 {
                     Command.all.Find("global").Use(this, text); //Didn't want to rewrite the whole command... you lazy bastard :3
                     return;
-                }
-
-                if (text[0] == ':')
-                {
-                    if (PlayingTntWars)
-                    {
-                        string newtext = text;
-                        if (text[0] == ':') newtext = text.Remove(0, 1).Trim();
-                        TntWarsGame it = TntWarsGame.GetTntWarsGame(this);
-                        if (it.GameMode == TntWarsGame.TntWarsGameMode.TDM)
-                        {
-                            TntWarsGame.player pl = it.FindPlayer(this);
-                            foreach (TntWarsGame.player p in it.Players)
-                            {
-                                if (pl.Red && p.Red) SendMessage(p.p, "To Team " + c.red + "-" + color + name + c.red + "- " + Server.DefaultColor + newtext);
-                                if (pl.Blue && p.Blue) SendMessage(p.p, "To Team " + c.blue + "-" + color + name + c.blue + "- " + Server.DefaultColor + newtext);
-                            }
-                            Server.s.Log("[TNT Wars] [TeamChat (" + (pl.Red ? "Red" : "Blue") + ") " + name + " " + newtext);
-                            return;
-                        }
-                    }
                 }
 
                 /*if (this.teamchat)
@@ -4596,17 +4123,8 @@ changed |= 4;*/
                 HTNO(pos[1]).CopyTo(buffer, 3);
                 HTNO(pos[2]).CopyTo(buffer, 5);
                 buffer[7] = rot[0];
-
-                if (Server.flipHead || (this.flipHead && this.infected))
-                    if (rot[1] > 64 && rot[1] < 192)
-                        buffer[8] = rot[1];
-                    else
-                        buffer[8] = (byte)(rot[1] - (rot[1] - 128));
-                else
-                    buffer[8] = rot[1];
-
-                //Realcode
-                //buffer[8] = rot[1];
+                
+                buffer[8] = rot[1];
             }
             else if (changed == 1)
             {
@@ -4626,16 +4144,7 @@ changed |= 4;*/
                 buffer = new byte[3]; buffer[0] = id;
                 buffer[1] = rot[0];
 
-                if (Server.flipHead || (this.flipHead && this.infected))
-                    if (rot[1] > 64 && rot[1] < 192)
-                        buffer[2] = rot[1];
-                    else
-                        buffer[2] = (byte)(rot[1] - (rot[1] - 128));
-                else
-                    buffer[2] = rot[1];
-
-                //Realcode
-                //buffer[2] = rot[1];
+                buffer[2] = rot[1];
             }
             else if (changed == 3)
             {
@@ -4648,16 +4157,7 @@ changed |= 4;*/
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[2] - oldpos[2])), 0, buffer, 3, 1);
                     buffer[4] = rot[0];
 
-                    if (Server.flipHead || (this.flipHead && this.infected))
-                        if (rot[1] > 64 && rot[1] < 192)
-                            buffer[5] = rot[1];
-                        else
-                            buffer[5] = (byte)(rot[1] - (rot[1] - 128));
-                    else
-                        buffer[5] = rot[1];
-
-                    //Realcode
-                    //buffer[5] = rot[1];
+                    buffer[5] = rot[1];
                 }
                 catch { }
             }
@@ -4698,148 +4198,9 @@ changed |= 4;*/
             if (MessageHasBadColorCodes(from, message))
                 return;
 
-            if (Server.lava.HasPlayer(from) && Server.lava.HasVote(message.ToLower()))
-            {
-                if (Server.lava.AddVote(from, message.ToLower()))
-                {
-                    SendMessage(from, "Your vote for &5" + message.ToLower().UppercaseFirst() + Server.DefaultColor + " has been placed. Thanks!");
-                    Server.lava.map.ChatLevelOps(from.name + " voted for &5" + message.ToLower().UppercaseFirst() + Server.DefaultColor + ".");
-                    return;
-                }
-                else
-                {
-                    SendMessage(from, "&cYou already voted!");
-                    return;
-                }
-            }
-
-            if (Server.voting == true)
-            {
-                if (message.ToLower() == "yes" || message.ToLower() == "ye" || message.ToLower() == "y")
-                {
-                    if (!from.voted)
-                    {
-                        Server.YesVotes++;
-                        SendMessage(from, c.red + "Thanks For Voting!");
-                        from.voted = true;
-                        return;
-                    }
-                    else if (!from.voice)
-                    {
-                        from.SendMessage("Chat moderation is on while voting is on!");
-                        return;
-                    }
-                }
-                else if (message.ToLower() == "no" || message.ToLower() == "n")
-                {
-                    if (!from.voted)
-                    {
-                        Server.NoVotes++;
-                        SendMessage(from, c.red + "Thanks For Voting!");
-                        from.voted = true;
-                        return;
-                    }
-                    else if (!from.voice)
-                    {
-                        from.SendMessage("Chat moderation is on while voting is on!");
-                        return;
-                    }
-                }
-            }
-
-            if (Server.votingforlevel == true)
-            {
-                if (message.ToLower() == "1" || message.ToLower() == "one")
-                {
-                    if (!from.voted)
-                    {
-                        Server.Level1Vote++;
-                        SendMessage(from, c.red + "Thanks For Voting!");
-                        from.voted = true;
-                        return;
-                    }
-                    else if (!from.voice)
-                    {
-                        from.SendMessage("Chat moderation is on while voting is on!");
-                        return;
-                    }
-                }
-                else if (message.ToLower() == "2" || message.ToLower() == "two")
-                {
-                    if (!from.voted)
-                    {
-                        Server.Level2Vote++;
-                        SendMessage(from, c.red + "Thanks For Voting!");
-                        from.voted = true;
-                        return;
-                    }
-                    else if (!from.voice)
-                    {
-                        from.SendMessage("Chat moderation is on while voting is on!");
-                        return;
-                    }
-                }
-                else if (message.ToLower() == "3" || message.ToLower() == "random" || message.ToLower() == "rand")
-                {
-                    if (!from.voted)
-                    {
-                        Server.Level3Vote++;
-                        SendMessage(from, c.red + "Thanks For Voting!");
-                        from.voted = true;
-                        return;
-                    }
-                    else if (!from.voice)
-                    {
-                        from.SendMessage("Chat moderation is on while voting is on!");
-                        return;
-                    }
-                }
-                else if (!from.voice)
-                {
-                    from.SendMessage("Chat moderation is on while voting is on!");
-                    return;
-                }
-            }
-
             if (showname)
             {
-                String referee = "";
-                if (Server.gameStatus != 0)
-                {
-                    referee = "&f(" + from.explevel.levelID + ") ";
-                }
-                if (from.referee)
-                {
-                    referee = "&f(" + from.explevel.levelID + ") " + c.green + "[Referee] ";
-                }
-                if (from.ironmanActivated)
-                {
-                    referee = c.lime + "[IRONMAN] ";
-                }
-                if (!from.isHoldingFlag)
-                {
-                    if (from.pteam == 1)
-                    {
-                        referee = c.blue + "<Blue> ";
-                    }
-                    if (from.pteam == 2)
-                    {
-                        referee = c.red + "<Red> ";
-                    }
-                }
-                if (from.isHoldingFlag)
-                {
-                    referee = c.maroon + "<" + c.red + "F" + c.gold + "l" + c.yellow + "a" + c.lime + "g " + c.green + "C" + c.aqua + "a" + c.blue + "r" + c.navy + "r" + c.purple + "i" + c.silver + "e" + c.gray + "r" + c.black + "> " + referee;
-                }
-                if (ZombieGame.infectd.Contains(from))
-                {
-                    referee = "&f(" + from.explevel.levelID + ") " + c.red + " [Z]";
-                }
-                if (ZombieGame.alive.Contains(from))
-                {
-                    referee = "&f(" + from.explevel.levelID + ") " + c.green + " [H]";
-                }
-                message = referee + from.color + from.voicestring + from.color + from.prefix + from.DisplayName + ": &f" + message;
+                message = from.color + from.voicestring + from.color + from.prefix + from.DisplayName + ": &f" + message;
             }
             players.ForEach(delegate(Player p)
             {
@@ -5331,30 +4692,7 @@ changed |= 4;*/
                 if (p.level != from.level || (from.hidden && !self)) { return; }
                 if (p != from)
                 {
-                    if (Server.ZombieModeOn && !p.aka)
-                    {
-                        if (from.infected)
-                        {
-                            if (Server.ZombieName != "")
-                                p.SendSpawn(from.id, c.red + Server.ZombieName + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName);
-                            else
-                                p.SendSpawn(from.id, c.red + from.name + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName);
-                            return;
-                        }
-                        else if (from.referee)
-                        {
-                            return;
-                        }
-                        else
-                        {
-                            p.SendSpawn(from.id, from.color + from.name + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        p.SendSpawn(from.id, from.color + from.name + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName);
-                    }
+                    p.SendSpawn(from.id, from.color + from.name + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName);
                 }
                 else if (self)
                 {
@@ -5522,23 +4860,6 @@ changed |= 4;*/
                     isFlying = false;
                     aiming = false;
 
-
-                    if (CountdownGame.players.Contains(this))
-                    {
-                        if (CountdownGame.playersleftlist.Contains(this))
-                        {
-                            CountdownGame.PlayerLeft(this);
-                        }
-                        CountdownGame.players.Remove(this);
-                    }
-
-                    TntWarsGame tntwarsgame = TntWarsGame.GetTntWarsGame(this);
-                    if (tntwarsgame != null)
-                    {
-                        tntwarsgame.Players.Remove(tntwarsgame.FindPlayer(this));
-                        tntwarsgame.SendAllPlayersMessage("TNT Wars: " + color + name + Server.DefaultColor + " has left TNT Wars!");
-                    }
-
                     GlobalDie(this, false);
                     if (kickString == "Disconnected." || kickString.IndexOf("Server shutdown") != -1 || kickString == Server.customShutdownMessage)
                     {
@@ -5625,23 +4946,6 @@ level.Unload();
 
                     Server.s.Log(ip + " disconnected.");
                 }
-                if (Server.zombie.GameInProgess())
-                {
-                    try
-                    {
-                        if (ZombieGame.infectd.Contains(this))
-                        {
-                            ZombieGame.infectd.Remove(this);
-                        }
-                        if (ZombieGame.alive.Contains(this))
-                        {
-                            ZombieGame.alive.Remove(this);
-                        }
-                    }
-                    catch { }
-                }
-                Server.zombie.InfectedPlayerDC();
-         //       Server.pctf.PlayerDC(this);
 
             }
             catch (Exception e) { Server.ErrorLog(e); }
@@ -5897,7 +5201,6 @@ Next: continue;
         public static bool ValidName(string name, Player p = null)
         {
             string allowedchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890._@+";
-            if (p != null && p.Mojangaccount) allowedchars += "-";
             return name.All(ch => allowedchars.IndexOf(ch) != -1);
         }
 
@@ -6281,30 +5584,6 @@ Next: continue;
             System.Timers.Timer Clock = new System.Timers.Timer(1000 * Server.reviewcooldown);
             Clock.Elapsed += delegate { this.canusereview = true; Clock.Dispose(); };
             Clock.Start();
-        }
-
-        public void TntAtATime()
-        {
-            new Thread(() =>
-            {
-                CurrentAmountOfTnt += 1;
-                switch (TntWarsGame.GetTntWarsGame(this).GameDifficulty)
-                {
-                    case TntWarsGame.TntWarsDifficulty.Easy:
-                        Thread.Sleep(3250);
-                        break;
-
-                    case TntWarsGame.TntWarsDifficulty.Normal:
-                        Thread.Sleep(2250);
-                        break;
-
-                    case TntWarsGame.TntWarsDifficulty.Hard:
-                    case TntWarsGame.TntWarsDifficulty.Extreme:
-                        Thread.Sleep(1250);
-                        break;
-                }
-                CurrentAmountOfTnt -= 1;
-            }).Start();
         }
 
         public string ReadString(int count = 64)

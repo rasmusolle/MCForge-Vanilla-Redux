@@ -15,7 +15,7 @@
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-
+/*
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +33,6 @@ namespace MCForge
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
         public CmdStore() { }
-        public ZombieGame zs;
         public override void Use(Player p, string message)
         {
             if(Server.lava.active && p.level == Server.lava.map)
@@ -836,7 +835,7 @@ namespace MCForge
                                 break;
                         }
                     }
-                }*/
+                }
         }
         public override void Help(Player p)
         {
@@ -856,3 +855,4 @@ namespace MCForge
         }
     }
 }
+*/

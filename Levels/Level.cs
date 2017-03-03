@@ -213,7 +213,6 @@ namespace MCForge
         public bool unload = true;
         public ushort width; // x
         public bool worldChat = true;
-        public bool bufferblocks = Server.bufferblocks;
         public List<BlockQueue.block> blockqueue = new List<BlockQueue.block>();
 
         public List<C4.C4s> C4list = new List<C4.C4s>();
@@ -376,7 +375,6 @@ namespace MCForge
         {
             if (Server.mainLevel == this) return false;
             if (name.Contains("&cMuseum ")) return false;
-            if (Server.lava.active && Server.lava.map == this) return false;
             if (LevelUnload != null)
                 LevelUnload(this);
             OnLevelUnloadEvent.Call(this);
@@ -389,25 +387,12 @@ namespace MCForge
             Player.players.ForEach(
                 delegate(Player pl) { if (pl.level == this) Command.all.Find("goto").Use(pl, Server.mainLevel.name); });
 
-            if (changed && (!Server.ZombieModeOn || !Server.noLevelSaving) && mapType != MapType.Game)
+            if (changed && mapType != MapType.Game)
             {
-                    if ((!Server.lava.active || !Server.lava.HasMap(name)) && save) Save(false, true);
-                    saveChanges();
+                Save(false, true);
+                saveChanges();
             }
-            if (TntWarsGame.Find(this) != null)
-            {
-                foreach (TntWarsGame.player pl in TntWarsGame.Find(this).Players)
-                {
-                    pl.p.CurrentTntGameNumber = -1;
-                    Player.SendMessage(pl.p, "TNT Wars: The TNT Wars game you are currently playing has been deleted!");
-                    pl.p.PlayingTntWars = false;
-                    pl.p.canBuild = true;
-                    TntWarsGame.SetTitlesAndColor(pl, true);
-                }
-                Server.s.Log("TNT Wars: Game deleted on " + name);
-                TntWarsGame.GameList.Remove(TntWarsGame.Find(this));
 
-            }
 
             Server.levels.Remove(this);
 
@@ -538,47 +523,6 @@ namespace MCForge
                         p.SendBlockchange(x, y, z, b);
                         return;
                     }
-                }
-                errorLocation = "Allowed to place tnt there (TNT Wars)";
-                if (type == Block.tnt || type == Block.smalltnt || type == Block.bigtnt || type == Block.nuketnt)
-                {
-                    if (p.PlayingTntWars)
-                    {
-                        if (TntWarsGame.GetTntWarsGame(p).InZone(x, y, z, true))
-                        {
-                            p.SendBlockchange(x, y, z, b);
-                            return;
-                        }
-                    }
-                }
-                errorLocation = "Max tnt for TNT Wars checking";
-                if (type == Block.tnt || type == Block.smalltnt || type == Block.bigtnt || type == Block.nuketnt)
-                {
-                    if (p.PlayingTntWars)
-                    {
-                        if (p.CurrentAmountOfTnt == TntWarsGame.GetTntWarsGame(p).TntPerPlayerAtATime)
-                        {
-                            p.SendBlockchange(x, y, z, b);
-                            Player.SendMessage(p, "TNT Wars: Maximum amount of TNT placed");
-                            return;
-                        }
-                        if (p.CurrentAmountOfTnt > TntWarsGame.GetTntWarsGame(p).TntPerPlayerAtATime)
-                        {
-                            p.SendBlockchange(x, y, z, b);
-                            Player.SendMessage(p, "TNT Wars: You have passed the maximum amount of TNT that can be placed!");
-                            return;
-                        }
-                        else
-                        {
-                            p.TntAtATime();
-                        }
-                    }
-                }
-
-                errorLocation = "TNT Wars switch TNT block to smalltnt";
-                if ((type == Block.tnt || type == Block.bigtnt || type == Block.nuketnt || type == Block.smalltnt) && p.PlayingTntWars)
-                {
-                    type = Block.smalltnt;
                 }
 
                 errorLocation = "Zone checking";
@@ -728,7 +672,6 @@ namespace MCForge
                 }
 
                 errorLocation = "Adding physics";
-                if (p.PlayingTntWars && type == Block.smalltnt) AddCheck(PosToInt(x, y, z), "", false, p);
                 if (physics > 0) if (Block.Physics(type)) AddCheck(PosToInt(x, y, z), "", false, p);
 
                 changed = true;
@@ -976,7 +919,7 @@ namespace MCForge
 
         public void Save(bool Override = false, bool clearPhysics = false)
         {
-            if(mapType == MapType.Game || (Server.noLevelSaving && Server.ZombieModeOn))
+            if(mapType == MapType.Game)
             {
                 return;
             }
@@ -1824,7 +1767,7 @@ namespace MCForge
                                             Blockchange(x, y, z, Block.air);
                                             return;
                                         }
-                                        MakeExplosion((ushort)(x + xx), (ushort)(y + yy), (ushort)(z + zz), 0);
+                                        //MakeExplosion((ushort)(x + xx), (ushort)(y + yy), (ushort)(z + zz), 0);
                                     }
                                 }
                             }
@@ -1862,8 +1805,8 @@ namespace MCForge
 
             if (Block.odoor(blocks[foundInt]) != Block.Zero) AddUpdate(foundInt, Block.odoor(blocks[foundInt]), true);
         }
-
-        public void MakeExplosion(ushort x, ushort y, ushort z, int size, bool force = false, TntWarsGame CheckForExplosionZone = null)
+        /*
+        public void MakeExplosion(ushort x, ushort y, ushort z, int size, bool force = false)
         {
             //DateTime start = DateTime.Now;
             int xx, yy, zz;
@@ -1975,7 +1918,7 @@ namespace MCForge
             //Server.s.Log("Explosion: " + (DateTime.Now - start).TotalMilliseconds.ToString());
         }
 
-       /* public void MakeExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, bool tnt)
+       public void MakeExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, bool tnt)
         {
             //DateTime start = DateTime.Now;
             Player p = Player.Find(name);

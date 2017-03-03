@@ -192,57 +192,8 @@ namespace MCForge
         //Color list as a char array
         public static Char[] ColourCodesNoPercent = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-        //Zombie
-        public static ZombieGame zombie;
-        public static bool limitedblocks = true;
-        public static bool ZombieModeOn = false;
-        public static bool startZombieModeOnStartup = false;
-        public static bool noRespawn = true;
-        public static bool noLevelSaving = true;
-        public static bool noPillaring = true;
-        public static string ZombieName = "";
-        public static int gameStatus = 0; //0 = not started, 1 = always on, 2 = one time, 3 = certain amount of rounds, 4 = stop game next round
-        public static bool queLevel = false;
-        public static bool queZombie = false;
-        public static string nextZombie = "";
-        public static string nextLevel = "";
-        public static bool zombieRound = false;
-        public static string lastPlayerToInfect = "";
-        public static int infectCombo = 0;
-        public static int YesVotes = 0;
-        public static int NoVotes = 0;
-        public static bool voting = false;
-        public static bool votingforlevel = false;
-        public static int Level1Vote = 0;
-        public static int Level2Vote = 0;
-        public static int Level3Vote = 0;
-        public static bool ChangeLevels = true;
-        public static bool UseLevelList = false;
-        public static bool ZombieOnlyServer = true;
-        public static List<String> LevelList = new List<String>();
-        public static string lastLevelVote1 = "";
-        public static string lastLevelVote2 = "";
-        public static bool bufferblocks = true;
 
-        // Lava Survival
-        public static LavaSurvival lava;
-
-        public static bool CTFModeOn = false;
-        public static bool ctfRound = false;
-        public static int ctfGameStatus = 0; //0 = not started, 1 = always on, 2 = one time, 3 = certain amount of rounds, 4 = stop game next round
-        public static bool CTFOnlyServer = false;
-        public static List<Player> killed = new List<Player>();
-        public static string currentLevel = "";
-        public static bool blueFlagDropped = false;
-        public static bool redFlagDropped = false;
-        public static bool blueFlagHeld = false;
-        public static bool redFlagHeld = false;
-        public static System.Timers.Timer redFlagTimer;
-        public static System.Timers.Timer blueFlagTimer;
         public static int vulnerable = 1;
-
-        //SMP
-        public static bool SMPMode = false;
 
         // OmniBan
         public static OmniBan omniban;
@@ -590,46 +541,13 @@ namespace MCForge
                 File.Create("text/emotelist.txt").Dispose();
             }
 
-
-            // LavaSurvival constructed here...
-            lava = new LavaSurvival();
-
-            zombie = new ZombieGame();
-
-      //      pctf = new ProperCTFSetup();
             LoadAllSettings();
 
             // OmniBan
             omniban = new OmniBan();
 
             timeOnline = DateTime.Now;
-            {//MYSQL stuff
-                //catch (MySql.Data.MySqlClient.MySqlException e)
-                //{
-                //    Server.s.Log("MySQL settings have not been set! Many features will not be available if MySQL is not enabled");
-                //  //  Server.ErrorLog(e);
-                //}
-             //   Database.executeQuery(string.Format("CREATE TABLE if not exists Players (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Name TEXT, IP CHAR(15), FirstLogin DATETIME, LastLogin DATETIME, totalLogin MEDIUMINT, Title CHAR(20), TotalDeaths SMALLINT, Money MEDIUMINT UNSIGNED, totalBlocks BIGINT, totalCuboided BIGINT, totalKicked MEDIUMINT, TimeSpent VARCHAR(20), color VARCHAR(6), title_color VARCHAR(6){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
-            //   Database.executeQuery(string.Format("CREATE TABLE if not exists Opstats (ID INTEGER {0}AUTO{1}INCREMENT NOT NULL, Time DATETIME, Name TEXT, Cmd VARCHAR(40), Cmdmsg VARCHAR(40){2});", (useMySQL ? "" : "PRIMARY KEY "), (useMySQL ? "_" : ""), (Server.useMySQL ? ", PRIMARY KEY (ID)" : "")));
 
-                //CTF
-              //  Database.executeQuery("CREATE TABLE if not exists Upgrades (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), lazer INT, lightning INT, trap BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, knife INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
-                //Database.executeQuery("CREATE TABLE if not exists ExtraWeapons (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), knife INT, jetpack INT, freezeray INT, lazer INT, lightning INT, trap BIGINT, line BIGINT, rocket INT, tnt INT, pistol INT, mine INT, tripwire INT, grapple BIGINT, bigtnt BIGINT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
-                //Database.executeQuery("CREATE TABLE if not exists CTFStats (ID INTEGER " + (Server.useMySQL ? "" : "PRIMARY KEY ") + "AUTO" + (Server.useMySQL ? "_" : "") + "INCREMENT NOT NULL, Name VARCHAR(20), shots INT, explodes INT, mines BIGINT, tags INT, captures INT, games INT, wins INT, losses INT" + (Server.useMySQL ? ", PRIMARY KEY (ID)" : "") + ");");
-                //since 5.5.11 we are cleaning up the table Playercmds
-          //      string query = Server.useMySQL ? "SHOW TABLES LIKE 'Playercmds'" : "SELECT name FROM sqlite_master WHERE type='table' AND name='Playercmds';";
-          //      DataTable playercmds = Database.fillData(query); DataTable opstats = Database.fillData("SELECT * FROM Opstats");
-                //if Playercmds exists copy-filter to Ostats and remove Playercmds
-          //      if (playercmds.Rows.Count != 0) {
-          //          foreach (string cmd in Server.Opstats)
-            //            Database.executeQuery(string.Format("INSERT INTO Opstats (Time, Name, Cmd, Cmdmsg) SELECT Time, Name, Cmd, Cmdmsg FROM Playercmds WHERE cmd = '{0}';", cmd));
-              //      Database.executeQuery("INSERT INTO Opstats (Time, Name, Cmd, Cmdmsg) SELECT Time, Name, Cmd, Cmdmsg FROM Playercmds WHERE cmd = 'review' AND cmdmsg = 'next';");
-                //    Database.fillData("DROP TABLE Playercmds");
-               // }
-                //playercmds.Dispose(); opstats.Dispose();
-
-
-            }
 
             UpdateStaffList();
             Log("MCForge Staff Protection Level: " + forgeProtection);
@@ -794,16 +712,10 @@ namespace MCForge
 
             ml.Queue(delegate
             {
-                Translate.Init();
-                foreach (string line in File.ReadAllLines("text/transexceptions.txt"))
-                {
-                    transignore.Add(line); //loading all playernames of people who turned off translation
-                }
                 foreach (string line in File.ReadAllLines("text/gcaccepted.txt"))
                 {
                     gcaccepted.Add(line); //loading all playernames of people who turned off translation
                 }
-                MojangAccount.Load();
                 Log("Creating listening socket on port " + port + "... ");
                 Setup();
                 //s.Log(Setup() ? "Done." : "Could not create socket connection. Shutting down.");
@@ -982,15 +894,7 @@ namespace MCForge
                 ServerSetupFinished = true;
                 Checktimer.StartTimer();
                 Commands.CommandKeywords.SetKeyWords();
-                try
-                {
-                    if (Server.lava.startOnStartup)
-                        Server.lava.Start();
-                    if (Server.startZombieModeOnStartup)
-                        Server.zombie.StartGame(1, 0);
-                   // if (Server.CTFOnlyServer) Server.pctf.StartGame(1, 0);
-                }
-                catch (Exception e) { Server.ErrorLog(e); }
+
                 BlockQueue.Start();
             });
         }
@@ -1007,10 +911,8 @@ namespace MCForge
             GrpCommands.fillRanks();
             Block.SetBlocks();
             Awards.Load();
-            EXPLevel.Load();
             Warp.LOAD();
             CommandOtherPerms.Load();
-            ProfanityFilter.Init();
         }
 
         public static void Setup()

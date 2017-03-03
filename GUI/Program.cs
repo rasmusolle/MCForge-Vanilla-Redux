@@ -426,11 +426,9 @@ namespace MCForge_.Gui
                 string level = null;
                 foreach (Level l in Server.levels)
                 {
-                    if (!Server.lava.active || !Server.lava.HasMap(l.name))
-                    {
                         level = level + l.name + "=" + l.physics + System.Environment.NewLine;
                         l.Save(false, true);
-                    }
+
                     l.saveChanges();
                 }
                 if (Server.ServerSetupFinished && !Server.AutoLoad)

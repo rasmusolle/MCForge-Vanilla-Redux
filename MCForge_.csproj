@@ -119,9 +119,6 @@
     <Compile Include="Commands\CmdIronMan.cs" />
     <Compile Include="Commands\CmdMoreSponges.cs" />
     <Compile Include="Commands\CmdSponges.cs" />
-    <Compile Include="Games\EXPDB.cs" />
-    <Compile Include="Games\SMP.cs" />
-    <Compile Include="Games\SMP\Inventory.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Player\Player.CPE.cs" />
     <Compile Include="Server\AutoSaver.cs" />
@@ -144,14 +141,7 @@
     <Compile Include="GUI\ColoredTextBox.Designer.cs">
       <DependentUpon>ColoredTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Games\TntWarsGame.cs" />
     <Compile Include="GUI\Isocat.cs" />
-    <Compile Include="GUI\PortTools.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\PortTools.Designer.cs">
-      <DependentUpon>PortTools.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Textures.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,7 +154,6 @@
     <Compile Include="GUI\Win32\Utils.cs" />
     <Compile Include="Server\HTTPGet.cs" />
     <Compile Include="Levels\Texture_Settings.cs" />
-    <Compile Include="Player\MojangAccount.cs" />
     <Compile Include="Plugins\GroupEvents\OnGroupLoadedEvent.cs" />
     <Compile Include="Plugins\GroupEvents\OnGroupLoadEvent.cs" />
     <Compile Include="Plugins\GroupEvents\OnGroupSaveEvent.cs" />
@@ -191,7 +180,6 @@
     <Compile Include="Plugins\Utils\Priority.cs" />
     <Compile Include="Server\Scripting\ScriptingCSharp.cs" />
     <Compile Include="Server\Scripting\ScriptingEngine.cs" />
-    <Compile Include="Server\Translate.cs" />
     <Compile Include="Commands\CmdAscend.cs" />
     <Compile Include="Commands\CmdBanEdit.cs" />
     <Compile Include="Commands\CmdDescend.cs" />
@@ -322,7 +310,6 @@
     <Compile Include="Commands\CmdPUnload.cs" />
     <Compile Include="Commands\CommandOtherPerms.cs" />
     <Compile Include="IRC\GlobalChatBot.cs" />
-    <Compile Include="Games\CountdownGame.cs" />
     <Compile Include="IRC\ForgeBot.cs" />
     <Compile Include="GUI\EditText.cs">
       <SubType>Form</SubType>
@@ -330,7 +317,6 @@
     <Compile Include="GUI\EditText.Designer.cs">
       <DependentUpon>EditText.cs</DependentUpon>
     </Compile>
-    <Compile Include="Games\LavaSurvival.cs" />
     <Compile Include="Levels\BlockQueue.cs" />
     <Compile Include="Player\OmniBan.cs" />
     <Compile Include="Player\Player.Events.cs" />
@@ -344,7 +330,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Server\UPnP.cs" />
     <Compile Include="Player\FindReference.cs" />
     <Compile Include="Server\Color.cs" />
     <Compile Include="Commands\CmdBotAdd.cs" />
@@ -499,9 +484,6 @@
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\PlayerBot.cs" />
     <Compile Include="Player\PlayerList.cs" />
-    <Compile Include="Server\ProfanityFilter.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Server\Properties.cs" />
     <Compile Include="GUI\Window.cs">
       <SubType>Form</SubType>
@@ -515,14 +497,9 @@
     <Compile Include="GUI\AutoScrollTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Player\VIP.cs" />
     <Compile Include="Player\Warp.cs" />
-    <Compile Include="Games\ZombieGame.cs" />
     <EmbeddedResource Include="GUI\EditText.resx">
       <DependentUpon>EditText.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\PortTools.resx">
-      <DependentUpon>PortTools.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Textures.resx">
       <DependentUpon>Textures.cs</DependentUpon>
@@ -554,7 +531,6 @@
     <Compile Include="Heartbeat\IBeat.cs" />
     <Compile Include="Heartbeat\MinecraftBeat.cs" />
     <Compile Include="Levels\Block.cs" />
-    <Compile Include="Games\EXPLevel.cs" />
     <Compile Include="Plugins\CtcpResponder.cs" />
     <Compile Include="sharkbite.thresher\ChannelModeInfo.cs" />
     <Compile Include="sharkbite.thresher\CommandBuilder.cs" />
@@ -680,7 +656,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="MCForge.ico" />
-    <Compile Include="Player\VoteKickChoice.cs" />
     <Content Include="mcpony.png" />
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
