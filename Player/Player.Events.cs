@@ -52,32 +52,6 @@ namespace MCForge
         /// </summary>
         public static event MapSent OnSendMap;
         /// <summary>
-        /// This is called when a player goes AFK
-        /// </summary>
-        /// <param name="p">The player that went AFK</param>
-        public delegate void OnAFK(Player p);
-        /// <summary>
-        /// This event is triggered when a player goes AFK
-        /// </summary>
-        //[Obsolete("Please use the OnPlayerAFKEvent.Register()")]
-        public static event OnAFK AFK;
-        /// <summary>
-        /// This event is triggered when a player goes AFK
-        /// </summary>
-        //[Obsolete("Please use the OnPlayerAFKEvent.Register()")]
-        public event OnAFK ONAFK;
-        /// <summary>
-        /// This method is called whenever a players data is saved in mysql (even if disabled)
-        /// </summary>
-        /// <param name="p">The player</param>
-        /// <param name="mysqlcommand">The MYSQL Command</param>
-        public delegate void OnMySQLSave(Player p, string mysqlcommand);
-        /// <summary>
-        /// This event is called whenever a players data is saved in mysql (even if disabled) (Can be cancled)
-        /// </summary>
-        //[Obsolete("Please use the OnMySQLSaveEvent.Register()")]
-        public static event OnMySQLSave MySQLSave;
-        /// <summary>
         /// BlockchangeEventHandler2 event is called when a player removes or places a block
         /// However, this event will due normal permission checking and normal block placing unless the event you cancel the event
         /// </summary>

@@ -333,79 +333,20 @@ namespace MCForge
             {
                 if (!File.Exists("MySql.Data.dll"))
                 {
-                    Log("MySql.Data.dll doesn't exist, Downloading");
-                    try
-                    {
-                        using (WebClient WEB = new WebClient())
-                        {
-                            WEB.DownloadFile("http://mcforge.org/Update/MySql.Data.dll", "MySql.Data.dll");
-                        }
-                        if (File.Exists("MySql.Data.dll"))
-                        {
-                            Log("MySql.Data.dll download succesful!");
-                        }
-                    }
-                    catch
-                    {
-                        Log("Downloading MySql.Data.dll failed, please try again later");
-                    }
+                    Log("MySql.Data.dll doesn't exist.");
+
                 }
                 if (!File.Exists("System.Data.SQLite.dll"))
                 {
-                    Log("System.Data.SQLite.dll doesn't exist, Downloading");
-                    try
-                    {
-                        using (WebClient WEB = new WebClient())
-                        {
-                            WEB.DownloadFile("http://mcforge.org/Update/System.Data.SQLite.dll", "System.Data.SQLite.dll");
-                        }
-                        if (File.Exists("System.Data.SQLite.dll"))
-                        {
-                            Log("System.Data.SQLite.dll download succesful!");
-                        }
-                    }
-                    catch
-                    {
-                        Log("Downloading System.Data.SQLite.dll failed, please try again later");
-                    }
+                    Log("System.Data.SQLite.dll doesn't exist.");
                 }
                 if (!File.Exists("sqlite3.dll"))
                 {
-                    Log("sqlite3.dll doesn't exist, Downloading");
-                    try
-                    {
-                        using (WebClient WEB = new WebClient())
-                        {
-                            WEB.DownloadFile("http://www.mcforge.org/sqlite3.dll", "sqlite3.dll");
-                        }
-                        if (File.Exists("sqlite3.dll"))
-                        {
-                            Log("sqlite3.dll download succesful!");
-                        }
-                    }
-                    catch
-                    {
-                        Log("Downloading sqlite3.dll failed, please try again later");
-                    }
+                    Log("sqlite3.dll doesn't exist.");
                 }
                 if (!File.Exists("Newtonsoft.Json.dll"))
                 {
-                	Log("Newtonsoft.Json.dll doesn't exist, Downloading");
-                	try
-                	{
-                		using (WebClient WEB = new WebClient())
-                		{
-                			WEB.DownloadFile("http://mcforge.org/Update/oldf/Newtonsoft.Json.dll", "Newtonsoft.Json.dll");
-                		}
-                		if (File.Exists("Newtonsoft.Json.dll"))
-                		{
-                			Log("Newtonsoft.Json.dll download successful!");
-                		}
-                	}
-                	catch
-                	{
-                		Log("Download Newtonsoft.Json.dll failed, please try again later");
-                	}
+                	Log("Newtonsoft.Json.dll doesn't exist.");
                 }
             }
             UpdateGlobalSettings();
@@ -426,16 +367,8 @@ namespace MCForge
                 }
             }
 
-
-
             if (!Directory.Exists("extra")) Directory.CreateDirectory("extra");
-            if (!Directory.Exists("extra/undo")) Directory.CreateDirectory("extra/undo");
-            if (!Directory.Exists("extra/undoPrevious")) Directory.CreateDirectory("extra/undoPrevious");
-            if (!Directory.Exists("extra/copy/")) { Directory.CreateDirectory("extra/copy/"); }
-            if (!Directory.Exists("extra/copyBackup/")) { Directory.CreateDirectory("extra/copyBackup/"); }
-            if (!Directory.Exists("extra/Waypoints")) { Directory.CreateDirectory("extra/Waypoints"); }
-
-
+            
             LoadAllSettings();
 
             timeOnline = DateTime.Now;
