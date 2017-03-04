@@ -194,10 +194,6 @@ namespace MCForge
 
         public static int vulnerable = 1;
 
-        // OmniBan
-        public static OmniBan omniban;
-        public static System.Timers.Timer omnibanCheckTimer = new System.Timers.Timer(60000 * 120);
-
         //Settings
         #region Server Settings
         public const byte version = 7;
@@ -483,9 +479,6 @@ namespace MCForge
 
             LoadAllSettings();
 
-            // OmniBan
-            omniban = new OmniBan();
-
             timeOnline = DateTime.Now;
 
 
@@ -706,16 +699,6 @@ namespace MCForge
 				}
 
                 if (Server.irc) IRC.Connect();
-
-                // OmniBan stuff!
-                new Thread(new ThreadStart(() => omniban.Load(true))).Start();
-
-                omnibanCheckTimer.Elapsed += delegate
-                {
-                    omniban.Load(true);
-                    omniban.KickAll();
-                };
-                omnibanCheckTimer.Start();
 
 
                 new AutoSaver(Server.backupInterval);
