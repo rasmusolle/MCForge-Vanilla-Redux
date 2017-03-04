@@ -179,7 +179,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Player\FindReference.cs" />
     <Compile Include="Server\Color.cs" />
     <Compile Include="Commands\CmdViewRanks.cs" />
     <Compile Include="Commands\CmdBan.cs" />
