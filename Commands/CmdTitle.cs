@@ -1,5 +1,21 @@
-using System;
-
+/*
+	Copyright 2011-2014 MCForge-Redux
+		
+	Dual-licensed under the	Educational Community License, Version 2.0 and
+	the GNU General Public License, Version 3 (the "Licenses"); you may
+	not use this file except in compliance with the Licenses. You may
+	obtain a copy of the Licenses at
+	
+	http://www.opensource.org/licenses/ecl2.php
+	http://www.gnu.org/licenses/gpl-3.0.html
+	
+	Unless required by applicable law or agreed to in writing,
+	software distributed under the Licenses are distributed on an "AS IS"
+	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+	or implied. See the Licenses for the specific language governing
+	permissions and limitations under the Licenses.
+*/
+using System.Text.RegularExpressions;
 namespace MCForge.Commands
 {
     public class CmdTitle : Command
@@ -7,28 +23,26 @@ namespace MCForge.Commands
         public override string name { get { return "title"; } }
         public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
-        public CmdTitle() { }
-
         public override void Use(Player p, string message)
         {
-            //TODO: Fix for flatfile
-            /*
             if (message == "") { Help(p); return; }
 
             int pos = message.IndexOf(' ');
             Player who = Player.Find(message.Split(' ')[0]);
             if (who == null) { Player.SendMessage(p, "Could not find player."); return; }
+            if (p != null && who.group.Permission > p.group.Permission)
+            {
+                Player.SendMessage(p, "Cannot change the title of someone of greater rank");
+                return;
+            }
 
-            string query;
             string newTitle = "";
             if (message.Split(' ').Length > 1) newTitle = message.Substring(pos + 1);
             else
             {
                 who.title = "";
                 who.SetPrefix();
-                Player.GlobalChat(null, who.color + who.name + Server.DefaultColor + " had their title removed.", false);
-                query = "UPDATE Players SET Title = '' WHERE Name = '" + who.name + "'";
-                MySQL.executeQuery(query);
+                Player.GlobalChat(who, who.color + who.name + Server.DefaultColor + " had their title removed.", false);
                 return;
             }
 
@@ -39,27 +53,28 @@ namespace MCForge.Commands
             }
 
             if (newTitle.Length > 17) { Player.SendMessage(p, "Title must be under 17 letters."); return; }
-            if (!Server.devs.Contains(p.name))
-            {
-                if (Server.devs.Contains(who.name) || newTitle.ToLower() == "dev") { Player.SendMessage(p, "Can't let you do that, starfox."); return; }
-            }
 
             if (newTitle != "")
-                Player.GlobalChat(null, who.color + who.name + Server.DefaultColor + " was given the title of &b[" + newTitle + "]", false);
-            else Player.GlobalChat(null, who.color + who.prefix + who.name + Server.DefaultColor + " had their title removed.", false);
+                Player.GlobalChat(who, who.color + who.name + Server.DefaultColor + " was given the title of &b[" + newTitle + "%b]", false);
+            else Player.GlobalChat(who, who.color + who.prefix + who.name + Server.DefaultColor + " had their title removed.", false);
 
-            if (newTitle == "")
+            if (!Regex.IsMatch(newTitle.ToLower(), @".*%([0-9]|[a-f]|[k-r])%([0-9]|[a-f]|[k-r])%([0-9]|[a-f]|[k-r])"))
             {
-                query = "UPDATE Players SET Title = '' WHERE Name = '" + who.name + "'";
+                if (Regex.IsMatch(newTitle.ToLower(), @".*%([0-9]|[a-f]|[k-r])(.+?).*"))
+                {
+                    Regex rg = new Regex(@"%([0-9]|[a-f]|[k-r])(.+?)");
+                    MatchCollection mc = rg.Matches(newTitle.ToLower());
+                    if (mc.Count > 0)
+                    {
+                        Match ma = mc[0];
+                        GroupCollection gc = ma.Groups;
+                        newTitle.Replace("%" + gc[1].ToString().Substring(1), "&" + gc[1].ToString().Substring(1));
+                    }
+                }
             }
-            else
-            {
-                query = "UPDATE Players SET Title = '" + newTitle.Replace("'", "\'") + "' WHERE Name = '" + who.name + "'";
-            }
-            MySQL.executeQuery(query);
+
             who.title = newTitle;
             who.SetPrefix();
-            */
         }
         public override void Help(Player p)
         {

@@ -22,24 +22,10 @@ namespace MCForge.Commands
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override void Use(Player p, string message)
         {
-
             if (message == "") { Help(p); return; }
-
             Player who = Player.Find(message.Split(' ')[0]);
             string msg = message.Split(' ')[0];
-            if (Server.devs.Contains(who == null ? msg.ToLower() : who.name.ToLower()))
-            {
-                Player.SendMessage(p, "You can't ban a MCForge Developer!");
-                if (p != null)
-                {
-                    Player.GlobalMessage(p.color + p.name + Server.DefaultColor + " attempted to ban a MCForge Developer!");
-                }
-                else
-                {
-                    Player.GlobalMessage(Server.DefaultColor + "The Console attempted to ban a MCForge Developer!");
-                }
-                return;
-            }
+
             if (p != null)
             {
                 p.ignorePermission = true;

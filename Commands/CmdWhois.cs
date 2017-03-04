@@ -1,20 +1,21 @@
 /*
-	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl) Licensed under the
-	Educational Community License, Version 2.0 (the "License"); you may
-	not use this file except in compliance with the License. You may
-	obtain a copy of the License at
+	Copyright 2011-2014 MCForge-Redux
+		
+	Dual-licensed under the	Educational Community License, Version 2.0 and
+	the GNU General Public License, Version 3 (the "Licenses"); you may
+	not use this file except in compliance with the Licenses. You may
+	obtain a copy of the Licenses at
 	
-	http://www.osedu.org/licenses/ECL-2.0
+	http://www.opensource.org/licenses/ecl2.php
+	http://www.gnu.org/licenses/gpl-3.0.html
 	
 	Unless required by applicable law or agreed to in writing,
-	software distributed under the License is distributed on an "AS IS"
+	software distributed under the Licenses are distributed on an "AS IS"
 	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-	or implied. See the License for the specific language governing
-	permissions and limitations under the License.
+	or implied. See the Licenses for the specific language governing
+	permissions and limitations under the Licenses.
 */
 using System;
-using System.IO;
-
 namespace MCForge.Commands
 {
     public class CmdWhois : Command
@@ -22,8 +23,6 @@ namespace MCForge.Commands
         public override string name { get { return "whois"; } }
         public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
-        public CmdWhois() { }
-
         public override void Use(Player p, string message)
         {
             Player who = null;
@@ -39,26 +38,30 @@ namespace MCForge.Commands
                 }
                 catch { }
                 Player.SendMessage(p, "> > &cdied &a" + who.overallDeath + Server.DefaultColor + " times");
-                Player.SendMessage(p, "> > &bmodified &a" + who.overallBlocks + Server.DefaultColor + " blocks, &a" + who.loginBlocks + Server.DefaultColor + " since logging in.");
+                Player.SendMessage(p, "> > &bmodified &a" + who.overallBlocks + " &eblocks &eand &a" + who.loginBlocks + " &ewere changed &9since logging in&e.");
                 string storedTime = Convert.ToDateTime(DateTime.Now.Subtract(who.timeLogged).ToString()).ToString("HH:mm:ss");
+                Player.SendMessage(p, "> > time spent on server: " + who.time.Split(' ')[0] + " Days, " + who.time.Split(' ')[1] + " Hours, " + who.time.Split(' ')[2] + " Minutes, " + who.time.Split(' ')[3] + " Seconds.");
                 Player.SendMessage(p, "> > been logged in for &a" + storedTime);
                 Player.SendMessage(p, "> > first logged into the server on &a" + who.firstLogin.ToString("yyyy-MM-dd") + " at " + who.firstLogin.ToString("HH:mm:ss"));
                 Player.SendMessage(p, "> > logged in &a" + who.totalLogins + Server.DefaultColor + " times, &c" + who.totalKicked + Server.DefaultColor + " of which ended in a kick.");
                 Player.SendMessage(p, "> > " + Awards.awardAmount(who.name) + " awards");
+                if (Ban.Isbanned(who.name))
+                {
+                    string[] data = Ban.Getbandata(who.name);
+                    Player.SendMessage(p, "> > is banned for " + data[1] + " by " + data[0]);
+                }
 
-                bool skip = false;
-                if (p != null) if (p.group.Permission <= LevelPermission.Operator) skip = true;
-                if (!skip)
-                    {
-                        string givenIP;
-                        if (Server.bannedIP.Contains(who.ip)) givenIP = "&8" + who.ip + ", which is banned"; 
-                        else givenIP = who.ip;
-                        Player.SendMessage(p, "> > the IP of " + givenIP);
-                        if (Server.devs.Contains(who.name.ToLower()))
-                        {
-                            Player.SendMessage(p, Server.DefaultColor + "> > Player is a &9Developer");
-                        }
-                    }
+                if (who.isDev)
+                    Player.SendMessage(p, Server.DefaultColor + "> > Player is a &9Developer");
+
+
+                if (!(p != null && p.group.Permission <= LevelPermission.Operator))
+                {
+                    string givenIP;
+                    if (Server.bannedIP.Contains(who.ip)) givenIP = "&8" + who.ip + ", which is banned";
+                    else givenIP = who.ip;
+                    Player.SendMessage(p, "> > the IP of " + givenIP);
+                }
             }
             else { Player.SendMessage(p, "\"" + message + "\" is offline! Using /whowas instead."); Command.all.Find("whowas").Use(p, message); }
         }
