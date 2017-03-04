@@ -115,6 +115,7 @@
     <Compile Include="CmdStore.cs" />
     <Compile Include="Commands\CmdIrc.cs" />
     <Compile Include="Heartbeat\Heartbeat.cs" />
+    <Compile Include="Heartbeat\IBeat.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Player\Player.CPE.cs" />
     <Compile Include="Server\AutoSaver.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="GUI\Win32\Natives.cs" />
     <Compile Include="GUI\Win32\RECT.cs" />
     <Compile Include="GUI\Win32\Utils.cs" />
+    <Compile Include="Server\Heart.cs" />
     <Compile Include="Server\HTTPGet.cs" />
     <Compile Include="Levels\Texture_Settings.cs" />
     <Compile Include="Server\Scripting\ScriptingCSharp.cs" />
@@ -192,11 +194,9 @@
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Player\Group.cs" />
     <Compile Include="GUI\Program.cs" />
-    <Compile Include="Levels\MapGenerator.cs" />
     <Compile Include="Server\Logger.cs" />
     <Compile Include="Player\Misc.cs" />
     <Compile Include="Player\Player.cs" />
-    <Compile Include="Player\PlayerBot.cs" />
     <Compile Include="Player\PlayerList.cs" />
     <Compile Include="Server\Properties.cs" />
     <Compile Include="GUI\Window.cs">
@@ -271,8 +271,6 @@
     <Compile Include="util\SCOGenerator.cs" />
     <Compile Include="util\Serializer.cs" />
     <Compile Include="Database\BlockDB.cs" />
-    <Compile Include="Database\MessageBlockDB.cs" />
-    <Compile Include="Database\PortalDB.cs" />
     <Compile Include="Database\PlayerDB.cs" />
     <Compile Include="Commands\CmdWhoip.cs" />
     <Compile Include="Commands\CmdWhowas.cs" />

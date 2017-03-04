@@ -73,12 +73,6 @@ namespace MCForge
                                     else SendChangeModel(p.id, p.model);
                                 }
                             }
-                            foreach (PlayerBot pB in PlayerBot.playerbots)
-                            {
-                                if (pB.level == level)
-                                    SendSpawn(pB.id, pB.color + pB.name, pB.pos[0], pB.pos[1], pB.pos[2], pB.rot[0], pB.rot[1], pB.name, pB.name);
-                            }
-
                         }
                         catch (Exception e)
                         {

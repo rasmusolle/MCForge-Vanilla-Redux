@@ -1167,11 +1167,6 @@ namespace MCForge
                             else SendChangeModel(p.id, p.model);
                         }
                     }
-                    foreach (PlayerBot pB in PlayerBot.playerbots)
-                    {
-                        if (pB.level == level)
-                            SendSpawn(pB.id, pB.color + pB.name, pB.pos[0], pB.pos[1], pB.pos[2], pB.rot[0], pB.rot[1], pB.name, pB.name);
-                    }
 
                 }
                 catch (Exception e)
@@ -1699,11 +1694,6 @@ namespace MCForge
 
             if (!painting && action == 0)
             {
-                if (!deleteMode)
-                {
-                    if (Block.portal(b)) { HandlePortal(this, x, y, z, b); return; }
-                    if (Block.mb(b)) { HandleMsgBlock(this, x, y, z, b); return; }
-                }
 
                 bP.deleted = true;
                 level.blockCache.Add(bP);
@@ -1728,64 +1718,6 @@ namespace MCForge
                     }
             animation.Remove(start);
         }
-
-        public void HandlePortal(Player p, ushort x, ushort y, ushort z, ushort b)
-        {
-            try
-            {
-				foreach ( Portal po in PortalDB.portals ) {
-					if ( po.entrance.ToLower() == p.level.name.ToLower() && po.x1 == x && po.y1 == y && po.z1 == z ) {
-						if ( po.entrance != po.exit ) {
-							ignorePermission = true;
-							Command.all.Find( "goto" ).Use( p, po.exit );
-							ignorePermission = false;
-						}
-
-						//Player.GlobalMessage( color + name + Server.DefaultColor + " used the portal &a" + po.name );
-
-						Command.all.Find( "move" ).Use( p, p.name + " " + po.x2 + " " + po.y2 + " " + po.z2 );
-						Thread.Sleep( 1000 );
-					}
-				}
-			}
-			catch { Player.SendMessage( p, "Portal had no exit." ); return; } }
-
-
-		public void HandleMsgBlock( Player p, ushort x, ushort y, ushort z, ushort b ) {
-			try {
-					int foundMessages = 0;
-
-					foreach ( MessageBlock mb in MessageBlockDB.messageBlocks ) {
-						if ( mb.level == level.name && mb.x == x && mb.y == y && mb.z == z ) {
-							foundMessages++;
-
-							if ( mb.message != prevMsg || Server.repeatMessage ) {
-								if ( mb.message.StartsWith( "/" ) ) {
-									mb.message = mb.message.Remove( 0, 1 );
-									int pos = mb.message.IndexOf( ' ' );
-									string cmd = mb.message.Trim();
-									string args = "";
-									try {
-										cmd = mb.message.Substring( 0, pos );
-										args = mb.message.Substring( pos + 1 );
-									} catch { }
-									HandleCommand( cmd, args );
-								} else {
-									Player.SendMessage( p, mb.message );
-								}
-								prevMsg = mb.message;
-							}
-
-							SendBlockchange( x, y, z, b );
-						}
-					}
-
-					if ( foundMessages < 1 ) {
-						level.Blockchange( this, x, y, z, Block.air );
-					}
-			} catch { Player.SendMessage( p, "No message was stored." ); return; }
-		}
-
 
         private bool checkOp()
         {
@@ -2063,27 +1995,6 @@ namespace MCForge
                     level.Blockchange(x, y, z, Block.DoorAirs(b));
                 if (Block.DoorAirs(b1) != 0)
                     level.Blockchange(x, (ushort)(y - 1), z, Block.DoorAirs(b1));
-
-                if ((x + y + z) != oldBlock)
-                {
-                    if (b == Block.air_portal || b == Block.water_portal || b == Block.lava_portal)
-                    {
-                        HandlePortal(this, x, y, z, b);
-                    }
-                    else if (b1 == Block.air_portal || b1 == Block.water_portal || b1 == Block.lava_portal)
-                    {
-                        HandlePortal(this, x, (ushort)((int)y - 1), z, b1);
-                    }
-
-                    if (b == Block.MsgAir || b == Block.MsgWater || b == Block.MsgLava)
-                    {
-                        HandleMsgBlock(this, x, y, z, b);
-                    }
-                    else if (b1 == Block.MsgAir || b1 == Block.MsgWater || b1 == Block.MsgLava)
-                    {
-                        HandleMsgBlock(this, x, (ushort)((int)y - 1), z, b1);
-                    }
-                }
             }
 
             if (Block.Death(b)) HandleDeath(b); else if (Block.Death(b1)) HandleDeath(b1);
@@ -2267,9 +2178,6 @@ namespace MCForge
             hello:
                 // People who are muted can't speak or vote
                 if (muted) { this.SendMessage("You are muted."); return; } //Muted: Only allow commands
-
-                // Put this after vote collection so that people can vote even when chat is moderated
-                if (Server.chatmod && !this.voice) { this.SendMessage("Chat moderation is on, you cannot speak."); return; }
 
                 if (Server.checkspam == true)
                 {
@@ -3913,19 +3821,6 @@ changed |= 4;*/
                 SaveUndo();
                 disconnected = true;
                 return;
-            }
-            ////If player has been found in the reviewlist he will be removed
-            bool leavetest = false;
-            foreach (string testwho2 in Server.reviewlist)
-            {
-                if (testwho2 == name)
-                {
-                    leavetest = true;
-                }
-            }
-            if (leavetest)
-            {
-                Server.reviewlist.Remove(name);
             }
             try
             {

@@ -136,8 +136,6 @@ namespace MCForge
         public static List<TempBan> tempBans = new List<TempBan>();
         public struct TempBan { public string name; public DateTime allowedJoin; }
 
-        public static MapGenerator MapGen;
-
         public static Thread checkPosThread;
 
         public static PerformanceCounter PCCounter = null;
@@ -145,37 +143,20 @@ namespace MCForge
 
         public static Level mainLevel;
         public static List<Level> levels;
-        //reviewlist intitialize
-        public static List<string> reviewlist = new List<string>();
-        //Translate settings initialize
-        public static bool transenabled = false;
-        public static string translang = "en";
-        public static List<string> transignore = new List<string>();
-        //Global Chat Rules Accepted list
-        public static List<string> gcaccepted = new List<string>();
+
         //public static List<levelID> allLevels = new List<levelID>();
         public struct levelID { public int ID; public string name; }
         public static List<string> afkset = new List<string>();
         public static List<string> ircafkset = new List<string>();
         public static List<string> afkmessages = new List<string>();
         public static List<string> messages = new List<string>();
-
-        public static Dictionary<string, string> gcnamebans = new Dictionary<string, string>();
-        public static Dictionary<string, string> gcipbans = new Dictionary<string, string>();
+        
 
         public static DateTime timeOnline;
         public static string IP;
 
         public static bool autorestart;
         public static DateTime restarttime;
-
-
-        public static bool chatmod = false;
-
-        //Global VoteKick In Progress Flag
-        public static bool voteKickInProgress = false;
-        public static int voteKickVotesNeeded = 0;
-
 
         //WoM Direct
         public static string Server_ALT = "";
@@ -312,16 +293,6 @@ namespace MCForge
             return cancelcommand;
         }
 
-      /*  public void ReturnRedFlag(object sender, ElapsedEventArgs e)
-        {
-            pctf.resetFlag("red");
-        }
-
-        public void ReturnBlueFlag(object sender, ElapsedEventArgs e)
-        {
-            pctf.resetFlag("blue");
-        }*/
-
         public string table = "Players";
         public string column = "bigtnt";
 
@@ -349,7 +320,6 @@ namespace MCForge
                 	Log("Newtonsoft.Json.dll doesn't exist.");
                 }
             }
-            UpdateGlobalSettings();
             if (!Directory.Exists("properties")) Directory.CreateDirectory("properties");
             if (!Directory.Exists("levels")) Directory.CreateDirectory("levels");
             if (!Directory.Exists("text")) Directory.CreateDirectory("text");
@@ -384,7 +354,6 @@ namespace MCForge
                 try
                 {
                     levels = new List<Level>(maps);
-                    MapGen = new MapGenerator();
 
                     if (File.Exists("levels/" + level + ".mcf"))
                     {
@@ -540,7 +509,6 @@ namespace MCForge
                 updateTimer.Elapsed += delegate
                 {
                     Player.GlobalUpdate();
-                    PlayerBot.GlobalUpdatePosition();
                 };
 
                 updateTimer.Start();
@@ -553,7 +521,7 @@ namespace MCForge
             {
                 try
                 {
-                    Heartbeat.Init();
+                    Heart.Init();
                 }
                 catch (Exception e)
                 {
@@ -700,8 +668,6 @@ namespace MCForge
             Group.InitAll();
             Command.InitAll();
 			BlocksDB.Load ();
-			MessageBlockDB.Load ();
-			PortalDB.Load ();
             GrpCommands.fillRanks();
             Block.SetBlocks();
             Awards.Load();
@@ -952,36 +918,6 @@ namespace MCForge
                 return grp.color;
             }
             return Group.standard.color;
-        }
-        public static void UpdateGlobalSettings()
-        {
-            try
-            {
-                gcipbans.Clear();
-                gcnamebans.Clear();
-                JArray jason = null; //jason plz (troll)
-                using (var client = new WebClient()) {
-                    try {
-                        jason = JArray.Parse( client.DownloadString( "http://mcforge.org/Update/gcbanned.txt" ) );
-                    } catch { }
-                }
-                if ( jason != null ) {
-                    foreach ( JObject ban in jason ) {
-                        if ( (string)ban["banned_isIp"] == "0" )
-                            gcnamebans.Add( ( (string)ban["banned_name"] ).ToLower(), "'" + (string)ban["banned_by"] + "', because: %d" + (string)ban["banned_reason"] );
-                        else if ( (string)ban["banned_isIp"] == "1" )
-                            gcipbans.Add( (string)ban["banned_name"], "'" + (string)ban["banned_by"] + "', because: %d" + (string)ban["banned_reason"] );
-                    }
-                    s.Log( "GlobalChat Banlist updated!" );
-                }
-            }
-            catch (Exception e)
-            {
-                ErrorLog(e);
-                s.Log("Could not update GlobalChat Banlist!");
-                gcnamebans.Clear();
-                gcipbans.Clear();
-            }
         }
 
         public void UpdateStaffList()
