@@ -90,7 +90,6 @@ namespace MCForge
         public readonly List<Update> ListUpdate = new List<Update>(); //A list of block to change after calculation
 
         public List<UndoPos> UndoBuffer = new List<UndoPos>();
-        public List<Zone> ZoneList;
         public bool ai = true;
         public bool backedup;
         public List<Blockchange> blockCache = new List<Blockchange>();
@@ -235,7 +234,6 @@ namespace MCForge
 
             name = n;
             blocks = new ushort[width * depth * height];
-            ZoneList = new List<Zone>();
 
             var half = (ushort)(depth / 2);
             switch (type)
@@ -410,7 +408,6 @@ namespace MCForge
             ListUpdate.Clear();
             UndoBuffer.Clear();
             blockCache.Clear();
-            ZoneList.Clear();
             blockqueue.Clear();
             blocks = null;
         }
@@ -506,6 +503,7 @@ namespace MCForge
                     }
                 }
 
+                /*
                 errorLocation = "Zone checking";
 
                 #region zones
@@ -596,30 +594,15 @@ namespace MCForge
                 }
 
                 #endregion
+                 */
 
                 errorLocation = "Map rank checking";
-                if (Owners == "")
-                {
-                    if (p.group.Permission < permissionbuild && (!inZone || !AllowBuild))
-                    {
-                        p.SendBlockchange(x, y, z, b);
-                        Player.SendMessage(p, "Must be at least " + PermissionToName(permissionbuild) + " to build here");
-                        return;
-                    }
-                }
 
-                errorLocation = "Map Max Rank Checking";
-                if (Owners == "")
+                if (p.group.Permission < permissionbuild)
                 {
-                    if (p.group.Permission > perbuildmax && (!inZone || !AllowBuild))
-                    {
-                        if (!p.group.CanExecute(Command.all.Find("perbuildmax")))
-                        {
-                            p.SendBlockchange(x, y, z, b);
-                            Player.SendMessage(p, "Your rank must be " + perbuildmax + " or lower to build here!");
-                            return;
-                        }
-                    }
+                    p.SendBlockchange(x, y, z, b);
+                    Player.SendMessage(p, "Must be at least " + PermissionToName(permissionbuild) + " to build here");
+                    return;
                 }
 
                 errorLocation = "Block sending";
@@ -1185,11 +1168,6 @@ namespace MCForge
                     //level.textures = new LevelTextures(level);
                     level.backedup = true;
 
-					foreach ( Zone zn in ZoneDB.zones ) {
-						if ( zn.level.ToLower() == givenName.ToLower() ) {
-							level.ZoneList.Add( zn );
-						}
-					}
 
                     level.jailx = (ushort)(level.spawnx * 32);
                     level.jaily = (ushort)(level.spawny * 32);
