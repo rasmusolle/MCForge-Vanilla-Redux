@@ -313,9 +313,6 @@
     <None Include="Service References\TranslateService\configuration.svcinfo" />
     <None Include="Service References\TranslateService\configuration91.svcinfo" />
     <None Include="app.config" />
-    <Content Include="mcf.sh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
