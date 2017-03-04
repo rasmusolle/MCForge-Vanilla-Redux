@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="CmdStore.cs" />
     <Compile Include="Commands\CmdIrc.cs" />
+    <Compile Include="Heartbeat\Heartbeat.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Player\Player.CPE.cs" />
     <Compile Include="Server\AutoSaver.cs" />
@@ -259,10 +260,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Server\Heart.cs" />
-    <Compile Include="Heartbeat\ClassiCubeBeat.cs" />
-    <Compile Include="Heartbeat\IBeat.cs" />
-    <Compile Include="Heartbeat\MinecraftBeat.cs" />
     <Compile Include="Levels\Block.cs" />
     <Compile Include="Plugins\CtcpResponder.cs" />
     <Compile Include="sharkbite.thresher\ChannelModeInfo.cs" />

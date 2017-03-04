@@ -735,7 +735,7 @@ namespace MCForge
             {
                 try
                 {
-                    Heart.Init();
+                    Heartbeat.Init();
                 }
                 catch (Exception e)
                 {
