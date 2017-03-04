@@ -237,41 +237,6 @@ namespace MCForge {
                                                             case "irc-password":
                                                                 Server.ircPassword = value;
                                                                 break;
-                                                            case "anti-tunnels":
-                                                                Server.antiTunnel = (value.ToLower() == "true") ? true : false;
-                                                                break;
-                                                            case "max-depth":
-                                                                try
-                                                                {
-                                                                    Server.maxDepth = Convert.ToByte(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("maxDepth invalid! setting to default.");
-                                                                }
-                                                                break;
-
-                                                            case "rplimit":
-                                                                try
-                                                                {
-                                                                    Server.rpLimit = Convert.ToInt16(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("rpLimit invalid! setting to default.");
-                                                                }
-                                                                break;
-                                                            case "rplimit-norm":
-                                                                try
-                                                                {
-                                                                    Server.rpNormLimit = Convert.ToInt16(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("rpLimit-norm invalid! setting to default.");
-                                                                }
-                                                                break;
-
 
                                                             case "report-back":
                                                                 Server.reportBack = (value.ToLower() == "true") ? true : false;
@@ -286,10 +251,6 @@ namespace MCForge {
                                                                 if (!value.Contains("System.Windows.Forms.TextBox, Text:"))
                                                                     Server.backupLocation = value;
                                                                 break;
-
-                                                            //case "console-only": // Never used
-                                                            //    Server.console = (value.ToLower() == "true") ? true : false;
-                                                            //    break;
 
                                                             case "physicsrestart":
                                                                 Server.physicsRestart = (value.ToLower() == "true") ? true : false;
@@ -326,17 +287,6 @@ namespace MCForge {
                                                                     }
                                                                 }
                                                                 Server.IRCColour = color;
-                                                                break;
-                                                            case "old-help":
-                                                                try
-                                                                {
-                                                                    Server.oldHelp = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
                                                                 break;
                                                             case "opchat-perm":
                                                                 try
@@ -381,28 +331,6 @@ namespace MCForge {
                                                                     break;
                                                                 }
                                                                 break;
-                                                            case "force-cuboid":
-                                                                try
-                                                                {
-                                                                    Server.forceCuboid = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ".  Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
-                                                            case "profanity-filter":
-                                                                try
-                                                                {
-                                                                    Server.profanityFilter = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
                                                             case "notify-on-join-leave":
                                                                 try
                                                                 {
@@ -413,21 +341,6 @@ namespace MCForge {
                                                                     Server.s.Log("Invalid " + key + ". Using default.");
                                                                     break;
                                                                 }
-                                                                break;
-                                                            case "cheapmessage":
-                                                                try
-                                                                {
-                                                                    Server.cheapMessage = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
-                                                            case "cheap-message-given":
-                                                                if (value != "")
-                                                                    Server.cheapMessageGiven = value;
                                                                 break;
                                                             case "custom-ban":
                                                                 try
@@ -502,42 +415,6 @@ namespace MCForge {
                                                                 {
                                                                 }
                                                                 break;
-                                                            case "afk-minutes":
-                                                                try
-                                                                {
-                                                                    Server.afkminutes = Convert.ToInt32(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("irc-port invalid! setting to default.");
-                                                                }
-                                                                break;
-                                                            case "afk-kick":
-                                                                try
-                                                                {
-                                                                    Server.afkkick = Convert.ToInt32(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("irc-port invalid! setting to default.");
-                                                                }
-                                                                break;
-                                                            case "afk-kick-perm":
-                                                                try
-                                                                {
-                                                                    sbyte parsed = sbyte.Parse(value);
-                                                                    if (parsed < -50 || parsed > 120)
-                                                                    {
-                                                                        throw new FormatException();
-                                                                    }
-                                                                    Server.afkkickperm = (LevelPermission)parsed;
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ".  Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
                                                             case "autoload":
                                                                 try
                                                                 {
@@ -571,23 +448,6 @@ namespace MCForge {
                                                                     break;
                                                                 }
                                                                 break;
-                                                            case "parse-emotes":
-                                                                try
-                                                                {
-                                                                    Server.parseSmiley = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
-                                                            case "use-whitelist":
-                                                                Server.useWhitelist = (value.ToLower() == "true") ? true : false;
-                                                                break;
-                                                            case "premium-only":
-                                                                Server.PremiumPlayersOnly = (value.ToLower() == "true") ? true : false;
-                                                                break;
                                                             case "allow-tp-to-higher-ranks":
                                                                 Server.higherranktp = (value.ToLower() == "true") ? true : false;
                                                                 break;
@@ -617,16 +477,7 @@ namespace MCForge {
                                                                 else
                                                                     Server.s.Log("Invalid main name");
                                                                 break;
-                                                            case "dollar-before-dollar":
-                                                                try
-                                                                {
-                                                                    Server.dollardollardollar = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                }
-                                                                break;
+
                                                             case "money-name":
                                                                 if (value != "")
                                                                     Server.moneys = value;
@@ -635,20 +486,6 @@ namespace MCForge {
 																if (value != "")
 																	Server.textureUrl = value;
 																break;
-                                                            /*case "mono":
-                                    try { Server.mono = bool.Parse(value); }
-                                    catch { Server.s.Log("Invalid " + key + ". Using default."); }
-                                    break;*/
-                                                       /*     case "ctf":
-                                                                try
-                                                                {
-                                                                    Server.CTFOnlyServer = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                }
-                                                                break;*/
                                                             case "restart-on-error":
                                                                 try
                                                                 {
@@ -672,26 +509,6 @@ namespace MCForge {
                                                             case "host-state":
                                                                 if (value != "")
                                                                     Server.ZallState = value;
-                                                                break;
-                                                            case "kick-on-hackrank":
-                                                                try
-                                                                {
-                                                                    Server.hackrank_kick = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default");
-                                                                }
-                                                                break;
-                                                            case "hackrank-kick-time":
-                                                                try
-                                                                {
-                                                                    Server.hackrank_kick_time = int.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default");
-                                                                }
                                                                 break;
                                                             case "server-owner":
                                                                 if (value != "")
@@ -722,16 +539,6 @@ namespace MCForge {
                                                                 try
                                                                 {
                                                                     Server.guestLeaveNotify = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default");
-                                                                }
-                                                                break;
-                                                            case "ignore-ops":
-                                                                try
-                                                                {
-                                                                    Server.globalignoreops = bool.Parse(value);
                                                                 }
                                                                 catch
                                                                 {
@@ -814,37 +621,6 @@ namespace MCForge {
                                                                     Server.s.Log("Invalid " + key + ". Using default");
                                                                 }
                                                                 break;
-                                                            case "global-chat-enabled":
-                                                                try
-                                                                {
-                                                                    Server.UseGlobalChat = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default");
-                                                                }
-                                                                break;
-
-                                                            case "global-chat-nick":
-                                                                if (value != "")
-                                                                    Server.GlobalChatNick = value;
-                                                                break;
-
-                                                            case "global-chat-color":
-                                                                color = c.Parse(value);
-                                                                if (color == "")
-                                                                {
-                                                                    color = c.Name(value);
-                                                                    if (color != "")
-                                                                        color = value;
-                                                                    else
-                                                                    {
-                                                                        Server.s.Log("Could not find " + value);
-                                                                        return;
-                                                                    }
-                                                                }
-                                                                Server.GlobalChatColor = color;
-                                                                break;
 
                                                             case "total-undo":
                                                                 try
@@ -915,440 +691,6 @@ namespace MCForge {
                                                                 break;
                                                             case "wom-textures":
                                                                 Server.UseTextures = bool.Parse(value);
-                                                                break;
-                                                            case "review-view-perm":
-                                                                try
-                                                                {
-                                                                    sbyte parsed = sbyte.Parse(value);
-                                                                    if (parsed < -50 || parsed > 120)
-                                                                    {
-                                                                        throw new FormatException();
-                                                                    }
-                                                                    Server.reviewview = (LevelPermission)parsed;
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                }
-                                                                break;
-                                                            case "review-enter-perm":
-                                                                try
-                                                                {
-                                                                    sbyte parsed = sbyte.Parse(value);
-                                                                    if (parsed < -50 || parsed > 120)
-                                                                    {
-                                                                        throw new FormatException();
-                                                                    }
-                                                                    Server.reviewenter = (LevelPermission)parsed;
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                }
-                                                                break;
-                                                            case "review-leave-perm":
-                                                                try
-                                                                {
-                                                                    sbyte parsed = sbyte.Parse(value);
-                                                                    if (parsed < -50 || parsed > 120)
-                                                                    {
-                                                                        throw new FormatException();
-                                                                    }
-                                                                    Server.reviewleave = (LevelPermission)parsed;
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                }
-                                                                break;
-                                                            case "review-cooldown":
-                                                                try
-                                                                {
-                                                                    Server.reviewcooldown = Convert.ToInt32(value.ToLower());
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                }
-                                                                break;
-                                                            case "review-clear-perm":
-                                                                try
-                                                                {
-                                                                    sbyte parsed = sbyte.Parse(value);
-                                                                    if (parsed < -50 || parsed > 120)
-                                                                    {
-                                                                        throw new FormatException();
-                                                                    }
-                                                                    Server.reviewclear = (LevelPermission)parsed;
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                }
-                                                                break;
-                                                            case "review-next-perm":
-                                                                try
-                                                                {
-                                                                    sbyte parsed = sbyte.Parse(value);
-                                                                    if (parsed < -50 || parsed > 120)
-                                                                    {
-                                                                        throw new FormatException();
-                                                                    }
-                                                                    Server.reviewnext = (LevelPermission)parsed;
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                }
-                                                                break;
-                                                            case "ignoreomnibans":
-                                                                try
-                                                                {
-                                                                    Server.IgnoreOmnibans = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.IgnoreOmnibans = false;
-                                                                }
-
-                                                                break;
-                                                            case "translation-enabled":
-                                                                Server.transenabled = (value.ToLower() == "true") ? true : false;
-                                                                break;
-                                                            case "translation-language":
-                                                                string langcode = value;
-                                                                switch (langcode)
-                                                                {
-                                                                    case "af":
-                                                                        langcode = "Afrikaans";
-                                                                        break;
-                                                                    case "ar-sa":
-                                                                        langcode = "Arabic (Saudi Arabia)";
-                                                                        break;
-                                                                    case "ar-eg":
-                                                                        langcode = "Arabic (Egypt)";
-                                                                        break;
-                                                                    case "ar-dz":
-                                                                        langcode = "Arabic (Algeria)";
-                                                                        break;
-                                                                    case "ar-tn":
-                                                                        langcode = "Arabic (Tunisia)";
-                                                                        break;
-                                                                    case "ar-ye":
-                                                                        langcode = "Arabic (Yemen)";
-                                                                        break;
-                                                                    case "ar-jo":
-                                                                        langcode = "Arabic (Jordan)";
-                                                                        break;
-                                                                    case "ar-kw":
-                                                                        langcode = "Arabic (Kuwait)";
-                                                                        break;
-                                                                    case "ar-bh":
-                                                                        langcode = "Arabic (Bahrain)";
-                                                                        break;
-                                                                    case "eu":
-                                                                        langcode = "Basque";
-                                                                        break;
-                                                                    case "be":
-                                                                        langcode = "Belarusian";
-                                                                        break;
-                                                                    case "zh-tw":
-                                                                        langcode = "Chinese (Taiwan)";
-                                                                        break;
-                                                                    case "zh-hk":
-                                                                        langcode = "Chinese (Hong Kong SAR)";
-                                                                        break;
-                                                                    case "hr":
-                                                                        langcode = "Croatian";
-                                                                        break;
-                                                                    case "da":
-                                                                        langcode = "Danish";
-                                                                        break;
-                                                                    case "nl-be":
-                                                                        langcode = "Dutch (Belgium)";
-                                                                        break;
-                                                                    case "en-us":
-                                                                        langcode = "English (United States)";
-                                                                        break;
-                                                                    case "en-au":
-                                                                        langcode = "English (Australia)";
-                                                                        break;
-                                                                    case "en-nz":
-                                                                        langcode = "English (New Zealand)";
-                                                                        break;
-                                                                    case "en-za":
-                                                                        langcode = "English (South Africa)";
-                                                                        break;
-                                                                    case "en-tt":
-                                                                        langcode = "English (Trinidad)";
-                                                                        break;
-                                                                    case "fo":
-                                                                        langcode = "Faeroese";
-                                                                        break;
-                                                                    case "fi":
-                                                                        langcode = "Finnish";
-                                                                        break;
-                                                                    case "fr-be":
-                                                                        langcode = "French (Belgium)";
-                                                                        break;
-                                                                    case "fr-ch":
-                                                                        langcode = "French (Switzerland)";
-                                                                        break;
-                                                                    case "gd":
-                                                                        langcode = "Gaelic (Scotland)";
-                                                                        break;
-                                                                    case "de":
-                                                                        langcode = "German (Standard)";
-                                                                        break;
-                                                                    case "de-at":
-                                                                        langcode = "German (Austria)";
-                                                                        break;
-                                                                    case "de-li":
-                                                                        langcode = "German (Liechtenstein)";
-                                                                        break;
-                                                                    case "he":
-                                                                        langcode = "Hebrew";
-                                                                        break;
-                                                                    case "hu":
-                                                                        langcode = "Hungarian";
-                                                                        break;
-                                                                    case "id":
-                                                                        langcode = "Indonesian";
-                                                                        break;
-                                                                    case "it-ch":
-                                                                        langcode = "Italian (Switzerland)";
-                                                                        break;
-                                                                    case "ko":
-                                                                        langcode = "Korean";
-                                                                        break;
-                                                                    case "lv":
-                                                                        langcode = "Latvian";
-                                                                        break;
-                                                                    case "mk":
-                                                                        langcode = "Macedonian (FYROM)";
-                                                                        break;
-                                                                    case "mt":
-                                                                        langcode = "Maltese";
-                                                                        break;
-                                                                    case "no":
-                                                                        langcode = "Norwegian (Nynorsk)";
-                                                                        break;
-                                                                    case "pt-br":
-                                                                        langcode = "Portuguese (Brazil)";
-                                                                        break;
-                                                                    case "rm":
-                                                                        langcode = "Rhaeto-Romanic";
-                                                                        break;
-                                                                    case "ro-mo":
-                                                                        langcode = "Romanian (Republic of Moldova)";
-                                                                        break;
-                                                                    case "ru-mo":
-                                                                        langcode = "Russian (Republic of Moldova)";
-                                                                        break;
-                                                                    case "sr":
-                                                                        langcode = "Serbian (Cyrillic)";
-                                                                        break;
-                                                                    case "sk":
-                                                                        langcode = "Slovak";
-                                                                        break;
-                                                                    case "sb":
-                                                                        langcode = "Sorbian";
-                                                                        break;
-                                                                    case "es-mx":
-                                                                        langcode = "Spanish (Mexico)";
-                                                                        break;
-                                                                    case "es-cr":
-                                                                        langcode = "Spanish (Costa Rica)";
-                                                                        break;
-                                                                    case "es-do":
-                                                                        langcode = "Spanish (Dominican Republic)";
-                                                                        break;
-                                                                    case "es-co":
-                                                                        langcode = "Spanish (Colombia)";
-                                                                        break;
-                                                                    case "es-ar":
-                                                                        langcode = "Spanish (Argentina)";
-                                                                        break;
-                                                                    case "es-cl":
-                                                                        langcode = "Spanish (Chile)";
-                                                                        break;
-                                                                    case "es-py":
-                                                                        langcode = "Spanish (Paraguay)";
-                                                                        break;
-                                                                    case "es-sv":
-                                                                        langcode = "Spanish (El Salvador)";
-                                                                        break;
-                                                                    case "es-ni":
-                                                                        langcode = "Spanish (Nicaragua)";
-                                                                        break;
-                                                                    case "sx":
-                                                                        langcode = "Sutu";
-                                                                        break;
-                                                                    case "sv-fi":
-                                                                        langcode = "Swedish (Finland)";
-                                                                        break;
-                                                                    case "ts":
-                                                                        langcode = "Tsonga";
-                                                                        break;
-                                                                    case "tr":
-                                                                        langcode = "Turkish";
-                                                                        break;
-                                                                    case "ur":
-                                                                        langcode = "Urdu";
-                                                                        break;
-                                                                    case "vi":
-                                                                        langcode = "Vietnamese";
-                                                                        break;
-                                                                    case "ji":
-                                                                        langcode = "Yiddish";
-                                                                        break;
-                                                                    case "sq":
-                                                                        langcode = "Albanian";
-                                                                        break;
-                                                                    case "ar-iq":
-                                                                        langcode = "Arabic (Iraq)";
-                                                                        break;
-                                                                    case "ar-ly":
-                                                                        langcode = "Arabic (Libya)";
-                                                                        break;
-                                                                    case "ar-ma":
-                                                                        langcode = "Arabic (Morocco)";
-                                                                        break;
-                                                                    case "ar-om":
-                                                                        langcode = "Arabic (Oman)";
-                                                                        break;
-                                                                    case "ar-sy":
-                                                                        langcode = "Arabic (Syria)";
-                                                                        break;
-                                                                    case "ar-lb":
-                                                                        langcode = "Arabic (Lebanon)";
-                                                                        break;
-                                                                    case "ar-ae":
-                                                                        langcode = "Arabic (U.A.E.)";
-                                                                        break;
-                                                                    case "ar-qa":
-                                                                        langcode = "Arabic (Qatar)";
-                                                                        break;
-                                                                    case "bg":
-                                                                        langcode = "Bulgarian";
-                                                                        break;
-                                                                    case "ca":
-                                                                        langcode = "Catalan";
-                                                                        break;
-                                                                    case "zh-cn":
-                                                                        langcode = "Chinese (PRC)";
-                                                                        break;
-                                                                    case "zh-sg":
-                                                                        langcode = "Chinese (Singapore)";
-                                                                        break;
-                                                                    case "cs":
-                                                                        langcode = "Czech";
-                                                                        break;
-                                                                    case "nl":
-                                                                        langcode = "Dutch (Standard)";
-                                                                        break;
-                                                                    case "en":
-                                                                        langcode = "English";
-                                                                        break;
-                                                                    case "en-gb":
-                                                                        langcode = "English (United Kingdom)";
-                                                                        break;
-                                                                    case "en-ca":
-                                                                        langcode = "English (Canada)";
-                                                                        break;
-                                                                    case "en-ie":
-                                                                        langcode = "English (Ireland)";
-                                                                        break;
-                                                                    case "en-jm":
-                                                                        langcode = "English (Jamaica)";
-                                                                        break;
-                                                                    case "en-bz":
-                                                                        langcode = "English (Belize)";
-                                                                        break;
-                                                                    case "et":
-                                                                        langcode = "Farsi";
-                                                                        break;
-                                                                    case "fr":
-                                                                        langcode = "French (Standard)";
-                                                                        break;
-                                                                    case "ga":
-                                                                        langcode = "Irish";
-                                                                        break;
-                                                                    case "el":
-                                                                        langcode = "Greek";
-                                                                        break;
-                                                                    case "hi":
-                                                                        langcode = "Hindi";
-                                                                        break;
-                                                                    case "it":
-                                                                        langcode = "Italian (Standard)";
-                                                                        break;
-                                                                    case "is":
-                                                                        langcode = "Icelandic";
-                                                                        break;
-                                                                    case "ja":
-                                                                        langcode = "Japanese";
-                                                                        break;
-                                                                    case "lt":
-                                                                        langcode = "Lithuanian";
-                                                                        break;
-                                                                    case "ms":
-                                                                        langcode = "Malaysian";
-                                                                        break;
-                                                                    case "pl":
-                                                                        langcode = "Polish";
-                                                                        break;
-                                                                    case "pt":
-                                                                        langcode = "Portuguese";
-                                                                        break;
-                                                                    case "ro":
-                                                                        langcode = "Romanian";
-                                                                        break;
-                                                                    case "ru":
-                                                                        langcode = "Russian";
-                                                                        break;
-                                                                    case "sz":
-                                                                        langcode = "Sami (Lappish) ";
-                                                                        break;
-                                                                    case "sl":
-                                                                        langcode = "Slovenian ";
-                                                                        break;
-                                                                    case "es":
-                                                                        langcode = "Spanish";
-                                                                        break;
-                                                                    case "sv":
-                                                                        langcode = "Swedish";
-                                                                        break;
-                                                                    case "th":
-                                                                        langcode = "Thai";
-                                                                        break;
-                                                                    case "tn":
-                                                                        langcode = "Tswana";
-                                                                        break;
-                                                                    case "uk":
-                                                                        langcode = "Ukrainian";
-                                                                        break;
-                                                                    case "ve":
-                                                                        langcode = "Venda";
-                                                                        break;
-                                                                    case "xh":
-                                                                        langcode = "Xhosa";
-                                                                        break;
-                                                                    case "zu":
-                                                                        langcode = "Zulu";
-                                                                        break;
-                                                                    default:
-                                                                        langcode = "!ERROR!";
-                                                                        break;
-                                                                }
-                                                                if (langcode != "!ERROR!")
-                                                                {
-                                                                    Server.translang = value.ToString().ToLower();
-                                                                }
-                                                                else
-                                                                {
-                                                                    Server.translang = "en";
-                                                                }
                                                                 break;
                                                             case "mcforge-protection-level":
                                                                 switch (value.ToLower())
@@ -1504,26 +846,10 @@ namespace MCForge {
 			w.WriteLine("irc-password = " + Server.ircPassword);
 			w.WriteLine();
 			w.WriteLine("# other options");
-			w.WriteLine("anti-tunnels = " + Server.antiTunnel.ToString().ToLower());
-			w.WriteLine("max-depth = " + Server.maxDepth.ToString().ToLower());
-			w.WriteLine("rplimit = " + Server.rpLimit.ToString().ToLower());
-			w.WriteLine("rplimit-norm = " + Server.rpNormLimit.ToString().ToLower());
 			w.WriteLine("physicsrestart = " + Server.physicsRestart.ToString().ToLower());
-			w.WriteLine("old-help = " + Server.oldHelp.ToString().ToLower());
 			w.WriteLine("deathcount = " + Server.deathcount.ToString().ToLower());
-			w.WriteLine("afk-minutes = " + Server.afkminutes.ToString());
-			w.WriteLine("afk-kick = " + Server.afkkick.ToString());
-			w.WriteLine("afk-kick-perm = " + ( (sbyte)Server.afkkickperm ).ToString());
-			w.WriteLine("parse-emotes = " + Server.parseSmiley.ToString().ToLower());
-			w.WriteLine("dollar-before-dollar = " + Server.dollardollardollar.ToString().ToLower());
-			w.WriteLine("use-whitelist = " + Server.useWhitelist.ToString().ToLower());
-			w.WriteLine("premium-only = " + Server.PremiumPlayersOnly.ToString().ToLower());
 			w.WriteLine("money-name = " + Server.moneys);
-			w.WriteLine("opchat-perm = " + ( (sbyte)Server.opchatperm ).ToString());
-			w.WriteLine("adminchat-perm = " + ( (sbyte)Server.adminchatperm ).ToString());
 			w.WriteLine("log-heartbeat = " + Server.logbeat.ToString());
-			w.WriteLine("force-cuboid = " + Server.forceCuboid.ToString());
-			w.WriteLine("profanity-filter = " + Server.profanityFilter.ToString());
 			w.WriteLine("notify-on-join-leave = " + Server.notifyOnJoinLeave.ToString());
 			w.WriteLine("repeat-messages = " + Server.repeatMessage.ToString());
 			w.WriteLine("host-state = " + Server.ZallState.ToString());
@@ -1556,20 +882,10 @@ namespace MCForge {
 			w.WriteLine("custom-promote-message = " + Server.customPromoteMessage);
 			w.WriteLine("custom-demote-message = " + Server.customDemoteMessage);
 			w.WriteLine("allow-tp-to-higher-ranks = " + Server.higherranktp.ToString().ToLower());
-			w.WriteLine("ignore-ops = " + Server.globalignoreops.ToString().ToLower());
 			w.WriteLine();
-			w.WriteLine("cheapmessage = " + Server.cheapMessage.ToString().ToLower());
-			w.WriteLine("cheap-message-given = " + Server.cheapMessageGiven);
 			w.WriteLine("rank-super = " + Server.rankSuper.ToString().ToLower());
 			try { w.WriteLine("default-rank = " + Server.defaultRank); }
 			catch { w.WriteLine("default-rank = guest"); }
-			w.WriteLine();
-			w.WriteLine("kick-on-hackrank = " + Server.hackrank_kick.ToString().ToLower());
-			w.WriteLine("hackrank-kick-time = " + Server.hackrank_kick_time.ToString());
-			w.WriteLine();
-			w.WriteLine("#Admin Verification");
-			w.WriteLine("admin-verification = " + Server.verifyadmins.ToString().ToLower());
-			w.WriteLine("verify-admin-perm = " + ( (sbyte)Server.verifyadminsrank ).ToString());
 			w.WriteLine();
 			w.WriteLine("#Spam Control");
 			w.WriteLine("mute-on-spam = " + Server.checkspam.ToString().ToLower());
@@ -1580,36 +896,12 @@ namespace MCForge {
 			w.WriteLine("#Show Empty Ranks in /players");
 			w.WriteLine("show-empty-ranks = " + Server.showEmptyRanks.ToString().ToLower());
 			w.WriteLine();
-			w.WriteLine("#Global Chat Settings");
-			w.WriteLine("global-chat-enabled = " + Server.UseGlobalChat.ToString().ToLower());
-			w.WriteLine("global-chat-nick = " + Server.GlobalChatNick);
-			w.WriteLine("global-chat-color = " + Server.GlobalChatColor);
-			w.WriteLine();
-			w.WriteLine("#Griefer_stone Settings");
-			w.WriteLine("griefer-stone-tempban = " + Server.grieferStoneBan.ToString().ToLower());
-			w.WriteLine("griefer-stone-type = " + Block.Name(Server.grieferStoneType));
-			w.WriteLine("griefer-stone-rank = " + ( (sbyte)Server.grieferStoneRank ).ToString());
-			w.WriteLine();
 			w.WriteLine("#WoM Settings");
 			w.WriteLine("wom-direct = " + Server.WomDirect.ToString().ToLower());
 			w.WriteLine("wom-serveralt = " + Server.Server_ALT);
 			w.WriteLine("wom-serverdis = " + Server.Server_Disc);
 			w.WriteLine("wom-serverflag = " + Server.Server_Flag);
 			w.WriteLine("wom-textures = " + Server.UseTextures);
-			w.WriteLine();
-			w.WriteLine("#Review settings");
-			w.WriteLine("review-view-perm = " + ( (sbyte)Server.reviewview ).ToString());
-			w.WriteLine("review-enter-perm = " + ( (sbyte)Server.reviewenter ).ToString());
-			w.WriteLine("review-leave-perm = " + ( (sbyte)Server.reviewleave ).ToString());
-			w.WriteLine("review-cooldown = " + Server.reviewcooldown.ToString());
-			w.WriteLine("review-clear-perm = " + ( (sbyte)Server.reviewclear ).ToString());
-			w.WriteLine("review-next-perm = " + ( (sbyte)Server.reviewnext ).ToString());
-			w.WriteLine();
-			w.WriteLine("#Translation settings");
-			w.WriteLine("translation-enabled = " + Server.transenabled.ToString().ToLower());
-			w.WriteLine("translation-language = " + Server.translang.ToString().ToLower());
-			w.WriteLine();
-            w.WriteLine("ignoreomnibans = " +  Server.IgnoreOmnibans.ToString().ToLower());
 		}
 	}
 }

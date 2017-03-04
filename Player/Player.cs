@@ -284,18 +284,6 @@ namespace MCForge
         /// </summary>
         public bool canusegc = true;
 
-        //Pyramid Code
-
-        public int pyramidx1;
-        public int pyramidx2;
-        public int pyramidy1;
-        public int pyramidy2;
-        public int pyramidz1;
-        public int pyramidz2;
-        public string pyramidblock;
-        public int pyramidtotal;
-        public int pyramidtotal2;
-        public bool pyramidsilent = false;
 
         public bool deleteMode = false;
         public bool ignorePermission = false;
@@ -304,17 +292,12 @@ namespace MCForge
         public bool smileySaved = true;
         public bool opchat = false;
         public bool adminchat = false;
-        public bool onWhitelist = false;
         public bool whisper = false;
         public string whisperTo = "";
         public bool ignoreglobal = false;
 
         public string storedMessage = "";
         
-        public bool trainGrab = false;
-        public bool onTrain = false;
-        public bool allowTnt = true;
-
         public bool frozen = false;
         public string following = "";
         public string possess = "";
@@ -339,10 +322,6 @@ namespace MCForge
 
         public bool staticCommands = false;
 
-        public DateTime ZoneSpam;
-        public bool ZoneCheck = false;
-        public bool zoneDel = false;
-
         public Thread commThread;
         public bool commUse = false;
 
@@ -355,116 +334,18 @@ namespace MCForge
         public bool voice = false;
         public string voicestring = "";
 
-        public int grieferStoneWarn = 0;
-
-        //CTF
-        public int tntSeconds = 0;
-        public int lazorSeconds = 0;
-        public int lightSeconds = 0;
-        public int pteam = 0;
-        public bool isHoldingFlag = false;
-        public bool killingPeople = false;
-        public int amountKilled = 0;
-        public int overallKilled = 0;
-        public int overallDied = 0;
-        public ushort[] minePlacement = { 0, 0, 0 };
-        public int minesPlaced = 0;
-        public ushort[] trapPlacement = { 0, 0, 0 };
-        public int trapsPlaced = 0;
-        public ushort[] tntPlacement = { 0, 0, 0 };
-        public int tntPlaced = 0;
-        //public static System.Timers.Timer thetimer3;
-        public System.Timers.Timer deathTimer;
-        public static System.Timers.Timer lazerTimer;
-        public System.Timers.Timer freezeTimer;
-        public ushort[] lazerPos = { 0, 0, 0 };
-        public bool shotSecondLazer = false;
-        public bool deathTimerOn = false;
-        public bool hasBeenTrapped = false;
-        public bool autoTNT = true;
-        public bool ironman = false;
-        public bool teamchat = false;
-        public bool PlacedNukeThisRound = false;
-        public bool BoughtOneUpThisRound = false;
-        public ushort[] tripwire1 = { 0, 0, 0 };
-        public ushort[] tripwire2 = { 0, 0, 0 };
-        public int tripwiresPlaced = 0;
-        public int tags = 0;
-        public int games = 0;
-        public int losses = 0;
-        public int wins = 0;
-
-        public void resetDeathTimer(object sender, ElapsedEventArgs e)
-        {
-            deathTimerOn = false;
-            deathTimer.Dispose();
-            deathTimer.Enabled = false;
-            deathTimer.Stop();
-        }
-
-        //items and upgrades
-        public int lazers = 0;
-        public int lightnings = 0;
-        public int traps = 0;
-        public int lines = 0;
-        public int rockets = 0;
-        public int grapple = 0;
-        public int bigtnt = 0;
-        public int nuke = 0;
-        public int jetpack = 0;
-        public int tripwire = 0;
-        public int knife = 0;
-        public int freeze = 0;
-
-        public int lazerUpgrade = 0;
-        public int lightningUpgrade = 0;
-        public int trapUpgrade = 0;
-        public int rocketUpgrade = 0;
-        public int tntUpgrade = 0;
-        public int pistolUpgrade = 0;
-        public int mineUpgrade = 0;
-        public int tripwireUpgrade = 0;
-        public int knifeUpgrade = 0;
-
-        //buffs
-        public bool untouchable = false;
-        public bool iceshield = false;
-        public bool invinciblee = false;
-        public bool makeaura = false;
-        public bool clearview = false;
-        public bool oneup = false;
-
-        public static System.Timers.Timer untouchableTimer;
-        public static System.Timers.Timer iceshieldTimer;
-        public static System.Timers.Timer invisibleTimer;
-        public static System.Timers.Timer makeauraTimer;
-        public static System.Timers.Timer invincibleTimer;
-
         public bool spawned = false;
-
-        //Copy
-        public List<CopyPos> CopyBuffer = new List<CopyPos>();
-        public struct CopyPos { public ushort x, y, z; public ushort type; }
-        public bool copyAir = false;
-        public int[] copyoffset = new int[3] { 0, 0, 0 };
-        public ushort[] copystart = new ushort[3] { 0, 0, 0 };
-
-		public bool sentCustomBlockSupport = false;
-
-        //Undo
-        public struct UndoPos { public ushort x, y, z; public ushort type, newtype; public string mapName; public DateTime timePlaced; }
-        public List<UndoPos> UndoBuffer = new List<UndoPos>();
-        public List<UndoPos> RedoBuffer = new List<UndoPos>();
-
+        public bool sentCustomBlockSupport = false;
 
         public bool showPortals = false;
         public bool showMBs = false;
 
         public string prevMsg = "";
 
+        
+
         //Block Change variable holding
         public int[] BcVar;
-
 
         //Movement
         public ushort oldBlock = 0;
@@ -702,41 +583,6 @@ namespace MCForge
                     extraTimer.Dispose();
                 };
 
-                afkTimer.Elapsed += delegate
-                {
-                    if (name == "") return;
-
-                    if (Server.afkset.Contains(name))
-                    {
-                        afkCount = 0;
-                        if (Server.afkkick > 0 && group.Permission < Server.afkkickperm)
-                            if (afkStart.AddMinutes(Server.afkkick) < DateTime.Now)
-                                Kick("Auto-kick, AFK for " + Server.afkkick + " minutes");
-                        if ((oldpos[0] != pos[0] || oldpos[1] != pos[1] || oldpos[2] != pos[2]) && (oldrot[0] != rot[0] || oldrot[1] != rot[1]))
-                            Command.all.Find("afk").Use(this, "");
-                    }
-                    else
-                    {
-                        if (oldpos[0] == pos[0] && oldpos[1] == pos[1] && oldpos[2] == pos[2] && oldrot[0] == rot[0] && oldrot[1] == rot[1])
-                            afkCount++;
-                        else
-                            afkCount = 0;
-
-                        if (afkCount > Server.afkminutes * 30)
-                        {
-                            if (name != null && !String.IsNullOrEmpty(name.Trim()))
-                            {
-                                Command.all.Find("afk").Use(this, "auto: Not moved for " + Server.afkminutes + " minutes");
-                                if (AFK != null)
-                                    AFK(this);
-                                if (ONAFK != null)
-                                    ONAFK(this);
-                                //OnPlayerAFKEvent.Call(this);
-                                afkCount = 0;
-                            }
-                        }
-                    }
-                };
                 resetSpamCount.Elapsed += delegate
                 {
                     if (consecutivemessages > 0)
@@ -744,7 +590,6 @@ namespace MCForge
                 };
                 resetSpamCount.Start();
 
-                if (Server.afkminutes > 0) afkTimer.Start();
 
                 connections.Add(this);
             }
@@ -1032,46 +877,6 @@ namespace MCForge
                 }
                 catch { }
 
-                // Whitelist check.
-                if (Server.useWhitelist)
-                {
-                    if (Server.verify)
-                    {
-                        if (Server.whiteList.Contains(name))
-                        {
-                            onWhitelist = true;
-                        }
-                    }
-                    else
-                    {
-                        if (Server.whiteList.Contains(name))
-						{
-                                onWhitelist = true;
-						}
-                    }
-                    onWhitelist = isDev || isMod;
-                    if (!onWhitelist) { Kick("This is a private server!"); return; } //i think someone forgot this?
-                }
-
-                //premium check
-                if (Server.PremiumPlayersOnly && !isDev && !isMod)
-                {
-                    using (WebClient Client = new WebClient())
-                    {
-                        int tries = 0;
-                        while (tries++ < 3)
-                        {
-                            try
-                            {
-                                bool haspaid = Convert.ToBoolean(Client.DownloadString("https://www.minecraft.net/haspaid.jsp?user=" + name));
-                                if (!haspaid)
-                                    Kick("Sorry, this is a premium server only!");
-                                break;
-                            }
-                            catch { }
-                        }
-                    }
-                }
 
                 if (File.Exists("ranks/ignore/" + this.name + ".txt"))
                 {
@@ -1116,41 +921,19 @@ namespace MCForge
                 {
                     if (Server.bannedIP.Contains(ip))
                     {
-                        if (Server.useWhitelist)
-                        {
-                            if (!onWhitelist)
-                            {
-                                Kick(Server.customBanMessage);
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            Kick(Server.customBanMessage);
-                            return;
-                        }
+                        Kick(Server.customBanMessage);
+                        return;
                     }
                     if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned))
                     {
-                        if (Server.useWhitelist)
+                        if (UsingID && Ban.IsbannedID(ID.ToString()) || !UsingID && Ban.Isbanned(name))
                         {
-                            if (!onWhitelist)
-                            {
-                                Kick(Server.customBanMessage);
-                                return;
-                            }
+                            string[] data = Ban.Getbandata(name);
+                            Kick("You were banned for \"" + data[1] + "\" by " + data[0]);
                         }
                         else
-                        {
-                            if (UsingID && Ban.IsbannedID(ID.ToString()) || !UsingID && Ban.Isbanned(name))
-                            {
-                                string[] data = Ban.Getbandata(name);
-                                Kick("You were banned for \"" + data[1] + "\" by " + data[0]);
-                            }
-                            else
-                                Kick(Server.customBanMessage);
-                            return;
-                        }
+                            Kick(Server.customBanMessage);
+                        return;
                     }
                 }
 
@@ -1913,39 +1696,8 @@ namespace MCForge
                         SendBlockchange(x, y, z, b); return;
                     }
                 }
-
-                if (Server.antiTunnel)
-                {
-                    if (!ignoreGrief)
-                    {
-                        if (y < level.depth / 2 - Server.maxDepth)
-                        {
-                            SendMessage("You're not allowed to build this far down!");
-                            SendBlockchange(x, y, z, b); return;
-                        }
-                    }
-                }
             }
 
-            if (b == Block.griefer_stone && group.Permission <= Server.grieferStoneRank && !isDev && !isMod)
-            {
-                if (grieferStoneWarn < 1)
-                    SendMessage("Do not grief! This is your first warning!");
-                else if (grieferStoneWarn < 2)
-                    SendMessage("Do NOT grief! Next time you will be " + (Server.grieferStoneBan ? "banned for 30 minutes" : "kicked") + "!");
-                else
-                {
-                    if (Server.grieferStoneBan)
-                        try { Command.all.Find("tempban").Use(null, name + " 30"); }
-                        catch (Exception ex) { Server.ErrorLog(ex); }
-                    else
-                        Kick(Server.customGrieferStone ? Server.customGrieferStoneMessage : "Oh noes! You were caught griefing!");
-                    return;
-                }
-                grieferStoneWarn++;
-                SendBlockchange(x, y, z, b);
-                return;
-            }
             if (!Block.canPlace(this, b) && !Block.BuildIn(b) && !Block.AllowBreak(b))
             {
                 SendMessage("Cannot build here!");
@@ -2650,7 +2402,7 @@ namespace MCForge
 
         void HandleInput(object m)
         {
-            if (!loggedIn || trainGrab || following != "" || frozen)
+            if (!loggedIn || following != "" || frozen)
                 return;
 
             byte[] message = (byte[])m;
@@ -2822,11 +2574,8 @@ namespace MCForge
                             break;
                     }
                     
-                    if (pteam == 0)
-                    {
-                        Command.all.Find("spawn").Use(this, "");
-                        overallDeath++;
-                    }
+                    Command.all.Find("spawn").Use(this, "");
+                    overallDeath++;
 
                     if (Server.deathcount)
                         if (overallDeath > 0 && overallDeath % 10 == 0) GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " has died &3" + overallDeath + " times", false);
@@ -3120,13 +2869,6 @@ return;
 
                 }
 
-                //chatroom stuff
-                if (this.Chatroom != null)
-                {
-                    ChatRoom(this, text, true, this.Chatroom);
-                    return;
-                }
-
                 if (!level.worldChat)
                 {
                     Server.s.Log("<" + name + ">[level] " + text);
@@ -3409,8 +3151,6 @@ return;
             if (p.hidden) { if (this.hidden == false) { Player.SendMessage(p, "Could not find player."); } }
             if (p.ignoreglobal == true)
             {
-                if (Server.globalignoreops == false)
-                {
                     if (this.group.Permission >= Server.opchatperm)
                     {
                         if (p.group.Permission < this.group.Permission)
@@ -3421,7 +3161,6 @@ return;
                             return;
                         }
                     }
-                }
                 Server.s.Log(name + " @" + p.name + ": " + message);
                 SendChat(this, Server.DefaultColor + "[<] " + p.color + p.prefix + p.name + ": &f" + message);
                 return;
@@ -3469,7 +3208,7 @@ return;
                 socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, delegate(IAsyncResult result) { }, Block.air);
                 buffer = null;
             }
-            catch (SocketException)
+            catch (SocketException e)
             {
                 buffer = null;
                 Disconnect();
@@ -3544,8 +3283,6 @@ return;
 				Server.s.Log (message);
 				return;
 			}
-			if (ZoneSpam.AddSeconds (2) > DateTime.Now && message.Contains ("This zone belongs to "))
-				return;
 
 			byte[] buffer = new byte[65];
 			unchecked {
@@ -3573,10 +3310,7 @@ return;
 				// End fix
 			}
 
-			if (Server.dollardollardollar)
-				sb.Replace ("$name", "$" + name);
-			else
-				sb.Replace ("$name", name);
+			sb.Replace ("$name", name);
 			sb.Replace ("$date", DateTime.Now.ToString ("yyyy-MM-dd"));
 			sb.Replace ("$time", DateTime.Now.ToString ("HH:mm:ss"));
 			sb.Replace ("$ip", ip);
@@ -3604,12 +3338,9 @@ return;
 				}
 			}
 
-            if (Server.parseSmiley && parseSmiley)
-            {
-                sb.Replace(":)", "(darksmile)");
-                sb.Replace(":D", "(smile)");
-                sb.Replace("<3", "(heart)");
-            }
+            sb.Replace(":)", "(darksmile)");
+            sb.Replace(":D", "(smile)");
+            sb.Replace("<3", "(heart)");
             /*
             byte[] stored = new byte[1];
 
@@ -4195,14 +3926,11 @@ changed |= 4;*/
                         Player.SendMessage(p, message);
                         return;
                     }
-                    if (Server.globalignoreops == false)
+                    if (from.group.Permission >= Server.opchatperm)
                     {
-                        if (from.group.Permission >= Server.opchatperm)
+                        if (p.group.Permission < from.group.Permission)
                         {
-                            if (p.group.Permission < from.group.Permission)
-                            {
-                                Player.SendMessage(p, message);
-                            }
+                            Player.SendMessage(p, message);
                         }
                     }
                     if (from != null)
@@ -4244,8 +3972,7 @@ changed |= 4;*/
                         Player.SendMessage(p, Server.DefaultColor + message);
                         return;
                     }
-                    if (Server.globalignoreops == false)
-                    {
+
                         if (from.group.Permission >= Server.opchatperm)
                         {
                             if (p.group.Permission < from.group.Permission)
@@ -4253,7 +3980,7 @@ changed |= 4;*/
                                 Player.SendMessage(p, Server.DefaultColor + message);
                             }
                         }
-                    }
+
                     if (from != null)
                     {
                         if (from == p)
@@ -4264,143 +3991,6 @@ changed |= 4;*/
                     }
                 }
             });
-        }
-        public static void GlobalChatRoom(Player from, string message, bool showname)
-        {
-            if (MessageHasBadColorCodes(from, message))
-                return;
-            string oldmessage = message;
-            if (showname)
-            {
-                message = "<GlobalChatRoom> " + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
-            }
-            players.ForEach(delegate(Player p)
-            {
-                if (p.Chatroom != null)
-                {
-                    if (p.ignoreglobal == false)
-                    {
-                        if (from != null)
-                        {
-                            if (!p.listignored.Contains(from.name))
-                            {
-                                Player.SendMessage(p, Server.DefaultColor + message);
-                                return;
-                            }
-                            return;
-                        }
-                        Player.SendMessage(p, Server.DefaultColor + message);
-                        return;
-                    }
-                    if (Server.globalignoreops == false)
-                    {
-                        if (from.group.Permission >= Server.opchatperm)
-                        {
-                            if (p.group.Permission < from.group.Permission)
-                            {
-                                Player.SendMessage(p, Server.DefaultColor + message);
-                            }
-                        }
-                    }
-                    if (from != null)
-                    {
-                        if (from == p)
-                        {
-                            Player.SendMessage(from, Server.DefaultColor + message);
-                            return;
-                        }
-                    }
-                }
-            });
-            Server.s.Log(oldmessage + "<GlobalChatRoom>" + from.prefix + from.name + message);
-        }
-        public static void ChatRoom(Player from, string message, bool showname, string chatroom)
-        {
-            if (MessageHasBadColorCodes(from, message))
-                return;
-            string oldmessage = message;
-            string messageforspy = ("<ChatRoomSPY: " + chatroom + "> " + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message);
-            if (showname)
-            {
-                message = "<ChatRoom: " + chatroom + "> " + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
-            }
-            players.ForEach(delegate(Player p)
-            {
-                if (p.Chatroom == chatroom)
-                {
-                    if (p.ignoreglobal == false)
-                    {
-                        if (from != null)
-                        {
-                            if (!p.listignored.Contains(from.name))
-                            {
-                                Player.SendMessage(p, Server.DefaultColor + message);
-                                return;
-                            }
-                            return;
-                        }
-                        Player.SendMessage(p, Server.DefaultColor + message);
-                        return;
-                    }
-                    if (Server.globalignoreops == false)
-                    {
-                        if (from.group.Permission >= Server.opchatperm)
-                        {
-                            if (p.group.Permission < from.group.Permission)
-                            {
-                                Player.SendMessage(p, Server.DefaultColor + message);
-                            }
-                        }
-                    }
-                    if (from != null)
-                    {
-                        if (from == p)
-                        {
-                            Player.SendMessage(from, Server.DefaultColor + message);
-                            return;
-                        }
-                    }
-                }
-            });
-            players.ForEach(delegate(Player p)
-            {
-                if (p.spyChatRooms.Contains(chatroom) && p.Chatroom != chatroom)
-                {
-                    if (p.ignoreglobal == false)
-                    {
-                        if (from != null)
-                        {
-                            if (!p.listignored.Contains(from.name))
-                            {
-                                Player.SendMessage(p, Server.DefaultColor + message);
-                                return;
-                            }
-                            return;
-                        }
-                        Player.SendMessage(p, Server.DefaultColor + message);
-                        return;
-                    }
-                    if (Server.globalignoreops == false)
-                    {
-                        if (from.group.Permission >= Server.opchatperm)
-                        {
-                            if (p.group.Permission < from.group.Permission)
-                            {
-                                Player.SendMessage(p, Server.DefaultColor + messageforspy);
-                            }
-                        }
-                    }
-                    if (from != null)
-                    {
-                        if (from == p)
-                        {
-                            Player.SendMessage(from, Server.DefaultColor + messageforspy);
-                            return;
-                        }
-                    }
-                }
-            });
-            Server.s.Log(oldmessage + "<ChatRoom" + chatroom + ">" + from.prefix + from.name + message);
         }
 
 
@@ -4560,8 +4150,7 @@ changed |= 4;*/
                         Player.SendMessage(p, Server.DefaultColor + message);
                         return;
                     }
-                    if (Server.globalignoreops == false)
-                    {
+
                         if (from.group.Permission >= Server.opchatperm)
                         {
                             if (p.group.Permission < from.group.Permission)
@@ -4569,7 +4158,7 @@ changed |= 4;*/
                                 Player.SendMessage(p, Server.DefaultColor + message);
                             }
                         }
-                    }
+
                     if (from != null)
                     {
                         if (from == p)
@@ -4725,7 +4314,7 @@ changed |= 4;*/
                 Server.s.Log("Socket was shutdown for " + this.name ?? this.ip);
 #endif
             }
-            catch (Exception)
+            catch (Exception e)
             {
 #if DEBUG
                 Exception ex = new Exception("Failed to shutdown socket for " + this.name ?? this.ip, e);
@@ -4740,7 +4329,7 @@ changed |= 4;*/
                 Server.s.Log("Socket was closed for " + this.name ?? this.ip);
 #endif
             }
-            catch (Exception)
+            catch (Exception e)
             {
 #if DEBUG
                 Exception ex = new Exception("Failed to close socket for " + this.name ?? this.ip, e);
@@ -4934,7 +4523,7 @@ level.Unload();
         }
         public static void SaveUndo(Player p)
         {
-            if (p == null || p.UndoBuffer == null || p.UndoBuffer.Count < 1) return;
+            if (p == null) return;
             try
             {
                 if (!Directory.Exists("extra/undo")) Directory.CreateDirectory("extra/undo");
@@ -4953,13 +4542,7 @@ level.Unload();
                 File.Create("extra/undo/" + p.name.ToLower() + "/" + number + ".undo").Dispose();
                 using (StreamWriter w = File.CreateText("extra/undo/" + p.name.ToLower() + "/" + number + ".undo"))
                 {
-                    foreach (UndoPos uP in p.UndoBuffer.ToList())
-                    {
-                        w.Write(uP.mapName + " " +
-                                uP.x + " " + uP.y + " " + uP.z + " " +
-                                uP.timePlaced.ToString(CultureInfo.InvariantCulture).Replace(' ', '&') + " " +
-                                uP.type + " " + uP.newtype + " ");
-                    }
+                    //oo
                 }
             }
             catch (Exception e) { Server.s.Log("Error saving undo data for " + p.name + "!"); Server.ErrorLog(e); }
@@ -4970,9 +4553,6 @@ level.Unload();
             //throw new NotImplementedException();
             if (connections.Contains(this)) connections.Remove(this);
             Extras.Clear();
-            CopyBuffer.Clear();
-            RedoBuffer.Clear();
-            UndoBuffer.Clear();
             spamBlockLog.Clear();
             //spamChatLog.Clear();
             spyChatRooms.Clear();
@@ -5550,13 +5130,6 @@ Next: continue;
             if (this.money >= amount)
                 return true;
             return false;
-        }
-        public void ReviewTimer()
-        {
-            this.canusereview = false;
-            System.Timers.Timer Clock = new System.Timers.Timer(1000 * Server.reviewcooldown);
-            Clock.Elapsed += delegate { this.canusereview = true; Clock.Dispose(); };
-            Clock.Start();
         }
 
         public string ReadString(int count = 64)

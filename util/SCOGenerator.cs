@@ -20,6 +20,7 @@
 //Full use to all StormCom Server System codes (in regards to minecraft classic) have been granted to McForge without restriction.
 //
 // ~Merlin33069
+/*
 using System;
 using System.Collections.Generic;
 namespace MCForge.Util
@@ -457,10 +458,6 @@ namespace MCForge.Util
 					{
                         if ((z + m) < 0 || (z + m) > p.level.length) continue;
 
-					/*	int ox = x;
-						int oy = y;
-						int oz = z;*/
-
 						int cx = (x + j);
 						int cy = (y + k);
 						int cz = (z + m);
@@ -515,9 +512,6 @@ namespace MCForge.Util
 					{
                         if ((z + m) < 0 || (z + m) > p.level.length) continue;
 
-						/*int ox = x;
-						int oy = y;
-						int oz = z;*/
 
 						int cx = (x + j);
 						int cy = (y + k);
@@ -573,9 +567,6 @@ namespace MCForge.Util
 					{
                         if ((z + m) < 0 || (z + m) > p.level.length) continue;
 
-					/*	int ox = x;
-						int oy = y;
-						int oz = z;*/
 
 						int cx = (x + j);
 						int cy = (y + k);
@@ -893,3 +884,4 @@ namespace MCForge.Util
 		#endregion
 	}
 }
+*/

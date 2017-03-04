@@ -609,16 +609,6 @@ namespace MCForge
                 if (Block.Convert(b) != Block.Convert(type) && !Instant)
                     Player.GlobalBlockchange(this, x, y, z, type);
 
-                errorLocation = "Undo buffer filling";
-                Player.UndoPos Pos;
-                Pos.x = x;
-                Pos.y = y;
-                Pos.z = z;
-                Pos.mapName = name;
-                Pos.type = b;
-                Pos.newtype = type;
-                Pos.timePlaced = DateTime.Now;
-                p.UndoBuffer.Add(Pos);
 
                 errorLocation = "Setting tile";
                 p.loginBlocks++;
@@ -639,8 +629,7 @@ namespace MCForge
             }
             catch (OutOfMemoryException)
             {
-                Player.SendMessage(p, "Undo buffer too big! Cleared!");
-                p.UndoBuffer.Clear();
+                Player.SendMessage(p, "You clearly have a potato as a PC.");
                 goto retry;
             }
             catch (Exception e)
@@ -756,34 +745,6 @@ namespace MCForge
                     //Should save bandwidth sending identical looking blocks, like air/op_air changes.
                     Player.GlobalBlockchange(this, b, type);
 
-                try
-                {
-                    UndoPos uP;
-                    uP.location = b;
-                    uP.newType = (ushort)type;
-                    uP.oldType = bb;
-                    uP.timePerformed = DateTime.Now;
-
-                    if (currentUndo > Server.physUndo)
-                    {
-                        currentUndo = 0;
-                        UndoBuffer[currentUndo] = uP;
-                    }
-                    else if (UndoBuffer.Count < Server.physUndo)
-                    {
-                        currentUndo++;
-                        UndoBuffer.Add(uP);
-                    }
-                    else
-                    {
-                        currentUndo++;
-                        UndoBuffer[currentUndo] = uP;
-                    }
-                }
-                catch
-                {
-                }
-
                 SetTile(b, type); //Updates server level blocks
 
                 if (physics > 0)
@@ -818,21 +779,8 @@ namespace MCForge
                     uP.oldType = b;
                     uP.timePerformed = DateTime.Now;
 
-                    if (currentUndo > Server.physUndo)
-                    {
-                        currentUndo = 0;
-                        UndoBuffer[currentUndo] = uP;
-                    }
-                    else if (UndoBuffer.Count < Server.physUndo)
-                    {
-                        currentUndo++;
-                        UndoBuffer.Add(uP);
-                    }
-                    else
-                    {
                         currentUndo++;
                         UndoBuffer[currentUndo] = uP;
-                    }
                 }
                 catch
                 {

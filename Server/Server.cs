@@ -244,13 +244,7 @@ namespace MCForge
         public static LevelPermission verifyadminsrank = LevelPermission.Operator;
 
         public static bool restartOnError = true;
-
-        public static bool antiTunnel = true;
-        public static byte maxDepth = 4;
-        public static int Overload = 1500;
-        public static int rpLimit = 500;
-        public static int rpNormLimit = 10000;
-
+        
         public static int backupInterval = 300;
         public static int blockInterval = 60;
         public static string backupLocation = Application.StartupPath + "/levels/backups";
@@ -258,39 +252,16 @@ namespace MCForge
         public static bool physicsRestart = true;
         public static bool deathcount = true;
         public static bool AutoLoad = false;
-        public static int physUndo = 20000;
         public static int totalUndo = 200;
         public static bool rankSuper = true;
-        public static bool oldHelp = false;
-        public static bool parseSmiley = true;
-        public static bool useWhitelist = false;
-        public static bool PremiumPlayersOnly = false;
-        public static bool forceCuboid = false;
-        public static bool profanityFilter = false;
         public static bool notifyOnJoinLeave = false;
         public static bool repeatMessage = false;
-        public static bool globalignoreops = false;
-
-        public static bool checkUpdates = true;
 
         public static string DefaultColor = "&e";
         public static string IRCColour = "&5";
 
-        public static bool UseGlobalChat = true;
-        public static string GlobalChatNick = "MCF" + new Random().Next();
-        public static string GlobalChatColor = "&6";
-
-        public static int afkminutes = 10;
-        public static int afkkick = 45;
-        public static LevelPermission afkkickperm = LevelPermission.AdvBuilder;
-        //public static int RemotePort = 1337; // Never used
-
         public static string defaultRank = "guest";
 
-        public static bool dollardollardollar = true;
-        public static bool unsafe_plugin = true;
-        public static bool cheapMessage = true;
-        public static string cheapMessageGiven = " is now being cheap and being immortal";
         public static bool customBan = false;
         public static string customBanMessage = "You're banned!";
         public static bool customShutdown = false;
@@ -317,23 +288,11 @@ namespace MCForge
         public static bool shuttingDown = false;
         public static bool restarting = false;
 
-        //hackrank stuff
-        public static bool hackrank_kick = true;
-        public static int hackrank_kick_time = 5; //seconds, it converts it to milliseconds in the command.
-
         // lol useless junk here lolololasdf poop
         public static bool showEmptyRanks = false;
         public static ushort grieferStoneType = 1;
         public static bool grieferStoneBan = true;
         public static LevelPermission grieferStoneRank = LevelPermission.Guest;
-
-        //reviewoptions intitialize
-        public static int reviewcooldown = 600;
-        public static LevelPermission reviewenter = LevelPermission.Guest;
-        public static LevelPermission reviewleave = LevelPermission.Guest;
-        public static LevelPermission reviewview = LevelPermission.Operator;
-        public static LevelPermission reviewnext = LevelPermission.Operator;
-        public static LevelPermission reviewclear = LevelPermission.Operator;
 
         #endregion
 
@@ -549,8 +508,6 @@ namespace MCForge
 
                 foreach (Group grp in Group.GroupList)
                     grp.playerList = PlayerList.Load(grp.fileName, grp);
-                if (useWhitelist)
-                    whiteList = PlayerList.Load("whitelist.txt", null);
                 if (!File.Exists("ranks/jailed.txt")) { File.Create("ranks/jailed.txt").Close(); Server.s.Log("CREATED NEW: ranks/jailed.txt"); }
                 Extensions.UncapitalizeAll("ranks/banned.txt");
                 Extensions.UncapitalizeAll("ranks/muted.txt");
@@ -740,9 +697,8 @@ namespace MCForge
                             {
                                 p = Player.players[i];
 
-                                if (p.frozen || p.hasBeenTrapped)
+                                if (p.frozen)
                                 {
-                                    if (p.hasBeenTrapped) Thread.Sleep(1500);
                                     unchecked { p.SendPos((byte)-1, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1]); } continue;
                                 }
                                 else if (p.following != "")
