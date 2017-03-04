@@ -969,7 +969,6 @@ namespace MCForge
                 DisplayName = name;
                 SkinName = name;
                 truename = name;
-                if (Server.omniban.CheckPlayer(this)) { Kick(Server.omniban.kickMsg); return; } //deprecated
 
                 string verify = enc.GetString(message, 65, 32).Trim();
                 ushort type = message[129];
