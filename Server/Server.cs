@@ -456,12 +456,8 @@ namespace MCForge
             UpdateGlobalSettings();
             if (!Directory.Exists("properties")) Directory.CreateDirectory("properties");
             if (!Directory.Exists("levels")) Directory.CreateDirectory("levels");
-            if (!Directory.Exists("bots")) Directory.CreateDirectory("bots");
             if (!Directory.Exists("text")) Directory.CreateDirectory("text");
-            if (!File.Exists("text/tempranks.txt")) File.CreateText("text/tempranks.txt").Dispose();
             if (!File.Exists("text/rankinfo.txt")) File.CreateText("text/rankinfo.txt").Dispose();
-            if (!File.Exists("text/transexceptions.txt")) File.CreateText("text/transexceptions.txt").Dispose();
-            if (!File.Exists("text/gcaccepted.txt")) File.CreateText("text/gcaccepted.txt").Dispose();
             if (!File.Exists("text/bans.txt")) File.CreateText("text/bans.txt").Dispose();
             // DO NOT STICK ANYTHING IN BETWEEN HERE!!!!!!!!!!!!!!!
             else
@@ -484,61 +480,6 @@ namespace MCForge
             if (!Directory.Exists("extra/copyBackup/")) { Directory.CreateDirectory("extra/copyBackup/"); }
             if (!Directory.Exists("extra/Waypoints")) { Directory.CreateDirectory("extra/Waypoints"); }
 
-            try
-            {
-                if (File.Exists("server.properties")) File.Move("server.properties", "properties/server.properties");
-                if (File.Exists("rules.txt")) File.Move("rules.txt", "text/rules.txt");
-                if (File.Exists("welcome.txt")) File.Move("welcome.txt", "text/welcome.txt");
-                if (File.Exists("messages.txt")) File.Move("messages.txt", "text/messages.txt");
-                if (File.Exists("externalurl.txt")) File.Move("externalurl.txt", "text/externalurl.txt");
-                if (File.Exists("autoload.txt")) File.Move("autoload.txt", "text/autoload.txt");
-                if (File.Exists("IRC_Controllers.txt")) File.Move("IRC_Controllers.txt", "ranks/IRC_Controllers.txt");
-                if (useWhitelist) if (File.Exists("whitelist.txt")) File.Move("whitelist.txt", "ranks/whitelist.txt");
-            }
-            catch { }
-
-            if (File.Exists("text/custom$s.txt"))
-            {
-                using (StreamReader r = new StreamReader("text/custom$s.txt"))
-                {
-                    string line;
-                    while ((line = r.ReadLine()) != null)
-                    {
-                        if (line.StartsWith("//")) continue;
-                        var split = line.Split(new[] { ':' }, 2);
-                        if (split.Length == 2 && !String.IsNullOrEmpty(split[0]))
-                        {
-                            customdollars.Add(split[0], split[1]);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                s.Log("custom$s.txt does not exist, creating");
-                using (StreamWriter SW = File.CreateText("text/custom$s.txt"))
-                {
-                    SW.WriteLine("// This is used to create custom $s");
-                    SW.WriteLine("// If you start the line with a // it wont be used");
-                    SW.WriteLine("// It should be formatted like this:");
-                    SW.WriteLine("// $website:mcforge.org");
-                    SW.WriteLine("// That would replace '$website' in any message to 'mcforge.org'");
-                    SW.WriteLine("// It must not start with a // and it must not have a space between the 2 sides and the colon (:)");
-                    SW.Close();
-                }
-            }
-
-            if (File.Exists("text/emotelist.txt"))
-            {
-                foreach (string s in File.ReadAllLines("text/emotelist.txt"))
-                {
-                    Player.emoteList.Add(s);
-                }
-            }
-            else
-            {
-                File.Create("text/emotelist.txt").Dispose();
-            }
 
             LoadAllSettings();
 
@@ -639,7 +580,6 @@ namespace MCForge
 
             ml.Queue(delegate
             {
-                transignore.AddRange(File.ReadAllLines("text/transexceptions.txt"));
                 if (File.Exists("text/autoload.txt"))
                 {
                     try
@@ -707,10 +647,6 @@ namespace MCForge
 
             ml.Queue(delegate
             {
-                foreach (string line in File.ReadAllLines("text/gcaccepted.txt"))
-                {
-                    gcaccepted.Add(line); //loading all playernames of people who turned off translation
-                }
                 Log("Creating listening socket on port " + port + "... ");
                 Setup();
                 //s.Log(Setup() ? "Done." : "Could not create socket connection. Shutting down.");
@@ -806,11 +742,6 @@ namespace MCForge
                 }));
                 blockThread.Start();
 
-              //  redFlagTimer = new System.Timers.Timer(45000);
-              //  redFlagTimer.Elapsed += new ElapsedEventHandler(ReturnRedFlag);
-
-            //    blueFlagTimer = new System.Timers.Timer(45000);
-           //    blueFlagTimer.Elapsed += new ElapsedEventHandler(ReturnBlueFlag);
 
                 locationChecker = new Thread(new ThreadStart(delegate
                 {
