@@ -374,7 +374,7 @@ namespace MCForge
             if (name.Contains("&cMuseum ")) return false;
             if (LevelUnload != null)
                 LevelUnload(this);
-            OnLevelUnloadEvent.Call(this);
+            //OnLevelUnloadEvent.Call(this);
             if (cancelunload)
             {
                 Server.s.Log("Unload canceled by Plugin! (Map: " + name + ")");
@@ -894,7 +894,7 @@ namespace MCForge
             string path = "levels/" + name + ".mcf";
             if (LevelSave != null)
                 LevelSave(this);
-            OnLevelSaveEvent.Call(this);
+            //OnLevelSaveEvent.Call(this);
             if (cancelsave1)
             {
                 cancelsave1 = false;
@@ -1101,7 +1101,7 @@ namespace MCForge
 			GC.Collect();
             if (LevelLoad != null)
                 LevelLoad(givenName);
-            OnLevelLoadEvent.Call(givenName);
+            //OnLevelLoadEvent.Call(givenName);
             if (cancelload)
             {
                 cancelload = false;
@@ -1338,7 +1338,7 @@ namespace MCForge
                     Server.s.Log(string.Format("Level \"{0}\" loaded.", level.name));
                     if (LevelLoaded != null)
                         LevelLoaded(level);
-                    OnLevelLoadedEvent.Call(level);
+                    //OnLevelLoadedEvent.Call(level);
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                     return level;

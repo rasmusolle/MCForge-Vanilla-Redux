@@ -132,30 +132,6 @@
     <Compile Include="GUI\Win32\Utils.cs" />
     <Compile Include="Server\HTTPGet.cs" />
     <Compile Include="Levels\Texture_Settings.cs" />
-    <Compile Include="Plugins\GroupEvents\OnGroupLoadedEvent.cs" />
-    <Compile Include="Plugins\GroupEvents\OnGroupLoadEvent.cs" />
-    <Compile Include="Plugins\GroupEvents\OnGroupSaveEvent.cs" />
-    <Compile Include="Plugins\GroupEvents\OnPlayerRankSetEvent.cs" />
-    <Compile Include="Plugins\LevelEvents\OnLevelLoadedEvent.cs" />
-    <Compile Include="Plugins\LevelEvents\OnLevelLoadEvent.cs" />
-    <Compile Include="Plugins\LevelEvents\OnLevelSaveEvent.cs" />
-    <Compile Include="Plugins\LevelEvents\OnLevelUnloadEvent.cs" />
-    <Compile Include="Plugins\LevelEvents\OnPhysicsUpdate.cs" />
-    <Compile Include="Plugins\PlayerEvents\PlayerRotateEvent.cs" />
-    <Compile Include="Plugins\PlayerEvents\OnBlockChangeEvent.cs" />
-    <Compile Include="Plugins\PlayerEvents\OnMessageRecieveEvent.cs" />
-    <Compile Include="Plugins\PlayerEvents\OnMySQLSaveEvent.cs" />
-    <Compile Include="Plugins\PlayerEvents\OnPlayerAFKEvent.cs" />
-    <Compile Include="Plugins\PlayerEvents\OnPlayerChatEvent.cs" />
-    <Compile Include="Plugins\PlayerEvents\OnPlayerCommandEvent.cs" />
-    <Compile Include="Plugins\PlayerEvents\OnPlayerConnectEvent.cs" />
-    <Compile Include="Plugins\PlayerEvents\OnPlayerDeathEvent.cs" />
-    <Compile Include="Plugins\PlayerEvents\OnPlayerDisconnectEvent.cs" />
-    <Compile Include="Plugins\PlayerEvents\PlayerMoveEvent.cs" />
-    <Compile Include="Plugins\ServerEvents\OnConsoleCommandEvent.cs" />
-    <Compile Include="Plugins\ServerEvents\OnServerErrorEvent.cs" />
-    <Compile Include="Plugins\ServerEvents\OnServerLogEvent.cs" />
-    <Compile Include="Plugins\Utils\Priority.cs" />
     <Compile Include="Server\Scripting\ScriptingCSharp.cs" />
     <Compile Include="Server\Scripting\ScriptingEngine.cs" />
     <Compile Include="Commands\CmdNews.cs" />
@@ -169,9 +145,6 @@
     <Compile Include="Levels\BlockQueue.cs" />
     <Compile Include="Player\OmniBan.cs" />
     <Compile Include="Player\Player.Events.cs" />
-    <Compile Include="Plugins\Utils\Events.cs" />
-    <Compile Include="Plugins\Manager\Plugin_Manager.cs" />
-    <Compile Include="Plugins\Manager\Plugin_Simple.cs" />
     <Compile Include="Server\Scripting\ScriptingVB.cs" />
     <Compile Include="Player\Checktimer.cs" />
     <Compile Include="Service References\TranslateService\Reference.cs">
@@ -260,7 +233,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="Levels\Block.cs" />
-    <Compile Include="Plugins\CtcpResponder.cs" />
+    <Compile Include="IRC\CtcpResponder.cs" />
     <Compile Include="sharkbite.thresher\ChannelModeInfo.cs" />
     <Compile Include="sharkbite.thresher\CommandBuilder.cs" />
     <Compile Include="sharkbite.thresher\Connection.cs" />
@@ -348,7 +321,6 @@
     <None Include="Service References\TranslateService\configuration.svcinfo" />
     <None Include="Service References\TranslateService\configuration91.svcinfo" />
     <None Include="app.config" />
-    <Compile Include="Plugins\Manager\Plugin.Events.cs" />
     <Content Include="mcf.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

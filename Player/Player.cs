@@ -731,7 +731,7 @@ namespace MCForge
                                     AFK(this);
                                 if (ONAFK != null)
                                     ONAFK(this);
-                                OnPlayerAFKEvent.Call(this);
+                                //OnPlayerAFKEvent.Call(this);
                                 afkCount = 0;
                             }
                         }
@@ -1343,7 +1343,7 @@ namespace MCForge
 
             if (PlayerConnect != null)
                 PlayerConnect(this);
-            OnPlayerConnectEvent.Call(this);
+            //OnPlayerConnectEvent.Call(this);
 
             if (Server.server_owner != "" && Server.server_owner.ToLower().Equals(this.name.ToLower()))
             {
@@ -1888,7 +1888,7 @@ namespace MCForge
             }
             if (PlayerBlockChange != null)
                 PlayerBlockChange(this, x, y, z, type);
-            OnBlockChangeEvent.Call(this, x, y, z, type);
+            //OnBlockChangeEvent.Call(this, x, y, z, type);
             if (cancelBlock)
             {
                 cancelBlock = false;
@@ -2673,13 +2673,13 @@ namespace MCForge
                 OnMove(this, x, y, z);
             if (PlayerMove != null)
                 PlayerMove(this, x, y, z);
-            PlayerMoveEvent.Call(this, x, y, z);
+            //PlayerMoveEvent.Call(this, x, y, z);
 
             if (OnRotate != null)
                     OnRotate(this, rot);
             if (PlayerRotate != null)
                     PlayerRotate(this, rot);
-            PlayerRotateEvent.Call(this, rot);
+            //PlayerRotateEvent.Call(this, rot);
             if (cancelmove)
             {
                 unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
@@ -2789,7 +2789,6 @@ namespace MCForge
                 OnDeath(this, b);
             if (PlayerDeath != null)
                 PlayerDeath(this, b);
-            OnPlayerDeathEvent.Call(this, b);
             if (lastDeath.AddSeconds(2) < DateTime.Now)
             {
 
@@ -3154,7 +3153,7 @@ return;
                         OnChat(this, text);
                     if (PlayerChat != null)
                         PlayerChat(this, text);
-                    OnPlayerChatEvent.Call(this, text);
+                    //OnPlayerChatEvent.Call(this, text);
                     return;
                 }
                 Server.s.Log("<" + name + "> " + text);
@@ -3162,7 +3161,7 @@ return;
                     OnChat(this, text);
                 if (PlayerChat != null)
                     PlayerChat(this, text);
-                OnPlayerChatEvent.Call(this, text);
+                //OnPlayerChatEvent.Call(this, text);
                 if (cancelchat)
                 {
                     cancelchat = false;
@@ -3286,7 +3285,7 @@ return;
                     OnCommand(cmd, this, message);
                 if (PlayerCommand != null)
                     PlayerCommand(cmd, this, message);
-                OnPlayerCommandEvent.Call(cmd, this, message);
+                //OnPlayerCommandEvent.Call(cmd, this, message);
                 if (cancelcommand)
                 {
                     cancelcommand = false;
@@ -3660,7 +3659,7 @@ return;
                 MessageRecieve(this, message);
             if (OnMessageRecieve != null)
                 OnMessageRecieve(this, message);
-            OnMessageRecieveEvent.Call(this, message);
+            //OnMessageRecieveEvent.Call(this, message);
             if (cancelmessage)
             {
                 cancelmessage = false;
@@ -4753,8 +4752,6 @@ changed |= 4;*/
 
         public void leftGame(string kickString = "", bool skip = false)
         {
-
-            OnPlayerDisconnectEvent.Call(this, kickString);
 
             //Umm...fixed?
             if (name == "")

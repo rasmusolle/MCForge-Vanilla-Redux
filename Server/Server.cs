@@ -607,7 +607,6 @@ namespace MCForge
                 }
                 catch (Exception e) { ErrorLog(e); }
             });
-            Plugin.Load();
             ml.Queue(delegate
             {
                 bannedIP = PlayerList.Load("banned-ip.txt", null);
@@ -975,7 +974,6 @@ namespace MCForge
             }
             );
 
-            Plugin.Unload();
             if (listen != null)
             {
                 listen.Close();
@@ -1036,8 +1034,6 @@ namespace MCForge
                         return;
                     }
                 }
-                if (!systemMsg)
-                    OnServerLogEvent.Call(message);
                 if (OnLog != null)
                 {
                     if (!systemMsg)
@@ -1129,7 +1125,6 @@ namespace MCForge
         {
             if (ServerError != null)
                 ServerError(ex);
-            OnServerErrorEvent.Call(ex);
             Logger.WriteError(ex);
             try
             {

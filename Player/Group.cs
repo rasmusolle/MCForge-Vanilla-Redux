@@ -42,7 +42,7 @@ namespace MCForge {
         public static event GroupLoaded OnGroupLoaded;
         public static bool cancelrank = false;
         //Move along...nothing to see here...
-        internal static void because(Player p, Group newrank) { if (OnPlayerRankSet != null) { OnPlayerRankSet(p, newrank); } OnPlayerRankSetEvent.Call(p, newrank); }
+        internal static void because(Player p, Group newrank) { if (OnPlayerRankSet != null) { OnPlayerRankSet(p, newrank); } }
         public string name;
         public string trueName;
         public string color;
@@ -83,7 +83,7 @@ namespace MCForge {
             playerList = name != "nobody" ? PlayerList.Load(fileName, this) : new PlayerList();
             if (OnGroupLoaded != null)
                 OnGroupLoaded(this);
-            OnGroupLoadedEvent.Call(this);
+            //OnGroupLoadedEvent.Call(this);
         }
         /// <summary>
         /// Fill the commands that this group can use
@@ -261,7 +261,7 @@ namespace MCForge {
             }
             if (OnGroupLoad != null)
                 OnGroupLoad();
-            OnGroupLoadEvent.Call();
+            //OnGroupLoadEvent.Call();
             saveGroups(GroupList);
         }
         /// <summary>
@@ -317,7 +317,7 @@ namespace MCForge {
             }
             if (OnGroupSave != null)
                 OnGroupSave();
-            OnGroupSaveEvent.Call();
+            //OnGroupSaveEvent.Call();
         }
         /// <summary>
         /// Check to see if group /name/ exists
