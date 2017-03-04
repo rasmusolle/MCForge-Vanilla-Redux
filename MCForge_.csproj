@@ -191,9 +191,6 @@
     <Compile Include="Permalink.cs" />
     <Compile Include="Player\PlayerCollection.cs" />
     <Compile Include="Levels\Level.cs" />
-    <Compile Include="Levels\ConvertDAT.cs">
-      <DependentUpon>BlockQueue.cs</DependentUpon>
-    </Compile>
     <Compile Include="Player\Group.cs" />
     <Compile Include="GUI\Program.cs" />
     <Compile Include="Levels\MapGenerator.cs" />
