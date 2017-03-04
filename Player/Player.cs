@@ -2663,7 +2663,6 @@ namespace MCForge
 
             try
             {
-                int xx, yy, zz; Random rand = new Random(); int size = 0;
                 Player.players.ForEach(delegate(Player player)
                 {
 

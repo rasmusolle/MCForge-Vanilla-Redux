@@ -351,7 +351,6 @@ namespace MCForge_.Gui
         } */
 
         public static bool CurrentUpdate = false;
-        static bool msgOpen = false;
         public static System.Timers.Timer updateTimer = new System.Timers.Timer(120 * 60 * 1000);
 
 
