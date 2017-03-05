@@ -1204,7 +1204,6 @@ namespace MCForge
             string joinm = "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " " + File.ReadAllText("text/login/" + this.name + ".txt");
             if (this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false)
             {
-
                 Player.players.ForEach(p1 =>
                 {
                     if (p1.UsingWom)
@@ -1817,6 +1816,7 @@ namespace MCForge
                 // handles the /womid client message, which displays the WoM version
                 if (text.Truncate(6) == "/womid")
                 {
+                    /*
                     string version = (text.Length <= 21 ? text.Substring(text.IndexOf(' ') + 1) : text.Substring(7, 15));
                     Player.GlobalMessage(c.red + "[INFO] " + color + name + "%f is using wom client");
                     Player.GlobalMessage(c.red + "[INFO] %fVersion: " + version);
@@ -1825,6 +1825,7 @@ namespace MCForge
                     UsingWom = true;
                     WoMVersion = version.Split('-')[1];
                     SendWomUsers();
+                    */
                     return;
                 }
 
@@ -2844,7 +2845,8 @@ rot = new byte[2] { rotx, roty };*/
         public void SendExtInfo(short count)
         {
             byte[] buffer = new byte[66];
-            StringFormat("MCForge Version: " + Server.Version, 64).CopyTo(buffer, 0);
+            //StringFormat("MCForge Version: " + Server.Version, 64).CopyTo(buffer, 0);
+            StringFormat("lol.wom", 64).CopyTo(buffer, 0);
             HTNO(count).CopyTo(buffer, 64);
             SendRaw(OpCode.ExtInfo, buffer);
         }
@@ -3638,14 +3640,14 @@ changed |= 4;*/
                                     Player.SendMessage(p1, leavem);
                             });
                         }
-                        //Server.IRC.Say(name + " left the game.");
+                        Server.IRC.Say(name + " left the game.");
                         Server.s.Log(name + " disconnected.");
                     }
                     else
                     {
                         totalKicked++;
                         GlobalChat(this, "&c- " + color + prefix + name + Server.DefaultColor + " kicked (" + kickString + Server.DefaultColor + ").", false);
-                        //Server.IRC.Say(name + " kicked (" + kickString + ").");
+                        Server.IRC.Say(name + " kicked (" + kickString + ").");
                         Server.s.Log(name + " kicked (" + kickString + ").");
                     }
 
@@ -3668,17 +3670,6 @@ changed |= 4;*/
                     {
                         //Server.ErrorLog(e);
                     }
-
-                    /*if (Server.AutoLoad && level.unload)
-{
-
-foreach (Player pl in Player.players)
-if (pl.level == level) hasplayers = true;
-if (!level.name.Contains("Museum " + Server.DefaultColor) && hasplayers == false)
-{
-level.Unload();
-}
-}*/
 
                     if (Server.AutoLoad && level.unload && !level.name.Contains("Museum " + Server.DefaultColor) && IsAloneOnCurrentLevel())
                         level.Unload(true);
