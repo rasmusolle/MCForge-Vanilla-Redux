@@ -475,9 +475,11 @@ namespace MCForge
                 socket = s;
                 ip = socket.RemoteEndPoint.ToString().Split(':')[0];
 
+                /*
                 if (IPInPrivateRange(ip))
                     exIP = ResolveExternalIP(ip);
                 else
+                */
                     exIP = ip;
 
                 Server.s.Log(ip + " connected to the server.");
@@ -1034,65 +1036,7 @@ namespace MCForge
             }
             //OpenClassic Client Check
             SendBlockchange(0, 0, 0, 0);
-            /*Database.AddParams("@Name", name);
-            DataTable playerDb = Database.fillData("SELECT * FROM Players WHERE Name=@Name");
 
-
-            if (playerDb.Rows.Count == 0)
-            {
-                this.prefix = "";
-                this.time = "0 0 0 1";
-                this.title = "";
-                this.titlecolor = "";
-                this.color = group.color;
-                this.money = 0;
-                this.firstLogin = DateTime.Now;
-                this.totalLogins = 1;
-                this.totalKicked = 0;
-                this.overallDeath = 0;
-                this.overallBlocks = 0;
-
-                this.timeLogged = DateTime.Now;
-                SendMessage("Welcome " + name + "! This is your first visit.");
-                string query = "INSERT INTO Economy (player, money, total, purchase, payment, salary, fine) VALUES ('" + name + "', " + money + ", 0, '%cNone', '%cNone', '%cNone', '%cNone')";
-                {
-                    SQLite.executeQuery(String.Format("INSERT INTO Players (Name, IP, FirstLogin, LastLogin, totalLogin, Title, totalDeaths, Money, totalBlocks, totalKicked, TimeSpent) VALUES ('{0}', '{1}', '{2:yyyy-MM-dd HH:mm:ss}', '{3:yyyy-MM-dd HH:mm:ss}', {4}, '{5}', {6}, {7}, {8}, {9}, '{10}')", name, ip, firstLogin, DateTime.Now, totalLogins, prefix, overallDeath, money, loginBlocks, totalKicked, time));
-                    SQLite.executeQuery(query);
-                }
-            }
-            else
-            {
-                totalLogins = int.Parse(playerDb.Rows[0]["totalLogin"].ToString()) + 1;
-                time = playerDb.Rows[0]["TimeSpent"].ToString();
-                userID = int.Parse(playerDb.Rows[0]["ID"].ToString());
-                firstLogin = DateTime.Parse(playerDb.Rows[0]["firstLogin"].ToString());
-                timeLogged = DateTime.Now;
-                if (playerDb.Rows[0]["Title"].ToString().Trim() != "")
-                {
-                    string parse = playerDb.Rows[0]["Title"].ToString().Trim().Replace("[", "");
-                    title = parse.Replace("]", "");
-                }
-                if (playerDb.Rows[0]["title_color"].ToString().Trim() != "")
-                {
-                    titlecolor = c.Parse(playerDb.Rows[0]["title_color"].ToString().Trim());
-                }
-                else
-                {
-                    titlecolor = "";
-                }
-                if (playerDb.Rows[0]["color"].ToString().Trim() != "")
-                {
-                    color = c.Parse(playerDb.Rows[0]["color"].ToString().Trim());
-                }
-                else
-                {
-                    color = group.color;
-                }
-                overallDeath = int.Parse(playerDb.Rows[0]["TotalDeaths"].ToString());
-                overallBlocks = long.Parse(playerDb.Rows[0]["totalBlocks"].ToString().Trim());
-                money = int.Parse(playerDb.Rows[0]["Money"].ToString());
-                //money = Economy.RetrieveEcoStats(this.name).money;
-                totalKicked = int.Parse(playerDb.Rows[0]["totalKicked"].ToString());*/
 			if(!Directory.Exists("players"))
 			{
 				Directory.CreateDirectory ("players");
@@ -1260,21 +1204,19 @@ namespace MCForge
             string joinm = "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " " + File.ReadAllText("text/login/" + this.name + ".txt");
             if (this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false)
             {
-                if ((Server.guestJoinNotify == true && this.group.Permission <= LevelPermission.Guest) || this.group.Permission > LevelPermission.Guest)
+
+                Player.players.ForEach(p1 =>
                 {
-                    Player.players.ForEach(p1 =>
+                    if (p1.UsingWom)
                     {
-                        if (p1.UsingWom)
-                        {
-                            byte[] buffer = new byte[65];
-                            Player.StringFormat("^detail.user.join=" + color + name + c.white, 64).CopyTo(buffer, 1);
-                            p1.SendRaw(OpCode.Message, buffer);
-                            buffer = null;
-                        }
-                        else
-                            Player.SendMessage(p1, joinm);
-                    });
-                }
+                        byte[] buffer = new byte[65];
+                        Player.StringFormat("^detail.user.join=" + color + name + c.white, 64).CopyTo(buffer, 1);
+                        p1.SendRaw(OpCode.Message, buffer);
+                        buffer = null;
+                    }
+                    else
+                        Player.SendMessage(p1, joinm);
+                });
             }
             if (this.group.Permission >= Server.adminchatperm && Server.adminsjoinsilent == true)
             {
@@ -1348,216 +1290,6 @@ namespace MCForge
                 Server.ErrorLog(e);
             }
         }
-
-   /*     public void MakeExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, string levelname, ushort b, bool tnt)
-        {
-            for (int xt = 0; xt <= 100; xt++)
-            {
-                Thread.Sleep(10);
-            }
-            Level level = Level.Find(levelname);*/
-            /*foreach (Player ppp in Player.players)
-            {
-                ppp.killingPeople = false;
-                ppp.amountKilled = 0;
-                Server.killed.Clear();
-            }
-            level.MakeExplosion(name, x, y, z, 0, bigtnt, nuke, tnt);
-            Player that = Player.Find(name);
-            that.SendBlockchange(x, y, z, b);
-        }*/
-
-       /* public void MakeInstantExplosion(string name, ushort x, ushort y, ushort z, int size, bool bigtnt, bool nuke, string levelname, ushort b)
-        {
-            Level level = Level.Find(levelname);
-            /*foreach (Player ppp in Player.players)
-            {
-                ppp.killingPeople = false;
-                ppp.amountKilled = 0;
-                Server.killed.Clear();
-            }*/
-          /*  level.MakeExplosion(name, x, y, z, 0, bigtnt, nuke, true);
-            Player that = Player.Find(name);
-            that.SendBlockchange(x, y, z, b);
-        }
-		*/
-    /*    public void MakeLightningsplosion(string name, ushort x, ushort y, ushort z, int size, string levelname, ushort b)
-        {
-            for (int xt = 0; xt <= 3; xt++)
-            {
-                Thread.Sleep(50);
-            }
-            Level level = Level.Find(levelname);
-            /*foreach (Player ppp in Player.players)
-            {
-                ppp.killingPeople = false;
-                ppp.amountKilled = 0;
-                Server.killed.Clear();
-            }*/
-      /*      level.makeLightningsplosion(name, x, y, z, 0);
-            try
-            {
-                if (lightningUpgrade > 0)
-                {
-                    level.makeLightningsplosion(name, (ushort)(x + 1), y, z, 0);
-                    level.makeLightningsplosion(name, (ushort)(x - 1), y, z, 0);
-                    level.makeLightningsplosion(name, x, y, (ushort)(z + 1), 0);
-                    level.makeLightningsplosion(name, x, y, (ushort)(z - 1), 0);
-                }
-            }
-            catch { }
-
-            if (lightningUpgrade > 1)
-            {
-                Random rand = new Random();
-                int random = rand.Next(0, 49);
-                int random1 = rand.Next(0, 49);
-                if (random == random1)
-                {
-                    var randomlyOrdered = Player.players.OrderBy(i => rand.Next());
-                    foreach (var i in randomlyOrdered)
-                    {
-                        level.makeLightningsplosion(name, (ushort)(i.pos[0] / 32), (ushort)(i.pos[1] / 32), (ushort)(i.pos[2] / 32), 0);
-                        break;
-                    }
-                }
-            }
-            Player that = Player.Find(name);
-            that.SendBlockchange(x, y, z, b);
-        }
-
-
-        public void MakeUpsideDownLightningsplosion(string name, ushort x, ushort y, ushort z, int size, string levelname, ushort b)
-        {
-            for (int xt = 0; xt <= 3; xt++)
-            {
-                Thread.Sleep(50);
-            }
-            Level level = Level.Find(levelname);
-            /*foreach (Player ppp in Player.players)
-            {
-                ppp.killingPeople = false;
-                ppp.amountKilled = 0;
-                Server.killed.Clear();
-            }*/
-          /*  level.makeUpsideDownLightning(name, x, y, z, 0);
-
-            Player that = Player.Find(name);
-            that.SendBlockchange(x, y, z, b);
-        }
-	*/
-        /*public void MakeLinesplosion(string name, ushort x, ushort y, ushort z, int size, bool lazer, string levelname, ushort b)
-        {
-            for (int xt = 0; xt <= 3; xt++)
-            {
-                Thread.Sleep(50);
-            }
-            Level level = Level.Find(levelname);
-
-            try
-            {
-                if (lazerUpgrade > 0 && lazer)
-                    level.makeLinesplosion(name, (ushort)(x + 1), y, (ushort)(z + 1), 0, lazer);
-            }
-            catch { }
-            level.makeLinesplosion(name, x, y, z, 0, lazer);
-
-            if (lazerUpgrade > 2 && lazer && !lazerTimer.Enabled)
-            {
-                lazerPos = new ushort[] { x, y, z };
-                lazerTimer = new System.Timers.Timer(1000 * 2); ///Ztime timer
-                lazerTimer.Elapsed += new ElapsedEventHandler(SecondLazer);
-                lazerTimer.Enabled = true;
-            }
-            Player that = Player.Find(name);
-            that.SendBlockchange(x, y, z, b);
-        }
-
-        public void SecondLazer(object sender, ElapsedEventArgs e)
-        {
-            lazerTimer.Enabled = false;
-            Level level = this.level;
-            ushort x = lazerPos[0];
-            ushort y = lazerPos[1];
-            ushort z = lazerPos[2];
-            try
-            {
-                level.makeLinesplosion(name, (ushort)(x + 1), y, (ushort)(z + 1), 0, true);
-            }
-            catch { }
-            level.makeLinesplosion(name, x, y, z, 0, true);
-            lazerTimer.Stop();
-        }
-
-        public void MakeFreezeRay(string name, ushort x, ushort y, ushort z, int size, bool lazer, string levelname, ushort b)
-        {
-            for (int xt = 0; xt <= 3; xt++)
-            {
-                Thread.Sleep(50);
-            }
-            Level level = Level.Find(levelname);
-
-            try
-            {
-                if (lazerUpgrade > 0 && lazer)
-                    level.makeFreezeRay(name, (ushort)(x + 1), y, (ushort)(z + 1), 0);
-            }
-            catch { }
-            level.makeFreezeRay(name, x, y, z, 0);
-
-            Player that = Player.Find(name);
-            that.SendBlockchange(x, y, z, b);
-        }*/
-
-       /* public void freezePlayer(ushort x, ushort y, ushort z)
-        {
-            foreach (Player ppp in Player.players)
-            {
-                if (ppp.pos[0] / 32 == x && !ppp.invinciblee)
-                    if ((ppp.pos[1] / 32 == y) || ((ppp.pos[1] / 32) - 1 == y) || ((ppp.pos[1] / 32) + 1 == y))
-                        if (ppp.pos[2] / 32 == z)
-                        {
-                            if (!Server.killed.Contains(ppp) && !ppp.deathTimerOn && !this.referee && !ppp.referee && !Server.pctf.InSpawn(ppp, ppp.pos) && ppp != this && (Server.pctf.getTeam(this) != Server.pctf.getTeam(ppp)))
-                            {
-                                ppp.freezeTimer = new System.Timers.Timer(1000 * 2); ///Ztime timer
-                                if (!ppp.freezeTimer.Enabled)
-                                {
-                                    ppp.SendMessage(c.gray + " - " + Server.DefaultColor + "You were frozen by " + this.name + "'s freeze ray!" + c.gray + " - ");
-                                    SendMessage(c.gray + " - " + Server.DefaultColor + "You froze " + ppp.name + "!" + c.gray + " - ");
-                                    ppp.hasBeenTrapped = true;
-                                    ppp.freezeTimer.Elapsed += new ElapsedEventHandler(ppp.unFreezePlayer);
-                                    ppp.freezeTimer.Enabled = true;
-                                }
-                            }
-                        }
-            }
-        }
-
-        public void unFreezePlayer(object sender, ElapsedEventArgs e)
-        {
-            hasBeenTrapped = false;
-            freezeTimer.Enabled = false;
-            freezeTimer.Stop();
-        }
-
-
-        public void MakeLine(string name, ushort x, ushort y, ushort z, int size, bool lazer, string levelname, ushort b)
-        {
-            for (int xt = 0; xt <= 3; xt++)
-            {
-                Thread.Sleep(50);
-            }
-            Level level = Level.Find(levelname);
-            /*foreach (Player ppp in Player.players)
-            {
-                ppp.killingPeople = false;
-                ppp.amountKilled = 0;
-                Server.killed.Clear();
-            }*/
-          /*  level.makeLine(name, x, y, z, 0, lazer);
-            Player that = Player.Find(name);
-            that.SendBlockchange(x, y, z, b);
-        }*/
 
         public void manualChange(ushort x, ushort y, ushort z, byte action, ushort type)
         {
@@ -3893,21 +3625,18 @@ changed |= 4;*/
                         if (!hidden)
                         {
                             string leavem = "&c- " + color + prefix + name + Server.DefaultColor + " " + File.ReadAllText("text/logout/" + name + ".txt");
-                            if ((Server.guestLeaveNotify && this.group.Permission <= LevelPermission.Guest) || this.group.Permission > LevelPermission.Guest)
+                            Player.players.ForEach(delegate(Player p1)
                             {
-                                Player.players.ForEach(delegate(Player p1)
+                                if (p1.UsingWom)
                                 {
-                                    if (p1.UsingWom)
-                                    {
-                                        byte[] buffer = new byte[65];
-                                        Player.StringFormat("^detail.user.part=" + color + name + c.white, 64).CopyTo(buffer, 1);
-                                        p1.SendRaw(OpCode.Message, buffer);
-                                        buffer = null;
-                                    }
-                                    else
-                                        Player.SendMessage(p1, leavem);
-                                });
-                            }
+                                    byte[] buffer = new byte[65];
+                                    Player.StringFormat("^detail.user.part=" + color + name + c.white, 64).CopyTo(buffer, 1);
+                                    p1.SendRaw(OpCode.Message, buffer);
+                                    buffer = null;
+                                }
+                                else
+                                    Player.SendMessage(p1, leavem);
+                            });
                         }
                         //Server.IRC.Say(name + " left the game.");
                         Server.s.Log(name + " disconnected.");
@@ -4383,6 +4112,7 @@ Next: continue;
             //return IsLocalIpAddress(ip);
         }
 
+        /*
         public string ResolveExternalIP(string ip)
         {
             HTTPGet req = new HTTPGet();
@@ -4392,6 +4122,7 @@ Next: continue;
             string[] a3 = a2.Split('<');
             return a3[0];
         }
+        */
 
         public static bool IsLocalIpAddress(string host)
         {
