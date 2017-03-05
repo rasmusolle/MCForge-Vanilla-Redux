@@ -3787,39 +3787,10 @@ level.Unload();
         {
             return GetGroup(name).color;
         }
-   /*     public static OfflinePlayer FindOffline(string name)
-        {
-            OfflinePlayer offPlayer = new OfflinePlayer("", "", "", "", 0);
-            Database.AddParams("@Name", name);
-            using (DataTable playerDB = Database.fillData("SELECT * FROM Players WHERE Name = @Name"))
-            {
-                if (playerDB.Rows.Count == 0)
-                    return offPlayer;
-                else
-                {
-                    offPlayer.name = playerDB.Rows[0]["Name"].ToString().Trim();
-                    offPlayer.title = playerDB.Rows[0]["Title"].ToString().Trim();
-                    offPlayer.titleColor = c.Parse(playerDB.Rows[0]["title_color"].ToString().Trim());
-                    offPlayer.color = c.Parse(playerDB.Rows[0]["color"].ToString().Trim());
-                    offPlayer.money = int.Parse(playerDB.Rows[0]["Money"].ToString());
-                    if (offPlayer.color == "") { offPlayer.color = GetGroup(offPlayer.name).color; }
-                }
-            }
-            return offPlayer;
-        }*/
         #endregion
         #region == OTHER ==
         static byte FreeId()
         {
-            /*
-for (byte i = 0; i < 255; i++)
-{
-foreach (Player p in players)
-{
-if (p.id == i) { goto Next; }
-} return i;
-Next: continue;
-} unchecked { return (byte)-1; }*/
 
             for (ushort i = 0; i < Block.maxblocks; i++)
             {
@@ -4112,17 +4083,6 @@ Next: continue;
             //return IsLocalIpAddress(ip);
         }
 
-        /*
-        public string ResolveExternalIP(string ip)
-        {
-            HTTPGet req = new HTTPGet();
-            req.Request("http://checkip.dyndns.org");
-            string[] a1 = req.ResponseBody.Split(':');
-            string a2 = a1[1].Substring(1);
-            string[] a3 = a2.Split('<');
-            return a3[0];
-        }
-        */
 
         public static bool IsLocalIpAddress(string host)
         {
