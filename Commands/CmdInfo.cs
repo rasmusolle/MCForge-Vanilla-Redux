@@ -23,13 +23,18 @@ namespace MCForge.Commands
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public override void Use(Player p, string message)
         {
-            Player.SendMessage(p, "This server runs on &bMCSpleef" + Server.DefaultColor + ", which is a custom server software based off of &bMCLawl");
+            Player.SendMessage(p, "You're on \"" + Server.name + "\" with the MOTD " + Server.motd + ".");
+            //Player.SendMessage(p, "&d" + Player.players.Count + Server.DefaultColor + " players are currently online.");
+            Player.SendMessage(p, "This server runs on &bMCSpleef" + Server.DefaultColor + ", which was originally based off of &bMCLawl" + Server.DefaultColor + ", but was remade as a MCForge fork.");
             Player.SendMessage(p, "This server's version: &a" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            Player.SendMessage(p, "The server time is " + DateTime.Now.ToString("HH:mm") + ".");
             Player.SendMessage(p, "Currently $banned people are %0banned.");
+            if (Server.irc)
+                Player.SendMessage(p, Server.IRCColour + "Irc is &aEnabled " + Server.IRCColour + "(" + Server.ircChannel + " @ " + Server.ircServer + ")");
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/info - Displays the server information.");
+            Player.SendMessage(p, "/info - Displays information about the server.");
         }
     }
 }
