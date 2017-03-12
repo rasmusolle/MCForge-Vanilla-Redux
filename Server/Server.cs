@@ -254,7 +254,6 @@ namespace MCForge
         public static LevelPermission adminchatperm = LevelPermission.Admin;
         public static bool logbeat = false;
         public static bool adminsjoinsilent = false;
-        public static bool mono { get { return (Type.GetType("Mono.Runtime") != null); } }
         public static string server_owner = "Notch";
         public static bool WomDirect = false;
         public static bool UseSeasons = false;

@@ -879,18 +879,7 @@ namespace MCForge
             catch (OutOfMemoryException e)
             {
                 Server.ErrorLog(e);
-                if (Server.mono)
-                {
-                    Process[] prs = Process.GetProcesses();
-                    foreach (Process pr in prs)
-                    {
-                        if (pr.ProcessName == "MCForge")
-                            pr.Kill();
-
-                    }
-                }
-                else
-                    Command.all.Find("restart").Use(null, "");
+                Command.all.Find("restart").Use(null, "");
             }
             catch (Exception e)
             {

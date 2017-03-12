@@ -92,7 +92,7 @@ namespace MCForge_.Gui
                 {
                     StreamWriter SW = new StreamWriter(File.Create("Viewmode.cfg"));
                     SW.WriteLine("#This file controls how the console window is shown to the server host");
-                    SW.WriteLine("#cli: True or False (Determines whether a CLI interface is used) (Set True if on Mono)");
+                    SW.WriteLine("#cli: True or False (Determines whether a CLI interface is used)");
                     SW.WriteLine("#high-quality: True or false (Determines whether the GUI interface uses higher quality objects)");
                     SW.WriteLine();
                     SW.WriteLine("cli = false");
@@ -380,7 +380,6 @@ namespace MCForge_.Gui
                     }
                     else
                     {
-                        //Process.Start("mono", parentfullpath);
                         Application.Exit();
                         Application.Restart();
                     }

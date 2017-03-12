@@ -112,6 +112,24 @@
     <Compile Include="Heartbeat\IBeat.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Player\Player.CPE.cs" />
+    <Compile Include="queue\Cache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="queue\Check.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="queue\Enums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="queue\ICacheable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="queue\MainLoop.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="queue\TorrentException.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Server\AutoSaver.cs" />
     <Compile Include="Server\Ban.cs" />
     <Compile Include="GUI\ColoredTextBox.cs">
@@ -245,12 +263,6 @@
     <Compile Include="sharkbite.thresher\UserInfo.cs" />
     <Compile Include="sharkbite.thresher\WhoisInfo.cs" />
     <Compile Include="util\ExtrasCollection.cs" />
-    <Compile Include="queue\Cache.cs" />
-    <Compile Include="queue\Check.cs" />
-    <Compile Include="queue\Enums.cs" />
-    <Compile Include="queue\ICacheable.cs" />
-    <Compile Include="queue\MainLoop.cs" />
-    <Compile Include="queue\TorrentException.cs" />
     <Compile Include="util\Extensions.cs" />
     <Compile Include="util\Hasher.cs" />
     <Compile Include="util\ICryptoService.cs" />

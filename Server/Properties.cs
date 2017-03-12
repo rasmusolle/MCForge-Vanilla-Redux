@@ -742,7 +742,6 @@ namespace MCForge {
 			w.WriteLine("#   server-name\t\t\t\t= The name which displays on minecraft.net");
 			w.WriteLine("#   motd\t\t\t\t= The message which displays when a player connects");
 			w.WriteLine("#   port\t\t\t\t= The port to operate from");
-            w.WriteLine("#   console-only\t\t\t= Run without a GUI (useful for Linux servers with mono)");
             w.WriteLine("#   verify-names\t\t\t= Verify the validity of names");
             w.WriteLine("#   public\t\t\t\t= Set to true to appear in the public server list");
             w.WriteLine("#   max-players\t\t\t\t= The maximum number of connections");
@@ -832,7 +831,6 @@ namespace MCForge {
 			w.WriteLine("restart-on-error = " + Server.restartOnError);
             w.WriteLine("mcforge-protection-level = " + Enum.GetName(typeof(ForgeProtection), Server.forgeProtection));
 			w.WriteLine("main-name = " + Server.level);
-			//w.WriteLine("guest-goto = " + Server.guestGoto);
 			w.WriteLine();
 			w.WriteLine("# irc bot options");
 			w.WriteLine("irc = " + Server.irc.ToString().ToLower());
