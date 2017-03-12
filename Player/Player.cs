@@ -217,9 +217,6 @@ namespace MCForge
         static System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
         static MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
         public static string lastMSG = "";
-        //For CMDs and plugins with teams in them
-        public bool isOnRedTeam = false;
-        public bool isOnBlueTeam = false;
         public int health = 100;
 
         public static bool storeHelp = false;
@@ -839,7 +836,7 @@ namespace MCForge
                             UsingID = false;
                         }
                         identified = true;
-                        name += "+";
+                        //name += "+";
                     }
                     if (IPInPrivateRange(ip))
                     {
@@ -1061,19 +1058,6 @@ namespace MCForge
                 PlayerConnect(this);
             //OnPlayerConnectEvent.Call(this);
 
-            if (Server.server_owner != "" && Server.server_owner.ToLower().Equals(this.name.ToLower()))
-            {
-                if (color == Group.standard.color)
-                {
-                    color = "&c";
-                }
-                if (title == "")
-                {
-                    title = "Owner";
-                }
-                SetPrefix();
-            }
-        //    playerDb.Dispose();
             //Re-implenting MCLawl-Era Dev recognition. Is harmless and does little, but is still nice. 
             if (isDev)
             {
@@ -2127,21 +2111,6 @@ return;
         {
             try
             {
-                if (Server.verifyadmins)
-                {
-                    if (cmd.ToLower() == "setpass")
-                    {
-                        Command.all.Find(cmd).Use(this, message);
-                        Server.s.CommandUsed(this.name + " used /setpass");
-                        return;
-                    }
-                    if (cmd.ToLower() == "pass")
-                    {
-                        Command.all.Find(cmd).Use(this, message);
-                        Server.s.CommandUsed(this.name + " used /pass");
-                        return;
-                    }
-                }
                 if (Server.agreetorulesonentry)
                 {
                     if (cmd.ToLower() == "agree")
@@ -2248,11 +2217,6 @@ return;
                 //Group old = null;
                 if (command != null)
                 {
-                    //this part checks if MCForge staff are able to USE protection commands
-                    /*if (isProtected && Server.ProtectOver.Contains(cmd.ToLower())) {
-                        old = Group.findPerm(this.group.Permission);
-                        this.group = Group.findPerm(LevelPermission.Nobody);
-                    }*/
 
                     if (Player.CommandProtected(cmd.ToLower(), message))
                     {
