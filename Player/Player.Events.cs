@@ -27,7 +27,6 @@ namespace MCForge
         internal bool cancelchat = false;
         internal bool cancelmove = false;
         internal bool cancelBlock = false;
-        internal bool cancelmysql = false;
         internal bool cancelmessage = false;
         //Should people be able to cancel this event?
         /// <summary>

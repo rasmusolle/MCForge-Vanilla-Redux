@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -71,7 +70,6 @@ namespace MCForge
         public static bool UseTextures = false;
         public static Thread blockThread;
         public static bool IgnoreOmnibans = false;
-        //public static List<MySql.Data.MySqlClient.MySqlCommand> mySQLCommands = new List<MySql.Data.MySqlClient.MySqlCommand>();
 
         public static int speedPhysics = 250;
 
@@ -301,25 +299,11 @@ namespace MCForge
 
             shuttingDown = false;
             Log("Starting Server");
-            {
-                if (!File.Exists("MySql.Data.dll"))
-                {
-                    Log("MySql.Data.dll doesn't exist.");
 
-                }
-                if (!File.Exists("System.Data.SQLite.dll"))
-                {
-                    Log("System.Data.SQLite.dll doesn't exist.");
-                }
-                if (!File.Exists("sqlite3.dll"))
-                {
-                    Log("sqlite3.dll doesn't exist.");
-                }
                 if (!File.Exists("Newtonsoft.Json.dll"))
                 {
                 	Log("Newtonsoft.Json.dll doesn't exist.");
                 }
-            }
             if (!Directory.Exists("properties")) Directory.CreateDirectory("properties");
             if (!Directory.Exists("levels")) Directory.CreateDirectory("levels");
             if (!Directory.Exists("text")) Directory.CreateDirectory("text");

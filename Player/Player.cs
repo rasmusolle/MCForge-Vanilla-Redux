@@ -213,7 +213,6 @@ namespace MCForge
         public List<string> listignored = new List<string>();
         public List<string> mapgroups = new List<string>();
         public static List<string> globalignores = new List<string>();
-        public static int totalMySQLFailed = 0;
         public static byte number { get { return (byte)players.Count; } }
         static System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
         static MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
