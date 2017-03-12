@@ -1312,16 +1312,6 @@ namespace MCForge
                 return;
             }
 
-            if (Server.verifyadmins == true)
-            {
-                if (this.adminpen == true)
-                {
-                    SendBlockchange(x, y, z, b);
-                    this.SendMessage("&cYou must use &a/pass [Password]&c to verify!");
-                    return;
-                }
-            }
-
             Blockchange bP = new Blockchange();
             bP.username = name;
 			bP.level = level.name;
@@ -2144,14 +2134,6 @@ return;
                 {
                     SendMessage("You cannot use any commands while jailed.");
                     return;
-                }
-                if (Server.verifyadmins)
-                {
-                    if (this.adminpen)
-                    {
-                        this.SendMessage("&cYou must use &a/pass [Password]&c to verify!");
-                        return;
-                    }
                 }
 
                 if (cmd.ToLower() == "care") { SendMessage("Dmitchell94 now loves you with all his heart."); return; }
