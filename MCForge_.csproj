@@ -148,11 +148,6 @@
     <Compile Include="Player\Player.Events.cs" />
     <Compile Include="Server\Scripting\ScriptingVB.cs" />
     <Compile Include="Player\Checktimer.cs" />
-    <Compile Include="Service References\TranslateService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Server\Color.cs" />
     <Compile Include="Commands\CmdViewRanks.cs" />
     <Compile Include="Commands\CmdBan.cs" />
@@ -195,7 +190,6 @@
     <Compile Include="Player\Group.cs" />
     <Compile Include="GUI\Program.cs" />
     <Compile Include="Server\Logger.cs" />
-    <Compile Include="Player\Misc.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\PlayerList.cs" />
     <Compile Include="Server\Properties.cs" />
@@ -300,36 +294,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\TranslateService\MCForge.TranslateService.GetTranslationsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TranslateService\MCForge.TranslateService.TranslateArrayResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TranslateService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\TranslateService\configuration.svcinfo" />
-    <None Include="Service References\TranslateService\configuration91.svcinfo" />
     <None Include="app.config" />
     <None Include="README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Service References\TranslateService\soap.wsdl" />
-    <None Include="Service References\TranslateService\soap.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TranslateService\soap1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TranslateService\soap2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TranslateService\soap3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TranslateService\SoapService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Changelog.txt">
@@ -343,12 +311,6 @@
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\TranslateService\" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
