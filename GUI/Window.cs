@@ -39,7 +39,7 @@ namespace MCForge.Gui {
         // for cross thread use
         delegate void StringCallback(string s);
         delegate void PlayerListCallback(List<Player> players);
-        delegate void ReportCallback(Report r);
+        //delegate void ReportCallback(Report r);
         delegate void VoidDelegate();
         public static bool fileexists = false;
         public static Window thisWindow;
