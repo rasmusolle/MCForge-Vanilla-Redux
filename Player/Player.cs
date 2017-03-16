@@ -3151,7 +3151,7 @@ rot = new byte[2] { rotx, roty };*/
                 message = EscapeColours(message);
             players.ForEach(delegate(Player p)
             {
-                if (p.level.worldChat  && (!global || !p.muteGlobal))
+                if (p.level.worldChat && !global)
                 {
                     Player.SendMessage(p, type, message, !global);
                 }
