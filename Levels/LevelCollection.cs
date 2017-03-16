@@ -69,9 +69,6 @@ namespace MCForge
             del = l => l.players.Count;
             props.Add(new LevelMethodDescriptor("Players", del, typeof(int)));
 
-            del = l => l.physics;
-            props.Add(new LevelMethodDescriptor("Physics", del, typeof(int)));
-
             del = delegate(Level l)
             {
                 //return l.permissionvisit.ToString();
@@ -105,17 +102,11 @@ namespace MCForge
             del = l => l.players.Count;
             props.Add(new LevelMethodDescriptor("Players", del, typeof(int)));
 
-            del = l => l.physics;
-            props.Add(new LevelMethodDescriptor("Physics", del, typeof(int)));
-
             del = l => l.motd;
             props.Add(new LevelMethodDescriptor("MOTD", del, typeof(string)));
 
             del = l => l.GrassGrow;
             props.Add(new LevelMethodDescriptor("Grass", del, typeof(bool)));
-
-            del = l => l.Killer;
-            props.Add(new LevelMethodDescriptor("Killer-Blocks", del, typeof(bool)));
 
             del = l => l.worldChat;
             props.Add(new LevelMethodDescriptor("World-Chat", del, typeof(bool)));
@@ -131,9 +122,6 @@ namespace MCForge
 
             del = l => l.edgeWater;
             props.Add(new LevelMethodDescriptor("Edge-Water", del, typeof(bool)));
-
-            del = l => l.ai ? "Hunt" : "Flee";
-            props.Add(new LevelMethodDescriptor("AI", del, typeof(string)));
 
             del = l => l.guns;
             props.Add(new LevelMethodDescriptor("Guns", del, typeof(bool)));

@@ -72,10 +72,6 @@ namespace MCForge
 
         public delegate void OnLevelUnload(Level l);
 
-        public delegate void OnPhysicsUpdate(ushort x, ushort y, ushort z, byte time, string extraInfo, Level l);
-
-        public delegate void OnPhysicsStateChanged(object sender, PhysicsState state);
-
         #endregion
         public int speedphysics = 250;
         public bool Death;
@@ -97,10 +93,7 @@ namespace MCForge
         public bool cancelsave1;
         public bool cancelunload;
         public bool changed;
-        public bool physicschanged
-        {
-            get { return ListCheck.Count > 0; }
-        }
+
         public bool countdowninprogress;
         public int currentUndo;
         public ushort depth; // y       THIS IS STUPID, SHOULD HAVE BEEN Z
@@ -176,18 +169,7 @@ namespace MCForge
         public LevelPermission permissionvisit = LevelPermission.Guest;
         public LevelPermission pervisitmax = LevelPermission.Nobody;
 
-        //public Timer physChecker = new Timer(1000);
-        public int physics
-        {
-            get { return Physicsint; }
-            set
-            {
-                if (value > 0 && Physicsint == 0)
-                    //physic.StartPhysics(this);
-                Physicsint = value;
-            }
-        }
-        int Physicsint;
+
         public bool randomFlow = true;
         public bool realistic = true;
         public byte rotx;
@@ -546,9 +528,6 @@ namespace MCForge
                     Blockchange(p, x, (ushort)(y - 1), z, Block.dirt);
                 }
 
-                errorLocation = "Adding physics";
-                if (physics > 0) if (Block.Physics(type)) AddCheck(PosToInt(x, y, z), "", false, p);
-
                 changed = true;
                 backedup = false;
             }
@@ -587,11 +566,6 @@ namespace MCForge
                     SW.WriteLine("#Level properties for " + level.name);
                     SW.WriteLine("#Drown-time in seconds is [drown time] * 200 / 3 / 1000");
                     SW.WriteLine("Theme = " + level.theme);
-                    SW.WriteLine("Physics = " + level.physics.ToString());
-                    SW.WriteLine("Physics speed = " + level.speedphysics.ToString());
-                    SW.WriteLine("Physics overload = " + level.overload.ToString());
-                    SW.WriteLine("Finite mode = " + level.finite.ToString());
-                    SW.WriteLine("Animal AI = " + level.ai.ToString());
                     SW.WriteLine("Edge water = " + level.edgeWater.ToString());
                     SW.WriteLine("Survival death = " + level.Death.ToString());
                     SW.WriteLine("Fall = " + level.fall.ToString());
@@ -652,9 +626,6 @@ namespace MCForge
                     Player.GlobalBlockchange(this, b, type);
 
                 SetTile(b, type); //Updates server level blocks
-
-                if (physics > 0)
-                    if (Block.Physics(type) || extraInfo != "") AddCheck(b, extraInfo);
             }
             catch
             {
@@ -693,9 +664,6 @@ namespace MCForge
                 }
 
                 SetTile(x, y, z, type); //Updates server level blocks
-
-                if (physics > 0)
-                    if (Block.Physics(type) || extraInfo != "") AddCheck(PosToInt(x, y, z), extraInfo);
             }
             catch
             {
@@ -747,7 +715,7 @@ namespace MCForge
                 if (!Directory.Exists("levels")) Directory.CreateDirectory("levels");
                 if (!Directory.Exists("levels/level properties")) Directory.CreateDirectory("levels/level properties");
 
-                if (changed || !File.Exists(path) || Override || (physicschanged && clearPhysics))
+                if (changed || !File.Exists(path) || Override)
                 {
 
                     
@@ -993,7 +961,6 @@ namespace MCForge
                                     };
 
 
-                    level.setPhysics(phys);
                     var blocks = new byte[(bite ? 1 : 2) * level.width * level.height * level.depth];
                     gs.Read(blocks, 0, blocks.Length);
                     if(!bite)
@@ -1045,21 +1012,6 @@ namespace MCForge
                                 {
                                     case "theme":
                                         level.theme = value;
-                                        break;
-                                    case "physics":
-                                        level.setPhysics(int.Parse(value));
-                                        break;
-                                    case "physics speed":
-                                        level.speedphysics = int.Parse(value);
-                                        break;
-                                    case "physics overload":
-                                        level.overload = int.Parse(value);
-                                        break;
-                                    case "finite mode":
-                                        level.finite = bool.Parse(value);
-                                        break;
-                                    case "animal ai":
-                                        level.ai = bool.Parse(value);
                                         break;
                                     case "edge water":
                                         level.edgeWater = bool.Parse(value);
@@ -1140,7 +1092,6 @@ namespace MCForge
                     Server.s.Log(string.Format("Level \"{0}\" loaded.", level.name));
                     if (LevelLoaded != null)
                         LevelLoaded(level);
-                    //OnLevelLoadedEvent.Call(level);
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                     return level;
@@ -1234,28 +1185,6 @@ namespace MCForge
             }
         }
 
-        public void setPhysics(int newValue)
-        {
-            /*
-            if (physics == 0 && newValue != 0 && blocks != null)
-            {
-                for (int i = 0; i < blocks.Length; i++)
-                    // Optimization hack, since no blocks under 183 ever need a restart
-
-            }
-            */
-            physics = newValue;
-            //physic.StartPhysics(level); This isnt needed, the physics will start when we set the new value above
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether physics are enabled.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if physics are enabled; otherwise, <c>false</c>.
-        /// </value>
-        public bool PhysicsEnabled { get; set; }
-
         public int PosToInt(ushort x, ushort y, ushort z)
         {
             if (x < 0 || x >= width || y < 0 || y >= depth || z < 0 || z >= height)
@@ -1337,7 +1266,6 @@ namespace MCForge
             }
             catch
             {
-                //s.Log("Warning-PhysicsCheck");
                 //ListCheck.Add(new Check(b));    //Lousy back up plan
             }
         }
@@ -1350,30 +1278,10 @@ namespace MCForge
                 {
                     ushort x, y, z;
                     IntToPos(b, out x, out y, out z);
-                    AddCheck(b, extraInfo, true); //Dont need to check physics here....AddCheck will do that
+                    AddCheck(b, extraInfo, true);
                     Blockchange(x, y, z, (ushort)type, true, extraInfo);
                     return true;
                 }
-/*
-                if (!ListUpdate.Exists(Update => Update.b == b))
-                {
-                    ListUpdate.Add(new Update(b, (byte)type, extraInfo));
-                    if (!physic.physicssate && physics > 0)
-                        physic.StartPhysics(this);
-                    return true;
-                }
-                else
-                {
-                    if (type == 12 || type == 13)
-                    {
-                        ListUpdate.RemoveAll(Update => Update.b == b);
-                        ListUpdate.Add(new Update(b, (byte)type, extraInfo));
-                        if (!physic.physicssate && physics > 0)
-                            physic.StartPhysics(this);
-                        return true;
-                    }
-                }
- */
 
                 return false;
             }

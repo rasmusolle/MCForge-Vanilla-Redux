@@ -545,90 +545,6 @@ namespace MCForge.Gui {
             Command.all.Find("save").Use(null, "all");
         }
 
-        private void dgvMaps_CellContentClick(object sender, DataGridViewCellEventArgs e) {
-
-        }
-
-        private void loadOngotoToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " loadongoto");
-        }
-
-        private void instantBuildingToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " instant");
-        }
-
-        private void autpPhysicsToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " restartphysics");
-        }
-
-        private void gunsToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("allowguns");
-        }
-
-        private void unloadToolStripMenuItem1_Click(object sender, EventArgs e) {
-            levelcommand("map", " unload");
-        }
-
-        private void infoToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map");
-            levelcommand("mapinfo");
-        }
-
-        private void actiondToolStripMenuItem_Click(object sender, EventArgs e) {
-
-        }
-
-        private void moveAllToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("moveall");
-        }
-
-        private void toolStripMenuItem2_Click_1(object sender, EventArgs e) {
-            levelcommand("physics", " 0");
-        }
-
-        private void toolStripMenuItem3_Click_1(object sender, EventArgs e) {
-            levelcommand("physics", " 1");
-        }
-
-        private void toolStripMenuItem4_Click_1(object sender, EventArgs e) {
-            levelcommand("physics", " 2");
-        }
-
-        private void toolStripMenuItem5_Click_1(object sender, EventArgs e) {
-            levelcommand("physics", " 3");
-        }
-
-        private void toolStripMenuItem6_Click_1(object sender, EventArgs e) {
-            levelcommand("physics", " 4");
-        }
-
-        private void toolStripMenuItem7_Click_1(object sender, EventArgs e) {
-            levelcommand("physics", " 5");
-        }
-
-        private void saveToolStripMenuItem_Click_1(object sender, EventArgs e) {
-            levelcommand("save");
-        }
-
-        private void unloadToolStripMenuItem_Click_1(object sender, EventArgs e) {
-            levelcommand("unload");
-        }
-
-        private void reloadToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("reload");
-        }
-
-        private void leafDecayToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " leafdecay");
-        }
-
-        private void randomFlowToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " randomflow");
-        }
-
-        private void treeGrowingToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " growtrees");
-        }
 
         /*
         private void button1_Click(object sender, EventArgs e) {
@@ -692,8 +608,5 @@ namespace MCForge.Gui {
         {
 
         }
-
-
-
     }
 }

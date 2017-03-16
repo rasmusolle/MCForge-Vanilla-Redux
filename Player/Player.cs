@@ -1429,41 +1429,30 @@ namespace MCForge
             Random rand = new Random();
 
             level.Blockchange(this, x, y, z, (ushort)Block.air);
-
-            if ((level.physics == 0 || level.physics == 5) && level.GetTile(x, (ushort)(y - 1), z) == 3) level.Blockchange(this, x, (ushort)(y - 1), z, 2);
         }
         public void placeBlock(ushort b, ushort type, ushort x, ushort y, ushort z)
         {
             switch (blockAction)
             {
-                case 0: //normal
-                    if (level.physics == 0 || level.physics == 5)
+                case 0:
+                    switch (type)
                     {
-                        switch (type)
-                        {
-                            case Block.dirt: //instant dirt to grass
-                                if (Block.LightPass(level.GetTile(x, (ushort)(y + 1), z))) level.Blockchange(this, x, y, z, (byte)(Block.grass));
-                                else level.Blockchange(this, x, y, z, (byte)(Block.dirt));
+                        case Block.dirt: //instant dirt to grass
+                            if (Block.LightPass(level.GetTile(x, (ushort)(y + 1), z))) level.Blockchange(this, x, y, z, (byte)(Block.grass));
+                            else level.Blockchange(this, x, y, z, (byte)(Block.dirt));
+                            break;
+                        case Block.staircasestep: //stair handler
+                            if (level.GetTile(x, (ushort)(y - 1), z) == Block.staircasestep)
+                            {
+                                SendBlockchange(x, y, z, Block.air); //send the air block back only to the user.
+                                level.Blockchange(this, x, (ushort)(y - 1), z, (byte)(Block.staircasefull));
                                 break;
-                            case Block.staircasestep: //stair handler
-                                if (level.GetTile(x, (ushort)(y - 1), z) == Block.staircasestep)
-                                {
-                                    SendBlockchange(x, y, z, Block.air); //send the air block back only to the user.
-                                    //level.Blockchange(this, x, y, z, (byte)(null));
-                                    level.Blockchange(this, x, (ushort)(y - 1), z, (byte)(Block.staircasefull));
-                                    break;
-                                }
-                                //else
-                                level.Blockchange(this, x, y, z, type);
-                                break;
-                            default:
-                                level.Blockchange(this, x, y, z, type);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        level.Blockchange(this, x, y, z, type);
+                            }
+                            level.Blockchange(this, x, y, z, type);
+                            break;
+                        default:
+                            level.Blockchange(this, x, y, z, type);
+                            break;
                     }
                     break;
                 case 6:

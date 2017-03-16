@@ -501,33 +501,6 @@ namespace MCForge
             }
         }
 
-        public static bool Physics(ushort type)   //returns false if placing block cant actualy cause any physics to happen
-        {
-            switch (type)
-            {
-                case Block.rock:
-                case Block.stone:
-                case Block.blackrock:
-                case Block.waterstill:
-                case Block.lavastill:
-                case Block.goldrock:
-                case Block.ironrock:
-                case Block.coal:
-
-                case Block.goldsolid:
-                case Block.iron:
-                case Block.staircasefull:
-                case Block.brick:
-                case Block.tnt:
-                case Block.stonevine:
-                case Block.obsidian:
-                    return false;
-
-                default:
-                    return true;
-            }
-        }
-
         public static string Name(ushort type)
         {
             switch (type)

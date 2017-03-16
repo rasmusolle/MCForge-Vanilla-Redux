@@ -412,23 +412,6 @@ namespace MCForge_.Gui
                 }
             }
             catch (Exception exc) { Server.ErrorLog(exc); }
-
-            try
-            {
-                string level = null;
-                foreach (Level l in Server.levels)
-                {
-                        level = level + l.name + "=" + l.physics + System.Environment.NewLine;
-                        l.Save(false, true);
-
-                    l.saveChanges();
-                }
-                if (Server.ServerSetupFinished && !Server.AutoLoad)
-                {
-                    File.WriteAllText("text/autoload.txt", level);
-                }
-            }
-            catch (Exception exc) { Server.ErrorLog(exc); }
         }
     }
 }

@@ -407,6 +407,7 @@ namespace MCForge
                 }
             });
 
+            /*
             ml.Queue(delegate
             {
                 if (File.Exists("text/autoload.txt"))
@@ -473,6 +474,7 @@ namespace MCForge
                     Log("autoload.txt does not exist");
                 }
             });
+            */
 
             ml.Queue(delegate
             {

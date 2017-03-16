@@ -63,40 +63,6 @@ namespace MCForge.Gui
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
-            this.mapsStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.physicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.physicsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.finiteModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.randomFlowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.edgeWaterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.growingGrassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.treeGrowingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.leafDecayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.autpPhysicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unloadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadOngotoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.animalAIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.survivalDeathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.killerBlocksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.instantBuildingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rPChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gunsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.actiondToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playerStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.whoisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,7 +119,6 @@ namespace MCForge.Gui
             this.button_saveall = new System.Windows.Forms.Button();
             this.killphysics_button = new System.Windows.Forms.Button();
             this.Unloadempty_button = new System.Windows.Forms.Button();
-            this.mapsStrip.SuspendLayout();
             this.playerStrip.SuspendLayout();
             this.iconContext.SuspendLayout();
             this.txtLogMenuStrip.SuspendLayout();
@@ -168,275 +133,6 @@ namespace MCForge.Gui
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaps)).BeginInit();
             this.SuspendLayout();
-            // 
-            // mapsStrip
-            // 
-            this.mapsStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.physicsToolStripMenuItem,
-            this.settingsToolStripMenuItem,
-            this.actiondToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.infoToolStripMenuItem});
-            this.mapsStrip.Name = "mapsStrip";
-            this.mapsStrip.Size = new System.Drawing.Size(144, 98);
-            // 
-            // physicsToolStripMenuItem
-            // 
-            this.physicsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem5,
-            this.toolStripMenuItem6,
-            this.toolStripMenuItem7});
-            this.physicsToolStripMenuItem.Name = "physicsToolStripMenuItem";
-            this.physicsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.physicsToolStripMenuItem.Text = "Physics Level";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(135, 22);
-            this.toolStripMenuItem2.Text = "Off";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click_1);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(135, 22);
-            this.toolStripMenuItem3.Text = "Normal";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click_1);
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(135, 22);
-            this.toolStripMenuItem4.Text = "Advanced";
-            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click_1);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(135, 22);
-            this.toolStripMenuItem5.Text = "Hardcore";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click_1);
-            // 
-            // toolStripMenuItem6
-            // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(135, 22);
-            this.toolStripMenuItem6.Text = "Instant";
-            this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click_1);
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(135, 22);
-            this.toolStripMenuItem7.Text = "Doors-Only";
-            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click_1);
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.physicsToolStripMenuItem1,
-            this.loadingToolStripMenuItem,
-            this.miscToolStripMenuItem});
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            // 
-            // physicsToolStripMenuItem1
-            // 
-            this.physicsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.finiteModeToolStripMenuItem,
-            this.randomFlowToolStripMenuItem,
-            this.edgeWaterToolStripMenuItem,
-            this.growingGrassToolStripMenuItem,
-            this.treeGrowingToolStripMenuItem,
-            this.leafDecayToolStripMenuItem,
-            this.autpPhysicsToolStripMenuItem});
-            this.physicsToolStripMenuItem1.Name = "physicsToolStripMenuItem1";
-            this.physicsToolStripMenuItem1.Size = new System.Drawing.Size(117, 22);
-            this.physicsToolStripMenuItem1.Text = "Physics";
-            // 
-            // finiteModeToolStripMenuItem
-            // 
-            this.finiteModeToolStripMenuItem.Name = "finiteModeToolStripMenuItem";
-            this.finiteModeToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.finiteModeToolStripMenuItem.Text = "Finite Mode";
-            this.finiteModeToolStripMenuItem.Click += new System.EventHandler(this.finiteModeToolStripMenuItem_Click);
-            // 
-            // randomFlowToolStripMenuItem
-            // 
-            this.randomFlowToolStripMenuItem.Name = "randomFlowToolStripMenuItem";
-            this.randomFlowToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.randomFlowToolStripMenuItem.Text = "Random Flow";
-            this.randomFlowToolStripMenuItem.Click += new System.EventHandler(this.randomFlowToolStripMenuItem_Click);
-            // 
-            // edgeWaterToolStripMenuItem
-            // 
-            this.edgeWaterToolStripMenuItem.Name = "edgeWaterToolStripMenuItem";
-            this.edgeWaterToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.edgeWaterToolStripMenuItem.Text = "Edge Water";
-            this.edgeWaterToolStripMenuItem.Click += new System.EventHandler(this.edgeWaterToolStripMenuItem_Click);
-            // 
-            // growingGrassToolStripMenuItem
-            // 
-            this.growingGrassToolStripMenuItem.Name = "growingGrassToolStripMenuItem";
-            this.growingGrassToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.growingGrassToolStripMenuItem.Text = "Grass Growing";
-            this.growingGrassToolStripMenuItem.Click += new System.EventHandler(this.growingGrassToolStripMenuItem_Click);
-            // 
-            // treeGrowingToolStripMenuItem
-            // 
-            this.treeGrowingToolStripMenuItem.Name = "treeGrowingToolStripMenuItem";
-            this.treeGrowingToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.treeGrowingToolStripMenuItem.Text = "Tree Growing";
-            this.treeGrowingToolStripMenuItem.Click += new System.EventHandler(this.treeGrowingToolStripMenuItem_Click);
-            // 
-            // leafDecayToolStripMenuItem
-            // 
-            this.leafDecayToolStripMenuItem.Name = "leafDecayToolStripMenuItem";
-            this.leafDecayToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.leafDecayToolStripMenuItem.Text = "Leaf Decay";
-            this.leafDecayToolStripMenuItem.Click += new System.EventHandler(this.leafDecayToolStripMenuItem_Click);
-            // 
-            // autpPhysicsToolStripMenuItem
-            // 
-            this.autpPhysicsToolStripMenuItem.Name = "autpPhysicsToolStripMenuItem";
-            this.autpPhysicsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.autpPhysicsToolStripMenuItem.Text = "Auto Physics";
-            this.autpPhysicsToolStripMenuItem.Click += new System.EventHandler(this.autpPhysicsToolStripMenuItem_Click);
-            // 
-            // loadingToolStripMenuItem
-            // 
-            this.loadingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.unloadToolStripMenuItem1,
-            this.loadOngotoToolStripMenuItem});
-            this.loadingToolStripMenuItem.Name = "loadingToolStripMenuItem";
-            this.loadingToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.loadingToolStripMenuItem.Text = "Loading";
-            // 
-            // unloadToolStripMenuItem1
-            // 
-            this.unloadToolStripMenuItem1.Name = "unloadToolStripMenuItem1";
-            this.unloadToolStripMenuItem1.Size = new System.Drawing.Size(150, 22);
-            this.unloadToolStripMenuItem1.Text = "Auto Unload";
-            this.unloadToolStripMenuItem1.Click += new System.EventHandler(this.unloadToolStripMenuItem1_Click);
-            // 
-            // loadOngotoToolStripMenuItem
-            // 
-            this.loadOngotoToolStripMenuItem.Name = "loadOngotoToolStripMenuItem";
-            this.loadOngotoToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.loadOngotoToolStripMenuItem.Text = "Load on /goto";
-            this.loadOngotoToolStripMenuItem.Click += new System.EventHandler(this.loadOngotoToolStripMenuItem_Click);
-            // 
-            // miscToolStripMenuItem
-            // 
-            this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.animalAIToolStripMenuItem,
-            this.survivalDeathToolStripMenuItem,
-            this.killerBlocksToolStripMenuItem,
-            this.instantBuildingToolStripMenuItem,
-            this.rPChatToolStripMenuItem,
-            this.gunsToolStripMenuItem});
-            this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.miscToolStripMenuItem.Text = "Misc";
-            // 
-            // animalAIToolStripMenuItem
-            // 
-            this.animalAIToolStripMenuItem.Name = "animalAIToolStripMenuItem";
-            this.animalAIToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.animalAIToolStripMenuItem.Text = "Animal AI";
-            this.animalAIToolStripMenuItem.Click += new System.EventHandler(this.animalAIToolStripMenuItem_Click);
-            // 
-            // survivalDeathToolStripMenuItem
-            // 
-            this.survivalDeathToolStripMenuItem.Name = "survivalDeathToolStripMenuItem";
-            this.survivalDeathToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.survivalDeathToolStripMenuItem.Text = "Survival Death";
-            this.survivalDeathToolStripMenuItem.Click += new System.EventHandler(this.survivalDeathToolStripMenuItem_Click);
-            // 
-            // killerBlocksToolStripMenuItem
-            // 
-            this.killerBlocksToolStripMenuItem.Name = "killerBlocksToolStripMenuItem";
-            this.killerBlocksToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.killerBlocksToolStripMenuItem.Text = "Killer Blocks";
-            this.killerBlocksToolStripMenuItem.Click += new System.EventHandler(this.killerBlocksToolStripMenuItem_Click);
-            // 
-            // instantBuildingToolStripMenuItem
-            // 
-            this.instantBuildingToolStripMenuItem.Name = "instantBuildingToolStripMenuItem";
-            this.instantBuildingToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.instantBuildingToolStripMenuItem.Text = "Instant Building";
-            this.instantBuildingToolStripMenuItem.Click += new System.EventHandler(this.instantBuildingToolStripMenuItem_Click);
-            // 
-            // rPChatToolStripMenuItem
-            // 
-            this.rPChatToolStripMenuItem.Name = "rPChatToolStripMenuItem";
-            this.rPChatToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.rPChatToolStripMenuItem.Text = "RP Chat";
-            this.rPChatToolStripMenuItem.Click += new System.EventHandler(this.rPChatToolStripMenuItem_Click);
-            // 
-            // gunsToolStripMenuItem
-            // 
-            this.gunsToolStripMenuItem.Name = "gunsToolStripMenuItem";
-            this.gunsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.gunsToolStripMenuItem.Text = "Guns";
-            this.gunsToolStripMenuItem.Click += new System.EventHandler(this.gunsToolStripMenuItem_Click);
-            // 
-            // actiondToolStripMenuItem
-            // 
-            this.actiondToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem,
-            this.reloadToolStripMenuItem,
-            this.unloadToolStripMenuItem,
-            this.moveAllToolStripMenuItem});
-            this.actiondToolStripMenuItem.Name = "actiondToolStripMenuItem";
-            this.actiondToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.actiondToolStripMenuItem.Text = "Actions";
-            this.actiondToolStripMenuItem.Click += new System.EventHandler(this.actiondToolStripMenuItem_Click);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click_1);
-            // 
-            // reloadToolStripMenuItem
-            // 
-            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.reloadToolStripMenuItem.Text = "Reload";
-            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
-            // 
-            // unloadToolStripMenuItem
-            // 
-            this.unloadToolStripMenuItem.Name = "unloadToolStripMenuItem";
-            this.unloadToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.unloadToolStripMenuItem.Text = "Unload";
-            this.unloadToolStripMenuItem.Click += new System.EventHandler(this.unloadToolStripMenuItem_Click_1);
-            // 
-            // moveAllToolStripMenuItem
-            // 
-            this.moveAllToolStripMenuItem.Name = "moveAllToolStripMenuItem";
-            this.moveAllToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.moveAllToolStripMenuItem.Text = "Move All";
-            this.moveAllToolStripMenuItem.Click += new System.EventHandler(this.moveAllToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
-            // 
-            // infoToolStripMenuItem
-            // 
-            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.infoToolStripMenuItem.Text = "Info";
-            this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
             // 
             // playerStrip
             // 
@@ -954,7 +650,6 @@ namespace MCForge.Gui
             this.dgvMaps.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvMaps.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dgvMaps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMaps.ContextMenuStrip = this.mapsStrip;
             this.dgvMaps.Location = new System.Drawing.Point(512, 292);
             this.dgvMaps.MultiSelect = false;
             this.dgvMaps.Name = "dgvMaps";
@@ -963,7 +658,6 @@ namespace MCForge.Gui
             this.dgvMaps.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvMaps.Size = new System.Drawing.Size(297, 150);
             this.dgvMaps.TabIndex = 38;
-            this.dgvMaps.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMaps_CellContentClick);
             // 
             // button_saveall
             // 
@@ -1015,7 +709,6 @@ namespace MCForge.Gui
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Window_FormClosing);
             this.Load += new System.EventHandler(this.Window_Load);
             this.Resize += new System.EventHandler(this.Window_Resize);
-            this.mapsStrip.ResumeLayout(false);
             this.playerStrip.ResumeLayout(false);
             this.iconContext.ResumeLayout(false);
             this.txtLogMenuStrip.ResumeLayout(false);
@@ -1052,45 +745,11 @@ namespace MCForge.Gui
         private ToolStripMenuItem kickToolStripMenuItem;
         private ToolStripMenuItem banToolStripMenuItem;
         private ToolStripMenuItem voiceToolStripMenuItem;
-        private ContextMenuStrip mapsStrip;
-        private ToolStripMenuItem settingsToolStripMenuItem;
-        private ToolStripMenuItem finiteModeToolStripMenuItem;
-        private ToolStripMenuItem animalAIToolStripMenuItem;
-        private ToolStripMenuItem edgeWaterToolStripMenuItem;
-        private ToolStripMenuItem growingGrassToolStripMenuItem;
-        private ToolStripMenuItem survivalDeathToolStripMenuItem;
-        private ToolStripMenuItem killerBlocksToolStripMenuItem;
-        private ToolStripMenuItem rPChatToolStripMenuItem;
         private ToolStripMenuItem clonesToolStripMenuItem;
         private Button Restart;
         private ToolStripMenuItem restartServerToolStripMenuItem;
         private ToolStripMenuItem promoteToolStripMenuItem;
         private ToolStripMenuItem demoteToolStripMenuItem;
-        private ToolStripMenuItem unloadToolStripMenuItem1;
-        private ToolStripMenuItem loadOngotoToolStripMenuItem;
-        private ToolStripMenuItem autpPhysicsToolStripMenuItem;
-        private ToolStripMenuItem instantBuildingToolStripMenuItem;
-        private ToolStripMenuItem gunsToolStripMenuItem;
-        private ToolStripMenuItem infoToolStripMenuItem;
-        private ToolStripMenuItem actiondToolStripMenuItem;
-        private ToolStripMenuItem saveToolStripMenuItem;
-        private ToolStripMenuItem unloadToolStripMenuItem;
-        private ToolStripMenuItem moveAllToolStripMenuItem;
-        private ToolStripMenuItem reloadToolStripMenuItem;
-        private ToolStripMenuItem randomFlowToolStripMenuItem;
-        private ToolStripMenuItem leafDecayToolStripMenuItem;
-        private ToolStripMenuItem treeGrowingToolStripMenuItem;
-        private ToolStripMenuItem physicsToolStripMenuItem;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private ToolStripMenuItem toolStripMenuItem3;
-        private ToolStripMenuItem toolStripMenuItem4;
-        private ToolStripMenuItem toolStripMenuItem5;
-        private ToolStripMenuItem toolStripMenuItem6;
-        private ToolStripMenuItem toolStripMenuItem7;
-        private ToolStripMenuItem physicsToolStripMenuItem1;
-        private ToolStripMenuItem loadingToolStripMenuItem;
-        private ToolStripMenuItem miscToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator1;
         private ContextMenuStrip txtLogMenuStrip;
         private ToolStripMenuItem nightModeToolStripMenuItem;
         private ToolStripMenuItem colorsToolStripMenuItem;
