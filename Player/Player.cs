@@ -454,7 +454,7 @@ namespace MCForge
             {
                 return false;
             }
-            return Block.Convert(b) != Block.Zero && Block.Convert(b) != Block.op_air;
+            return Block.Convert(b) != Block.Zero;
         }
 
         //This is so that plugin devs can declare a player without needing a socket..
@@ -1431,121 +1431,13 @@ namespace MCForge
         private void deleteBlock(ushort b, ushort type, ushort x, ushort y, ushort z)
         {
             Random rand = new Random();
-            int mx, mz;
 
-            if (deleteMode && b != Block.c4det) { level.Blockchange(this, x, y, z, Block.air); return; }
+            level.Blockchange(this, x, y, z, (ushort)Block.air);
 
-            if (Block.tDoor(b)) { SendBlockchange(x, y, z, b); return; }
-            if (Block.DoorAirs(b) != 0)
-            {
-                if (level.physics != 0) level.Blockchange(x, y, z, Block.DoorAirs(b));
-                else SendBlockchange(x, y, z, b);
-                return;
-            }
-            if (Block.odoor(b) != Block.Zero)
-            {
-                if (b == Block.odoor8 || b == Block.odoor8_air)
-                {
-                    level.Blockchange(this, x, y, z, Block.odoor(b));
-                }
-                else
-                {
-                    SendBlockchange(x, y, z, b);
-                }
-                return;
-            }
-
-            switch (b)
-            {
-                case Block.door_air: //Door_air
-                case Block.door2_air:
-                case Block.door3_air:
-                case Block.door4_air:
-                case Block.door5_air:
-                case Block.door6_air:
-                case Block.door7_air:
-                case Block.door8_air:
-                case Block.door9_air:
-                case Block.door10_air:
-                case Block.door_iron_air:
-                case Block.door_gold_air:
-                case Block.door_cobblestone_air:
-                case Block.door_red_air:
-
-                case Block.door_dirt_air:
-                case Block.door_grass_air:
-                case Block.door_blue_air:
-                case Block.door_book_air:
-                    break;
-                case Block.rocketstart:
-                    if (level.physics < 2 || level.physics == 5)
-                    {
-                        SendBlockchange(x, y, z, b);
-                    }
-                    else
-                    {
-                        int newZ = 0, newX = 0, newY = 0;
-
-                        SendBlockchange(x, y, z, Block.rocketstart);
-                        if (rot[0] < 48 || rot[0] > (256 - 48))
-                            newZ = -1;
-                        else if (rot[0] > (128 - 48) && rot[0] < (128 + 48))
-                            newZ = 1;
-
-                        if (rot[0] > (64 - 48) && rot[0] < (64 + 48))
-                            newX = 1;
-                        else if (rot[0] > (192 - 48) && rot[0] < (192 + 48))
-                            newX = -1;
-
-                        if (rot[1] >= 192 && rot[1] <= (192 + 32))
-                            newY = 1;
-                        else if (rot[1] <= 64 && rot[1] >= 32)
-                            newY = -1;
-
-                        if (192 <= rot[1] && rot[1] <= 196 || 60 <= rot[1] && rot[1] <= 64) { newX = 0; newZ = 0; }
-
-                        ushort b1 = level.GetTile((ushort)(x + newX * 2), (ushort)(y + newY * 2), (ushort)(z + newZ * 2));
-                        ushort b2 = level.GetTile((ushort)(x + newX), (ushort)(y + newY), (ushort)(z + newZ));
-                        if (b1 == Block.air && b2 == Block.air && level.CheckClear((ushort)(x + newX * 2), (ushort)(y + newY * 2), (ushort)(z + newZ * 2)) && level.CheckClear((ushort)(x + newX), (ushort)(y + newY), (ushort)(z + newZ)))
-                        {
-                            level.Blockchange((ushort)(x + newX * 2), (ushort)(y + newY * 2), (ushort)(z + newZ * 2), Block.rockethead);
-                            level.Blockchange((ushort)(x + newX), (ushort)(y + newY), (ushort)(z + newZ), Block.fire);
-                        }
-                    }
-                    break;
-                case Block.firework:
-                    if (level.physics == 5)
-                    {
-                        SendBlockchange(x, y, z, b);
-                        return;
-                    }
-                    if (level.physics != 0)
-                    {
-                        mx = rand.Next(0, 2); mz = rand.Next(0, 2);
-                        ushort b1 = level.GetTile((ushort)(x + mx - 1), (ushort)(y + 2), (ushort)(z + mz - 1));
-                        ushort b2 = level.GetTile((ushort)(x + mx - 1), (ushort)(y + 1), (ushort)(z + mz - 1));
-                        if (b1 == Block.air && b2 == Block.air && level.CheckClear((ushort)(x + mx - 1), (ushort)(y + 2), (ushort)(z + mz - 1)) && level.CheckClear((ushort)(x + mx - 1), (ushort)(y + 1), (ushort)(z + mz - 1)))
-                        {
-                            level.Blockchange((ushort)(x + mx - 1), (ushort)(y + 2), (ushort)(z + mz - 1), Block.firework);
-                            level.Blockchange((ushort)(x + mx - 1), (ushort)(y + 1), (ushort)(z + mz - 1), Block.lavastill, false, "wait 1 dissipate 100");
-                        }
-                    } SendBlockchange(x, y, z, b);
-
-                    break;
-
-                case Block.c4det:
-                    level.Blockchange(x, y, z, Block.air);
-                    break;
-
-                default:
-                    level.Blockchange(this, x, y, z, (ushort)Block.air);
-                    break;
-            }
             if ((level.physics == 0 || level.physics == 5) && level.GetTile(x, (ushort)(y - 1), z) == 3) level.Blockchange(this, x, (ushort)(y - 1), z, 2);
         }
         public void placeBlock(ushort b, ushort type, ushort x, ushort y, ushort z)
         {
-            if (Block.odoor(b) != Block.Zero) { SendMessage("oDoor here!"); return; }
             switch (blockAction)
             {
                 case 0: //normal
@@ -1581,15 +1473,6 @@ namespace MCForge
                 case 6:
                     if (b == modeType) { SendBlockchange(x, y, z, b); return; }
                     level.Blockchange(this, x, y, z, modeType);
-                    break;
-                case 13: //Small TNT
-                    level.Blockchange(this, x, y, z, Block.smalltnt);
-                    break;
-                case 14: //Big TNT
-                    level.Blockchange(this, x, y, z, Block.bigtnt);
-                    break;
-                case 15: //Nuke TNT
-                    level.Blockchange(this, x, y, z, Block.nuketnt);
                     break;
                 default:
                     Server.s.Log(name + " is breaking something");
@@ -1693,14 +1576,6 @@ namespace MCForge
             ushort b = this.level.GetTile(x, y, z);
             ushort b1 = this.level.GetTile(x, (ushort)((int)y - 1), z);
 
-            if (Block.Mover(b) || Block.Mover(b1))
-            {
-                if (Block.DoorAirs(b) != 0)
-                    level.Blockchange(x, y, z, Block.DoorAirs(b));
-                if (Block.DoorAirs(b1) != 0)
-                    level.Blockchange(x, (ushort)(y - 1), z, Block.DoorAirs(b1));
-            }
-
             if (Block.Death(b)) HandleDeath(b); else if (Block.Death(b1)) HandleDeath(b1);
         }
 
@@ -1724,25 +1599,13 @@ namespace MCForge
                 {
 
                     switch (b)
-                    {
-                        case Block.tntexplosion: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " &cblew into pieces.", false); break;
-                        case Block.deathair: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " walked into &cnerve gas and suffocated.", false); break;
-                        case Block.deathwater:
-                        case Block.activedeathwater: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " stepped in &dcold water and froze.", false); break;
+                    {   
                         case Block.deathlava:
-                        case Block.activedeathlava:
-                        case Block.fastdeathlava: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " stood in &cmagma and melted.", false); break;
-                        case Block.magma: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was hit by &cflowing magma and melted.", false); break;
-                        case Block.geyser: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was hit by &cboiling water and melted.", false); break;
-                        case Block.birdkill: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was hit by a &cphoenix and burnt.", false); break;
-                        case Block.train: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was hit by a &ctrain.", false); break;
-                        case Block.fishshark: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was eaten by a &cshark.", false); break;
-                        case Block.fire: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " burnt to a &ccrisp.", false); break;
-                        case Block.zombiebody: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " died due to lack of &5brain.", false); break;
+                        case Block.activedeathlava: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " stood in &cmagma and melted.", false); break;
+
                         case Block.air: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " hit the floor &chard.", false); break;
                         case Block.water: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " &cdrowned.", false); break;
                         case Block.Zero: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cterminated", false); break;
-                        case Block.fishlavashark: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was eaten by a ... LAVA SHARK?!", false); break;
                         case Block.rock:
                             GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
                             break;
