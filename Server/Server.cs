@@ -106,7 +106,6 @@ namespace MCForge
         //Other
         public static bool higherranktp = true;
         public static bool agreetorulesonentry = false;
-        public static bool UseCTF = false;
         public static bool ServerSetupFinished = false;
         public static PlayerList bannedIP;
         public static PlayerList whiteList;
