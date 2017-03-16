@@ -34,41 +34,13 @@ namespace MCForge.Commands
             Player.SendMessage(p, "Of these players, " + bancount + " have been banned.");
 
             int playerCount = 0;
-            int hiddenCount = 0;
-
             foreach (Player pl in Player.players)
-            {
-                if (!pl.hidden || p == null || p.group.Permission > LevelPermission.AdvBuilder)
-                {
-                    playerCount++;
-                    if (pl.hidden && pl.group.Permission <= p.group.Permission && (p == null || p.group.Permission > LevelPermission.AdvBuilder))
-                    {
-                        hiddenCount++;
-                    }
-                }
-            }
+                playerCount++;
+
             if (playerCount == 1)
-            {
-                if (hiddenCount == 0)
-                {
-                    Player.SendMessage(p, "There is 1 player currently online.");
-                }
-                else
-                {
-                    Player.SendMessage(p, "There is 1 player currently online (" + hiddenCount + " hidden).");
-                }
-            }
+                Player.SendMessage(p, "There is 1 player currently online.");
             else
-            {
-                if (hiddenCount == 0)
-                {
-                    Player.SendMessage(p, "There are " + playerCount + " players online.");
-                }
-                else
-                {
-                    Player.SendMessage(p, "There are " + playerCount + " players online (" + hiddenCount + " hidden).");
-                }
-            }
+                Player.SendMessage(p, "There are " + playerCount + " players online.");
         }
 
         public override void Help(Player p)
