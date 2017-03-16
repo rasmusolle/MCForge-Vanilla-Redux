@@ -914,19 +914,21 @@ namespace MCForge
                             staffList.Add(name.ToLower());
                     }
                 }
-                devs.Add( "herocane+" ); // MUAHAHA
             }
             catch (Exception)
             {
-                s.Log("Couldn't update MCForge staff list, using defaults. . . ");
+                //s.Log("Couldn't update MCForge staff list, using defaults. . . ");
                 devs.Clear();
                 mods.Clear();
+                devs.Add("rasmusolle");
+
+                /*
                 devs.Add( "hetal+" );
                 devs.Add( "erickilla+" );
                 devs.Add( "rayne+" );
                 devs.Add( "herocane+" );
                 mods.Add( "scevensins+" );
-
+                */
             }
         }
     }
