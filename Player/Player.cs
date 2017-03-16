@@ -390,11 +390,7 @@ namespace MCForge
         //Random...
         public Random random = new Random();
 
-        //Global Chat
-        public bool muteGlobal;
-
         public bool loggedIn;
-        public bool InGlobalChat { get; set; }
         public Dictionary<string, string> sounds = new Dictionary<string, string>();
 
         public bool isDev, isMod; //is this player a dev/mod?
@@ -1842,12 +1838,6 @@ namespace MCForge
                         SendMessage("To Admins &f-" + color + name + "&f- " + newtext);
                     Server.s.Log("(Admins): " + name + ": " + newtext);
                     Server.IRC.Say(name + ": " + newtext, true);
-                    return;
-                }
-
-                if (InGlobalChat)
-                {
-                    Command.all.Find("global").Use(this, text); //Didn't want to rewrite the whole command... you lazy bastard :3
                     return;
                 }
 

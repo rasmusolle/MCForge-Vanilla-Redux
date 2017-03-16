@@ -119,9 +119,7 @@ namespace MCForge
         //The MCForge Moderation List
         internal static readonly List<string> mods = new List<string>();
         public static List<string> Mods { get { return new List<string>(mods); } }
-        //GCMods List
-		internal static readonly List<string> gcmods = new List<string>(new string[] { "rwayy", "David", "JoeBukkit", "notrwaeh" } );
-        public static List<string> GCmods { get { return new List<string>(gcmods); } }
+
         internal static readonly List<string> protectover = new List<string>(new string[] { "moderate", "mute", "freeze", "lockdown", "ban", "banip", "kickban", "kick", "global", "xban", "xundo", "undo", "uban", "unban", "unbanip", "demote", "promote", "restart", "shutdown", "setrank", "warn", "tempban", "impersonate", "sendcmd", "possess", "joker", "jail", "ignore", "voice" });
         public static List<string> ProtectOver { get { return new List<string>(protectover); } }
 
@@ -405,9 +403,6 @@ namespace MCForge
                     foreach (string mod in Mods) {
                         Extensions.DeleteExactLineWord("ranks/banned.txt", mod);
                         Extensions.DeleteExactLineWord("ranks/muted.txt", mod);
-                    }
-                    foreach (string gcmod in GCmods) {
-                        Extensions.DeleteExactLineWord("ranks/muted.txt", gcmod);
                     }
                 }
             });
@@ -908,14 +903,13 @@ namespace MCForge
             {
                 devs.Clear();
                 mods.Clear();
-                gcmods.Clear();
                 using (WebClient web = new WebClient())
                 {
                     string[] result = web.DownloadString("http://mcforge.org/Update/devs.txt").Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
                     foreach (string line in result)
                     {
                         string type = line.Split(':')[0].ToLower();
-                        List<string> staffList = type.Equals("devs") ? devs : type.Equals("mods") ? mods : type.Equals("gcmods") ? gcmods : null;
+                        List<string> staffList = type.Equals("devs") ? devs : type.Equals("mods") ? mods : null;
                         foreach (string name in line.Split(':')[1].Split())
                             staffList.Add(name.ToLower());
                     }
@@ -927,7 +921,6 @@ namespace MCForge
                 s.Log("Couldn't update MCForge staff list, using defaults. . . ");
                 devs.Clear();
                 mods.Clear();
-                gcmods.Clear();
                 devs.Add( "hetal+" );
                 devs.Add( "erickilla+" );
                 devs.Add( "rayne+" );
@@ -936,11 +929,5 @@ namespace MCForge
 
             }
         }
-
-
-        public static bool canusegc = true; //badpokerface
-        public static int gcmultiwarns = 0, gcspamcount = 0, gccapscount = 0, gcfloodcount = 0;
-        public static DateTime gclastmsgtime = DateTime.MinValue;
-        public static string gclastmsg = "";
     }
 }
