@@ -1845,40 +1845,12 @@ namespace MCForge
                     return;
                 }
 
-             /*   if ((text[0] == '^' || teamchat) && Server.CTFModeOn)
-                {
-                    string newtext = text;
-                    if (text[0] == '^') newtext = text.Remove(0, 1).Trim();
-
-                 //   if (Server.pctf.getTeam(this) != null)
-                   //     GlobalMessageTeam(color + name + "&f- " + newtext, Server.pctf.getTeam(this));  //to make it easy on remote
-                    //else
-                        Player.SendMessage(this, "You must be on a team to use team chat!");
-                    Server.s.Log("(Team): " + name + ": " + newtext);
-                    //Server.IRC.Say(name + ": " + newtext, true);
-                    Server.IRC.Say(name + ": " + newtext, false);
-                    return;
-                }*/
-
                 if (InGlobalChat)
                 {
                     Command.all.Find("global").Use(this, text); //Didn't want to rewrite the whole command... you lazy bastard :3
                     return;
                 }
 
-                /*if (this.teamchat)
-{
-if (team == Block.air)
-{
-Player.SendMessage(this, "You are not on a team.");
-return;
-}
-foreach (Player p in team.players)
-{
-Player.SendMessage(p, "(" + team.teamstring + ") " + this.color + this.name + ":&f " + text);
-}
-return;
-}*/
                 if (this.joker)
                 {
                     if (File.Exists("text/joker.txt"))
