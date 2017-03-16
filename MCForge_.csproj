@@ -193,7 +193,6 @@
     <Compile Include="Commands\CmdTake.cs" />
     <Compile Include="Commands\CmdPay.cs" />
     <Compile Include="Commands\CmdView.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Levels\LevelCollection.cs" />
     <Compile Include="Permalink.cs" />
     <Compile Include="Player\PlayerCollection.cs" />
