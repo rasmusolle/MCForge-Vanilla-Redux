@@ -572,42 +572,6 @@ namespace MCForge
                             {
                                 p = Player.players[i];
 
-                                if (p.frozen)
-                                {
-                                    unchecked { p.SendPos((byte)-1, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1]); } continue;
-                                }
-                                else if (p.following != "")
-                                {
-                                    who = Player.Find(p.following);
-                                    if (who == null || who.level != p.level)
-                                    {
-                                        p.following = "";
-                                        if (!p.canBuild)
-                                        {
-                                            p.canBuild = true;
-                                        }
-                                        if (who != null && who.possess == p.name)
-                                        {
-                                            who.possess = "";
-                                        }
-                                        continue;
-                                    }
-                                    if (p.canBuild)
-                                    {
-                                        unchecked { p.SendPos((byte)-1, who.pos[0], (ushort)(who.pos[1] - 16), who.pos[2], who.rot[0], who.rot[1]); }
-                                    }
-                                    else
-                                    {
-                                        unchecked { p.SendPos((byte)-1, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1]); }
-                                    }
-                                }
-                                else if (p.possess != "")
-                                {
-                                    who = Player.Find(p.possess);
-                                    if (who == null || who.level != p.level)
-                                        p.possess = "";
-                                }
-
                                 x = (ushort)(p.pos[0] / 32);
                                 y = (ushort)(p.pos[1] / 32);
                                 z = (ushort)(p.pos[2] / 32);
@@ -625,9 +589,6 @@ namespace MCForge
 
                 locationChecker.Start();
 
-#if DEBUG
-	  UseTextures = true;          
-#endif
                 Log("Finished setting up server");
                 ServerSetupFinished = true;
                 Checktimer.StartTimer();

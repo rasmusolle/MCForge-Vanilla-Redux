@@ -226,11 +226,7 @@ namespace MCForge
         System.Timers.Timer loginTimer = new System.Timers.Timer(1000);
         public System.Timers.Timer pingTimer = new System.Timers.Timer(2000);
         System.Timers.Timer extraTimer = new System.Timers.Timer(22000);
-        public System.Timers.Timer afkTimer = new System.Timers.Timer(2000);
-        public int afkCount = 0;
-        public DateTime afkStart;
         public string WoMVersion = "";
-        public bool megaBoid = false;
         public bool cmdTimer = false;
         public bool UsingWom = false;
 
@@ -254,9 +250,6 @@ namespace MCForge
         public bool hidden = false;
         public bool painting = false;
         public bool muted = false;
-        public bool jailed = false;
-        public bool agreed = false;
-        public bool invincible = false;
         public string prefix = "";
         public string title = "";
         public string titlecolor;
@@ -264,8 +257,6 @@ namespace MCForge
         public int passtries = 0;
         public int ponycount = 0;
         public int rdcount = 0;
-        public bool hasreadrules = false;
-        public bool canusereview = true;
         public int hackWarnings = 0;
         public string model = "humanoid";
 
@@ -273,15 +264,9 @@ namespace MCForge
         public string lastmsg = "";
         public int spamcount = 0, capscount = 0, floodcount = 0, multi = 0;
         public DateTime lastmsgtime = DateTime.MinValue;
-        /// <summary>
-        /// Console only please
-        /// </summary>
-        public bool canusegc = true;
-
 
         public bool deleteMode = false;
         public bool ignorePermission = false;
-        public bool ignoreGrief = false;
         public bool parseSmiley = true;
         public bool smileySaved = true;
         public bool opchat = false;
@@ -292,9 +277,6 @@ namespace MCForge
 
         public string storedMessage = "";
         
-        public bool frozen = false;
-        public string following = "";
-        public string possess = "";
 
         // Only used for possession.
         //Using for anything else can cause unintended effects!
@@ -319,10 +301,6 @@ namespace MCForge
         public Thread commThread;
         public bool commUse = false;
 
-        public bool aiming;
-        public bool isFlying = false;
-
-        public bool joker = false;
         public bool adminpen = false;
 
         public bool voice = false;
@@ -330,9 +308,6 @@ namespace MCForge
 
         public bool spawned = false;
         public bool sentCustomBlockSupport = false;
-
-        public bool showPortals = false;
-        public bool showMBs = false;
 
         public string prevMsg = "";
 
@@ -1043,7 +1018,6 @@ namespace MCForge
                     title = "Dev";
                 }
                 SetPrefix();
-                Readgcrules = true; //Devs should know the rules. 
             }
 
             if (!spawned)
@@ -1141,21 +1115,6 @@ namespace MCForge
                     Kick(e.ToString());
                 }
             }
-
-            if (Server.agreetorulesonentry)
-            {
-                if (!File.Exists("ranks/agreed.txt"))
-                    File.WriteAllText("ranks/agreed.txt", "");
-                var agreedFile = File.ReadAllText("ranks/agreed.txt");
-                if (this.group.Permission == LevelPermission.Guest)
-                {
-                    if (!agreedFile.Contains(this.name.ToLower()))
-                        SendMessage("&9You must read the &c/rules&9 and &c/agree&9 to them before you can build and use commands!");
-                    else agreed = true;
-                }
-                else { agreed = true; }
-            }
-            else { agreed = true; }
 
             string joinm = "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " " + File.ReadAllText("text/login/" + this.name + ".txt");
             if (this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false)
@@ -1255,19 +1214,8 @@ namespace MCForge
             }
 
             ushort b = level.GetTile(x, y, z);
-            /*if (type != 0 && type <= 65 && Server.SMPMode && InSMP && inventory.Remove((byte)type, 1) == false)
-            {
-                SendMessage("You do not have this block.");
-                SendBlockchange(x, y, z, b);
-                return;
-            }
-            if (type == 0 && Server.SMPMode && InSMP)
-            {
-                inventory.Add((byte)type, 1);
-                return;
-            }*/
+
             if (b == Block.Zero) { return; }
-            if (jailed || !agreed) { SendBlockchange(x, y, z, b); return; }
             if (level.name.Contains("Museum " + Server.DefaultColor) && Blockchange == null)
             {
                 return;
@@ -1445,7 +1393,7 @@ namespace MCForge
 
         void HandleInput(object m)
         {
-            if (!loggedIn || following != "" || frozen)
+            if (!loggedIn)
                 return;
 
             byte[] message = (byte[])m;
@@ -1557,7 +1505,7 @@ namespace MCForge
             if (lastDeath.AddSeconds(2) < DateTime.Now)
             {
 
-                if (level.Killer && !invincible)
+                if (level.Killer)
                 {
 
                     switch (b)
@@ -1663,34 +1611,13 @@ namespace MCForge
                 }
                 if (text.Length == 0)
                     return;
-                afkCount = 0;
 
-                if (text != "/afk")
-                {
-                    if (Server.afkset.Contains(this.name))
-                    {
-                        Server.afkset.Remove(this.name);
-                        Player.GlobalMessage("-" + this.color + this.name + Server.DefaultColor + "- is no longer AFK");
-                        //Server.IRC.Say(this.name + " is no longer AFK");
-                    }
-                }
-                // This will allow people to type
-                // //Command
-                // and in chat it will appear as
-                // /Command
-                // Suggested by McMrCat
                 if (text.StartsWith("//"))
                 {
                     text = text.Remove(0, 1);
                     goto hello;
                 }
-                //This will make / = /repeat
-                //For lazy people :P
-                if (text == "/")
-                {
-                    HandleCommand("repeat", "");
-                    return;
-                }
+
                 if (text[0] == '/' || text[0] == '!')
                 {
                     text = text.Remove(0, 1);
@@ -1807,35 +1734,6 @@ namespace MCForge
                     return;
                 }
 
-                if (this.joker)
-                {
-                    if (File.Exists("text/joker.txt"))
-                    {
-                        Server.s.Log("<JOKER>: " + this.name + ": " + text);
-                        Player.GlobalMessageOps(Server.DefaultColor + "<&aJ&bO&cK&5E&9R" + Server.DefaultColor + ">: " + this.color + this.name + ":&f " + text);
-                        FileInfo jokertxt = new FileInfo("text/joker.txt");
-                        StreamReader stRead = jokertxt.OpenText();
-                        List<string> lines = new List<string>();
-                        Random rnd = new Random();
-                        int i = 0;
-
-                        while (!(stRead.Peek() == -1))
-                            lines.Add(stRead.ReadLine());
-
-                        stRead.Close();
-                        stRead.Dispose();
-
-                        if (lines.Count > 0)
-                        {
-                            i = rnd.Next(lines.Count);
-                            text = lines[i];
-                        }
-
-                    }
-                    else { File.Create("text/joker.txt").Dispose(); }
-
-                }
-
                 if (!level.worldChat)
                 {
                     Server.s.Log("<" + name + ">[level] " + text);
@@ -1892,40 +1790,7 @@ namespace MCForge
         {
             try
             {
-                if (Server.agreetorulesonentry)
-                {
-                    if (cmd.ToLower() == "agree")
-                    {
-                        Command.all.Find(cmd).Use(this, String.Empty);
-                        Server.s.CommandUsed(this.name + " used /agree");
-                        return;
-                    }
-                    if (cmd.ToLower() == "rules")
-                    {
-                        Command.all.Find(cmd).Use(this, String.Empty);
-                        Server.s.CommandUsed(this.name + " used /rules");
-                        return;
-                    }
-                    if (cmd.ToLower() == "disagree")
-                    {
-                        Command.all.Find(cmd).Use(this, String.Empty);
-                        Server.s.CommandUsed(this.name + " used /disagree");
-                        return;
-                    }
-                }
-
                 if (cmd == String.Empty) { SendMessage("No command entered."); return; }
-
-                if (Server.agreetorulesonentry && !agreed)
-                {
-                    SendMessage("You must read /rules then agree to them with /agree!");
-                    return;
-                }
-                if (jailed)
-                {
-                    SendMessage("You cannot use any commands while jailed.");
-                    return;
-                }
 
                 if (cmd.ToLower() == "care") { SendMessage("Dmitchell94 now loves you with all his heart."); return; }
                 if (cmd.ToLower() == "facepalm") { SendMessage("Fenderrock87's bot army just simultaneously facepalm'd at your use of this command."); return; }
@@ -2001,11 +1866,11 @@ namespace MCForge
                     if (group.CanExecute(command))
                     {
                         if (cmd != "repeat") lastCMD = cmd + " " + message;
-                        if (this.joker == true || this.muted == true)
+                        if (this.muted == true)
                         {
                             if (cmd.ToLower() == "me")
                             {
-                                SendMessage("Cannot use /me while muted or jokered.");
+                                SendMessage("Cannot use /me while muted");
                                 return;
                             }
                         }
@@ -2280,7 +2145,7 @@ namespace MCForge
             sb.Replace(":)", "(darksmile)");
             sb.Replace(":D", "(smile)");
             sb.Replace("<3", "(heart)");
-            /*
+            
             byte[] stored = new byte[1];
 
             stored[0] = (byte)1;
@@ -2318,7 +2183,7 @@ namespace MCForge
             stored[0] = (byte)30;
             sb.Replace("(up)", enc.GetString(stored));
             stored[0] = (byte)31;
-            sb.Replace("(down)", enc.GetString(stored));*/
+            sb.Replace("(down)", enc.GetString(stored));
 
             message = ReplaceEmoteKeywords(sb.ToString());
             if (HasBadColorCodes(message))
@@ -3302,36 +3167,11 @@ rot = new byte[2] { rotx, roty };*/
                 disconnected = true;
                 pingTimer.Stop();
                 pingTimer.Dispose();
-                if (File.Exists("ranks/ignore/" + this.name + ".txt"))
-                {
-                    try
-                    {
-                        File.WriteAllLines("ranks/ignore/" + this.name + ".txt", this.listignored.ToArray());
-                    }
-                    catch
-                    {
-                        Server.s.Log("Failed to save ignored list for player: " + this.name);
-                    }
-                }
-                if (File.Exists("ranks/ignore/GlobalIgnore.xml"))
-                {
-                    try
-                    {
-                        File.WriteAllLines("ranks/ignore/GlobalIgnore.xml", globalignores.ToArray());
-                    }
-                    catch
-                    {
-                        Server.s.Log("failed to save global ignore list!");
-                    }
-                }
-                afkTimer.Stop();
-                afkTimer.Dispose();
+
                 muteTimer.Stop();
                 muteTimer.Dispose();
                 timespent.Stop();
                 timespent.Dispose();
-                afkCount = 0;
-                afkStart = DateTime.Now;
 
                 if (Server.afkset.Contains(name)) Server.afkset.Remove(name);
 
@@ -3342,8 +3182,6 @@ rot = new byte[2] { rotx, roty };*/
 
                 if (loggedIn)
                 {
-                    isFlying = false;
-                    aiming = false;
 
                     GlobalDie(this, false);
                     if (kickString == "Disconnected." || kickString.IndexOf("Server shutdown") != -1 || kickString == Server.customShutdownMessage)
@@ -3749,7 +3587,7 @@ rot = new byte[2] { rotx, roty };*/
             {
                 DateTime oldestTime = spamBlockLog.Dequeue();
                 double spamTimer = DateTime.Now.Subtract(oldestTime).TotalSeconds;
-                if (spamTimer < spamBlockTimer && !ignoreGrief)
+                if (spamTimer < spamBlockTimer)
                 {
                     this.Kick("You were kicked by antigrief system. Slow down.");
                     SendMessage(c.red + name + " was kicked for suspected griefing.");
