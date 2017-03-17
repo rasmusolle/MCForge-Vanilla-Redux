@@ -121,8 +121,6 @@
     <Compile Include="Server\Heart.cs" />
     <Compile Include="Server\HTTPGet.cs" />
     <Compile Include="Levels\Texture_Settings.cs" />
-    <Compile Include="Server\Scripting\ScriptingCSharp.cs" />
-    <Compile Include="Server\Scripting\ScriptingEngine.cs" />
     <Compile Include="Commands\CmdNews.cs" />
     <Compile Include="Commands\CmdPCount.cs" />
     <Compile Include="Commands\CmdCrashServer.cs" />
@@ -133,7 +131,6 @@
     <Compile Include="IRC\ForgeBot.cs" />
     <Compile Include="Levels\BlockQueue.cs" />
     <Compile Include="Player\Player.Events.cs" />
-    <Compile Include="Server\Scripting\ScriptingVB.cs" />
     <Compile Include="Player\Checktimer.cs" />
     <Compile Include="Server\Color.cs" />
     <Compile Include="Commands\CmdViewRanks.cs" />
@@ -185,7 +182,6 @@
     <Compile Include="GUI\Window.Designer.cs">
       <DependentUpon>Window.cs</DependentUpon>
     </Compile>
-    <Compile Include="Server\Scripting\Scripting.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="GUI\AutoScrollTextBox.cs">
       <SubType>Component</SubType>
@@ -240,7 +236,6 @@
     <Compile Include="util\Hasher.cs" />
     <Compile Include="util\ICryptoService.cs" />
     <Compile Include="util\MathHelper.cs" />
-    <Compile Include="util\MCForgeScripter.cs" />
     <Compile Include="util\SCOGenerator.cs" />
     <Compile Include="util\Serializer.cs" />
     <Compile Include="Database\BlockDB.cs" />
