@@ -95,9 +95,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="System.Windows.Forms.Ribbon">
-      <HintPath>System.Windows.Forms.Ribbon.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CmdStore.cs" />
