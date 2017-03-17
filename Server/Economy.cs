@@ -51,18 +51,6 @@ namespace MCForge {
         public static class Settings {
             public static bool Enabled = false;
 
-            //Maps
-            public static bool Levels = false;
-            public static List<Level> LevelsList = new List<Level>();
-            public class Level {
-                public int price;
-                public string name;
-                public string x;
-                public string y;
-                public string z;
-                public string type;
-            }
-
             //Titles
             public static bool Titles = false;
             public static int TitlePrice = 100;
@@ -74,15 +62,6 @@ namespace MCForge {
             //TitleColors
             public static bool TColors = false;
             public static int TColorPrice = 100;
-
-            //Ranks
-            public static bool Ranks = false;
-            public static string MaxRank = Group.findPerm(LevelPermission.AdvBuilder).name;
-            public static List<Rank> RanksList = new List<Rank>();
-            public class Rank {
-                public Group group;
-                public int price = 1000;
-            }
         }
 
         public static void LoadDatabase() {
@@ -121,67 +100,6 @@ using (StreamReader r = File.OpenText("properties/economy.properties")) {
 					if (linear[2] == "true") { Settings.TColors = true; } else if (linear[2] == "false") { Settings.TColors = false; }
 				}
 				break;
-				case "rank":
-				if (linear[1] == "price") {
-					Economy.Settings.Rank rnk = new Economy.Settings.Rank();
-					rnk = Economy.FindRank(linear[2]);
-					if (rnk == null) {
-						rnk = new Economy.Settings.Rank();
-						rnk.group = Group.Find(linear[2]);
-						rnk.price = int.Parse(linear[3]);
-						Economy.Settings.RanksList.Add(rnk);
-					} else {
-						Economy.Settings.RanksList.Remove(rnk);
-						rnk.price = int.Parse(linear[3]);
-						Economy.Settings.RanksList.Add(rnk);
-					}
-				}
-				if (linear[1] == "maxrank") {
-					//Group grp = Group.Find(linear[2]);
-					//if (grp != null) { Settings.MaxRank = grp.Permission; }
-					string grpname = linear[2];
-					if (Group.Exists(grpname)) Settings.MaxRank = grpname;
-				}
-				if (linear[1] == "enabled") {
-					if (linear[2] == "true") { Settings.Ranks = true; } else if (linear[2] == "false") { Settings.Ranks = false; }
-				}
-				break;
-
-				case "level":
-				if (linear[1] == "enabled") {
-					if (linear[2] == "true") { Settings.Levels = true; } else if (linear[2] == "false") { Settings.Levels = false; }
-				}
-				if (linear[1] == "levels") {
-					Settings.Level lvl = new Settings.Level();
-					if (FindLevel(linear[2]) != null) { lvl = FindLevel(linear[2]); Settings.LevelsList.Remove(lvl); }
-					switch (linear[3]) {
-						case "name":
-						lvl.name = linear[4];
-						break;
-
-						case "price":
-						lvl.price = int.Parse(linear[4]);
-						break;
-
-						case "x":
-						lvl.x = linear[4];
-						break;
-
-						case "y":
-						lvl.y = linear[4];
-						break;
-
-						case "z":
-						lvl.z = linear[4];
-						break;
-
-						case "type":
-						lvl.type = linear[4];
-						break;
-					}
-					Settings.LevelsList.Add(lvl);
-				}
-				break;
 			}
 		} catch { }
 	}
@@ -210,69 +128,11 @@ public static void Save() {
 		w.WriteLine();
 		w.WriteLine("titlecolor:enabled:" + Settings.TColors);
 		w.WriteLine("titlecolor:price:" + Settings.TColorPrice);
-		//rank
-		w.WriteLine();
-		w.WriteLine("rank:enabled:" + Settings.Ranks);
-		w.WriteLine("rank:maxrank:" + Settings.MaxRank);
-		foreach (Settings.Rank rnk in Settings.RanksList) {
-			w.WriteLine("rank:price:" + rnk.group.name + ":" + rnk.price);
-			if (rnk.group.name == Economy.Settings.MaxRank) break;
-		}
-		//maps
-		w.WriteLine();
-		w.WriteLine("level:enabled:" + Settings.Levels);
-		foreach (Settings.Level lvl in Settings.LevelsList) {
-			w.WriteLine();
-			w.WriteLine("level:levels:" + lvl.name + ":name:" + lvl.name);
-			w.WriteLine("level:levels:" + lvl.name + ":price:" + lvl.price);
-			w.WriteLine("level:levels:" + lvl.name + ":x:" + lvl.x);
-			w.WriteLine("level:levels:" + lvl.name + ":y:" + lvl.y);
-			w.WriteLine("level:levels:" + lvl.name + ":z:" + lvl.z);
-			w.WriteLine("level:levels:" + lvl.name + ":type:" + lvl.type);
-		}
+
 		w.Close();
 	}
 }
 
-public static Settings.Level FindLevel(string name) {
-	Settings.Level found = null;
-	foreach (Settings.Level lvl in Settings.LevelsList) {
-		try {
-			if (lvl.name.ToLower() == name.ToLower()) {
-				found = lvl;
-			}
-		} catch { }
-	}
-	return found;
-}
-
-public static Settings.Rank FindRank(string name) {
-	Settings.Rank found = null;
-	foreach (Settings.Rank rnk in Settings.RanksList) {
-		try {
-			if (rnk.group.name.ToLower() == name.ToLower()) {
-				found = rnk;
-			}
-		} catch { }
-	}
-	return found;
-}
-
-public static Economy.Settings.Rank NextRank(Player p) {
-	Group foundGroup = p.group;
-	Group nextGroup = null; bool nextOne = false;
-	for (int i = 0; i < Group.GroupList.Count; i++) {
-		Group grp = Group.GroupList[i];
-		if (nextOne) {
-			if (grp.Permission >= LevelPermission.Nobody) break;
-			nextGroup = grp;
-			break;
-		}
-		if (grp == foundGroup)
-			nextOne = true;
-	}
-	return Economy.FindRank(nextGroup.name);
-}
 
 public static EcoStats RetrieveEcoStats(string playername) {
 	EcoStats es = new EcoStats();
