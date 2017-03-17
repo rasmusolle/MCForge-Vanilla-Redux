@@ -295,10 +295,6 @@ namespace MCForge
             shuttingDown = false;
             Log("Starting Server");
 
-                if (!File.Exists("Newtonsoft.Json.dll"))
-                {
-                	Log("Newtonsoft.Json.dll doesn't exist.");
-                }
             if (!Directory.Exists("properties")) Directory.CreateDirectory("properties");
             if (!Directory.Exists("levels")) Directory.CreateDirectory("levels");
             if (!Directory.Exists("text")) Directory.CreateDirectory("text");
