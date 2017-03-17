@@ -11,16 +11,14 @@ namespace MCForge.Commands
         public override string name { get { return "restart"; } }
         public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
-        public CmdRestart() { }
 
         public override void Use(Player p, string message)
         {
-            //TODO: Fix /restart
-            //MCForge_.Gui.Program.restartMe();
+            MCForge_.Gui.Program.ExitProgram(true);
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/restart - Restarts the server!");
+            Player.SendMessage(p, "/restart - Restarts the server.");
         }
     }
 }
