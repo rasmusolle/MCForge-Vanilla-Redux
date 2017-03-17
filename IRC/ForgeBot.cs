@@ -34,12 +34,7 @@ namespace MCForge {
 		private byte retries = 0;
 		public string usedCmd = "";
 		public ForgeBot(string channel, string opchannel, string nick, string server) {
-			/*if (!File.Exists("Sharkbite.Thresher.dll"))
-			{
-				Server.irc = false;
-				Server.s.Log("[IRC] The IRC dll was not found!");
-				return;
-			}*/
+
 			this.channel = channel.Trim(); this.opchannel = opchannel.Trim(); this.nick = nick.Replace(" ", ""); //this.server = server;
 			banCmd = new List<string>();
 			if (Server.irc) {
@@ -153,7 +148,6 @@ namespace MCForge {
 
 		void Listener_OnPrivate(UserInfo user, string message) {
 			if (!Server.ircControllers.Contains(user.Nick)) { Pm(user.Nick, "You are not an IRC controller!"); return; }
-			if (message.Split(' ')[0] == "resetbot" || banCmd.Contains(message.Split(' ')[0])) { Pm(user.Nick, "You cannot use this command from IRC!"); return; }
 			if (Player.CommandHasBadColourCodes(null, message)) { Pm(user.Nick, "Your command had invalid color codes!"); return; }
 
 			Command cmd = Command.all.Find(message.Split(' ')[0]);
@@ -260,15 +254,6 @@ namespace MCForge {
 		public void Connect() {
 			if (!Server.irc || Server.shuttingDown) return;
 
-			/*new Thread(new ThreadStart(delegate
-			{
-				try { connection.Connect(); }
-				catch (Exception e)
-				{
-					Server.s.Log("Failed to connect to IRC");
-					Server.ErrorLog(e);
-				}
-			})).Start();*/
 
 			Server.s.Log("Connecting to IRC...");
 
