@@ -28,7 +28,6 @@ using System.Threading;
 using System.Windows.Forms;
 
 using MonoTorrent.Client;
-using Newtonsoft.Json.Linq;
 
 namespace MCForge
 {

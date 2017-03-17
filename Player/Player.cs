@@ -28,8 +28,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Timers;
 using System.Threading;
-using Newtonsoft.Json.Linq;
-
 
 namespace MCForge
 {
@@ -812,28 +810,7 @@ namespace MCForge
                     {
                         identified = true;
                     }
-                    if (verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt2 + truename))).Replace("-", "").ToLower())
-                    {
-                        JObject json;
-                        try
-                        {
-                            using (var client = new WebClient())
-                            {
 
-                                json = JObject.Parse(client.DownloadString("http://www.classicube.net/api/player/" + name.ToLower()));
-                            }
-                            ID = (int)json.SelectToken("id");
-                            UsingID = true;
-                        }
-                        catch (Exception e)
-                        {
-                            Server.ErrorLog(e);
-                            Server.s.Log("Could not get Player's ID, going with name bans!");
-                            UsingID = false;
-                        }
-                        identified = true;
-                        //name += "+";
-                    }
                     if (IPInPrivateRange(ip))
                     {
                         identified = true;
