@@ -187,7 +187,6 @@
     </Compile>
     <Compile Include="Server\Scripting\Scripting.cs" />
     <Compile Include="Server\Server.cs" />
-    <Compile Include="Server\ServerSettings.cs" />
     <Compile Include="GUI\AutoScrollTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
