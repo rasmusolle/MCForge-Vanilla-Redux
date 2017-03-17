@@ -1061,14 +1061,7 @@ namespace MCForge
                 }
             }
             if (emoteList.Contains(name)) parseSmiley = false;
-            if (!Directory.Exists("text/login"))
-            {
-                Directory.CreateDirectory("text/login");
-            }
-            if (!File.Exists("text/login/" + this.name + ".txt"))
-            {
-                File.WriteAllText("text/login/" + this.name + ".txt", "joined the server.");
-            }
+
 			loggedIn = true;
 			lastlogin = DateTime.Now;
             //very very sloppy, yes I know.. but works for the time
@@ -1116,7 +1109,7 @@ namespace MCForge
                 }
             }
 
-            string joinm = "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " " + File.ReadAllText("text/login/" + this.name + ".txt");
+            string joinm = "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " joined the server.";
             if (this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false)
             {
                 Player.players.ForEach(p1 =>
@@ -3186,17 +3179,9 @@ rot = new byte[2] { rotx, roty };*/
                     GlobalDie(this, false);
                     if (kickString == "Disconnected." || kickString.IndexOf("Server shutdown") != -1 || kickString == Server.customShutdownMessage)
                     {
-                        if (!Directory.Exists("text/logout"))
-                        {
-                            Directory.CreateDirectory("text/logout");
-                        }
-                        if (!File.Exists("text/logout/" + name + ".txt"))
-                        {
-                            File.WriteAllText("text/logout/" + name + ".txt", "Disconnected.");
-                        }
                         if (!hidden)
                         {
-                            string leavem = "&c- " + color + prefix + name + Server.DefaultColor + " " + File.ReadAllText("text/logout/" + name + ".txt");
+                            string leavem = "&c- " + color + prefix + name + Server.DefaultColor + " Disconnected";
                             Player.players.ForEach(delegate(Player p1)
                             {
                                 if (p1.UsingWom)
