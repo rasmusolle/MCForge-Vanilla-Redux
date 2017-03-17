@@ -40,8 +40,6 @@ namespace MCForge
     {
         Banned = -20,
         Guest = 0,
-        Builder = 30,
-        AdvBuilder = 50,
         Operator = 80,
         Admin = 100,
         Nobody = 120,
@@ -163,7 +161,7 @@ namespace MCForge
         }
         public LevelPermission perbuildmax = LevelPermission.Nobody;
 
-        public LevelPermission permissionbuild = LevelPermission.Builder;
+        public LevelPermission permissionbuild = LevelPermission.Guest;
         // What ranks can go to this map (excludes banned)
 
         public LevelPermission permissionvisit = LevelPermission.Guest;

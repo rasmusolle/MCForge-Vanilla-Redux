@@ -142,15 +142,12 @@ namespace MCForge
                         b.lowestRank = LevelPermission.Admin;
                         break;
 
-                    case blackrock:
-                        b.lowestRank = LevelPermission.Operator;
-                        break;
-
                     case water:
                     case lava:
                     case deathlava:
                     case activedeathlava:
-                        b.lowestRank = LevelPermission.AdvBuilder;
+                    case blackrock:
+                        b.lowestRank = LevelPermission.Operator;
                         break;
 
                     default:
