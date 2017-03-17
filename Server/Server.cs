@@ -560,7 +560,7 @@ namespace MCForge
 
                 locationChecker = new Thread(new ThreadStart(delegate
                 {
-                    Player p, who;
+                    Player p;
                     ushort x, y, z;
                     int i;
                     while (true)
