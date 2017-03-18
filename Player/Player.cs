@@ -489,6 +489,14 @@ namespace MCForge
                     if (!Loading)
                     {
                         loginTimer.Stop();
+                        // Makes so if the permission's Player or Banned, can't place blocks.
+                        if (this.group.Permission <= LevelPermission.Guest)
+                        {
+                            for (byte blockid = 1; blockid <= 49; blockid++)
+                            {
+                                SendSetBlockPermission(blockid, 0, 1);
+                            }
+                        }
                         if (File.Exists("text/welcome.txt"))
                         {
                             try
