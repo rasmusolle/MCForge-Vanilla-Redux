@@ -218,10 +218,7 @@ namespace MCForge
         public static int blockInterval = 60;
         public static string backupLocation = Application.StartupPath + "/levels/backups";
 
-        public static bool physicsRestart = true;
         public static bool deathcount = true;
-        public static bool AutoLoad = false;
-        public static int totalUndo = 200;
         public static bool rankSuper = true;
         public static bool notifyOnJoinLeave = false;
         public static bool repeatMessage = false;
@@ -246,7 +243,6 @@ namespace MCForge
         public static string server_owner = "Notch";
         public static bool WomDirect = false;
         public static bool UseSeasons = false;
-        public static bool guestLimitNotify = false;
         public static bool guestJoinNotify = true;
         public static bool guestLeaveNotify = true;
 

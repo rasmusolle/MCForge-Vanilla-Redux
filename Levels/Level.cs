@@ -1036,19 +1036,6 @@ namespace MCForge
             }
         }
 
-        public void ChatLevelAdmins(string message)
-        {
-            foreach (
-                Player pl in
-                    Player.players.Where(
-                        pl =>
-                        pl.level == this &&
-                        (pl.group.Permission >= Server.adminchatperm || pl.isStaff)))
-            {
-                pl.SendMessage(message);
-            }
-        }
-
         public int PosToInt(ushort x, ushort y, ushort z)
         {
             if (x < 0 || x >= width || y < 0 || y >= depth || z < 0 || z >= height)
