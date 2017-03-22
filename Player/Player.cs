@@ -270,7 +270,6 @@ namespace MCForge
         public bool parseSmiley = true;
         public bool smileySaved = true;
         public bool opchat = false;
-        public bool adminchat = false;
         public bool whisper = false;
         public string whisperTo = "";
         public bool ignoreglobal = false;
@@ -884,21 +883,7 @@ namespace MCForge
                 //server maxplayer check
                 if (!isDev && !isMod)
                 {
-                    // Check to see how many guests we have
                     if (Player.players.Count >= Server.players && !IPInPrivateRange(ip)) { Kick("Server full!"); return; }
-                    // Code for limiting no. of guests
-                    if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Guest))
-                    {
-                        // Check to see how many guests we have
-                        int currentNumOfGuests = Player.players.Count(pl => pl.group.Permission <= LevelPermission.Guest);
-                        if (currentNumOfGuests >= Server.maxGuests)
-                        {
-                            if (Server.guestLimitNotify) GlobalMessageOps("Guest " + this.name + " couldn't log in - too many guests.");
-                            Server.s.Log("Guest " + this.name + " couldn't log in - too many guests.");
-                            Kick("Server has reached max number of guests");
-                            return;
-                        }
-                    }
                 }
 
                 if (version != Server.version) { Kick("Wrong version!"); return; }
@@ -970,12 +955,6 @@ namespace MCForge
                     }
                     if (found)
                     {
-                        if (this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false)
-                        {
-                            GlobalMessageOps(temp);
-                            //Server.IRC.Say(temp, true); //Tells people in op channel on IRC
-                        }
-
                         Server.s.Log(temp);
                     }
                 }
@@ -1080,26 +1059,19 @@ namespace MCForge
 
 
             string joinm = "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " joined the server.";
-            if (this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false)
+
+            Player.players.ForEach(p1 =>
             {
-                Player.players.ForEach(p1 =>
+                if (p1.UsingWom)
                 {
-                    if (p1.UsingWom)
-                    {
-                        byte[] buffer = new byte[65];
-                        Player.StringFormat("^detail.user.join=" + color + name + c.white, 64).CopyTo(buffer, 1);
-                        p1.SendRaw(OpCode.Message, buffer);
-                        buffer = null;
-                    }
-                    else
-                        Player.SendMessage(p1, joinm);
-                });
-            }
-            if (this.group.Permission >= Server.adminchatperm && Server.adminsjoinsilent == true)
-            {
-                this.hidden = true;
-                this.adminchat = true;
-            }
+                    byte[] buffer = new byte[65];
+                    Player.StringFormat("^detail.user.join=" + color + name + c.white, 64).CopyTo(buffer, 1);
+                    p1.SendRaw(OpCode.Message, buffer);
+                    buffer = null;
+                }
+                else
+                    Player.SendMessage(p1, joinm);
+            });
 
             try
             {
@@ -1681,18 +1653,6 @@ namespace MCForge
                     Server.s.Log("(OPs): " + name + ": " + newtext);
                     //Server.s.OpLog("(OPs): " + name + ": " + newtext);
                     //Server.IRC.Say(name + ": " + newtext, true);
-                    Server.IRC.Say(name + ": " + newtext, true);
-                    return;
-                }
-                if (text[0] == '+' || adminchat)
-                {
-                    string newtext = text;
-                    if (text[0] == '+') newtext = text.Remove(0, 1).Trim();
-
-                    GlobalMessageAdmins("To Admins &f-" + color + name + "&f- " + newtext); //to make it easy on remote
-                    if (group.Permission < Server.adminchatperm && !isStaff)
-                        SendMessage("To Admins &f-" + color + name + "&f- " + newtext);
-                    Server.s.Log("(Admins): " + name + ": " + newtext);
                     Server.IRC.Say(name + ": " + newtext, true);
                     return;
                 }
@@ -2975,21 +2935,6 @@ rot = new byte[2] { rotx, roty };*/
             }
             catch { Server.s.Log("Error occured with Op Chat"); }
         }
-        public static void GlobalMessageAdmins(string message)
-        {
-            try
-            {
-                players.ForEach(delegate(Player p)
-                {
-                    if (p.group.Permission >= Server.adminchatperm || p.isStaff)
-                    {
-                        Player.SendMessage(p, message);
-                    }
-                });
-
-            }
-            catch { Server.s.Log("Error occured with Admin Chat"); }
-        }
 
        /* public static void GlobalMessageTeam(string message, string team)
         {
@@ -3194,9 +3139,6 @@ rot = new byte[2] { rotx, roty };*/
                     {
                         //Server.ErrorLog(e);
                     }
-
-                    if (Server.AutoLoad && level.unload && !level.name.Contains("Museum " + Server.DefaultColor) && IsAloneOnCurrentLevel())
-                        level.Unload(true);
 
                     if (PlayerDisconnect != null)
                         PlayerDisconnect(this, kickString);

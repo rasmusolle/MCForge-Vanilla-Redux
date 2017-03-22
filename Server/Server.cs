@@ -241,7 +241,6 @@ namespace MCForge
         public static string customDemoteMessage = "&4DEMOTED! &6We're sorry for your loss. Good luck on your future endeavors! &1:'(";
         public static string moneys = "moneys";
         public static LevelPermission opchatperm = LevelPermission.Operator;
-        public static LevelPermission adminchatperm = LevelPermission.Admin;
         public static bool logbeat = false;
         public static bool adminsjoinsilent = false;
         public static string server_owner = "Notch";
