@@ -39,7 +39,6 @@ namespace MCForge
         public static bool canceladmin = false;
         public static bool cancellog = false;
         public static bool canceloplog = false;
-        public static bool DownloadBeta = false;
         public static string apppath = Application.StartupPath;
         public delegate void OnConsoleCommand(string cmd, string message);
         public static event OnConsoleCommand ConsoleCommand;
@@ -95,16 +94,7 @@ namespace MCForge
         static System.Timers.Timer messageTimer = new System.Timers.Timer(60000 * 5); //Every 5 mins
         public static System.Timers.Timer cloneTimer = new System.Timers.Timer(5000);
 
-        //public static Thread physic.physThread;
-        //public static bool physPause;
-        //public static DateTime physResume = DateTime.Now;
-        //public static System.Timers.Timer physTimer = new System.Timers.Timer(1000);
-        // static Thread botsThread;
-        //Chatrooms
-        public static List<string> Chatrooms = new List<string>();
         //Other
-        public static bool higherranktp = true;
-        public static bool agreetorulesonentry = false;
         public static bool ServerSetupFinished = false;
         public static PlayerList bannedIP;
         public static PlayerList whiteList;
@@ -170,15 +160,12 @@ namespace MCForge
         public static string motd = "Welcome!";
 		public static string textureUrl = "";
         public static byte players = 12;
-        //for the limiting no. of guests:
-        public static byte maxGuests = 10;
 
         public static byte maps = 5;
         public static int port = 25565;
         public static bool pub = true;
         public static bool verify = true;
         public static bool worldChat = true;
-        //        public static bool guestGoto = false;
 
         //Spam Prevention
         public static bool checkspam = false;
@@ -188,17 +175,13 @@ namespace MCForge
 
         public static string ZallState = "Alive";
 
-        //public static string[] userMOTD;
-
         public static string level = "main";
         public static string errlog = "error.log";
 
-        //        public static bool console = false; // never used
         public static bool reportBack = true;
 
         public static bool irc = false;
         public static bool ircColorsEnable = false;
-        //        public static bool safemode = false; //Never used
         public static int ircPort = 6667;
         public static string ircNick = "ForgeBot";
         public static string ircServer = "irc.mcforge.org";
