@@ -141,9 +141,6 @@ namespace MCForge
 
         public static Dictionary<string, string> customdollars = new Dictionary<string, string>();
 
-        // Extra storage for custom commands
-        public ExtrasCollection Extras = new ExtrasCollection();
-
         //Color list as a char array
         public static Char[] ColourCodesNoPercent = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 

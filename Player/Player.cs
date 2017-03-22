@@ -356,9 +356,6 @@ namespace MCForge
         //public static int spamChatTimer = 4;
         //Queue<DateTime> spamChatLog = new Queue<DateTime>(spamChatCount);
 
-        // Extra storage for custom commands
-        public ExtrasCollection Extras = new ExtrasCollection();
-
         //Random...
         public Random random = new Random();
 

@@ -230,7 +230,6 @@
     <Compile Include="sharkbite.thresher\TextColor.cs" />
     <Compile Include="sharkbite.thresher\UserInfo.cs" />
     <Compile Include="sharkbite.thresher\WhoisInfo.cs" />
-    <Compile Include="util\ExtrasCollection.cs" />
     <Compile Include="util\Extensions.cs" />
     <Compile Include="util\Hasher.cs" />
     <Compile Include="util\ICryptoService.cs" />
