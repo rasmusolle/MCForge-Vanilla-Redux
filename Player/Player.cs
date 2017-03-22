@@ -3151,7 +3151,6 @@ rot = new byte[2] { rotx, roty };*/
         {
             //throw new NotImplementedException();
             if (connections.Contains(this)) connections.Remove(this);
-            Extras.Clear();
             spamBlockLog.Clear();
 
         }
