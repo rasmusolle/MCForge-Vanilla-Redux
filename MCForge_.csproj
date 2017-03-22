@@ -103,7 +103,7 @@
     <Compile Include="Heartbeat\IBeat.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Player\Player.CPE.cs" />
-    <Compile Include="queue\MainLoop.cs">
+    <Compile Include="util\MainLoop.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Server\AutoSaver.cs" />
