@@ -124,9 +124,6 @@ namespace MCForge
 
         public static ForgeProtection forgeProtection = ForgeProtection.Off;
 
-        internal static readonly List<string> opstats = new List<string>(new string[] { "ban", "tempban", "kick", "warn", "mute", "freeze", "undo", "griefer", "demote", "promote" });
-        public static List<string> Opstats { get { return new List<string>(opstats); } }
-
         public static List<TempBan> tempBans = new List<TempBan>();
         public struct TempBan { public string name; public DateTime allowedJoin; }
 
