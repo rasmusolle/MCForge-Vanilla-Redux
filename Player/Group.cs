@@ -64,11 +64,8 @@ namespace MCForge {
         /// Create a new group object
         /// </summary>
         /// <param name="Perm">The permission of the group</param>
-        /// <param name="maxB">The maxblocks this group can cuboid</param>
-        /// <param name="maxUn">The max undo this group can do</param>
         /// <param name="fullName">The group full name</param>
         /// <param name="newColor">The color of the group (Not including the &)</param>
-        /// <param name="motd">the custom MOTD for the group</param>
         /// <param name="file">The file path where the current players of this group are stored</param>
         public Group(LevelPermission Perm, string fullName, char newColor, string file) {
             Permission = Perm;

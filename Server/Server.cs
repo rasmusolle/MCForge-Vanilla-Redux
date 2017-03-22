@@ -119,7 +119,7 @@ namespace MCForge
         internal static readonly List<string> mods = new List<string>();
         public static List<string> Mods { get { return new List<string>(mods); } }
 
-        internal static readonly List<string> protectover = new List<string>(new string[] { "moderate", "mute", "freeze", "lockdown", "ban", "banip", "kickban", "kick", "global", "xban", "xundo", "undo", "uban", "unban", "unbanip", "demote", "promote", "restart", "shutdown", "setrank", "warn", "tempban", "impersonate", "sendcmd", "possess", "joker", "jail", "ignore", "voice" });
+        internal static readonly List<string> protectover = new List<string>(new string[] { "moderate", "mute", "freeze", "lockdown", "ban", "banip", "kickban", "kick", "global", "xban", "uban", "unban", "unbanip", "demote", "promote", "restart", "shutdown", "setrank", "warn", "tempban", "impersonate", "sendcmd", "possess", "joker", "jail", "ignore", "voice" });
         public static List<string> ProtectOver { get { return new List<string>(protectover); } }
 
         public static ForgeProtection forgeProtection = ForgeProtection.Off;
