@@ -152,12 +152,6 @@ namespace MCForge
         public static bool autorestart;
         public static DateTime restarttime;
 
-        //WoM Direct
-        public static string Server_ALT = "";
-        public static string Server_Disc = "";
-        public static string Server_Flag = "";
-
-
         public static Dictionary<string, string> customdollars = new Dictionary<string, string>();
 
         // Extra storage for custom commands
