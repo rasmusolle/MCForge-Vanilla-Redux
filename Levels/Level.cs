@@ -82,7 +82,6 @@ namespace MCForge
         public readonly List<Check> ListCheck = new List<Check>(); //A list of blocks that need to be updated
         public readonly List<Update> ListUpdate = new List<Update>(); //A list of block to change after calculation
 
-        public List<UndoPos> UndoBuffer = new List<UndoPos>();
         public bool ai = true;
         public bool backedup;
         public List<Blockchange> blockCache = new List<Blockchange>();
@@ -92,7 +91,6 @@ namespace MCForge
         public bool changed;
 
         public bool countdowninprogress;
-        public int currentUndo;
         public ushort depth; // y       THIS IS STUPID, SHOULD HAVE BEEN Z
         public int drown = 70;
         public bool edgeWater;
@@ -308,7 +306,6 @@ namespace MCForge
         {
             ListCheck.Clear();
             ListUpdate.Clear();
-            UndoBuffer.Clear();
             blockCache.Clear();
             blockqueue.Clear();
             blocks = null;
@@ -511,21 +508,6 @@ namespace MCForge
                 if (Block.Convert(b) != Block.Convert(type))
                     //Should save bandwidth sending identical looking blocks, like air/op_air changes.
                     Player.GlobalBlockchange(this, x, y, z, type);
-
-                try
-                {
-                    UndoPos uP;
-                    uP.location = PosToInt(x, y, z);
-                    uP.newType = (ushort)type;
-                    uP.oldType = b;
-                    uP.timePerformed = DateTime.Now;
-
-                        currentUndo++;
-                        UndoBuffer[currentUndo] = uP;
-                }
-                catch
-                {
-                }
 
                 SetTile(x, y, z, type); //Updates server level blocks
             }
@@ -1234,18 +1216,6 @@ namespace MCForge
             public string name;
             public ushort type;
             public ushort x, y, z;
-        }
-
-        #endregion
-
-        #region Nested type: UndoPos
-
-        public struct UndoPos
-        {
-            public int location;
-            public ushort newType;
-            public ushort oldType;
-            public DateTime timePerformed;
         }
 
         #endregion

@@ -48,7 +48,6 @@ namespace MCForge {
         public string color;
         public LevelPermission Permission;
         public int maxBlocks;
-        public long maxUndo;
         public CommandList commands;
         public string fileName;
         public PlayerList playerList;
@@ -188,12 +187,6 @@ namespace MCForge {
                                 }
 
                                 if ((gots >= 4 && version < 2) || (gots >= 5 && version < 3) || gots >= 6) {
-                                    if (version < 2) {
-                                        if ((int)thisGroup.Permission >= 100)
-                                            thisGroup.maxUndo = int.MaxValue;
-                                        else if ((int)thisGroup.Permission >= 80)
-                                            thisGroup.maxUndo = 5400;
-                                    }
 
                                     GroupList.Add(new Group(thisGroup.Permission, thisGroup.trueName, thisGroup.color[0], thisGroup.fileName));
                                 }
