@@ -28,7 +28,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading;
-using MCForge.Levels.Textures;
 
 using Timer = System.Timers.Timer;
 //WARNING! DO NOT CHANGE THE WAY THE LEVEL IS SAVED/LOADED!
@@ -178,8 +177,6 @@ namespace MCForge
         public ushort spawnz;
         public ushort[] backupBlocks;
 
-        public LevelTextures textures;
-
         public string theme = "Normal";
         public bool unload = true;
         public ushort width; // x
@@ -225,7 +222,6 @@ namespace MCForge
             spawnz = (ushort)(height / 2);
             rotx = 0;
             roty = 0;
-            textures = new LevelTextures(this);
             //season = new SeasonsCore(this);
         }
 

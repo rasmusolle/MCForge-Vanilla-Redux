@@ -653,7 +653,6 @@ namespace MCForge
                 {
                     //For wom
                     case (byte)'G':
-                        level.textures.ServeCfg(this, buffer);
                         return new byte[1];
                     case 0:
                         length = 130;
@@ -1049,7 +1048,10 @@ namespace MCForge
                             else SendChangeModel(p.id, p.model);
                         }
                     }
-
+                    if (HasExtension("EnvMapAppearance"))
+                    {
+                        SendSetMapAppearance(Server.textureUrl, 7, 8, (short)(level.depth/2));
+ 				    }
                 }
                 catch (Exception e)
                 {
@@ -2261,7 +2263,6 @@ namespace MCForge
             byte[] buffer = new byte[130];
             // Random rand = new Random();
             buffer[0] = Server.version;
-            if (UsingWom && (level.textures.enabled || level.motd == "texture") && group.Permission >= level.textures.LowestRank.Permission) { StringFormat(Server.name, 64).CopyTo(buffer, 1); StringFormat("&0cfg=" + (IsLocalIpAddress(ip) ? ip : Server.IP) + ":" + Server.port + "/" + level.name, 64).CopyTo(buffer, 65); }
             if (level.motd == "ignore")
             {
                 StringFormat(Server.name, 64).CopyTo(buffer, 1);
