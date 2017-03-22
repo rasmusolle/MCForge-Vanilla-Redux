@@ -1078,46 +1078,6 @@ namespace MCForge
             //^Perhaps we should update this? -EricKilla
             //which bit is this referring to? - HeroCane
 
-            bool gotoJail = false;
-            string gotoJailMap = "";
-            string gotoJailName = "";
-            try
-            {
-                if (File.Exists("ranks/jailed.txt"))
-                {
-                    using (StreamReader read = new StreamReader("ranks/jailed.txt"))
-                    {
-                        string line;
-                        while ((line = read.ReadLine()) != null)
-                        {
-                            if (line.Split()[0].ToLower() == this.name.ToLower())
-                            {
-                                gotoJail = true;
-                                gotoJailMap = line.Split()[1];
-                                gotoJailName = line.Split()[0];
-                                break;
-                            }
-                        }
-                    }
-                }
-                else { File.Create("ranks/jailed.txt").Close(); }
-            }
-            catch
-            {
-                gotoJail = false;
-            }
-            if (gotoJail)
-            {
-                try
-                {
-                    Command.all.Find("goto").Use(this, gotoJailMap);
-                    Command.all.Find("jail").Use(null, gotoJailName);
-                }
-                catch (Exception e)
-                {
-                    Kick(e.ToString());
-                }
-            }
 
             string joinm = "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " joined the server.";
             if (this.group.Permission < Server.adminchatperm || Server.adminsjoinsilent == false)
