@@ -404,98 +404,6 @@ namespace MCForge
                     }
                 }
 
-                /*
-                errorLocation = "Zone checking";
-
-                #region zones
-
-                bool AllowBuild = true, foundDel = false, inZone = false;
-                string Owners = "";
-                var toDel = new List<Zone>();
-                if ((p.group.Permission < LevelPermission.Admin || p.ZoneCheck || p.zoneDel) && !Block.AllowBreak(b))
-                {
-                    if (ZoneList.Count == 0) AllowBuild = true;
-                    else
-                    {
-                        for (int index = 0; index < ZoneList.Count; index++)
-                        {
-                            Zone Zn = ZoneList[index];
-                            if (Zn.smallX <= x && x <= Zn.bigX && Zn.smallY <= y && y <= Zn.bigY && Zn.smallZ <= z &&
-                                z <= Zn.bigZ)
-                            {
-                                inZone = true;
-                                if (p.zoneDel)
-                                {
-                                    //DB
-									foreach ( MCForge.Zone zn in ZoneDB.zones ) {
-										if ( zn.level == p.level.name && zn.owner == Zn.owner && zn.smallX == Zn.smallX && zn.smallY == Zn.smallY && zn.smallZ == Zn.smallZ && zn.bigX == Zn.bigX && zn.bigY == Zn.bigY && zn.bigZ == Zn.bigZ ) {
-											ZoneDB.zones.Remove( zn );
-											ZoneDB.Save();
-										}
-									}
-                                    toDel.Add(Zn);
-
-                                    p.SendBlockchange(x, y, z, b);
-                                    Player.SendMessage(p, "Zone deleted for &b" + Zn.owner);
-                                    foundDel = true;
-                                }
-                                else
-                                {
-                                    if (Zn.owner.Substring(0, 3) == "grp")
-                                    {
-                                        if (Group.Find(Zn.owner.Substring(3)).Permission <= p.group.Permission &&
-                                            !p.ZoneCheck)
-                                        {
-                                            AllowBuild = true;
-                                            break;
-                                        }
-                                        AllowBuild = false;
-                                        Owners += ", " + Zn.owner.Substring(3);
-                                    }
-                                    else
-                                    {
-                                        if (Zn.owner.ToLower() == p.name.ToLower() && !p.ZoneCheck)
-                                        {
-                                            AllowBuild = true;
-                                            break;
-                                        }
-                                        AllowBuild = false;
-                                        Owners += ", " + Zn.owner;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (p.zoneDel)
-                    {
-                        if (!foundDel) Player.SendMessage(p, "No zones found to delete.");
-                        else
-                        {
-                            foreach (Zone Zn in toDel)
-                            {
-                                ZoneList.Remove(Zn);
-                            }
-                        }
-                        p.zoneDel = false;
-                        return;
-                    }
-
-                    if (!AllowBuild || p.ZoneCheck)
-                    {
-                        if (Owners != "") Player.SendMessage(p, "This zone belongs to &b" + Owners.Remove(0, 2) + ".");
-                        else Player.SendMessage(p, "This zone belongs to no one.");
-
-                        p.ZoneSpam = DateTime.Now;
-                        p.SendBlockchange(x, y, z, b);
-
-                        if (p.ZoneCheck) if (!p.staticCommands) p.ZoneCheck = false;
-                        return;
-                    }
-                }
-
-                #endregion
-                 */
 
                 errorLocation = "Map rank checking";
 
@@ -538,16 +446,6 @@ namespace MCForge
                 Server.s.Log(p.name + " triggered a non-fatal error on " + name);
                 Server.s.Log("Error location: " + errorLocation);
             }
-
-            //if (addaction)
-            //{
-            //    if (edits.Count == edits.Capacity) { edits.Capacity += 1024; }
-            //    if (p.actions.Count == p.actions.Capacity) { p.actions.Capacity += 128; }
-            //    if (b.lastaction.Count == 5) { b.lastaction.RemoveAt(0); }
-            //    Edit foo = new Edit(this); foo.block = b; foo.from = p.name;
-            //    foo.before = b.type; foo.after = type;
-            //    b.lastaction.Add(foo); edits.Add(foo); p.actions.Add(foo);
-            //} b.type = type;
         }
 
         public static void SaveSettings(Level level)
@@ -558,17 +456,6 @@ namespace MCForge
                 using (StreamWriter SW = File.CreateText("levels/level properties/" + level.name + ".properties"))
                 {
                     SW.WriteLine("#Level properties for " + level.name);
-                    SW.WriteLine("#Drown-time in seconds is [drown time] * 200 / 3 / 1000");
-                    SW.WriteLine("Theme = " + level.theme);
-                    SW.WriteLine("Edge water = " + level.edgeWater.ToString());
-                    SW.WriteLine("Survival death = " + level.Death.ToString());
-                    SW.WriteLine("Fall = " + level.fall.ToString());
-                    SW.WriteLine("Drown = " + level.drown.ToString());
-                    SW.WriteLine("MOTD = " + level.motd);
-                    SW.WriteLine("JailX = " + level.jailx.ToString());
-                    SW.WriteLine("JailY = " + level.jaily.ToString());
-                    SW.WriteLine("JailZ = " + level.jailz.ToString());
-                    SW.WriteLine("Unload = " + level.unload.ToString());
                     SW.WriteLine("WorldChat = " + level.worldChat.ToString());
                     SW.WriteLine("PerBuild = " +
                                  (Group.Exists(PermissionToName(level.permissionbuild).ToLower())
@@ -578,24 +465,7 @@ namespace MCForge
                                  (Group.Exists(PermissionToName(level.permissionvisit).ToLower())
                                       ? PermissionToName(level.permissionvisit).ToLower()
                                       : PermissionToName(LevelPermission.Guest)));
-                    SW.WriteLine("PerBuildMax = " +
-                                 (Group.Exists(PermissionToName(level.perbuildmax).ToLower())
-                                      ? PermissionToName(level.perbuildmax).ToLower()
-                                      : PermissionToName(LevelPermission.Nobody)));
-                    SW.WriteLine("PerVisitMax = " +
-                                 (Group.Exists(PermissionToName(level.pervisitmax).ToLower())
-                                      ? PermissionToName(level.pervisitmax).ToLower()
-                                      : PermissionToName(LevelPermission.Nobody)));
-                    SW.WriteLine("Guns = " + level.guns.ToString());
                     SW.WriteLine("Type = " + level.mapType.ToString());
-                    SW.WriteLine("LoadOnGoto = " + level.loadOnGoto.ToString());
-                    SW.WriteLine("LeafDecay = " + level.leafDecay.ToString());
-                    SW.WriteLine("RandomFlow = " + level.randomFlow.ToString());
-                    SW.WriteLine("GrowTrees = " + level.growTrees.ToString());
-                    SW.WriteLine("weather = " + level.weather.ToString());
-                    SW.WriteLine("author = " + level.author);
-                    SW.WriteLine("likes = " + level.likes);
-                    SW.WriteLine("dislikes = " + level.dislikes);
                 }
             }
             catch (Exception)
