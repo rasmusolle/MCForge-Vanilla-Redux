@@ -303,12 +303,6 @@ namespace MCForge.Gui {
                         Server.s.Log("(OPs): Console: " + text, false, LogType.Op);
                         Server.IRC.Say("Console: " + text, true);
                         break;
-                    case '+':
-                        text = text.Remove(0, 1);
-                        Player.GlobalMessageAdmins(text);
-                        Server.s.Log("(Admins): Console: " + text, false, LogType.Admin);
-                        Server.IRC.Say("Console: " + text, true);
-                        break;
                     default:
                         Player.GlobalMessage("Console [&a" + Server.ZallState + Server.DefaultColor + "]:&f " + text);
                         Server.IRC.Say("Console [" + Server.ZallState + "]: " + text);

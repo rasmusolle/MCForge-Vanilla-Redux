@@ -257,12 +257,6 @@ namespace MCForge_.Gui
                         Player.GlobalMessageOps(msg);
                         Server.IRC.Say(msg, true);
                     }
-                    else if (s[0] == '+')
-                    {
-                        msg = String.Format("To Admins -{0}Console [&a{1}{0}]&f- {2}", Server.DefaultColor, Server.ZallState, s);
-                        Player.GlobalMessageAdmins(msg);
-                        Server.IRC.Say(msg, true);
-                    }
                     else
                     {
                         msg = String.Format("{0}Console [&a{1}{0}]: &f{2}", Server.DefaultColor, Server.ZallState, s);
