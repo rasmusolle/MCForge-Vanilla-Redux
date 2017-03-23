@@ -156,13 +156,8 @@ namespace MCForge
             }
             catch (Exception ex) { Server.ErrorLog(ex); shadows = new ushort[width, height]; }
         }
-        public LevelPermission perbuildmax = LevelPermission.Nobody;
-
         public LevelPermission permissionbuild = LevelPermission.Guest;
-        // What ranks can go to this map (excludes banned)
-
         public LevelPermission permissionvisit = LevelPermission.Guest;
-        public LevelPermission pervisitmax = LevelPermission.Nobody;
 
 
         public bool randomFlow = true;
@@ -895,12 +890,6 @@ namespace MCForge
                                     case "pervisit":
                                         level.permissionvisit = PermissionFromName(value) != LevelPermission.Null ? PermissionFromName(value) : LevelPermission.Guest;
                                         break;
-                                    case "perbuildmax":
-                                        level.perbuildmax = PermissionFromName(value) != LevelPermission.Null ? PermissionFromName(value) : LevelPermission.Guest;
-                                        break;
-                                    case "pervisitmax":
-                                        level.pervisitmax = PermissionFromName(value) != LevelPermission.Null ? PermissionFromName(value) : LevelPermission.Guest;
-                                        break;
                                     case "guns":
                                         level.guns = bool.Parse(value);
                                         break;
@@ -923,6 +912,7 @@ namespace MCForge
                                     case "author": level.author = value; break;
                                     case "likes": level.likes = int.Parse(value); break;
                                     case "dislikes": level.dislikes = int.Parse(value); break;
+
                                 }
                             }
                             catch (Exception e)
