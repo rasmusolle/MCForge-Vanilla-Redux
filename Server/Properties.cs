@@ -35,7 +35,6 @@ namespace MCForge {
 			}*/
 						if (!skipsalt) {
 								bool gotSalt = false;
-								bool gotSalt2 = false;
 								if (File.Exists ("text/salt.txt")) {
 										string salt = File.ReadAllText ("text/salt.txt");
 										if (salt.Length != 16)
@@ -43,15 +42,6 @@ namespace MCForge {
 										else {
 												Server.salt = salt;
 												gotSalt = true;
-										}
-								}
-								if (File.Exists ("text/salt2.txt")) {
-										string salt2 = File.ReadAllText ("text/salt2.txt");
-										if (salt2.Length != 16)
-												Server.s.Log ("Invalid salt in salt2.txt!");
-										else {
-												Server.salt2 = salt2;
-												gotSalt2 = true;
 										}
 								}
 								if (!gotSalt) {
@@ -65,19 +55,6 @@ namespace MCForge {
 												}
 										}
 										Server.salt = sb.ToString ();
-								}
-
-								if (!gotSalt2) {
-										RandomNumberGenerator prng = RandomNumberGenerator.Create ();
-										StringBuilder sb = new StringBuilder ();
-										byte[] oneChar = new byte[1];
-										while (sb.Length < 16) {
-												prng.GetBytes (oneChar);
-												if (Char.IsLetterOrDigit ((char)oneChar [0])) {
-														sb.Append ((char)oneChar [0]);
-												}
-										}
-										Server.salt2 = sb.ToString ();
 								}
 
 								if (File.Exists (givenPath)) {
