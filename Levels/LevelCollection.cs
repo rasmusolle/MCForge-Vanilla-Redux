@@ -105,35 +105,14 @@ namespace MCForge
             del = l => l.motd;
             props.Add(new LevelMethodDescriptor("MOTD", del, typeof(string)));
 
-            del = l => l.GrassGrow;
-            props.Add(new LevelMethodDescriptor("Grass", del, typeof(bool)));
-
             del = l => l.worldChat;
             props.Add(new LevelMethodDescriptor("World-Chat", del, typeof(bool)));
 
             del = l => l.Death;
             props.Add(new LevelMethodDescriptor("Death", del, typeof(bool)));
 
-            del = l => l.finite;
-            props.Add(new LevelMethodDescriptor("Finite", del, typeof(bool)));
-
             del = l => l.randomFlow;
             props.Add(new LevelMethodDescriptor("Random Flow", del, typeof(bool)));
-
-            del = l => l.edgeWater;
-            props.Add(new LevelMethodDescriptor("Edge-Water", del, typeof(bool)));
-
-            del = l => l.guns;
-            props.Add(new LevelMethodDescriptor("Guns", del, typeof(bool)));
-
-            del = l => l.drown;
-            props.Add(new LevelMethodDescriptor("Drown", del, typeof(int)));
-
-            del = l => l.fall;
-            props.Add(new LevelMethodDescriptor("Fall", del, typeof(int)));
-
-            del = l => l.loadOnGoto;
-            props.Add(new LevelMethodDescriptor("Load on /goto", del, typeof(bool)));
 
             del = l => l.unload;
             props.Add(new LevelMethodDescriptor("Unload Empty", del, typeof(bool)));

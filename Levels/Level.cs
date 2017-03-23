@@ -72,10 +72,6 @@ namespace MCForge
         #endregion
         public int speedphysics = 250;
         public bool Death;
-        public bool GrassDestroy = true;
-        public bool GrassGrow = true;
-        public bool Instant;
-        public bool Killer = true;
 
         public static bool cancelload;
         public static bool cancelsave;
@@ -90,32 +86,13 @@ namespace MCForge
         public bool cancelunload;
         public bool changed;
 
-        public bool countdowninprogress;
         public ushort depth; // y       THIS IS STUPID, SHOULD HAVE BEEN Z
-        public int drown = 70;
-        public bool edgeWater;
-        public int fall = 9;
-        public bool finite;
-        public bool fishstill;
-        public bool growTrees;
-        public bool guns = true;
         public ushort height; // z      THIS IS STUPID, SHOULD HAVE BEEN Y
         public int id;
-        public byte jailrotx, jailroty;
-
-        public ushort jailx, jaily, jailz;
         public int lastCheck;
         public int lastUpdate;
-        public bool leafDecay;
-        public bool loadOnGoto = true;
         public string motd = "ignore";
         public string name;
-        public int overload = 1500;
-		public byte weather;
-
-        public string author = "nobody";
-        public int likes = 0;
-        public int dislikes = 0;
 
         public int maxBuildHeight;
         public ushort divider;
@@ -407,7 +384,7 @@ namespace MCForge
                 }
 
                 errorLocation = "Block sending";
-                if (Block.Convert(b) != Block.Convert(type) && !Instant)
+                if (Block.Convert(b) != Block.Convert(type))
                     Player.GlobalBlockchange(this, x, y, z, type);
 
 
@@ -417,7 +394,7 @@ namespace MCForge
                 SetTile(x, y, z, (ushort)type); //Updates server level blocks
 
                 errorLocation = "Growing grass";
-                if (GetTile(x, (ushort)(y - 1), z) == Block.grass && GrassDestroy && !Block.LightPass(type))
+                if (GetTile(x, (ushort)(y - 1), z) == Block.grass && !Block.LightPass(type))
                 {
                     Blockchange(p, x, (ushort)(y - 1), z, Block.dirt);
                 }
@@ -818,12 +795,6 @@ namespace MCForge
                     //level.textures = new LevelTextures(level);
                     level.backedup = true;
 
-
-                    level.jailx = (ushort)(level.spawnx * 32);
-                    level.jaily = (ushort)(level.spawny * 32);
-                    level.jailz = (ushort)(level.spawnz * 32);
-                    level.jailrotx = level.rotx;
-                    level.jailroty = level.roty;
                     //level.physic.StartPhysics(level);
                     //level.physChecker.Elapsed += delegate
                     //{
@@ -851,36 +822,6 @@ namespace MCForge
 
                                 switch (line.Substring(0, line.IndexOf(" = ")).ToLower())
                                 {
-                                    case "theme":
-                                        level.theme = value;
-                                        break;
-                                    case "edge water":
-                                        level.edgeWater = bool.Parse(value);
-                                        break;
-                                    case "survival death":
-                                        level.Death = bool.Parse(value);
-                                        break;
-                                    case "fall":
-                                        level.fall = int.Parse(value);
-                                        break;
-                                    case "drown":
-                                        level.drown = int.Parse(value);
-                                        break;
-                                    case "motd":
-                                        level.motd = value;
-                                        break;
-                                    case "jailx":
-                                        level.jailx = ushort.Parse(value);
-                                        break;
-                                    case "jaily":
-                                        level.jaily = ushort.Parse(value);
-                                        break;
-                                    case "jailz":
-                                        level.jailz = ushort.Parse(value);
-                                        break;
-                                    case "unload":
-                                        level.unload = bool.Parse(value);
-                                        break;
                                     case "worldchat":
                                         level.worldChat = bool.Parse(value);
                                         break;
@@ -890,29 +831,9 @@ namespace MCForge
                                     case "pervisit":
                                         level.permissionvisit = PermissionFromName(value) != LevelPermission.Null ? PermissionFromName(value) : LevelPermission.Guest;
                                         break;
-                                    case "guns":
-                                        level.guns = bool.Parse(value);
-                                        break;
                                     case "type":
                                         level.mapType = (MapType)Enum.Parse(typeof(MapType), value);
                                         break;
-                                    case "loadongoto":
-                                        level.loadOnGoto = bool.Parse(value);
-                                        break;
-                                    case "leafdecay":
-                                        level.leafDecay = bool.Parse(value);
-                                        break;
-                                    case "randomflow":
-                                        level.randomFlow = bool.Parse(value);
-                                        break;
-                                    case "growtrees":
-                                        level.growTrees = bool.Parse(value);
-                                        break;
-                                    case "weather": level.weather = byte.Parse(value); break;
-                                    case "author": level.author = value; break;
-                                    case "likes": level.likes = int.Parse(value); break;
-                                    case "dislikes": level.dislikes = int.Parse(value); break;
-
                                 }
                             }
                             catch (Exception e)

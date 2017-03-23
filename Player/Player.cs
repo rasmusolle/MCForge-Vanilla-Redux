@@ -1356,52 +1356,6 @@ namespace MCForge
             rot = new byte[2] { rotx, roty };
         }
 
-        public void RealDeath(ushort x, ushort y, ushort z)
-        {
-            ushort b = level.GetTile(x, (ushort)(y - 2), z);
-            ushort b1 = level.GetTile(x, y, z);
-            if (oldBlock != (ushort)(x + y + z))
-            {
-                if (Block.Convert(b) == Block.air)
-                {
-                    deathCount++;
-                    deathblock = Block.air;
-                    return;
-                }
-                else
-                {
-                    if (deathCount > level.fall && deathblock == Block.air)
-                    {
-                        HandleDeath(deathblock);
-                        deathCount = 0;
-                    }
-                    else if (deathblock != Block.water)
-                    {
-                        deathCount = 0;
-                    }
-                }
-            }
-
-            switch (Block.Convert(b1))
-            {
-                case Block.water:
-                case Block.waterstill:
-                case Block.lava:
-                case Block.lavastill:
-                    deathCount++;
-                    deathblock = Block.water;
-                    if (deathCount > level.drown * 200)
-                    {
-                        HandleDeath(deathblock);
-                        deathCount = 0;
-                    }
-                    break;
-                default:
-                    deathCount = 0;
-                    break;
-            }
-        }
-
         public void CheckBlock(ushort x, ushort y, ushort z)
         {
             y = (ushort)Math.Round((decimal)(((y * 32) + 4) / 32));
@@ -1427,32 +1381,26 @@ namespace MCForge
                 PlayerDeath(this, b);
             if (lastDeath.AddSeconds(2) < DateTime.Now)
             {
+                switch (b)
+                {   
+                    case Block.deathlava:
+                    case Block.activedeathlava: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " stood in &cmagma and melted.", false); break;
 
-                if (level.Killer)
-                {
-
-                    switch (b)
-                    {   
-                        case Block.deathlava:
-                        case Block.activedeathlava: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " stood in &cmagma and melted.", false); break;
-
-                        case Block.air: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " hit the floor &chard.", false); break;
-                        case Block.water: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " &cdrowned.", false); break;
-                        case Block.Zero: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cterminated", false); break;
-                        case Block.rock:
-                            GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
-                            break;
-                        case Block.stone:
-                            GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
-                            break;
-                    }
-                    
-                    Command.all.Find("spawn").Use(this, "");
-                    overallDeath++;
-
-                    if (Server.deathcount)
-                        if (overallDeath > 0 && overallDeath % 10 == 0) GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " has died &3" + overallDeath + " times", false);
+                    case Block.air: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " hit the floor &chard.", false); break;
+                    case Block.water: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " &cdrowned.", false); break;
+                    case Block.Zero: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cterminated", false); break;
+                    case Block.rock:
+                        GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
+                        break;
+                    case Block.stone:
+                        GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
+                        break;
                 }
+                Command.all.Find("spawn").Use(this, "");
+                overallDeath++;
+
+                if (Server.deathcount)
+                    if (overallDeath > 0 && overallDeath % 10 == 0) GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " has died &3" + overallDeath + " times", false);
                 lastDeath = DateTime.Now;
 
             }
@@ -2245,10 +2193,12 @@ namespace MCForge
                 GC.WaitForPendingFinalizers();
                 //Server.s.Log((DateTime.Now - start).TotalMilliseconds.ToString()); // We dont want random numbers showing up do we?
             }
+            /*
             if (HasExtension("EnvWeatherType"))
             {
                 SendSetMapWeather(level.weather);
             }
+            */
         }
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty, string displayName, string skinName)
         {

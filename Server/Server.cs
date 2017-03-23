@@ -533,8 +533,6 @@ namespace MCForge
                                 y = (ushort)(p.pos[1] / 32);
                                 z = (ushort)(p.pos[2] / 32);
 
-                                if (p.level.Death)
-                                    p.RealDeath(x, y, z);
                                 p.CheckBlock(x, y, z);
 
                                 p.oldBlock = (ushort)(x + y + z);
