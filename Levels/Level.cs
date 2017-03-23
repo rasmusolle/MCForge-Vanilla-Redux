@@ -97,42 +97,7 @@ namespace MCForge
         public int maxBuildHeight;
         public ushort divider;
 
-        // IsoCat
-        public ushort[,] shadows;
-        public void CalculateShadows()
-        {
-            try
-            {
-                if (shadows != null) return;
 
-                shadows = new ushort[width, height];
-                for (ushort x = 0; x < width; x++)
-                {
-                    for (ushort y = 0; y < height; y++)
-                    {
-                        for (ushort z = (ushort)(depth - 1); z >= 0; z--)
-                        {
-                            switch (GetTile(x, y, z))
-                            {
-                                case Block.air:
-                                case Block.mushroom:
-                                case Block.glass:
-                                case Block.leaf:
-                                case Block.redflower:
-                                case Block.redmushroom:
-                                case Block.yellowflower:
-                                    continue;
-                                default:
-                                    shadows[x, y] = z;
-                                    break;
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex) { Server.ErrorLog(ex); shadows = new ushort[width, height]; }
-        }
         public LevelPermission permissionbuild = LevelPermission.Guest;
         public LevelPermission permissionvisit = LevelPermission.Guest;
 
@@ -192,7 +157,6 @@ namespace MCForge
             spawnz = (ushort)(height / 2);
             rotx = 0;
             roty = 0;
-            //season = new SeasonsCore(this);
         }
 
         public ushort length
@@ -511,8 +475,6 @@ namespace MCForge
             {
                 return;
             }
-            //if (season.started)
-            //    season.Stop(this);
             if (blocks == null) return;
             string path = "levels/" + name + ".mcf";
             if (LevelSave != null)
@@ -646,7 +608,6 @@ namespace MCForge
                 Server.ErrorLog(e);
                 return;
             }
-            //season.Start(this);
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
@@ -794,16 +755,7 @@ namespace MCForge
                     gs.Dispose();
                     //level.textures = new LevelTextures(level);
                     level.backedup = true;
-
-                    //level.physic.StartPhysics(level);
-                    //level.physChecker.Elapsed += delegate
-                    //{
-                    //    if (!level.physicssate && level.physics > 0)
-                    //        level.physic.StartPhysics(level);
-                    //};
-                    //level.physChecker.Start();
-                    //level.season = new SeasonsCore(level);
-
+                    
                     try
                     {
                         string foundLocation;
@@ -845,7 +797,6 @@ namespace MCForge
                     catch
                     {
                     }
-                    level.CalculateShadows();
                     Server.s.Log(string.Format("Level \"{0}\" loaded.", level.name));
                     if (LevelLoaded != null)
                         LevelLoaded(level);

@@ -219,7 +219,6 @@ namespace MCForge
         public static bool adminsjoinsilent = false;
         public static string server_owner = "Notch";
         public static bool WomDirect = false;
-        public static bool UseSeasons = false;
         public static bool guestJoinNotify = true;
         public static bool guestLeaveNotify = true;
 
