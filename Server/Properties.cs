@@ -360,27 +360,6 @@ namespace MCForge {
                                                                     Server.server_owner = value;
                                                                 break;
 
-                                                            case "guest-join-notify":
-                                                                try
-                                                                {
-                                                                    Server.guestJoinNotify = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default");
-                                                                }
-                                                                break;
-                                                            case "guest-leave-notify":
-                                                                try
-                                                                {
-                                                                    Server.guestLeaveNotify = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default");
-                                                                }
-                                                                break;
-
                                                             case "mute-on-spam":
                                                                 try
                                                                 {
@@ -512,8 +491,6 @@ namespace MCForge {
 			w.WriteLine("repeat-messages = " + Server.repeatMessage.ToString());
 			w.WriteLine("host-state = " + Server.ZallState.ToString());
 			w.WriteLine("server-owner = " + Server.server_owner.ToString());
-			w.WriteLine("guest-join-notify = " + Server.guestJoinNotify.ToString().ToLower());
-			w.WriteLine("guest-leave-notify = " + Server.guestLeaveNotify.ToString().ToLower());
 			w.WriteLine();
 			w.WriteLine("# backup options");
 			w.WriteLine("backup-time = " + Server.backupInterval.ToString());
