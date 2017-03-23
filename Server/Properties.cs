@@ -175,16 +175,6 @@ namespace MCForge {
                                                             case "report-back":
                                                                 Server.reportBack = (value.ToLower() == "true") ? true : false;
                                                                 break;
-                                                            case "backup-time":
-                                                                if (Convert.ToInt32(value) > 1)
-                                                                {
-                                                                    Server.backupInterval = Convert.ToInt32(value);
-                                                                }
-                                                                break;
-                                                            case "backup-location":
-                                                                if (!value.Contains("System.Windows.Forms.TextBox, Text:"))
-                                                                    Server.backupLocation = value;
-                                                                break;
 
                                                             case "deathcount":
                                                                 Server.deathcount = (value.ToLower() == "true") ? true : false;
@@ -468,10 +458,6 @@ namespace MCForge {
 			w.WriteLine("repeat-messages = " + Server.repeatMessage.ToString());
 			w.WriteLine("host-state = " + Server.ZallState.ToString());
 			w.WriteLine("server-owner = " + Server.server_owner.ToString());
-			w.WriteLine();
-			w.WriteLine("# backup options");
-			w.WriteLine("backup-time = " + Server.backupInterval.ToString());
-			w.WriteLine("backup-location = " + Server.backupLocation);
 			w.WriteLine();
 			w.WriteLine("#Error logging");
 			w.WriteLine("report-back = " + Server.reportBack.ToString().ToLower());
