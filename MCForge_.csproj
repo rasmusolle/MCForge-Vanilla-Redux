@@ -97,7 +97,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CmdStore.cs" />
     <Compile Include="Commands\CmdIrc.cs" />
     <Compile Include="Heartbeat\Heartbeat.cs" />
     <Compile Include="Heartbeat\IBeat.cs" />
