@@ -207,8 +207,6 @@ namespace MCForge
         public static string customBanMessage = "You're banned!";
         public static bool customShutdown = false;
         public static string customShutdownMessage = "Server shutdown. Rejoin in 10 seconds.";
-        public static bool customGrieferStone = false;
-        public static string customGrieferStoneMessage = "Oh noes! You were caught griefing!";
         public static string customPromoteMessage = "&6Congratulations for working hard and getting &2PROMOTED!";
         public static string customDemoteMessage = "&4DEMOTED! &6We're sorry for your loss. Good luck on your future endeavors! &1:'(";
         public static string moneys = "moneys";
@@ -227,9 +225,6 @@ namespace MCForge
 
         // lol useless junk here lolololasdf poop
         public static bool showEmptyRanks = false;
-        public static ushort grieferStoneType = 1;
-        public static bool grieferStoneBan = true;
-        public static LevelPermission grieferStoneRank = LevelPermission.Guest;
 
         #endregion
 

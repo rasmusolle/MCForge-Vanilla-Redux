@@ -294,21 +294,6 @@ namespace MCForge {
                                                                 if (value != "")
                                                                     Server.customShutdownMessage = value;
                                                                 break;
-                                                            case "custom-griefer-stone":
-                                                                try
-                                                                {
-                                                                    Server.customGrieferStone = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
-                                                            case "custom-griefer-stone-message":
-                                                                if (value != "")
-                                                                    Server.customGrieferStoneMessage = value;
-                                                                break;
                                                             case "custom-promote-message":
                                                                 if (value != "")
                                                                     Server.customPromoteMessage = value;
