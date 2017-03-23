@@ -43,7 +43,7 @@ namespace MCForge
                 "&name=" + Heart.EncodeUrl(Server.name) +
                 "&public=" + Server.pub +
                 "&version=7" +
-                "&salt=" + Server.salt2 +
+                "&salt=" + Server.salt +
                 "&users=" + Player.players.Count +
                 "&software=MCForge-Redux";
 

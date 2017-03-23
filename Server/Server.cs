@@ -84,7 +84,6 @@ namespace MCForge
 
         // URL hash for connecting to the server
         public static string Hash = String.Empty;
-        public static string CCURL = String.Empty;
         public static string URL = String.Empty;
 
         public static Socket listen;
@@ -151,7 +150,6 @@ namespace MCForge
         #region Server Settings
         public const byte version = 7;
         public static string salt = "";
-		public static string salt2 = "";
 
         public static string name = "[MCForge] Default";
         public static string motd = "Welcome!";
@@ -590,11 +588,6 @@ namespace MCForge
         public void UpdateUrl(string url)
         {
             if (OnURLChange != null) OnURLChange(url);
-        }
-
-        public void UpdateCCUrl(string ccurl)
-        {
-            if (OnURLChange != null) OnURLChange(ccurl);
         }
 
         public void Log(string message, bool systemMsg = false, LogType type = LogType.Main)
