@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CmdIrc.cs" />
+    <Compile Include="GUI\Win32\Margins.cs" />
     <Compile Include="Heartbeat\Heartbeat.cs" />
     <Compile Include="Heartbeat\IBeat.cs" />
     <Compile Include="Player\Opcode.cs" />
@@ -113,7 +114,6 @@
     <Compile Include="GUI\ColoredTextBox.Designer.cs">
       <DependentUpon>ColoredTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Win32\Margins.cs" />
     <Compile Include="GUI\Win32\Natives.cs" />
     <Compile Include="GUI\Win32\RECT.cs" />
     <Compile Include="GUI\Win32\Utils.cs" />
