@@ -29,7 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace MonoTorrent.Client
+namespace MCForge
 {
     public delegate void MainLoopResult(object result);
     public delegate object MainLoopJob();

@@ -27,8 +27,6 @@ using System.Timers;
 using System.Threading;
 using System.Windows.Forms;
 
-using MonoTorrent.Client;
-
 namespace MCForge
 {
     public enum ForgeProtection { Off = 0, Mod = 1, Dev = 2 }
