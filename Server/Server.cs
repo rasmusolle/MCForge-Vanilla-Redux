@@ -67,7 +67,6 @@ namespace MCForge
         public static Thread locationChecker;
         public static bool UseTextures = false;
         public static Thread blockThread;
-        public static bool IgnoreOmnibans = false;
 
         public static int speedPhysics = 250;
 
@@ -172,7 +171,6 @@ namespace MCForge
 
         public static string level = "main";
         public static string errlog = "error.log";
-
 
         public static bool irc = false;
         public static bool ircColorsEnable = false;
