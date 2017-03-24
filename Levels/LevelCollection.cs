@@ -105,18 +105,6 @@ namespace MCForge
             del = l => l.motd;
             props.Add(new LevelMethodDescriptor("MOTD", del, typeof(string)));
 
-            del = l => l.worldChat;
-            props.Add(new LevelMethodDescriptor("World-Chat", del, typeof(bool)));
-
-            del = l => l.Death;
-            props.Add(new LevelMethodDescriptor("Death", del, typeof(bool)));
-
-            del = l => l.randomFlow;
-            props.Add(new LevelMethodDescriptor("Random Flow", del, typeof(bool)));
-
-            del = l => l.unload;
-            props.Add(new LevelMethodDescriptor("Unload Empty", del, typeof(bool)));
-
             del =
                 l =>
                 (File.Exists("text/autoload.txt") &&
