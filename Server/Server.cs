@@ -671,15 +671,6 @@ namespace MCForge
                 Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
             }
         }
-/*        public void OpLog(string message, bool systemMsg = false)
-        {
-            Log(message, false, "Op");
-        }
-
-        public void AdminLog(string message, bool systemMsg = false)
-        {
-            Log(message, false, "Admin");
-        }*/
 
         public void ErrorCase(string message)
         {
