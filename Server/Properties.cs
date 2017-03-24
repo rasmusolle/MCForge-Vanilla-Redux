@@ -261,14 +261,6 @@ namespace MCForge {
                                                                 if (value != "")
                                                                     Server.customShutdownMessage = value;
                                                                 break;
-                                                            case "custom-promote-message":
-                                                                if (value != "")
-                                                                    Server.customPromoteMessage = value;
-                                                                break;
-                                                            case "custom-demote-message":
-                                                                if (value != "")
-                                                                    Server.customDemoteMessage = value;
-                                                                break;
                                                             case "rank-super":
                                                                 try
                                                                 {
@@ -471,8 +463,6 @@ namespace MCForge {
 			w.WriteLine("custom-ban-message = " + Server.customBanMessage);
 			w.WriteLine("custom-shutdown = " + Server.customShutdown.ToString().ToLower());
 			w.WriteLine("custom-shutdown-message = " + Server.customShutdownMessage);
-			w.WriteLine("custom-promote-message = " + Server.customPromoteMessage);
-			w.WriteLine("custom-demote-message = " + Server.customDemoteMessage);
 			w.WriteLine();
 			w.WriteLine("rank-super = " + Server.rankSuper.ToString().ToLower());
 			try { w.WriteLine("default-rank = " + Server.defaultRank); }
