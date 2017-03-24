@@ -105,18 +105,12 @@ namespace MCForge {
 		}
 		void Player_PlayerDisconnect(Player p, string reason) {
 			if (Server.irc && IsConnected())
-				if (Server.guestLeaveNotify == false && p.group.Permission <= LevelPermission.Guest) {
-					return;
-				}
-			connection.Sender.PublicMessage(channel, p.name + " left the game (" + reason + ")");
+			    connection.Sender.PublicMessage(channel, p.name + " left the game (" + reason + ")");
 		}
 
 		void Player_PlayerConnect(Player p) {
 			if (Server.irc && IsConnected())
-				if (Server.guestJoinNotify == false && p.group.Permission <= LevelPermission.Guest) {
-					return;
-				}
-			connection.Sender.PublicMessage(channel, p.name + " joined the game");
+			    connection.Sender.PublicMessage(channel, p.name + " joined the game");
 		}
 
 		void Listener_OnQuit(UserInfo user, string reason) {
