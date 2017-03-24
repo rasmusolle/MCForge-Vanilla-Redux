@@ -201,7 +201,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="Levels\Block.cs" />
-    <Compile Include="IRC\CtcpResponder.cs" />
+    <Compile Include="sharkbite.thresher\Ctcp\CtcpResponder.cs" />
     <Compile Include="sharkbite.thresher\ChannelModeInfo.cs" />
     <Compile Include="sharkbite.thresher\CommandBuilder.cs" />
     <Compile Include="sharkbite.thresher\Connection.cs" />
