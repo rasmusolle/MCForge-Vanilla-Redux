@@ -95,7 +95,6 @@ namespace MCForge
         //Other
         public static bool ServerSetupFinished = false;
         public static PlayerList bannedIP;
-        public static PlayerList whiteList;
         public static PlayerList ircControllers;
         public static PlayerList muted;
         public static PlayerList ignored;
