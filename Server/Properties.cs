@@ -172,10 +172,6 @@ namespace MCForge {
                                                                 Server.ircPassword = value;
                                                                 break;
 
-                                                            case "report-back":
-                                                                Server.reportBack = (value.ToLower() == "true") ? true : false;
-                                                                break;
-
                                                             case "deathcount":
                                                                 Server.deathcount = (value.ToLower() == "true") ? true : false;
                                                                 break;
@@ -450,9 +446,6 @@ namespace MCForge {
 			w.WriteLine("repeat-messages = " + Server.repeatMessage.ToString());
 			w.WriteLine("host-state = " + Server.ZallState.ToString());
 			w.WriteLine("server-owner = " + Server.server_owner.ToString());
-			w.WriteLine();
-			w.WriteLine("#Error logging");
-			w.WriteLine("report-back = " + Server.reportBack.ToString().ToLower());
 			w.WriteLine();
 			w.WriteLine("#Colors");
 			w.WriteLine("defaultColor = " + Server.DefaultColor);

@@ -173,7 +173,6 @@ namespace MCForge
         public static string level = "main";
         public static string errlog = "error.log";
 
-        public static bool reportBack = true;
 
         public static bool irc = false;
         public static bool ircColorsEnable = false;
