@@ -107,9 +107,6 @@ namespace MCForge {
                                                             case "public":
                                                                 Server.pub = (value.ToLower() == "true") ? true : false;
                                                                 break;
-                                                            case "world-chat":
-                                                                Server.worldChat = (value.ToLower() == "true") ? true : false;
-                                                                break;
                                                             case "max-players":
                                                                 try
                                                                 {
@@ -407,7 +404,6 @@ namespace MCForge {
 			w.WriteLine("public = " + Server.pub.ToString().ToLower());
 			w.WriteLine("max-players = " + Server.players.ToString());
 			w.WriteLine("texture-url = " + Server.textureUrl);
-			w.WriteLine("world-chat = " + Server.worldChat.ToString().ToLower());
 			w.WriteLine("restart-on-error = " + Server.restartOnError);
 			w.WriteLine("main-name = " + Server.level);
 			w.WriteLine();

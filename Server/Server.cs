@@ -150,7 +150,6 @@ namespace MCForge
         public static int port = 25565;
         public static bool pub = true;
         public static bool verify = true;
-        public static bool worldChat = true;
 
         //Spam Prevention
         public static bool checkspam = false;

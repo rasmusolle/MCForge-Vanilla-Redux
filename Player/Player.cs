@@ -1337,16 +1337,16 @@ namespace MCForge
                 switch (b)
                 {   
                     case Block.deathlava:
-                    case Block.activedeathlava: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " stood in &cmagma and melted.", false); break;
+                    case Block.activedeathlava: GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " stood in &cmagma and melted.", false); break;
 
-                    case Block.air: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " hit the floor &chard.", false); break;
-                    case Block.water: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " &cdrowned.", false); break;
-                    case Block.Zero: GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cterminated", false); break;
+                    case Block.air: GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " hit the floor &chard.", false); break;
+                    case Block.water: GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " &cdrowned.", false); break;
+                    case Block.Zero: GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cterminated", false); break;
                     case Block.rock:
                         GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
                         break;
                     case Block.stone:
-                        GlobalChatLevel(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
+                        GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
                         break;
                 }
                 Command.all.Find("spawn").Use(this, "");
@@ -1546,25 +1546,10 @@ namespace MCForge
                     return;
                 }
 
-                if (!level.worldChat)
-                {
-                    Server.s.Log("<" + name + ">[level] " + text);
-                    GlobalChatLevel(this, text, true);
-                    return;
-                }
-
                 if (text[0] == '%')
                 {
                     string newtext = text;
-                    if (!Server.worldChat)
-                    {
-                        newtext = text.Remove(0, 1).Trim();
-                        GlobalChatWorld(this, newtext, true);
-                    }
-                    else
-                    {
-                        GlobalChat(this, newtext);
-                    }
+                    GlobalChat(this, newtext);
                     Server.s.Log("<" + name + "> " + newtext);
                     //Server.IRC.Say("<" + name + "> " + newtext);
                     if (OnChat != null)
@@ -1585,16 +1570,7 @@ namespace MCForge
                     cancelchat = false;
                     return;
                 }
-                if (Server.worldChat)
-                {
-                    GlobalChat(this, text);
-                }
-                else
-                {
-                    GlobalChatLevel(this, text, true);
-                }
-
-                //Server.IRC.Say(name + ": " + text);
+                GlobalChat(this, text);
             }
             catch (Exception e) { Server.ErrorLog(e); Player.GlobalMessage("An error occurred: " + e.Message); }
         }
@@ -2549,56 +2525,7 @@ rot = new byte[2] { rotx, roty };*/
                     }
                 }
             });
-
         }
-        public static void GlobalChatLevel(Player from, string message, bool showname)
-        {
-            if (MessageHasBadColorCodes(from, message))
-                return;
-
-            if (showname)
-            {
-                message = "<Level>" + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
-            }
-            players.ForEach(delegate(Player p)
-            {
-                if (p.level == from.level)
-                {
-                    if (p.ignoreglobal == false)
-                    {
-                        if (from != null)
-                        {
-                            if (!p.listignored.Contains(from.name))
-                            {
-                                Player.SendMessage(p, Server.DefaultColor + message);
-                                return;
-                            }
-                            return;
-                        }
-                        Player.SendMessage(p, Server.DefaultColor + message);
-                        return;
-                    }
-
-                        if (from.group.Permission >= Server.opchatperm)
-                        {
-                            if (p.group.Permission < from.group.Permission)
-                            {
-                                Player.SendMessage(p, Server.DefaultColor + message);
-                            }
-                        }
-
-                    if (from != null)
-                    {
-                        if (from == p)
-                        {
-                            Player.SendMessage(from, Server.DefaultColor + message);
-                            return;
-                        }
-                    }
-                }
-            });
-        }
-
 
         public static bool MessageHasBadColorCodes(Player from, string message)
         {
@@ -2732,75 +2659,16 @@ rot = new byte[2] { rotx, roty };*/
 
         }
 
-        public static void GlobalChatWorld(Player from, string message, bool showname)
-        {
-            if (showname)
-            {
-                message = "<World>" + from.color + from.voicestring + from.color + from.prefix + from.name + ": &f" + message;
-            }
-            players.ForEach(delegate(Player p)
-            {
-                if (p.level.worldChat)
-                {
-                    if (p.ignoreglobal == false)
-                    {
-                        if (from != null)
-                        {
-                            if (!p.listignored.Contains(from.name))
-                            {
-                                Player.SendMessage(p, Server.DefaultColor + message);
-                                return;
-                            }
-                            return;
-                        }
-                        Player.SendMessage(p, Server.DefaultColor + message);
-                        return;
-                    }
-
-                        if (from.group.Permission >= Server.opchatperm)
-                        {
-                            if (p.group.Permission < from.group.Permission)
-                            {
-                                Player.SendMessage(p, Server.DefaultColor + message);
-                            }
-                        }
-
-                    if (from != null)
-                    {
-                        if (from == p)
-                        {
-                            Player.SendMessage(from, Server.DefaultColor + message);
-                            return;
-                        }
-                    }
-                }
-            });
-        }
         public static void GlobalMessage(string message)
         {
-            GlobalMessage(MessageType.Chat, message, false);
+            GlobalMessage(MessageType.Chat, message);
         }
-        public static void GlobalMessage(MessageType type, string message, bool global)
+        public static void GlobalMessage(MessageType type, string message)
         {
-            if (!global)
-                //message = message.Replace("%", "&");
-                message = EscapeColours(message);
             players.ForEach(delegate(Player p)
             {
-                if (p.level.worldChat && !global)
-                {
-                    Player.SendMessage(p, type, message, !global);
-                }
+                Player.SendMessage(p, message);
             });
-        }
-        public static void GlobalMessageLevel(Level l, string message)
-        {
-            players.ForEach(delegate(Player p) { if (p.level == l) Player.SendMessage(p, MessageType.Chat, message, true); });
-        }
-
-        public static void GlobalMessageLevel(Level l, MessageType type, string message)
-        {
-            players.ForEach(delegate(Player p) { if (p.level == l) Player.SendMessage(p, type, message, true); });
         }
 
         public static void GlobalMessageOps(string message)
@@ -2810,7 +2678,7 @@ rot = new byte[2] { rotx, roty };*/
                 players.ForEach(delegate(Player p)
                 {
                     if (p.group.Permission >= Server.opchatperm || p.isStaff)
-                    { //START
+                    {
                         Player.SendMessage(p, message);
                     }
                 });
@@ -2818,26 +2686,6 @@ rot = new byte[2] { rotx, roty };*/
             }
             catch { Server.s.Log("Error occured with Op Chat"); }
         }
-
-       /* public static void GlobalMessageTeam(string message, string team)
-        {
-            try
-            {
-                players.ForEach(delegate(Player p)
-                {
-                    if (Server.pctf.getTeam(p) == team || Server.devs.Contains(p.name.ToLower()) || p.referee == true)
-                    {
-                        if (team == "red")
-                            Player.SendMessage(p, c.red + "To RED Team &f-" + message);
-                        else if (team == "blue")
-                            Player.SendMessage(p, c.blue + "To BLUE Team &f-" + message);
-                        else { }
-                    }
-                });
-
-            }
-            catch { Server.s.Log("Error occured with Team Chat"); }
-        } */
 
         public static void GlobalSpawn(Player from, ushort x, ushort y, ushort z, byte rotx, byte roty, bool self, string possession = "")
         {
