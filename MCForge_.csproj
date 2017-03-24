@@ -230,8 +230,6 @@
     <Compile Include="sharkbite.thresher\UserInfo.cs" />
     <Compile Include="sharkbite.thresher\WhoisInfo.cs" />
     <Compile Include="util\Extensions.cs" />
-    <Compile Include="util\Hasher.cs" />
-    <Compile Include="util\ICryptoService.cs" />
     <Compile Include="Database\BlockDB.cs" />
     <Compile Include="Database\PlayerDB.cs" />
     <Compile Include="Commands\CmdWhoip.cs" />
