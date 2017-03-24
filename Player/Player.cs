@@ -210,7 +210,6 @@ namespace MCForge
         public static List<string> emoteList = new List<string>();
         public List<string> listignored = new List<string>();
         public List<string> mapgroups = new List<string>();
-        public static List<string> globalignores = new List<string>();
         public static byte number { get { return (byte)players.Count; } }
         static System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
         static MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
@@ -804,44 +803,6 @@ namespace MCForge
                 catch { }
 
 
-                if (File.Exists("ranks/ignore/" + this.name + ".txt"))
-                {
-                    try
-                    {
-                        string[] checklines = File.ReadAllLines("ranks/ignore/" + this.name + ".txt");
-                        foreach (string checkline in checklines)
-                        {
-                            this.listignored.Add(checkline);
-                        }
-                        File.Delete("ranks/ignore/" + this.name + ".txt");
-                    }
-                    catch
-                    {
-                        Server.s.Log("Failed to load ignore list for: " + this.name);
-                    }
-                }
-
-                if (File.Exists("ranks/ignore/GlobalIgnore.xml"))
-                {
-                    try
-                    {
-                        string[] searchxmls = File.ReadAllLines("ranks/ignore/GlobalIgnore.xml");
-                        foreach (string searchxml in searchxmls)
-                        {
-                            globalignores.Add(searchxml);
-                        }
-                        foreach (string ignorer in globalignores)
-                        {
-                            Player foundignore = Player.Find(ignorer);
-                            foundignore.ignoreglobal = true;
-                        }
-                        File.Delete("ranks/ignore/GlobalIgnore.xml");
-                    }
-                    catch
-                    {
-                        Server.s.Log("Failed to load global ignore list!");
-                    }
-                }
                 // ban check
                 if (Server.bannedIP.Contains(ip))
                 {
