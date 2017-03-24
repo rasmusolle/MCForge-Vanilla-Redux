@@ -103,6 +103,7 @@
     <Compile Include="Heartbeat\IBeat.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Player\Player.CPE.cs" />
+    <Compile Include="IRC\Sharkbite.thresher.cs" />
     <Compile Include="util\MainLoop.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -201,34 +202,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="Levels\Block.cs" />
-    <Compile Include="sharkbite.thresher\Ctcp\CtcpResponder.cs" />
-    <Compile Include="sharkbite.thresher\ChannelModeInfo.cs" />
-    <Compile Include="sharkbite.thresher\CommandBuilder.cs" />
-    <Compile Include="sharkbite.thresher\Connection.cs" />
-    <Compile Include="sharkbite.thresher\ConnectionArgs.cs" />
-    <Compile Include="sharkbite.thresher\Ctcp\CtcpListener.cs" />
-    <Compile Include="sharkbite.thresher\Ctcp\CtcpSender.cs" />
-    <Compile Include="sharkbite.thresher\Ctcp\CtcpUtil.cs" />
-    <Compile Include="sharkbite.thresher\Dcc\DccChatSession.cs" />
-    <Compile Include="sharkbite.thresher\Dcc\DccFileInfo.cs" />
-    <Compile Include="sharkbite.thresher\Dcc\DccFileSession.cs" />
-    <Compile Include="sharkbite.thresher\Dcc\DccFileSessionManager.cs" />
-    <Compile Include="sharkbite.thresher\Dcc\DccListener.cs" />
-    <Compile Include="sharkbite.thresher\Dcc\DccUserInfo.cs" />
-    <Compile Include="sharkbite.thresher\Dcc\DccUtil.cs" />
-    <Compile Include="sharkbite.thresher\Delegates.cs" />
-    <Compile Include="sharkbite.thresher\Enums.cs" />
-    <Compile Include="sharkbite.thresher\Identd.cs" />
-    <Compile Include="sharkbite.thresher\IParser.cs" />
-    <Compile Include="sharkbite.thresher\Listener.cs" />
-    <Compile Include="sharkbite.thresher\NameGenerator.cs" />
-    <Compile Include="sharkbite.thresher\ReplyCode.cs" />
-    <Compile Include="sharkbite.thresher\Rfc2812Util.cs" />
-    <Compile Include="sharkbite.thresher\Sender.cs" />
-    <Compile Include="sharkbite.thresher\ServerProperties.cs" />
-    <Compile Include="sharkbite.thresher\TextColor.cs" />
-    <Compile Include="sharkbite.thresher\UserInfo.cs" />
-    <Compile Include="sharkbite.thresher\WhoisInfo.cs" />
     <Compile Include="util\Extensions.cs" />
     <Compile Include="Database\BlockDB.cs" />
     <Compile Include="Database\PlayerDB.cs" />
