@@ -171,7 +171,6 @@ namespace MCForge
         //Only call from within synchronised code or all hell will break loose
         static void FlushCache(string path, Queue<string> cache)
         {
-            // Extra layer of protection
             lock (_fileLockObject)
             {
                 FileStream fs = null;

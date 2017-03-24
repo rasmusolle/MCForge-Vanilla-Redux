@@ -29,7 +29,6 @@ using System.Windows.Forms;
 
 namespace MCForge
 {
-    public enum ForgeProtection { Off = 0, Mod = 1, Dev = 2 }
     public enum LogType { Process, Main, Op, Admin }
     public class Server
     {
@@ -103,11 +102,6 @@ namespace MCForge
         //The MCForge Moderation List
         internal static readonly List<string> mods = new List<string>();
         public static List<string> Mods { get { return new List<string>(mods); } }
-
-        internal static readonly List<string> protectover = new List<string>(new string[] { "moderate", "mute", "freeze", "lockdown", "ban", "banip", "kickban", "kick", "global", "xban", "uban", "unban", "unbanip", "demote", "promote", "restart", "shutdown", "setrank", "warn", "tempban", "impersonate", "sendcmd", "possess", "joker", "jail", "ignore", "voice" });
-        public static List<string> ProtectOver { get { return new List<string>(protectover); } }
-
-        public static ForgeProtection forgeProtection = ForgeProtection.Off;
 
         public static List<TempBan> tempBans = new List<TempBan>();
         public struct TempBan { public string name; public DateTime allowedJoin; }
@@ -270,9 +264,8 @@ namespace MCForge
 
             timeOnline = DateTime.Now;
 
-
             UpdateStaffList();
-            Log("MCForge Staff Protection Level: " + forgeProtection);
+            //Log("MCForge Staff Protection Level: " + forgeProtection);
 
             if (levels != null)
                 foreach (Level l in levels) { l.Unload(); }
@@ -331,18 +324,6 @@ namespace MCForge
                     grp.playerList = PlayerList.Load(grp.fileName, grp);
                 Extensions.UncapitalizeAll("ranks/banned.txt");
                 Extensions.UncapitalizeAll("ranks/muted.txt");
-                if (forgeProtection == ForgeProtection.Mod || forgeProtection == ForgeProtection.Dev) {
-                    foreach (string dev in Devs) {
-                        Extensions.DeleteExactLineWord("ranks/banned.txt", dev);
-                        Extensions.DeleteExactLineWord("ranks/muted.txt", dev);
-                    }
-                }
-                if (forgeProtection == ForgeProtection.Mod) {
-                    foreach (string mod in Mods) {
-                        Extensions.DeleteExactLineWord("ranks/banned.txt", mod);
-                        Extensions.DeleteExactLineWord("ranks/muted.txt", mod);
-                    }
-                }
             });
 
             ml.Queue(delegate

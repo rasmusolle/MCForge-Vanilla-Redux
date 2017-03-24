@@ -365,21 +365,6 @@ namespace MCForge {
                                                                     Server.s.Log("Invalid " + key + ". Using default");
                                                                 }
                                                                 break;
-
-                                                            case "mcforge-protection-level":
-                                                                switch (value.ToLower())
-                                                                {
-                                                                    case "dev":
-                                                                        Server.forgeProtection = ForgeProtection.Dev;
-                                                                        break;
-                                                                    case "mod":
-                                                                        Server.forgeProtection = ForgeProtection.Mod;
-                                                                        break;
-                                                                    default:
-                                                                        Server.forgeProtection = ForgeProtection.Off;
-                                                                        break;
-                                                                }
-                                                                break;
                                                         }
 												}
 										}
@@ -424,7 +409,6 @@ namespace MCForge {
 			w.WriteLine("texture-url = " + Server.textureUrl);
 			w.WriteLine("world-chat = " + Server.worldChat.ToString().ToLower());
 			w.WriteLine("restart-on-error = " + Server.restartOnError);
-            w.WriteLine("mcforge-protection-level = " + Enum.GetName(typeof(ForgeProtection), Server.forgeProtection));
 			w.WriteLine("main-name = " + Server.level);
 			w.WriteLine();
 			w.WriteLine("# irc bot options");

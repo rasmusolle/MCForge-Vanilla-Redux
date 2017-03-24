@@ -771,7 +771,6 @@ namespace MCForge
                 string verify = enc.GetString(message, 65, 32).Trim();
                 ushort type = message[129];
 
-                //Forge Protection Check
                 verifiedName = Server.verify ? true : false;
                 if (Server.verify)
                 {
@@ -788,10 +787,6 @@ namespace MCForge
                     {
                         Kick("Login failed! Try again."); return;
                     }
-                    isDev = Server.Devs.Contains(name.ToLower());
-                    isMod = Server.Mods.Contains(name.ToLower());
-                    isStaff = isDev || isMod;
-                    isProtected = Server.forgeProtection == ForgeProtection.Mod && (isMod || isDev) ? true : Server.forgeProtection == ForgeProtection.Dev && isDev ? true : false;
                 }
                 try
                 {
@@ -848,24 +843,21 @@ namespace MCForge
                     }
                 }
                 // ban check
-                if (!isProtected)
+                if (Server.bannedIP.Contains(ip))
                 {
-                    if (Server.bannedIP.Contains(ip))
+                    Kick(Server.customBanMessage);
+                    return;
+                }
+                if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned))
+                {
+                    if (UsingID && Ban.IsbannedID(ID.ToString()) || !UsingID && Ban.Isbanned(name))
                     {
+                        string[] data = Ban.Getbandata(name);
+                        Kick("You were banned for \"" + data[1] + "\" by " + data[0]);
+                    }
+                    else
                         Kick(Server.customBanMessage);
                         return;
-                    }
-                    if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned))
-                    {
-                        if (UsingID && Ban.IsbannedID(ID.ToString()) || !UsingID && Ban.Isbanned(name))
-                        {
-                            string[] data = Ban.Getbandata(name);
-                            Kick("You were banned for \"" + data[1] + "\" by " + data[0]);
-                        }
-                        else
-                            Kick(Server.customBanMessage);
-                        return;
-                    }
                 }
 
                 //server maxplayer check
@@ -1714,14 +1706,6 @@ namespace MCForge
                 //Group old = null;
                 if (command != null)
                 {
-
-                    if (Player.CommandProtected(cmd.ToLower(), message))
-                    {
-                        SendMessage("Cannot use command, player has protection level: " + Server.forgeProtection);
-                        Server.s.CommandUsed(name + " used /" + cmd + " " + message);
-                        return;
-                    }
-
                     if (group.CanExecute(command))
                     {
                         if (cmd != "repeat") lastCMD = cmd + " " + message;
@@ -3282,86 +3266,6 @@ rot = new byte[2] { rotx, roty };*/
             }
         }
 
-        public static bool CommandProtected(string cmd, string message)
-        {
-            string foundName = "";
-            Player who = null;
-            bool self = false;
-            if (Server.ProtectOver.Contains(cmd))
-                switch (cmd)
-                {
-                    //case "demote":
-                    case "freeze":
-                    case "impersonate":
-                    //case "kick":
-                    case "kickban":
-                    case "mute":
-                    case "possess":
-                    //case "promote":
-                    case "sendcmd":
-                    case "tempban":
-                    case "uban":
-                    case "voice":
-                    case "xban":
-                        if (message.Split().Length > 0)
-                        {
-                            who = Find(message.Split()[0]);
-                            foundName = who != null ? who.name : message.Split()[0];
-                        }
-                        break;
-                    /*case "banip": //this one is hard coded into CmdBanip.cs
-                        break;*/
-                    case "ban":
-                    case "joker":
-                        if (message.Split().Length > 0)
-                        {
-                            try
-                            {
-                                who = message.StartsWith("@") || message.StartsWith("#") ? Find(message.Split()[0].Substring(1)) : Find(message.Split()[0]);
-                            }
-                            catch (ArgumentOutOfRangeException) { who = null; }
-                            foundName = who != null ? who.name : message.Split()[0];
-                        }
-                        break;
-                    case "lockdown":
-                        if (message.Split().Length > 1 && message.Split()[0].ToLower() == "player")
-                        {
-                            who = Find(message.Split()[1]);
-                            foundName = who != null ? who.name : message.Split()[1];
-                        }
-                        break;
-                    case "jail":
-                        if (message.Split().Length > 0 && message.Split()[0].ToLower() != "set")
-                        {
-                            who = Find(message.Split()[0]);
-                            foundName = who != null ? who.name : message.Split()[0];
-                        }
-                        break;
-                    case "ignore":
-                        List<string> badlist = new List<string>();
-                        badlist.Add("all"); badlist.Add("global"); badlist.Add("list");
-                        if (message.Split().Length > 0 && badlist.Contains(message.Split()[0].ToLower()))
-                        {
-                            who = Find(message.Split()[0]);
-                            foundName = who != null ? who.name : message.Split()[0];
-                        }
-                        badlist = null;
-                        break;
-                    default:
-                        break;
-                }
-            foundName = foundName.ToLower();
-            if (who != null && foundName == who.name.ToLower()) { self = true; }
-            try
-            {
-                if (Server.forgeProtection == ForgeProtection.Mod)
-                    return (Server.Mods.Contains(foundName) || Server.Devs.Contains(foundName)) && !self;
-                if (Server.forgeProtection == ForgeProtection.Dev)
-                    return Server.Devs.Contains(foundName) && !self;
-            }
-            catch { }
-            return false;
-        }
         #endregion
         #region == Host <> Network ==
         public static byte[] HTNO(ushort x)
