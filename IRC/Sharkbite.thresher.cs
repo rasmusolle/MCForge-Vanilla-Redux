@@ -45,47 +45,11 @@ namespace Sharkbite.Irc
         private ChannelMode mode;
         private string parameter;
 
-        public ModeAction Action
-        {
-            get
-            {
-                return action;
-            }
-            set
-            {
-                action = value;
-            }
-        }
+        public ModeAction Action { get { return action; } set { action = value; } }
+        public ChannelMode Mode { get { return mode; } set { mode = value; } }
+        public string Parameter { get { return parameter; } set { parameter = value; } }
 
-        public ChannelMode Mode
-        {
-            get
-            {
-                return mode;
-            }
-            set
-            {
-                mode = value;
-            }
-        }
-
-        public string Parameter
-        {
-            get
-            {
-                return parameter;
-            }
-            set
-            {
-                parameter = value;
-            }
-        }
-
-
-        public override string ToString()
-        {
-            return string.Format("Action={0} Mode={1} Parameter={2}", Action, Mode, Parameter);
-        }
+        public override string ToString() { return string.Format("Action={0} Mode={1} Parameter={2}", Action, Mode, Parameter); }
 
         internal static ChannelModeInfo[] ParseModes(string[] tokens, int start)
         {
@@ -110,10 +74,7 @@ namespace Sharkbite.Irc
                         modeInfo.Action = ModeAction.Remove;
                         j++;
                     }
-                    if (j == 0)
-                    {
-                        throw new Exception();
-                    }
+                    if (j == 0) { throw new Exception(); }
                     else if (j < tokens[i].Length)
                     {
                         switch (tokens[i][j])
@@ -153,10 +114,7 @@ namespace Sharkbite.Irc
             }
 
             ChannelModeInfo[] modes = new ChannelModeInfo[modeInfoArray.Count];
-            for (int k = 0; k < modeInfoArray.Count; k++)
-            {
-                modes[k] = (ChannelModeInfo)modeInfoArray[k];
-            }
+            for (int k = 0; k < modeInfoArray.Count; k++) { modes[k] = (ChannelModeInfo)modeInfoArray[k]; }
             return modes;
         }
     }
@@ -179,20 +137,8 @@ namespace Sharkbite.Irc
             commandBuffer = new StringBuilder(MAX_COMMAND_SIZE);
         }
 
-        internal Connection Connection
-        {
-            get
-            {
-                return connection;
-            }
-        }
-        internal StringBuilder Buffer
-        {
-            get
-            {
-                return commandBuffer;
-            }
-        }
+        internal Connection Connection { get { return connection; } }
+        internal StringBuilder Buffer { get { return commandBuffer; } }
 
         internal void SendMessage(string type, string target, string message)
         {
@@ -204,10 +150,7 @@ namespace Sharkbite.Irc
             connection.SendCommand(commandBuffer);
         }
 
-        internal void ClearBuffer()
-        {
-            commandBuffer.Remove(0, commandBuffer.Length);
-        }
+        internal void ClearBuffer() { commandBuffer.Remove(0, commandBuffer.Length); }
 
         internal string[] BreakUpMessage(string message, int maxSize)
         {
@@ -217,13 +160,9 @@ namespace Sharkbite.Irc
             {
                 int start = i * maxSize;
                 if (i == pieces - 1)
-                {
                     parts[i] = message.Substring(start);
-                }
                 else
-                {
                     parts[i] = message.Substring(start, maxSize);
-                }
             }
             return parts;
         }
@@ -298,40 +237,14 @@ namespace Sharkbite.Irc
             TextEncoding = textEncoding;
         }
 
-        public Encoding TextEncoding
-        {
-            get
-            {
-                return encoding;
-            }
-            set
-            {
-                encoding = value;
-            }
-        }
+        public Encoding TextEncoding { get { return encoding; } set { encoding = value; } }
 
         public bool Registered { get { return registered; } }
         public bool Connected { get { return connected; } }
 
-        public bool HandleNickTaken
-        {
-            get
-            {
-                return handleNickFailure;
-            }
-            set
-            {
-                handleNickFailure = value;
-            }
-        }
+        public bool HandleNickTaken { get { return handleNickFailure; } set { handleNickFailure = value; } }
 
-        public string Name
-        {
-            get
-            {
-                return connectionArgs.Nick + "@" + connectionArgs.Hostname;
-            }
-        }
+        public string Name { get { return connectionArgs.Nick + "@" + connectionArgs.Hostname; } }
 
         public bool EnableCtcp
         {
@@ -355,17 +268,7 @@ namespace Sharkbite.Irc
             }
         }
 
-        public bool EnableDcc
-        {
-            get
-            {
-                return dccEnabled;
-            }
-            set
-            {
-                dccEnabled = value;
-            }
-        }
+        public bool EnableDcc { get { return dccEnabled; } set { dccEnabled = value; } }
 
         public CtcpResponder CtcpResponder
         {
@@ -393,13 +296,9 @@ namespace Sharkbite.Irc
             get
             {
                 if (ctcpEnabled)
-                {
                     return ctcpListener;
-                }
                 else
-                {
                     return null;
-                }
             }
         }
 
@@ -423,17 +322,13 @@ namespace Sharkbite.Irc
 
         private void MyNickChanged(UserInfo user, string newNick)
         {
-            if (connectionArgs.Nick == user.Nick)
-            {
-                connectionArgs.Nick = newNick;
-            }
+            if (connectionArgs.Nick == user.Nick) { connectionArgs.Nick = newNick; }
         }
         private void OnRegistered()
         {
             registered = true;
             listener.OnRegistered -= new RegisteredEventHandler(OnRegistered);
         }
-
         private void OnNickError(string badNick, string reason)
         {
             //If this is our initial connection attempt
@@ -450,17 +345,12 @@ namespace Sharkbite.Irc
                 Sender.Register(nick);
             }
         }
-
         private void OnReply(ReplyCode code, string info)
         {
             if (code == ReplyCode.RPL_BOUNCE) //Code 005
             {
-                //Lazy instantiation
-                if (properties == null)
-                {
-                    properties = new ServerProperties();
-                }
-                //Populate properties from name/value matches
+                if (properties == null) { properties = new ServerProperties(); }
+
                 MatchCollection matches = propertiesRegex.Matches(info);
                 if (matches.Count > 0)
                 {
@@ -533,28 +423,19 @@ namespace Sharkbite.Irc
 
                         if (CustomParse(line)) { continue; }
 						
-                        if (DccListener.IsDccRequest(line))
+                        if (DccListener.IsDccRequest(line) && dccEnabled)
                         {
-                            if (dccEnabled)
-                            {
-                                DccListener.DefaultInstance.Parse(this, line);
-                            }
+                            DccListener.DefaultInstance.Parse(this, line);
                         }
-                        else if (CtcpListener.IsCtcpMessage(line))
+                        else if (CtcpListener.IsCtcpMessage(line) && ctcpEnabled)
                         {
-                            if (ctcpEnabled)
-                            {
-                                ctcpListener.Parse(line);
-                            }
+                            ctcpListener.Parse(line);
                         }
                         else
                         {
                             listener.Parse(line);
                         }
-                        if (OnRawMessageReceived != null)
-                        {
-                            OnRawMessageReceived(line);
-                        }
+                        if (OnRawMessageReceived != null) { OnRawMessageReceived(line); }
                     }
                     catch (ThreadAbortException)
                     {
@@ -573,7 +454,6 @@ namespace Sharkbite.Irc
             connected = false;
             listener.Disconnected();
         }
-		
         internal void SendCommand(StringBuilder command)
         {
             try
@@ -586,13 +466,9 @@ namespace Sharkbite.Irc
             {
                 Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] Connection::SendCommand() exception=" + e);
             }
-            if (OnRawMessageSent != null)
-            {
-                OnRawMessageSent(command.ToString());
-            }
+            if (OnRawMessageSent != null) { OnRawMessageSent(command.ToString()); }
             command.Remove(0, command.Length);
         }
-
         internal void SendAutomaticReply(StringBuilder command)
         {
             try
@@ -648,10 +524,7 @@ namespace Sharkbite.Irc
         {
             lock (this)
             {
-                if (!connected)
-                {
-                    throw new Exception("Not connected to IRC server.");
-                }
+                if (!connected) { throw new Exception("Not connected to IRC server."); }
                 Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] Connection::Disconnect()");
                 listener.Disconnecting();
                 sender.Quit(reason);
@@ -688,89 +561,13 @@ namespace Sharkbite.Irc
             serverPassword = "*";
         }
 
-        public string Hostname
-        {
-            get
-            {
-                return hostname;
-            }
-            set
-            {
-                hostname = value;
-            }
-        }
-
-        public string ModeMask
-        {
-            get
-            {
-                return modeMask;
-            }
-            set
-            {
-                modeMask = value;
-            }
-        }
-
-        public string Nick
-        {
-            get
-            {
-                return nickName;
-            }
-            set
-            {
-                nickName = value;
-            }
-        }
-
-        public int Port
-        {
-            get
-            {
-                return port;
-            }
-            set
-            {
-                port = value;
-            }
-        }
-
-        public string RealName
-        {
-            get
-            {
-                return realName;
-            }
-            set
-            {
-                realName = value;
-            }
-        }
-
-        public string UserName
-        {
-            get
-            {
-                return userName;
-            }
-            set
-            {
-                userName = value;
-            }
-        }
-
-        public string ServerPassword
-        {
-            get
-            {
-                return serverPassword;
-            }
-            set
-            {
-                serverPassword = value;
-            }
-        }
+        public string Hostname { get { return hostname; } set { hostname = value; } }
+        public string ModeMask { get { return modeMask; } set { modeMask = value; } }
+        public string Nick { get { return nickName; } set { nickName = value; } }
+        public int Port { get { return port; } set { port = value; } }
+        public string RealName { get { return realName; } set { realName = value; } }
+        public string UserName { get { return userName; } set { userName = value; } }
+        public string ServerPassword { get { return serverPassword; } set { serverPassword = value; } }
     }
 
     #region Delegates.cs
@@ -1111,38 +908,23 @@ namespace Sharkbite.Irc
                 tokens[1] = RemoveLeadingColon(tokens[1]);
                 Error(ReplyCode.IrcServerError, CondenseStrings(tokens, 1));
             }
-            else if (replyRegex.IsMatch(message))
-            {
-                ParseReply(tokens);
-            }
-            else
-            {
-                ParseCommand(tokens);
-            }
+            else if (replyRegex.IsMatch(message)) { ParseReply(tokens); }
+            else { ParseCommand(tokens); }
         }
 
         internal void Disconnecting()
         {
-            if (OnDisconnecting != null)
-            {
-                OnDisconnecting();
-            }
+            if (OnDisconnecting != null) { OnDisconnecting(); }
         }
 
         internal void Disconnected()
         {
-            if (OnDisconnected != null)
-            {
-                OnDisconnected();
-            }
+            if (OnDisconnected != null) { OnDisconnected(); }
         }
 
         internal void Error(ReplyCode code, string message)
         {
-            if (OnError != null)
-            {
-                OnError(code, message);
-            }
+            if (OnError != null) { OnError(code, message); }
         }
 
         private void ParseCommand(string[] tokens)
@@ -1174,10 +956,7 @@ namespace Sharkbite.Irc
                     }
                     break;
                 case JOIN:
-                    if (OnJoin != null)
-                    {
-                        OnJoin(Rfc2812Util.UserInfoFromString(tokens[0]), RemoveLeadingColon(tokens[2]));
-                    }
+                    if (OnJoin != null) { OnJoin(Rfc2812Util.UserInfoFromString(tokens[0]), RemoveLeadingColon(tokens[2])); }
                     break;
                 case PRIVMSG:
                     tokens[3] = RemoveLeadingColon(tokens[3]);
@@ -1204,17 +983,11 @@ namespace Sharkbite.Irc
                     }
                     else if (channelPattern.IsMatch(tokens[2]))
                     {
-                        if (OnPublic != null)
-                        {
-                            OnPublic(Rfc2812Util.UserInfoFromString(tokens[0]), tokens[2], CondenseStrings(tokens, 3));
-                        }
+                        if (OnPublic != null) { OnPublic(Rfc2812Util.UserInfoFromString(tokens[0]), tokens[2], CondenseStrings(tokens, 3)); }
                     }
                     else
                     {
-                        if (OnPrivate != null)
-                        {
-                            OnPrivate(Rfc2812Util.UserInfoFromString(tokens[0]), CondenseStrings(tokens, 3));
-                        }
+                        if (OnPrivate != null) { OnPrivate(Rfc2812Util.UserInfoFromString(tokens[0]), CondenseStrings(tokens, 3)); }
                     }
                     break;
                 case NICK:
@@ -1274,10 +1047,7 @@ namespace Sharkbite.Irc
                             }
                             catch (Exception)
                             {
-                                if (OnError != null)
-                                {
-                                    OnError(ReplyCode.UnparseableMessage, CondenseStrings(tokens, 0));
-                                }
+                                if (OnError != null) { OnError(ReplyCode.UnparseableMessage, CondenseStrings(tokens, 0)); }
                                 Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] Listener::ParseCommand() Bad IRC MODE string=" + tokens[0]);
                             }
                         }
@@ -1305,10 +1075,7 @@ namespace Sharkbite.Irc
                     }
                     break;
                 default:
-                    if (OnError != null)
-                    {
-                        OnError(ReplyCode.UnparseableMessage, CondenseStrings(tokens, 0));
-                    }
+                    if (OnError != null) { OnError(ReplyCode.UnparseableMessage, CondenseStrings(tokens, 0)); }
                     Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] Listener::ParseCommand() Unknown IRC command=" + tokens[1]);
                     break;
             }
@@ -1322,29 +1089,17 @@ namespace Sharkbite.Irc
                 //Messages sent upon successful registration 
                 case ReplyCode.RPL_WELCOME:
                 case ReplyCode.RPL_YOURESERVICE:
-                    if (OnRegistered != null)
-                    {
-                        OnRegistered();
-                    }
+                    if (OnRegistered != null) { OnRegistered(); }
                     break;
                 case ReplyCode.RPL_MOTDSTART:
                 case ReplyCode.RPL_MOTD:
-                    if (OnMotd != null)
-                    {
-                        OnMotd(CondenseStrings(tokens, 3), false);
-                    }
+                    if (OnMotd != null) { OnMotd(CondenseStrings(tokens, 3), false); }
                     break;
                 case ReplyCode.RPL_ENDOFMOTD:
-                    if (OnMotd != null)
-                    {
-                        OnMotd(CondenseStrings(tokens, 3), true);
-                    }
+                    if (OnMotd != null) { OnMotd(CondenseStrings(tokens, 3), true); }
                     break;
                 case ReplyCode.RPL_ISON:
-                    if (OnIson != null)
-                    {
-                        OnIson(tokens[3]);
-                    }
+                    if (OnIson != null) { OnIson(tokens[3]); }
                     break;
                 case ReplyCode.RPL_NAMREPLY:
                     if (OnNames != null)
@@ -1359,10 +1114,7 @@ namespace Sharkbite.Irc
                     }
                     break;
                 case ReplyCode.RPL_ENDOFNAMES:
-                    if (OnNames != null)
-                    {
-                        OnNames(tokens[3], new string[0], true);
-                    }
+                    if (OnNames != null) { OnNames(tokens[3], new string[0], true); }
                     break;
                 case ReplyCode.RPL_LIST:
                     if (OnList != null)
@@ -1376,10 +1128,7 @@ namespace Sharkbite.Irc
                     }
                     break;
                 case ReplyCode.RPL_LISTEND:
-                    if (OnList != null)
-                    {
-                        OnList("", 0, "", true);
-                    }
+                    if (OnList != null) { OnList("", 0, "", true); }
                     break;
                 case ReplyCode.ERR_NICKNAMEINUSE:
                 case ReplyCode.ERR_NICKCOLLISION:
@@ -1390,10 +1139,7 @@ namespace Sharkbite.Irc
                     }
                     break;
                 case ReplyCode.RPL_NOTOPIC:
-                    if (OnError != null)
-                    {
-                        OnError(code, CondenseStrings(tokens, 3));
-                    }
+                    if (OnError != null) { OnError(code, CondenseStrings(tokens, 3)); }
                     break;
                 case ReplyCode.RPL_TOPIC:
                     if (OnTopicRequest != null)
@@ -1403,16 +1149,10 @@ namespace Sharkbite.Irc
                     }
                     break;
                 case ReplyCode.RPL_INVITING:
-                    if (OnInviteSent != null)
-                    {
-                        OnInviteSent(tokens[3], tokens[4]);
-                    }
+                    if (OnInviteSent != null) { OnInviteSent(tokens[3], tokens[4]); }
                     break;
                 case ReplyCode.RPL_AWAY:
-                    if (OnAway != null)
-                    {
-                        OnAway(tokens[3], RemoveLeadingColon(CondenseStrings(tokens, 4)));
-                    }
+                    if (OnAway != null) { OnAway(tokens[3], RemoveLeadingColon(CondenseStrings(tokens, 4))); }
                     break;
                 case ReplyCode.RPL_WHOREPLY:
                     if (OnWho != null)
@@ -1429,10 +1169,7 @@ namespace Sharkbite.Irc
                     }
                     break;
                 case ReplyCode.RPL_ENDOFWHO:
-                    if (OnWho != null)
-                    {
-                        OnWho(UserInfo.Empty, "", "", "", 0, "", true);
-                    }
+                    if (OnWho != null) { OnWho(UserInfo.Empty, "", "", "", 0, "", true); }
                     break;
                 case ReplyCode.RPL_WHOISUSER:
                     UserInfo whoUser = new UserInfo(tokens[3], tokens[4], tokens[5]);
@@ -1466,10 +1203,7 @@ namespace Sharkbite.Irc
                 case ReplyCode.RPL_ENDOFWHOIS:
                     string nick = tokens[3];
                     WhoisInfo whoisEndInfo = LookupInfo(nick);
-                    if (OnWhois != null)
-                    {
-                        OnWhois(whoisEndInfo);
-                    }
+                    if (OnWhois != null) { OnWhois(whoisEndInfo); }
                     whoisInfos.Remove(nick);
                     break;
                 case ReplyCode.RPL_WHOWASUSER:
@@ -1481,10 +1215,7 @@ namespace Sharkbite.Irc
                     }
                     break;
                 case ReplyCode.RPL_ENDOFWHOWAS:
-                    if (OnWhowas != null)
-                    {
-                        OnWhowas(UserInfo.Empty, "", true);
-                    }
+                    if (OnWhowas != null) { OnWhowas(UserInfo.Empty, "", true); }
                     break;
                 case ReplyCode.RPL_UMODEIS:
                     if (OnUserModeRequest != null)
@@ -1505,98 +1236,56 @@ namespace Sharkbite.Irc
                         }
                         catch (Exception)
                         {
-                            if (OnError != null)
-                            {
-                                OnError(ReplyCode.UnparseableMessage, CondenseStrings(tokens, 0));
-                            }
+                            if (OnError != null) { OnError(ReplyCode.UnparseableMessage, CondenseStrings(tokens, 0)); }
                             Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] Listener::ParseReply() Bad IRC MODE string=" + tokens[0]);
                         }
                     }
                     break;
                 case ReplyCode.RPL_BANLIST:
-                    if (OnChannelList != null)
-                    {
-                        OnChannelList(tokens[3], ChannelMode.Ban, tokens[4], Rfc2812Util.UserInfoFromString(tokens[5]), Convert.ToInt64(tokens[6], CultureInfo.InvariantCulture), false);
-                    }
+                    if (OnChannelList != null) { OnChannelList(tokens[3], ChannelMode.Ban, tokens[4], Rfc2812Util.UserInfoFromString(tokens[5]), Convert.ToInt64(tokens[6], CultureInfo.InvariantCulture), false); }
                     break;
                 case ReplyCode.RPL_ENDOFBANLIST:
-                    if (OnChannelList != null)
-                    {
-                        OnChannelList(tokens[3], ChannelMode.Ban, "", UserInfo.Empty, 0, true);
-                    }
+                    if (OnChannelList != null) { OnChannelList(tokens[3], ChannelMode.Ban, "", UserInfo.Empty, 0, true); }
                     break;
                 case ReplyCode.RPL_INVITELIST:
-                    if (OnChannelList != null)
-                    {
-                        OnChannelList(tokens[3], ChannelMode.Invitation, tokens[4], Rfc2812Util.UserInfoFromString(tokens[5]), Convert.ToInt64(tokens[6]), false);
-                    }
+                    if (OnChannelList != null) { OnChannelList(tokens[3], ChannelMode.Invitation, tokens[4], Rfc2812Util.UserInfoFromString(tokens[5]), Convert.ToInt64(tokens[6]), false); }
                     break;
                 case ReplyCode.RPL_ENDOFINVITELIST:
-                    if (OnChannelList != null)
-                    {
-                        OnChannelList(tokens[3], ChannelMode.Invitation, "", UserInfo.Empty, 0, true);
-                    }
+                    if (OnChannelList != null) { OnChannelList(tokens[3], ChannelMode.Invitation, "", UserInfo.Empty, 0, true); }
                     break;
                 case ReplyCode.RPL_EXCEPTLIST:
-                    if (OnChannelList != null)
-                    {
-                        OnChannelList(tokens[3], ChannelMode.Exception, tokens[4], Rfc2812Util.UserInfoFromString(tokens[5]), Convert.ToInt64(tokens[6]), false);
-                    }
+                    if (OnChannelList != null) { OnChannelList(tokens[3], ChannelMode.Exception, tokens[4], Rfc2812Util.UserInfoFromString(tokens[5]), Convert.ToInt64(tokens[6]), false); }
                     break;
                 case ReplyCode.RPL_ENDOFEXCEPTLIST:
-                    if (OnChannelList != null)
-                    {
-                        OnChannelList(tokens[3], ChannelMode.Exception, "", UserInfo.Empty, 0, true);
-                    }
+                    if (OnChannelList != null) { OnChannelList(tokens[3], ChannelMode.Exception, "", UserInfo.Empty, 0, true); }
                     break;
                 case ReplyCode.RPL_UNIQOPIS:
-                    if (OnChannelList != null)
-                    {
-                        OnChannelList(tokens[3], ChannelMode.ChannelCreator, tokens[4], UserInfo.Empty, 0, true);
-                    }
+                    if (OnChannelList != null) { OnChannelList(tokens[3], ChannelMode.ChannelCreator, tokens[4], UserInfo.Empty, 0, true); }
                     break;
                 case ReplyCode.RPL_VERSION:
-                    if (OnVersion != null)
-                    {
-                        OnVersion(CondenseStrings(tokens, 3));
-                    }
+                    if (OnVersion != null) { OnVersion(CondenseStrings(tokens, 3)); }
                     break;
                 case ReplyCode.RPL_TIME:
-                    if (OnTime != null)
-                    {
-                        OnTime(CondenseStrings(tokens, 3));
-                    }
+                    if (OnTime != null) { OnTime(CondenseStrings(tokens, 3)); }
                     break;
                 case ReplyCode.RPL_INFO:
-                    if (OnInfo != null)
-                    {
-                        OnInfo(CondenseStrings(tokens, 3), false);
-                    }
+                    if (OnInfo != null) { OnInfo(CondenseStrings(tokens, 3), false); }
                     break;
                 case ReplyCode.RPL_ENDOFINFO:
-                    if (OnInfo != null)
-                    {
-                        OnInfo(CondenseStrings(tokens, 3), true);
-                    }
+                    if (OnInfo != null) { OnInfo(CondenseStrings(tokens, 3), true); }
                     break;
                 case ReplyCode.RPL_ADMINME:
                 case ReplyCode.RPL_ADMINLOC1:
                 case ReplyCode.RPL_ADMINLOC2:
                 case ReplyCode.RPL_ADMINEMAIL:
-                    if (OnAdmin != null)
-                    {
-                        OnAdmin(RemoveLeadingColon(CondenseStrings(tokens, 3)));
-                    }
+                    if (OnAdmin != null) { OnAdmin(RemoveLeadingColon(CondenseStrings(tokens, 3))); }
                     break;
                 case ReplyCode.RPL_LUSERCLIENT:
                 case ReplyCode.RPL_LUSEROP:
                 case ReplyCode.RPL_LUSERUNKNOWN:
                 case ReplyCode.RPL_LUSERCHANNELS:
                 case ReplyCode.RPL_LUSERME:
-                    if (OnLusers != null)
-                    {
-                        OnLusers(RemoveLeadingColon(CondenseStrings(tokens, 3)));
-                    }
+                    if (OnLusers != null) { OnLusers(RemoveLeadingColon(CondenseStrings(tokens, 3))); }
                     break;
                 case ReplyCode.RPL_LINKS:
                     if (OnLinks != null)
@@ -1608,25 +1297,16 @@ namespace Sharkbite.Irc
                     }
                     break;
                 case ReplyCode.RPL_ENDOFLINKS:
-                    if (OnLinks != null)
-                    {
-                        OnLinks(String.Empty, String.Empty, -1, String.Empty, true);
-                    }
+                    if (OnLinks != null) { OnLinks(String.Empty, String.Empty, -1, String.Empty, true); }
                     break;
                 case ReplyCode.RPL_STATSLINKINFO:
                 case ReplyCode.RPL_STATSCOMMANDS:
                 case ReplyCode.RPL_STATSUPTIME:
                 case ReplyCode.RPL_STATSOLINE:
-                    if (OnStats != null)
-                    {
-                        OnStats(GetQueryType(code), RemoveLeadingColon(CondenseStrings(tokens, 3)), false);
-                    }
+                    if (OnStats != null) { OnStats(GetQueryType(code), RemoveLeadingColon(CondenseStrings(tokens, 3)), false); }
                     break;
                 case ReplyCode.RPL_ENDOFSTATS:
-                    if (OnStats != null)
-                    {
-                        OnStats(Rfc2812Util.CharToStatsQuery(tokens[3][0]), RemoveLeadingColon(CondenseStrings(tokens, 4)), true);
-                    }
+                    if (OnStats != null) { OnStats(Rfc2812Util.CharToStatsQuery(tokens[3][0]), RemoveLeadingColon(CondenseStrings(tokens, 4)), true); }
                     break;
                 default:
                     HandleDefaultReply(code, tokens);
@@ -1638,15 +1318,9 @@ namespace Sharkbite.Irc
         {
             if (code >= ReplyCode.ERR_NOSUCHNICK && code <= ReplyCode.ERR_USERSDONTMATCH)
             {
-                if (OnError != null)
-                {
-                    OnError(code, CondenseStrings(tokens, 3));
-                }
+                if (OnError != null) { OnError(code, CondenseStrings(tokens, 3)); }
             }
-            else if (OnReply != null)
-            {
-                OnReply(code, CondenseStrings(tokens, 3));
-            }
+            else if (OnReply != null) { OnReply(code, CondenseStrings(tokens, 3)); }
         }
 
         private WhoisInfo LookupInfo(string nick)
@@ -1666,21 +1340,12 @@ namespace Sharkbite.Irc
 
         private string CondenseStrings(string[] strings, int start)
         {
-            if (strings.Length == start + 1)
-            {
-                return strings[start];
-            }
-            else
-            {
-                return String.Join(" ", strings, start, (strings.Length - start));
-            }
+            if (strings.Length == start + 1) { return strings[start]; }
+            else { return String.Join(" ", strings, start, (strings.Length - start)); }
         }
         private string RemoveLeadingColon(string text)
         {
-            if (text[0] == ':')
-            {
-                return text.Substring(1);
-            }
+            if (text[0] == ':') { return text.Substring(1); }
             return text;
         }
 
@@ -1723,66 +1388,43 @@ namespace Sharkbite.Irc
         private int[] consonantChance = new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 12, 12, 12, 10, 5, 12, 12, 12, 8, 8, 3, 4, 3 };
         private Random random;
 
-        public NameGenerator()
-        {
-            random = new Random();
-        }
+        public NameGenerator() { random = new Random(); }
 
         private int IndexSelect(int[] intArray)
         {
             int totalPossible = 0;
-            for (int i = 0; i < intArray.Length; i++)
-            {
-                totalPossible = totalPossible + intArray[i];
-            }
+            for (int i = 0; i < intArray.Length; i++) { totalPossible = totalPossible + intArray[i]; }
             int chosen = random.Next(totalPossible);
             int chancesSoFar = 0;
             for (int j = 0; j < intArray.Length; j++)
             {
                 chancesSoFar = chancesSoFar + intArray[j];
-                if (chancesSoFar > chosen)
-                {
-                    return j;
-                }
+                if (chancesSoFar > chosen) { return j; }
             }
             return 0;
         }
-        private string MakeSyllable()
-        {
-            return MakeConsonantBlock() + MakeVowelBlock() + MakeConsonantBlock();
-        }
+        private string MakeSyllable() { return MakeConsonantBlock() + MakeVowelBlock() + MakeConsonantBlock(); }
         private string MakeConsonantBlock()
         {
             string newName = "";
             int numberConsonants = numConsonants[IndexSelect(numConsonantsChance)];
-            for (int i = 0; i < numberConsonants; i++)
-            {
-                newName += consonant[IndexSelect(consonantChance)];
-            }
+            for (int i = 0; i < numberConsonants; i++) { newName += consonant[IndexSelect(consonantChance)]; }
             return newName;
         }
         private string MakeVowelBlock()
         {
             string newName = "";
             int numberVowels = numVowels[IndexSelect(numVowelsChance)];
-            for (int i = 0; i < numberVowels; i++)
-            {
-                newName += vowel[IndexSelect(vowelChance)];
-            }
+            for (int i = 0; i < numberVowels; i++) { newName += vowel[IndexSelect(vowelChance)]; }
             return newName;
         }
-
         public string MakeName()
         {
             int numberSyllables = numSyllables[IndexSelect(numSyllablesChance)];
             string newName = "";
-            for (int i = 0; i < numberSyllables; i++)
-            {
-                newName = newName + MakeSyllable();
-            }
+            for (int i = 0; i < numberSyllables; i++) { newName = newName + MakeSyllable(); }
             return char.ToUpper(newName[0]) + newName.Substring(1);
         }
-
     }
 
     public enum ReplyCode : int
@@ -1962,108 +1604,56 @@ namespace Sharkbite.Irc
         public static UserInfo UserInfoFromString(string fullUserName)
         {
             string[] parts = ParseUserInfoLine(fullUserName);
-            if (parts == null)
-            {
-                return UserInfo.Empty;
-            }
-            else
-            {
-                return new UserInfo(parts[0], parts[1], parts[2]);
-            }
+            if (parts == null) { return UserInfo.Empty; }
+            else { return new UserInfo(parts[0], parts[1], parts[2]); }
         }
 		
         public static string[] ParseUserInfoLine(string fullUserName)
         {
-            if (fullUserName == null || fullUserName.Trim().Length == 0)
-            {
-                return null;
-            }
+            if (fullUserName == null || fullUserName.Trim().Length == 0) { return null; }
             Match match = nameSplitterRegex.Match(fullUserName);
             if (match.Success)
             {
                 string[] parts = nameSplitterRegex.Split(fullUserName);
                 return parts;
             }
-            else
-            {
-                return new string[] { fullUserName, "", "" };
-            }
+            else { return new string[] { fullUserName, "", "" }; }
         }
 
         public static bool IsValidChannelList(string[] channels)
         {
-            if (channels == null || channels.Length == 0)
-            {
-                return false;
-            }
-            foreach (string channel in channels)
-            {
-                if (!IsValidChannelName(channel))
-                {
-                    return false;
-                }
-            }
+            if (channels == null || channels.Length == 0) { return false; }
+            foreach (string channel in channels) { if (!IsValidChannelName(channel)) { return false; } }
             return true;
         }
 
         public static bool IsValidChannelName(string channel)
         {
-            if (channel == null || channel.Trim().Length == 0)
-            {
-                return false;
-            }
-
-            if (Rfc2812Util.ContainsSpace(channel))
-            {
-                return false;
-            }
-            if (ChannelPrefix.IndexOf(channel[0]) != -1)
-            {
-                if (channel.Length <= 50)
-                {
-                    return true;
-                }
-            }
+            if (channel == null || channel.Trim().Length == 0) { return false; }
+            if (Rfc2812Util.ContainsSpace(channel)) { return false; }
+            if (ChannelPrefix.IndexOf(channel[0]) != -1 && channel.Length <= 50) { return true; }
             return false;
         }
 
         public static bool IsValidNick(string nick)
         {
-            if (nick == null || nick.Trim().Length == 0)
-            {
-                return false;
-            }
-            if (Rfc2812Util.ContainsSpace(nick))
-            {
-                return false;
-            }
-            if (nickRegex.IsMatch(nick))
-            {
-                return true;
-            }
+            if (nick == null || nick.Trim().Length == 0) { return false; }
+            if (Rfc2812Util.ContainsSpace(nick)) { return false; }
+            if (nickRegex.IsMatch(nick)) { return true; }
             return false;
         }
 
         public static bool IsValidNicklList(string[] nicks)
         {
-            if (nicks == null || nicks.Length == 0)
-            {
-                return false;
-            }
+            if (nicks == null || nicks.Length == 0) { return false; }
             foreach (string nick in nicks)
             {
-                if (!IsValidNick(nick))
-                {
-                    return false;
-                }
+                if (!IsValidNick(nick)) { return false; }
             }
             return true;
         }
 
-        public static char ModeActionToChar(ModeAction action)
-        {
-            return Convert.ToChar((byte)action, CultureInfo.InvariantCulture);
-        }
+        public static char ModeActionToChar(ModeAction action) { return Convert.ToChar((byte)action, CultureInfo.InvariantCulture); }
 
         public static ModeAction CharToModeAction(char action)
         {
@@ -2071,21 +1661,13 @@ namespace Sharkbite.Irc
             return (ModeAction)Enum.Parse(typeof(ModeAction), b.ToString(CultureInfo.InvariantCulture), false);
         }
 		
-        public static char UserModeToChar(UserMode mode)
-        {
-            return Convert.ToChar((byte)mode, CultureInfo.InvariantCulture);
-        }
+        public static char UserModeToChar(UserMode mode) { return Convert.ToChar((byte)mode, CultureInfo.InvariantCulture); }
 
         public static UserMode[] UserModesToArray(string modes)
         {
             ArrayList list = new ArrayList();
             for (int i = 0; i < modes.Length; i++)
-            {
-                if (IsValidModeChar(modes[i], UserModes))
-                {
-                    list.Add(CharToUserMode(modes[i]));
-                }
-            }
+                if (IsValidModeChar(modes[i], UserModes)) { list.Add(CharToUserMode(modes[i])); }
             return (UserMode[])list.ToArray(typeof(UserMode));
         }
 
@@ -2099,19 +1681,11 @@ namespace Sharkbite.Irc
         {
             ArrayList list = new ArrayList();
             for (int i = 0; i < modes.Length; i++)
-            {
-                if (IsValidModeChar(modes[i], ChannelModes))
-                {
-                    list.Add(CharToChannelMode(modes[i]));
-                }
-            }
+                if (IsValidModeChar(modes[i], ChannelModes)) { list.Add(CharToChannelMode(modes[i])); }
             return (ChannelMode[])list.ToArray(typeof(ChannelMode));
         }
 
-        public static char ChannelModeToChar(ChannelMode mode)
-        {
-            return Convert.ToChar((byte)mode, CultureInfo.InvariantCulture);
-        }
+        public static char ChannelModeToChar(ChannelMode mode) { return Convert.ToChar((byte)mode, CultureInfo.InvariantCulture); }
 
         public static ChannelMode CharToChannelMode(char mode)
         {
@@ -2119,10 +1693,7 @@ namespace Sharkbite.Irc
             return (ChannelMode)Enum.Parse(typeof(ChannelMode), b.ToString(CultureInfo.InvariantCulture), false);
         }
 
-        public static char StatsQueryToChar(StatsQuery query)
-        {
-            return Convert.ToChar((byte)query, CultureInfo.InvariantCulture);
-        }
+        public static char StatsQueryToChar(StatsQuery query) { return Convert.ToChar((byte)query, CultureInfo.InvariantCulture); }
 
         public static StatsQuery CharToStatsQuery(char queryType)
         {
@@ -2130,44 +1701,25 @@ namespace Sharkbite.Irc
             return (StatsQuery)Enum.Parse(typeof(StatsQuery), b.ToString(CultureInfo.InvariantCulture), false);
         }
 
-        private static bool IsValidModeChar(char c, string validList)
-        {
-            return validList.IndexOf(c) != -1;
-        }
+        private static bool IsValidModeChar(char c, string validList) { return validList.IndexOf(c) != -1; }
 
-        private static bool ContainsSpace(string text)
-        {
-            return text.IndexOf(Space, 0, text.Length) != -1;
-        }
+        private static bool ContainsSpace(string text) { return text.IndexOf(Space, 0, text.Length) != -1; }
     }
 
     public class Sender : CommandBuilder
     {
         internal Sender(Connection connection) : base(connection) { }
 
-        private bool IsEmpty(string aString)
-        {
-            return aString == null || aString.Trim().Length == 0;
-        }
+        private bool IsEmpty(string aString) { return aString == null || aString.Trim().Length == 0; }
 
         private string Truncate(string parameter, int commandLength)
         {
             int max = MAX_COMMAND_SIZE - commandLength;
-            if (parameter.Length > max)
-            {
-                return parameter.Substring(0, max);
-            }
-            else
-            {
-                return parameter;
-            }
+            if (parameter.Length > max) { return parameter.Substring(0, max); }
+            else { return parameter; }
         }
 
-        private bool TooLong(StringBuilder buffer)
-        {
-            //2 for CR LF
-            return (buffer.Length + 2) > MAX_COMMAND_SIZE;
-        }
+        private bool TooLong(StringBuilder buffer) { return (buffer.Length + 2) > MAX_COMMAND_SIZE; }
 
         internal void User(ConnectionArgs args)
         {
@@ -2197,10 +1749,7 @@ namespace Sharkbite.Irc
                     throw new ArgumentException("Quite reason cannot be null or empty.");
                 }
                 Buffer.Append(SPACE_COLON);
-                if (reason.Length > 502)
-                {
-                    reason = reason.Substring(0, 504);
-                }
+                if (reason.Length > 502) { reason = reason.Substring(0, 504); }
                 Buffer.Append(reason);
                 Connection.SendCommand(Buffer);
             }
@@ -2208,8 +1757,6 @@ namespace Sharkbite.Irc
 
         internal void Pong(string message)
         {
-            //Not synchronized because it will only be called during on OnPing event by
-            //the dispatch thread
             Buffer.Append("PONG");
             Buffer.Append(SPACE);
             Buffer.Append(message);
@@ -2498,15 +2045,9 @@ namespace Sharkbite.Irc
                     if (message.Length > max)
                     {
                         string[] parts = BreakUpMessage(message, max);
-                        foreach (string part in parts)
-                        {
-                            SendMessage("NOTICE", channel, part);
-                        }
+                        foreach (string part in parts) { SendMessage("NOTICE", channel, part); }
                     }
-                    else
-                    {
-                        SendMessage("NOTICE", channel, message);
-                    }
+                    else { SendMessage("NOTICE", channel, message); }
                 }
                 else
                 {
@@ -2532,15 +2073,9 @@ namespace Sharkbite.Irc
                     if (message.Length > max)
                     {
                         string[] parts = BreakUpMessage(message, max);
-                        foreach (string part in parts)
-                        {
-                            SendMessage("NOTICE", nick, part);
-                        }
+                        foreach (string part in parts) { SendMessage("NOTICE", nick, part); }
                     }
-                    else
-                    {
-                        SendMessage("NOTICE", nick, message);
-                    }
+                    else { SendMessage("NOTICE", nick, message); }
                 }
                 else
                 {
@@ -2566,15 +2101,9 @@ namespace Sharkbite.Irc
                     if (message.Length > max)
                     {
                         string[] parts = BreakUpMessage(message, max);
-                        foreach (string part in parts)
-                        {
-                            SendMessage("PRIVMSG", channel, part);
-                        }
+                        foreach (string part in parts) { SendMessage("PRIVMSG", channel, part); }
                     }
-                    else
-                    {
-                        SendMessage("PRIVMSG", channel, message);
-                    }
+                    else { SendMessage("PRIVMSG", channel, message); }
                 }
                 else
                 {
@@ -2600,15 +2129,9 @@ namespace Sharkbite.Irc
                     if (message.Length > max)
                     {
                         string[] parts = BreakUpMessage(message, max);
-                        foreach (string part in parts)
-                        {
-                            SendMessage("PRIVMSG", nick, part);
-                        }
+                        foreach (string part in parts) { SendMessage("PRIVMSG", nick, part); }
                     }
-                    else
-                    {
-                        SendMessage("PRIVMSG", nick, message);
-                    }
+                    else { SendMessage("PRIVMSG", nick, message); }
                 }
                 else
                 {
@@ -2696,8 +2219,7 @@ namespace Sharkbite.Irc
             {
                 //7 is WHO + Space +O + CR + LF
                 int max = MAX_COMMAND_SIZE - 7;
-                if (IsEmpty(mask) ||
-                    mask.Length > max)
+                if (IsEmpty(mask) || mask.Length > max)
                 {
                     ClearBuffer();
                     throw new ArgumentException("Who mask is invalid.");
@@ -2912,7 +2434,6 @@ namespace Sharkbite.Irc
                 }
                 if (Rfc2812Util.IsValidChannelName(channel))
                 {
-                    // 19 is PRIVMSG + 2 x Spaces + : + CR + LF + 2xCtcpQuote + ACTION
                     description = Truncate(description, 19 + channel.Length);
                     SendMessage("PRIVMSG", channel, CtcpQuote + "ACTION " + description + CtcpQuote);
                 }
@@ -2935,7 +2456,6 @@ namespace Sharkbite.Irc
                 }
                 if (Rfc2812Util.IsValidNick(nick))
                 {
-                    // 19 is PRIVMSG + 2 x Spaces + : + CR + LF + 2xCtcpQuote + ACTION
                     description = Truncate(description, 19 + nick.Length);
                     SendMessage("PRIVMSG", nick, CtcpQuote + "ACTION " + description + CtcpQuote);
                 }
@@ -2963,19 +2483,13 @@ namespace Sharkbite.Irc
                     ClearBuffer();
                     throw new ArgumentException("Message cannot be null or empty.");
                 }
-                if (message.Length > MAX_COMMAND_SIZE)
-                {
-                    message = message.Substring(0, MAX_COMMAND_SIZE);
-                }
+                if (message.Length > MAX_COMMAND_SIZE) { message = message.Substring(0, MAX_COMMAND_SIZE); }
                 Buffer.Append(message);
                 Connection.SendCommand(Buffer);
             }
         }
 
-        public void Version()
-        {
-            Version(null);
-        }
+        public void Version() { Version(null); }
 
         public void Version(string targetServer)
         {
@@ -2984,7 +2498,6 @@ namespace Sharkbite.Irc
                 Buffer.Append("VERSION");
                 if (!IsEmpty(targetServer))
                 {
-                    //10 is VERSION + 1 x Spaces + CR + LF 
                     targetServer = Truncate(targetServer, 10);
                     Buffer.Append(SPACE);
                     Buffer.Append(targetServer);
@@ -2993,10 +2506,7 @@ namespace Sharkbite.Irc
             }
         }
 
-        public void Motd()
-        {
-            Motd(null);
-        }
+        public void Motd() { Motd(null); }
 
         public void Motd(string targetServer)
         {
@@ -3005,7 +2515,6 @@ namespace Sharkbite.Irc
                 Buffer.Append("MOTD");
                 if (!IsEmpty(targetServer))
                 {
-                    //7 is MOTD + 1 x Spaces + CR + LF 
                     targetServer = Truncate(targetServer, 7);
                     Buffer.Append(SPACE);
                     Buffer.Append(targetServer);
@@ -3014,10 +2523,7 @@ namespace Sharkbite.Irc
             }
         }
 
-        public void Time()
-        {
-            Time(null);
-        }
+        public void Time() { Time(null); }
 
         public void Time(string targetServer)
         {
@@ -3026,7 +2532,6 @@ namespace Sharkbite.Irc
                 Buffer.Append("TIME");
                 if (!IsEmpty(targetServer))
                 {
-                    //8 is TIME + 1 x Spaces + CR + LF 
                     targetServer = Truncate(targetServer, 8);
                     Buffer.Append(SPACE);
                     Buffer.Append(targetServer);
@@ -3045,7 +2550,6 @@ namespace Sharkbite.Irc
                     throw new ArgumentException("Wallops message cannot be null or empty.");
                 }
                 Buffer.Append("WALLOPS");
-                // 11 is WALLOPS + 1 x Spaces + CR + LF
                 message = Truncate(message, 10);
                 Buffer.Append(SPACE);
                 Buffer.Append(message);
@@ -3053,10 +2557,7 @@ namespace Sharkbite.Irc
             }
         }
 
-        public void Info()
-        {
-            Info(null);
-        }
+        public void Info() { Info(null); }
 
         public void Info(string target)
         {
@@ -3065,7 +2566,6 @@ namespace Sharkbite.Irc
                 Buffer.Append("INFO");
                 if (!IsEmpty(target))
                 {
-                    //7 is INFO + 1 x Spaces + CR + LF 
                     target = Truncate(target, 7);
                     Buffer.Append(SPACE);
                     Buffer.Append(target);
@@ -3074,10 +2574,7 @@ namespace Sharkbite.Irc
             }
         }
 
-        public void Admin()
-        {
-            Admin(null);
-        }
+        public void Admin() { Admin(null); }
 
         public void Admin(string target)
         {
@@ -3086,7 +2583,6 @@ namespace Sharkbite.Irc
                 Buffer.Append("ADMIN");
                 if (!IsEmpty(target))
                 {
-                    //8 is INFO + 1 x Spaces + CR + LF 
                     target = Truncate(target, 8);
                     Buffer.Append(SPACE);
                     Buffer.Append(target);
@@ -3095,10 +2591,7 @@ namespace Sharkbite.Irc
             }
         }
 
-        public void Lusers()
-        {
-            Lusers(null, null);
-        }
+        public void Lusers() { Lusers(null, null); }
 
         public void Lusers(string hostMask, string targetServer)
         {
@@ -3126,10 +2619,7 @@ namespace Sharkbite.Irc
             }
         }
 
-        public void Links()
-        {
-            Links(null);
-        }
+        public void Links() { Links(null); }
 
         public void Links(params string[] masks)
         {
@@ -3157,10 +2647,7 @@ namespace Sharkbite.Irc
             }
         }
 
-        public void Stats(StatsQuery query)
-        {
-            Stats(query, null);
-        }
+        public void Stats(StatsQuery query) { Stats(query, null); }
 
         public void Stats(StatsQuery query, string targetServer)
         {
@@ -3220,23 +2707,14 @@ namespace Sharkbite.Irc
     {
         private Hashtable properties;
 
-        internal ServerProperties()
-        {
-            properties = new Hashtable();
-        }
+        internal ServerProperties() { properties = new Hashtable(); }
 
         public string this[string key]
         {
             get
             {
-                if (properties[key] != null)
-                {
-                    return (string)properties[key];
-                }
-                else
-                {
-                    return String.Empty;
-                }
+                if (properties[key] != null) { return (string)properties[key]; }
+                else { return String.Empty; }
             }
         }
 
@@ -3250,16 +2728,8 @@ namespace Sharkbite.Irc
             properties.Add(key, propertyValue);
         }
 
-        public IDictionaryEnumerator GetEnumerator()
-        {
-            return properties.GetEnumerator();
-        }
-
-        public bool ContainsKey(string key)
-        {
-            return properties[key] != null;
-        }
-
+        public IDictionaryEnumerator GetEnumerator() { return properties.GetEnumerator(); }
+        public bool ContainsKey(string key) { return properties[key] != null; }
     }
 
     public class TextColor
@@ -3275,27 +2745,16 @@ namespace Sharkbite.Irc
 
         private static readonly Regex colorPattern;
 
-        static TextColor()
-        {
-            colorPattern = new Regex("\\u0003[\\d]{1,2}(,[\\d]{1,2})?([^\\u0003]+)\\u0003", RegexOptions.Compiled | RegexOptions.Singleline);
-        }
+        static TextColor() { colorPattern = new Regex("\\u0003[\\d]{1,2}(,[\\d]{1,2})?([^\\u0003]+)\\u0003", RegexOptions.Compiled | RegexOptions.Singleline); }
 
-        private TextColor()
-        {
-        }
+        private TextColor() { }
 
         public static string StripControlChars(string text)
         {
             StringBuilder buffer = new StringBuilder();
             text = StripColor(text);
 
-            foreach (char c in text)
-            {
-                if (!IsControlCode(c))
-                {
-                    buffer.Append(c);
-                }
-            }
+            foreach (char c in text) { if (!IsControlCode(c)) { buffer.Append(c); } }
             return buffer.ToString();
         }
 
@@ -3311,36 +2770,12 @@ namespace Sharkbite.Irc
             return text;
         }
 
-        public static string MakeBold(string text)
-        {
-            return BoldControl + text + BoldControl;
-        }
-
-        public static string MakePlain(string text)
-        {
-            return PlainControl + text + PlainControl;
-        }
-
-        public static string MakeUnderline(string text)
-        {
-            return UnderlineControl + text + UnderlineControl;
-        }
-
-        public static string MakeReverseVideo(string text)
-        {
-            return ReverseControl + text + ReverseControl;
-        }
-
-        public static string MakeColor(string text, MircColor textColor)
-        {
-            return string.Format(TextColorFormat, (int)textColor, text);
-        }
-
-        public static string MakeColor(string text, MircColor textColor, MircColor backgroundColor)
-        {
-            return string.Format(FullColorFormat, (int)textColor, (int)backgroundColor, text);
-        }
-
+        public static string MakeBold(string text) { return BoldControl + text + BoldControl; }
+        public static string MakePlain(string text) { return PlainControl + text + PlainControl; }
+        public static string MakeUnderline(string text) { return UnderlineControl + text + UnderlineControl; }
+        public static string MakeReverseVideo(string text) { return ReverseControl + text + ReverseControl; }
+        public static string MakeColor(string text, MircColor textColor) { return string.Format(TextColorFormat, (int)textColor, text); }
+        public static string MakeColor(string text, MircColor textColor, MircColor backgroundColor) { return string.Format(FullColorFormat, (int)textColor, (int)backgroundColor, text); }
 
         private static bool IsControlCode(char c)
         {
@@ -3379,10 +2814,7 @@ namespace Sharkbite.Irc
         public string Hostname { get { return hostName; } }
         public static UserInfo Empty { get { return EmptyInstance; } }
 
-        public override string ToString()
-        {
-            return string.Format("Nick={0} User={1} Host={2}", Nick, User, Hostname);
-        }
+        public override string ToString() { return string.Format("Nick={0} User={1} Host={2}", Nick, User, Hostname); }
     }
 
     public class WhoisInfo
@@ -3404,15 +2836,8 @@ namespace Sharkbite.Irc
         public long IdleTime { get { return idleTime; } }
         public bool Operator { get { return isOperator; } }
 
-        internal void SetChannels(string[] channels)
-        {
-            this.channels = channels;
-        }
-
-        public string[] GetChannels()
-        {
-            return channels;
-        }
+        internal void SetChannels(string[] channels) { this.channels = channels; }
+        public string[] GetChannels() { return channels; }
     }
 
     #region Ctcp
@@ -3441,10 +2866,7 @@ namespace Sharkbite.Irc
 
         private bool IsReply(string[] tokens)
         {
-            if (tokens[Text].Length == 0)
-            {
-                return false;
-            }
+            if (tokens[Text].Length == 0) { return false; }
             return true;
         }
 
@@ -3471,20 +2893,14 @@ namespace Sharkbite.Irc
                     if (connection.CtcpSender.IsMyRequest(ctcpTokens[Text]))
                     {
                         connection.CtcpSender.ReplyReceived(ctcpTokens[Text]);
-                        if (OnCtcpPingReply != null)
-                        {
-                            OnCtcpPingReply(Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]);
-                        }
+                        if (OnCtcpPingReply != null) { OnCtcpPingReply(Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]); }
                     }
                     else
                     {
                         //Ignore PING's with now parameters
                         if (ctcpTokens[Text] != null && ctcpTokens[Text].TrimEnd().Length != 0)
                         {
-                            if (OnCtcpPingRequest != null)
-                            {
-                                OnCtcpPingRequest(Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]);
-                            }
+                            if (OnCtcpPingRequest != null) { OnCtcpPingRequest(Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]); }
                         }
                     }
                 }
@@ -3492,17 +2908,11 @@ namespace Sharkbite.Irc
                 {
                     if (IsReply(ctcpTokens))
                     {
-                        if (OnCtcpReply != null)
-                        {
-                            OnCtcpReply(ctcpTokens[Command].ToUpper(CultureInfo.CurrentCulture), Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]);
-                        }
+                        if (OnCtcpReply != null) { OnCtcpReply(ctcpTokens[Command].ToUpper(CultureInfo.CurrentCulture), Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]); }
                     }
                     else
                     {
-                        if (OnCtcpRequest != null)
-                        {
-                            OnCtcpRequest(ctcpTokens[Command].ToUpper(CultureInfo.CurrentCulture), Rfc2812Util.UserInfoFromString(ctcpTokens[Name]));
-                        }
+                        if (OnCtcpRequest != null) { OnCtcpRequest(ctcpTokens[Command].ToUpper(CultureInfo.CurrentCulture), Rfc2812Util.UserInfoFromString(ctcpTokens[Name])); }
                     }
                 }
             }
@@ -3650,10 +3060,7 @@ namespace Sharkbite.Irc
                 }
                 // 14 is NOTICE + 3 x Spaces + : + CR + LF + 2xCtcpQuote
                 int max = MAX_COMMAND_SIZE - 14 - nick.Length - command.Length;
-                if (reply.Length > max)
-                {
-                    reply = reply.Substring(0, max);
-                }
+                if (reply.Length > max) { reply = reply.Substring(0, max); }
                 SendMessage("NOTICE", nick, CtcpQuote + command.ToUpper(CultureInfo.InvariantCulture) + " " + reply + CtcpQuote);
             }
         }
@@ -3786,10 +3193,7 @@ namespace Sharkbite.Irc
             if (listening)
             {
                 Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccChatSession::TimerExpired() Chat session " + this.ToString() + " timed out.");
-                if (OnChatRequestTimeout != null)
-                {
-                    OnChatRequestTimeout(this);
-                }
+                if (OnChatRequestTimeout != null) { OnChatRequestTimeout(this); }
                 Close();
             }
         }
@@ -3808,10 +3212,7 @@ namespace Sharkbite.Irc
                 server.Stop();
                 listening = false;
                 Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccChatSession::Listen() Remote user connected.");
-                if (OnChatSessionOpened != null)
-                {
-                    OnChatSessionOpened(this);
-                }
+                if (OnChatSessionOpened != null) { OnChatSessionOpened(this); }
                 //Start listening for messages
                 ReceiveMessages();
             }
@@ -3832,10 +3233,7 @@ namespace Sharkbite.Irc
             {
                 client = new TcpClient();
                 client.Connect(dccUserInfo.RemoteEndPoint);
-                if (OnChatSessionOpened != null)
-                {
-                    OnChatSessionOpened(this);
-                }
+                if (OnChatSessionOpened != null) { OnChatSessionOpened(this); }
                 ReceiveMessages();
             }
             catch (Exception se)
@@ -3916,14 +3314,8 @@ namespace Sharkbite.Irc
             lock (this)
             {
                 Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccChatSession::Close()");
-                if (listening)
-                {
-                    server.Stop();
-                }
-                else if (receiving)
-                {
-                    thread.Abort();
-                }
+                if (listening) { server.Stop(); }
+                else if (receiving) { thread.Abort(); }
             }
         }
         public override string ToString() { return "DccChatSession::" + dccUserInfo.ToString(); }
