@@ -25,14 +25,6 @@ namespace MCForge {
 	public static class SrvProperties {
 		public static void Load (string givenPath, bool skipsalt = false)
 				{
-						/*
-			if (!skipsalt)
-			{
-				Server.salt = "";
-				string rndchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-				Random rnd = new Random();
-				for (int i = 0; i < 16; ++i) { Server.salt += rndchars[rnd.Next(rndchars.Length)]; }
-			}*/
 						if (!skipsalt) {
 								bool gotSalt = false;
 								if (File.Exists ("text/salt.txt")) {
