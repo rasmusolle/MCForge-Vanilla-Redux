@@ -322,56 +322,6 @@ namespace MCForge
             return false;
         }
 
-
-        public static bool LavaKill(ushort type)
-        {
-            switch (type)
-            {
-                case Block.wood:
-                case Block.shrub:
-                case Block.trunk:
-                case Block.leaf:
-                case Block.sponge:
-                case Block.red:
-                case Block.orange:
-                case Block.yellow:
-                case Block.lightgreen:
-                case Block.green:
-                case Block.aquagreen:
-                case Block.cyan:
-                case Block.lightblue:
-                case Block.blue:
-                case Block.purple:
-                case Block.lightpurple:
-                case Block.pink:
-                case Block.darkpink:
-                case Block.darkgrey:
-                case Block.lightgrey:
-                case Block.white:
-                case Block.yellowflower:
-                case Block.redflower:
-                case Block.mushroom:
-                case Block.redmushroom:
-                case Block.bookcase:
-                    return true;
-            }
-            return false;
-        }
-        public static bool WaterKill(ushort type)
-        {
-            switch (type)
-            {
-                case Block.shrub:
-                case Block.leaf:
-                case Block.yellowflower:
-                case Block.redflower:
-                case Block.mushroom:
-                case Block.redmushroom:
-                    return true;
-            }
-            return false;
-        }
-
         public static bool LightPass(ushort type)
         {
             switch (Convert(type))
