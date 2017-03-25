@@ -37,24 +37,18 @@ namespace MCForge.Commands
                     Command.all.Find("ban").Use(p, msg);
                     Command.all.Find("banip").Use(p, "@" + msg);
                     Command.all.Find("kick").Use(p, message);
-
                 }
                 else
                 {
                     Command.all.Find("ban").Use(p, msg);
                     Command.all.Find("banip").Use(p, "@" + msg);
                 }
-
             }
             finally
             {
                 if (p != null) p.ignorePermission = false;
             }
-
-
-
         }
-
 
         public override void Help(Player p)
         {
