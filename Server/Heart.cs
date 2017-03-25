@@ -81,14 +81,6 @@ namespace MCForge
         /// </summary>
         public static void Init()
         {
-            if (Server.logbeat)
-            {
-                if (!File.Exists("heartbeat.log"))
-                {
-                    using (File.Create("heartbeat.log")) { }
-                }
-            }
-
             CanBeat = true;
 
             for (int i = 0; i < Beats.Length; i++)
@@ -122,18 +114,12 @@ namespace MCForge
                     using (var writer = request.GetRequestStream())
                     {
                         writer.Write(data, 0, data.Length);
-
-                        if (Server.logbeat)
-                            Server.s.Log("Beat " + beat.ToString() + " was sent");
                     }
 
                     using (var reader = new StreamReader(request.GetResponse().GetResponseStream()))
                     {
                         string read = reader.ReadToEnd().Trim();
                         beat.OnResponse(read);
-
-                        if (Server.logbeat)
-                            Server.s.Log("Beat: \"" + read + "\" was recieved");
                     }
                     return;
                 }
@@ -142,9 +128,6 @@ namespace MCForge
                     continue;
                 }
             }
-
-            if (Server.logbeat)
-                Server.s.Log("Beat: " + beat.ToString() + " failed.");
         }
 
         /// <summary>

@@ -190,7 +190,6 @@ namespace MCForge
 
         public static string moneys = "moneys";
         public static LevelPermission opchatperm = LevelPermission.Operator;
-        public static bool logbeat = false;
         public static bool adminsjoinsilent = false;
         public static string server_owner = "Notch";
         public static bool WomDirect = false;
