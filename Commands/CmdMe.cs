@@ -22,7 +22,6 @@ namespace MCForge.Commands
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public override void Use(Player p, string message)
         {
-            if (p.muted) { Player.SendMessage(p, "You are currently muted and cannot use this command."); return; }
             Player.GlobalChat(p, p.color + "*" + p.name + " " + message, false);
             Server.IRC.Say("*" + p.name + " " + message);
         }
