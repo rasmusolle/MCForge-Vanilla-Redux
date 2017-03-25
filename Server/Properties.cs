@@ -130,9 +130,6 @@ namespace MCForge {
                                                             case "irc":
                                                                 Server.irc = (value.ToLower() == "true") ? true : false;
                                                                 break;
-                                                            case "irc-colorsenable":
-                                                                Server.ircColorsEnable = (value.ToLower() == "true") ? true : false;
-                                                                break;
                                                             case "irc-server":
                                                                 Server.ircServer = value;
                                                                 break;
@@ -327,7 +324,6 @@ namespace MCForge {
 			w.WriteLine();
 			w.WriteLine("# irc bot options");
 			w.WriteLine("irc = " + Server.irc.ToString().ToLower());
-			w.WriteLine("irc-colorsenable = " + Server.ircColorsEnable.ToString().ToLower());
 			w.WriteLine("irc-nick = " + Server.ircNick);
 			w.WriteLine("irc-server = " + Server.ircServer);
 			w.WriteLine("irc-channel = " + Server.ircChannel);
