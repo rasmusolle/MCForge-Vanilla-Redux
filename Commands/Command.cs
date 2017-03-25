@@ -28,9 +28,7 @@ namespace MCForge
         public int intervalInMinutes;
         public DateTime nextExecution;
         public Player intervalUsingPlayer;
-        public virtual void Init()
-        {
-        }
+
         public static CommandList all = new CommandList();
         public static CommandList core = new CommandList();
         public static void InitAll()
@@ -77,8 +75,6 @@ namespace MCForge
             all.Add(new CmdCrashServer());
             all.Add(new CmdAward());
             all.Add(new CmdAwards());
-
-
 
             core.commands = new List<Command>(all.commands);
         }
