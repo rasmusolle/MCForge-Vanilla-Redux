@@ -224,17 +224,6 @@ namespace MCForge {
                                                                     break;
                                                                 }
                                                                 break;
-                                                            case "rank-super":
-                                                                try
-                                                                {
-                                                                    Server.rankSuper = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
                                                             case "default-rank":
                                                                 try
                                                                 {
@@ -401,7 +390,6 @@ namespace MCForge {
 			w.WriteLine("defaultColor = " + Server.DefaultColor);
 			w.WriteLine("irc-color = " + Server.IRCColour);
 			w.WriteLine();
-			w.WriteLine("rank-super = " + Server.rankSuper.ToString().ToLower());
 			try { w.WriteLine("default-rank = " + Server.defaultRank); }
 			catch { w.WriteLine("default-rank = guest"); }
 			w.WriteLine();
