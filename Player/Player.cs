@@ -802,12 +802,12 @@ namespace MCForge
                 // ban check
                 if (Server.bannedIP.Contains(ip))
                 {
-                    Kick(Server.customBanMessage);
+                    Kick("You're banned!");
                     return;
                 }
                 if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned))
                 {
-                    Kick(Server.customBanMessage);
+                    Kick("You're banned!");
                     return;
                 }
 
@@ -2788,7 +2788,7 @@ rot = new byte[2] { rotx, roty };*/
                 {
 
                     GlobalDie(this, false);
-                    if (kickString == "Disconnected." || kickString.IndexOf("Server shutdown") != -1 || kickString == Server.customShutdownMessage)
+                    if (kickString == "Disconnected." || kickString.IndexOf("Server shutdown") != -1 || kickString == "Server shutdown. Rejoin in 10 seconds.")
                     {
                         if (!hidden)
                         {

@@ -190,12 +190,6 @@ namespace MCForge
 
         public static string defaultRank = "guest";
 
-        public static bool customBan = false;
-        public static string customBanMessage = "You're banned!";
-        public static bool customShutdown = false;
-        public static string customShutdownMessage = "Server shutdown. Rejoin in 10 seconds.";
-        //public static string customPromoteMessage = "&6Congratulations for working hard and getting &2PROMOTED!";
-        //public static string customDemoteMessage = "&4DEMOTED! &6We're sorry for your loss. Good luck on your future endeavors! &1:'(";
         public static string moneys = "moneys";
         public static LevelPermission opchatperm = LevelPermission.Operator;
         public static bool logbeat = false;
@@ -510,7 +504,7 @@ namespace MCForge
             foreach (string p in players)
             {
                 if (!AutoRestart)
-                    Player.Find(p).Kick(Server.customShutdown ? Server.customShutdownMessage : "Server shutdown. Rejoin in 10 seconds.");
+                    Player.Find(p).Kick("Server shutdown. Rejoin in 10 seconds.");
                 else
                     Player.Find(p).Kick("Server restarted! Rejoin!");
             }
@@ -520,7 +514,7 @@ namespace MCForge
             delegate(Player p)
             {
                 if (!AutoRestart)
-                    p.Kick(Server.customShutdown ? Server.customShutdownMessage : "Server shutdown. Rejoin in 10 seconds.");
+                    p.Kick("Server shutdown. Rejoin in 10 seconds.");
                 else
                     p.Kick("Server restarted! Rejoin!");
             }

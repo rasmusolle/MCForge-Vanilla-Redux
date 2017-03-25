@@ -224,36 +224,6 @@ namespace MCForge {
                                                                     break;
                                                                 }
                                                                 break;
-                                                            case "custom-ban":
-                                                                try
-                                                                {
-                                                                    Server.customBan = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
-                                                            case "custom-ban-message":
-                                                                if (value != "")
-                                                                    Server.customBanMessage = value;
-                                                                break;
-                                                            case "custom-shutdown":
-                                                                try
-                                                                {
-                                                                    Server.customShutdown = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
-                                                            case "custom-shutdown-message":
-                                                                if (value != "")
-                                                                    Server.customShutdownMessage = value;
-                                                                break;
                                                             case "rank-super":
                                                                 try
                                                                 {
@@ -430,12 +400,6 @@ namespace MCForge {
 			w.WriteLine("#Colors");
 			w.WriteLine("defaultColor = " + Server.DefaultColor);
 			w.WriteLine("irc-color = " + Server.IRCColour);
-			w.WriteLine();
-			w.WriteLine("#Custom Messages");
-			w.WriteLine("custom-ban = " + Server.customBan.ToString().ToLower());
-			w.WriteLine("custom-ban-message = " + Server.customBanMessage);
-			w.WriteLine("custom-shutdown = " + Server.customShutdown.ToString().ToLower());
-			w.WriteLine("custom-shutdown-message = " + Server.customShutdownMessage);
 			w.WriteLine();
 			w.WriteLine("rank-super = " + Server.rankSuper.ToString().ToLower());
 			try { w.WriteLine("default-rank = " + Server.defaultRank); }
