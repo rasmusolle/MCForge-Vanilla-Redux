@@ -181,7 +181,6 @@ namespace MCForge
         public static string backupLocation = Application.StartupPath + "/levels/backups";
 
         public static bool deathcount = true;
-        public static bool rankSuper = true;
         public static bool notifyOnJoinLeave = false;
         public static bool repeatMessage = false;
 
@@ -201,9 +200,6 @@ namespace MCForge
 
         public static bool shuttingDown = false;
         public static bool restarting = false;
-
-        // lol useless junk here lolololasdf poop
-        public static bool showEmptyRanks = false;
 
         #endregion
 
