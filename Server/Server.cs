@@ -181,7 +181,6 @@ namespace MCForge
         public static string backupLocation = Application.StartupPath + "/levels/backups";
 
         public static bool deathcount = true;
-        public static bool repeatMessage = false;
 
         public static string DefaultColor = "&e";
         public static string IRCColour = "&5";

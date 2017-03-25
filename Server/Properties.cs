@@ -231,16 +231,6 @@ namespace MCForge {
                                                                     Server.s.Log("Invalid " + key + ". Using default.");
                                                                 }
                                                                 break;
-                                                            case "repeat-messages":
-                                                                try
-                                                                {
-                                                                    Server.repeatMessage = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                }
-                                                                break;
                                                             case "host-state":
                                                                 if (value != "")
                                                                     Server.ZallState = value;
@@ -349,7 +339,6 @@ namespace MCForge {
 			w.WriteLine("# other options");
 			w.WriteLine("deathcount = " + Server.deathcount.ToString().ToLower());
 			w.WriteLine("money-name = " + Server.moneys);
-			w.WriteLine("repeat-messages = " + Server.repeatMessage.ToString());
 			w.WriteLine("host-state = " + Server.ZallState.ToString());
 			w.WriteLine("server-owner = " + Server.server_owner.ToString());
 			w.WriteLine();
