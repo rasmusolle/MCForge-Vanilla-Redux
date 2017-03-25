@@ -1616,13 +1616,10 @@ namespace MCForge
                     if (group.CanExecute(command))
                     {
                         if (cmd != "repeat") lastCMD = cmd + " " + message;
-                        if (this.muted == true)
+                        if (this.muted == true && cmd.ToLower() == "me")
                         {
-                            if (cmd.ToLower() == "me")
-                            {
-                                SendMessage("Cannot use /me while muted");
-                                return;
-                            }
+                            SendMessage("Cannot use /me while muted");
+                            return;
                         }
                         if (cmd.ToLower() != "setpass" || cmd.ToLower() != "pass")
                         {
