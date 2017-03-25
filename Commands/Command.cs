@@ -64,7 +64,6 @@ namespace MCForge
             all.Add(new CmdTitle());
             all.Add(new CmdUnban());
             all.Add(new CmdUnbanip());
-            all.Add(new CmdUnloaded());
             all.Add(new CmdView());
             all.Add(new CmdViewRanks());
             all.Add(new CmdWhisper());

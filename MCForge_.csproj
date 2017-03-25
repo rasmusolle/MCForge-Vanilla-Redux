@@ -152,7 +152,6 @@
     <Compile Include="Commands\CmdSpawn.cs" />
     <Compile Include="Commands\CmdUnban.cs" />
     <Compile Include="Commands\CmdUnbanip.cs" />
-    <Compile Include="Commands\CmdUnloaded.cs" />
     <Compile Include="Commands\CmdWhois.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandList.cs" />
@@ -165,7 +164,6 @@
     <Compile Include="Commands\CmdPay.cs" />
     <Compile Include="Commands\CmdView.cs" />
     <Compile Include="Levels\LevelCollection.cs" />
-    <Compile Include="Permalink.cs" />
     <Compile Include="Player\PlayerCollection.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Player\Group.cs" />
