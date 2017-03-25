@@ -213,17 +213,7 @@ namespace MCForge {
                                                                     break;
                                                                 }
                                                                 break;
-                                                            case "notify-on-join-leave":
-                                                                try
-                                                                {
-                                                                    Server.notifyOnJoinLeave = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default.");
-                                                                    break;
-                                                                }
-                                                                break;
+
                                                             case "default-rank":
                                                                 try
                                                                 {
@@ -371,7 +361,6 @@ namespace MCForge {
 			w.WriteLine("deathcount = " + Server.deathcount.ToString().ToLower());
 			w.WriteLine("money-name = " + Server.moneys);
 			w.WriteLine("log-heartbeat = " + Server.logbeat.ToString());
-			w.WriteLine("notify-on-join-leave = " + Server.notifyOnJoinLeave.ToString());
 			w.WriteLine("repeat-messages = " + Server.repeatMessage.ToString());
 			w.WriteLine("host-state = " + Server.ZallState.ToString());
 			w.WriteLine("server-owner = " + Server.server_owner.ToString());
