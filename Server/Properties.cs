@@ -311,16 +311,6 @@ namespace MCForge {
                                                                     Server.s.Log("Invalid " + key + ". Using default");
                                                                 }
                                                                 break;
-                                                            case "show-empty-ranks":
-                                                                try
-                                                                {
-                                                                    Server.showEmptyRanks = bool.Parse(value);
-                                                                }
-                                                                catch
-                                                                {
-                                                                    Server.s.Log("Invalid " + key + ". Using default");
-                                                                }
-                                                                break;
                                                         }
 												}
 										}
@@ -398,9 +388,6 @@ namespace MCForge {
 			w.WriteLine("spam-messages = " + Server.spamcounter.ToString());
 			w.WriteLine("spam-mute-time = " + Server.mutespamtime.ToString());
 			w.WriteLine("spam-counter-reset-time = " + Server.spamcountreset.ToString());
-			w.WriteLine();
-			w.WriteLine("#Show Empty Ranks in /players");
-			w.WriteLine("show-empty-ranks = " + Server.showEmptyRanks.ToString().ToLower());
 		}
 	}
 }
