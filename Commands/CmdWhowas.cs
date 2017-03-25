@@ -59,11 +59,6 @@ namespace MCForge.Commands
             Player.SendMessage(p, "> > first logged into the server on &a" + firstlogin);
             Player.SendMessage(p, "> > logged in &a" + totallogins + Server.DefaultColor + " times, &c" + totalkicks + Server.DefaultColor + " of which ended in a kick.");
             Player.SendMessage(p, "> > " + Awards.awardAmount(message) + " awards");
-            if (Ban.Isbanned(message))
-            {
-                string[] data = Ban.Getbandata(message);
-                Player.SendMessage(p, "> > was banned by " + data[0] + " for " + data[1] + " on " + data[2]);
-            }
 
             if (Server.Devs.Contains(message.ToLower()))
                 Player.SendMessage(p, Server.DefaultColor + "> > Player is a &9Developer");

@@ -108,7 +108,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Server\AutoSaver.cs" />
-    <Compile Include="Server\Ban.cs" />
     <Compile Include="GUI\ColoredTextBox.cs">
       <SubType>Component</SubType>
     </Compile>

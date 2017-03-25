@@ -807,14 +807,8 @@ namespace MCForge
                 }
                 if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned))
                 {
-                    if (UsingID && Ban.IsbannedID(ID.ToString()) || !UsingID && Ban.Isbanned(name))
-                    {
-                        string[] data = Ban.Getbandata(name);
-                        Kick("You were banned for \"" + data[1] + "\" by " + data[0]);
-                    }
-                    else
-                        Kick(Server.customBanMessage);
-                        return;
+                    Kick(Server.customBanMessage);
+                    return;
                 }
 
                 //server maxplayer check
