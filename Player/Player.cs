@@ -226,7 +226,6 @@ namespace MCForge
         public System.Timers.Timer pingTimer = new System.Timers.Timer(2000);
         System.Timers.Timer extraTimer = new System.Timers.Timer(22000);
         public string WoMVersion = "";
-        public bool cmdTimer = false;
         public bool UsingWom = false;
 
         byte[] buffer = new byte[0];
@@ -253,9 +252,6 @@ namespace MCForge
         public string title = "";
         public string titlecolor;
         public int TotalMessagesSent = 0;
-        public int passtries = 0;
-        public int ponycount = 0;
-        public int rdcount = 0;
         public int hackWarnings = 0;
         public string model = "humanoid";
 
@@ -1586,32 +1582,12 @@ namespace MCForge
                 //DO NOT REMOVE THE TWO COMMANDS BELOW, /PONY AND /RAINBOWDASHLIKESCOOLTHINGS. -EricKilla
                 if (cmd.ToLower() == "pony")
                 {
-                    if (ponycount < 2)
-                    {
-                        GlobalMessage(this.color + this.name + Server.DefaultColor + " just so happens to be a proud brony! Everyone give " + this.color + this.name + Server.DefaultColor + " a brohoof!");
-                        ponycount += 1;
-                    }
-                    else
-                    {
-                        SendMessage("You have used this command 2 times. You cannot use it anymore! Sorry, Brony!");
-                    }
-                    if (OnBecomeBrony != null)
-                        OnBecomeBrony(this);
+                    GlobalMessage(this.color + this.name + Server.DefaultColor + " just so happens to be a proud brony! Everyone give " + this.color + this.name + Server.DefaultColor + " a brohoof!");
                     return;
                 }
                 if (cmd.ToLower() == "rainbowdashlikescoolthings")
                 {
-                    if (rdcount < 2)
-                    {
-                        GlobalMessage("&1T&2H&3I&4S &5S&6E&7R&8V&9E&aR &bJ&cU&dS&eT &fG&0O&1T &22&30 &4P&CE&7R&DC&EE&9N&1T &5C&6O&7O&8L&9E&aR&b!");
-                        rdcount += 1;
-                    }
-                    else
-                    {
-                        SendMessage("You have used this command 2 times. You cannot use it anymore! Sorry, Brony!");
-                    }
-                    if (OnSonicRainboom != null)
-                        OnSonicRainboom(this);
+                    GlobalMessage("&1T&2H&3I&4S &5S&6E&7R&8V&9E&aR &bJ&cU&dS&eT &fG&0O&1T &22&30 &4P&CE&7R&DC&EE&9N&1T &5C&6O&7O&8L&9E&aR&b!");
                     return;
                 }
 
