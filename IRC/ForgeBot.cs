@@ -120,7 +120,15 @@ namespace MCForge {
 		}
 
 		void Listener_OnError(ReplyCode code, string message) {
-			Server.s.Log("IRC Error: " + message);
+            //Ugly hack before I find the result of the error.
+            if (message == "You :Unknown command")
+            {
+                return;
+            }
+            else 
+            {
+                Server.s.Log("IRC Error: " + message);
+            }
 		}
 
 		void Listener_OnPrivate(UserInfo user, string message) {
