@@ -680,37 +680,9 @@ namespace MCForge
 
         public void UpdateStaffList()
         {
-            try
-            {
-                devs.Clear();
-                mods.Clear();
-                using (WebClient web = new WebClient())
-                {
-                    string[] result = web.DownloadString("http://mcforge.org/Update/devs.txt").Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
-                    foreach (string line in result)
-                    {
-                        string type = line.Split(':')[0].ToLower();
-                        List<string> staffList = type.Equals("devs") ? devs : type.Equals("mods") ? mods : null;
-                        foreach (string name in line.Split(':')[1].Split())
-                            staffList.Add(name.ToLower());
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                //s.Log("Couldn't update MCForge staff list, using defaults. . . ");
                 devs.Clear();
                 mods.Clear();
                 devs.Add("rasmusolle");
-
-                /*
-                devs.Add( "hetal+" );
-                devs.Add( "erickilla+" );
-                devs.Add( "rayne+" );
-                devs.Add( "herocane+" );
-                mods.Add( "scevensins+" );
-                */
-            }
         }
     }
 }
