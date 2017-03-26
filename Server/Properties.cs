@@ -210,16 +210,6 @@ namespace MCForge {
 									if (value != "")
 										Server.textureUrl = value;
 									break;
-								case "restart-on-error":
-									try
-									{
-										Server.restartOnError = bool.Parse(value);
-									}
-									catch
-									{
-										Server.s.Log("Invalid " + key + ". Using default.");
-									}
-									break;
 								case "host-state":
 									if (value != "")
 										Server.ZallState = value;
@@ -311,7 +301,6 @@ namespace MCForge {
 			w.WriteLine("public = " + Server.pub.ToString().ToLower());
 			w.WriteLine("max-players = " + Server.players.ToString());
 			w.WriteLine("texture-url = " + Server.textureUrl);
-			w.WriteLine("restart-on-error = " + Server.restartOnError);
 			w.WriteLine("main-name = " + Server.level);
 			w.WriteLine();
 			w.WriteLine("# irc bot options");

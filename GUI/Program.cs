@@ -53,9 +53,6 @@ namespace MCForge_.Gui
             Exception ex = (Exception)e.ExceptionObject;
             Server.ErrorLog(ex);
             Thread.Sleep(500);
-
-            if (Server.restartOnError)
-                ExitProgram(true);
         }
 
         public static void ThreadExHandler(object sender, ThreadExceptionEventArgs e)
@@ -63,9 +60,6 @@ namespace MCForge_.Gui
             Exception ex = e.Exception;
             Server.ErrorLog(ex);
             Thread.Sleep(500);
-
-            if (Server.restartOnError)
-                ExitProgram(true);
         }
 
         [STAThread]

@@ -225,8 +225,6 @@ namespace MCForge
         System.Timers.Timer loginTimer = new System.Timers.Timer(1000);
         public System.Timers.Timer pingTimer = new System.Timers.Timer(2000);
         System.Timers.Timer extraTimer = new System.Timers.Timer(22000);
-        public string WoMVersion = "";
-        public bool UsingWom = false;
 
         byte[] buffer = new byte[0];
         byte[] tempbuffer = new byte[0xFF];
@@ -633,9 +631,6 @@ namespace MCForge
                 // Get the length of the message by checking the first byte
                 switch (msg)
                 {
-                    //For wom
-                    case (byte)'G':
-                        return new byte[1];
                     case 0:
                         length = 130;
                         break; // login
@@ -973,13 +968,6 @@ namespace MCForge
 
             Loading = false;
 
-            if (Server.verifyadmins == true)
-            {
-                if (this.group.Permission >= Server.verifyadminsrank)
-                {
-                    adminpen = true;
-                }
-            }
             if (emoteList.Contains(name)) parseSmiley = false;
 
 			loggedIn = true;
@@ -993,15 +981,7 @@ namespace MCForge
 
             Player.players.ForEach(p1 =>
             {
-                if (p1.UsingWom)
-                {
-                    byte[] buffer = new byte[65];
-                    Player.StringFormat("^detail.user.join=" + color + name + c.white, 64).CopyTo(buffer, 1);
-                    p1.SendRaw(OpCode.Message, buffer);
-                    buffer = null;
-                }
-                else
-                    Player.SendMessage(p1, joinm);
+                Player.SendMessage(p1, joinm);
             });
 
             try
@@ -1349,43 +1329,18 @@ namespace MCForge
             }
         }
 
-        void SendWomUsers()
-        {
-            Player.players.ForEach(delegate(Player p)
-            {
-                if (p != this)
-                {
-                    byte[] buffer = new byte[65];
-                    Player.StringFormat("^detail.user.here=" + p.color + p.name, 64).CopyTo(buffer, 1);
-                    SendRaw(OpCode.Message, buffer);
-                    buffer = null;
-                }
-            });
-        }
         void HandleChat(byte[] message)
         {
             try
             {
                 if (!loggedIn) return;
 
-                //byte[] message = (byte[])m;
                 string text = enc.GetString(message, 1, 64).Trim();
-                // removing nulls (matters for the /womid messages)
                 text = text.Trim('\0');
 
-                // handles the /womid client message, which displays the WoM version
+                // makes so it doesn't display a "command not found" message
                 if (text.Truncate(6) == "/womid")
                 {
-                    /*
-                    string version = (text.Length <= 21 ? text.Substring(text.IndexOf(' ') + 1) : text.Substring(7, 15));
-                    Player.GlobalMessage(c.red + "[INFO] " + color + name + "%f is using wom client");
-                    Player.GlobalMessage(c.red + "[INFO] %fVersion: " + version);
-                    Server.s.Log(c.red + "[INFO] " + color + name + "%f is using wom client");
-                    Server.s.Log(c.red + "[INFO] %fVersion: " + version);
-                    UsingWom = true;
-                    WoMVersion = version.Split('-')[1];
-                    SendWomUsers();
-                    */
                     return;
                 }
 
@@ -2795,15 +2750,7 @@ rot = new byte[2] { rotx, roty };*/
                             string leavem = "&c- " + color + prefix + name + Server.DefaultColor + " Disconnected";
                             Player.players.ForEach(delegate(Player p1)
                             {
-                                if (p1.UsingWom)
-                                {
-                                    byte[] buffer = new byte[65];
-                                    Player.StringFormat("^detail.user.part=" + color + name + c.white, 64).CopyTo(buffer, 1);
-                                    p1.SendRaw(OpCode.Message, buffer);
-                                    buffer = null;
-                                }
-                                else
-                                    Player.SendMessage(p1, leavem);
+                                Player.SendMessage(p1, leavem);
                             });
                         }
                         Server.IRC.Say(name + " left the game.");

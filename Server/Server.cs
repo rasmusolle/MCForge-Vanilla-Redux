@@ -171,10 +171,6 @@ namespace MCForge
         public static string ircOpChannel = "#changethistoo";
         public static bool ircIdentify = false;
         public static string ircPassword = "";
-        public static bool verifyadmins = true;
-        public static LevelPermission verifyadminsrank = LevelPermission.Operator;
-
-        public static bool restartOnError = true;
         
         public static int backupInterval = 300;
         public static int blockInterval = 60;
@@ -189,9 +185,7 @@ namespace MCForge
 
         public static string moneys = "moneys";
         public static LevelPermission opchatperm = LevelPermission.Operator;
-        public static bool adminsjoinsilent = false;
         public static string server_owner = "Notch";
-        public static bool WomDirect = false;
 
         public static bool flipHead = false;
 
