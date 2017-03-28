@@ -537,23 +537,6 @@ namespace MCForge.Gui {
             Command.all.Find("save").Use(null, "all");
         }
 
-
-        /*
-        private void button1_Click(object sender, EventArgs e) {
-            //Prevent derpy from getting in here..
-            if ( !Server.UseTextures ) {
-                WoM.Enabled = false;
-                return;
-            }
-            if ( GetSelectedLevelTab() == null ) return;
-            var textures = new GUI.Textures { l = GetSelectedLevelTab() };
-            textures.Show();
-            textures.FormClosing += delegate {
-                textures.Dispose();
-            };
-        }
-        */
-
         #region Colored Reader Context Menu
 
         private void nightModeToolStripMenuItem_Click_1(object sender, EventArgs e) {
