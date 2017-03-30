@@ -253,11 +253,6 @@ namespace MCForge
         public int hackWarnings = 0;
         public string model = "humanoid";
 
-        //Gc checks
-        public string lastmsg = "";
-        public int spamcount = 0, capscount = 0, floodcount = 0, multi = 0;
-        public DateTime lastmsgtime = DateTime.MinValue;
-
         public bool deleteMode = false;
         public bool ignorePermission = false;
         public bool parseSmiley = true;
@@ -390,8 +385,6 @@ namespace MCForge
                 return "afk";
             return "active";
         }
-        public bool Readgcrules = false;
-        public DateTime Timereadgcrules = DateTime.MinValue;
         public bool CheckIfInsideBlock()
         {
             return CheckIfInsideBlock(this);
