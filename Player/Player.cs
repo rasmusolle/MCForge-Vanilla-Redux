@@ -37,7 +37,8 @@ namespace MCForge
 
         /// <summary> List of chat keywords, and emotes that they stand for. </summary>
         public Dictionary<string, object> ExtraData = new Dictionary<string, object>();
-        public static readonly Dictionary<string, char> EmoteKeywords = new Dictionary<string, char> {
+        public static readonly Dictionary<string, char> EmoteKeywords = new Dictionary<string, char> 
+        {
             { "darksmile", '\u0001' },
 
 			{ "smile", '\u0002' }, // ☻
@@ -1601,37 +1602,13 @@ namespace MCForge
                     bool retry = true;
 
                     switch (cmd.ToLower())
-                    { //Check for command switching
-                        case "guest": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
-                        case "builder": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
-                        case "advbuilder":
-                        case "adv": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
-                        case "operator":
-                        case "op": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
-                        case "super":
-                        case "superop": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
-                        case "cut": cmd = "copy"; message = "cut"; break;
-                        case "admins": message = "superop"; cmd = "viewranks"; break;
+                    {
                         case "ops": message = "op"; cmd = "viewranks"; break;
                         case "banned": message = cmd; cmd = "viewranks"; break;
 
-                        case "ps": message = "ps " + message; cmd = "map"; break;
-
-                        //How about we start adding commands from other softwares
-                        //and seamlessly switch here?
-                        case "bhb":
-                        case "hbox": cmd = "cuboid"; message = "hollow"; break;
-                        case "blb":
-                        case "box": cmd = "cuboid"; break;
-                        case "sphere": cmd = "spheroid"; break;
                         case "cmdlist":
-                        case "commands": cmd = "help"; message = "old"; break;
-                        case "cmdhelp": cmd = "help"; break;
-                        case "worlds":
-                        case "mapsave": cmd = "save"; break;
-                        case "mapload": cmd = "load"; break;
+                        case "commands": cmd = "help"; message = "commands"; break;
                         case "colour": cmd = "color"; break;
-                        case "materials": cmd = "blocks"; break;
 
                         default: retry = false; break; //Unknown command, then
                     }
