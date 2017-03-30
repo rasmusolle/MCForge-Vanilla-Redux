@@ -24,7 +24,7 @@ namespace MCForge.Commands
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override void Use(Player p, string message)
         {
-            //aa
+            p.level.Blockchange(p, 5, 5, 5, Block.stone);
         }
         
         public override void Help(Player p)
