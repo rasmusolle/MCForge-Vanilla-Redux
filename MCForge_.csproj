@@ -118,7 +118,6 @@
     <Compile Include="GUI\Win32\RECT.cs" />
     <Compile Include="GUI\Win32\Utils.cs" />
     <Compile Include="Server\Heart.cs" />
-    <Compile Include="Server\HTTPGet.cs" />
     <Compile Include="Commands\CmdNews.cs" />
     <Compile Include="Commands\CmdPCount.cs" />
     <Compile Include="Commands\CmdCrashServer.cs" />
