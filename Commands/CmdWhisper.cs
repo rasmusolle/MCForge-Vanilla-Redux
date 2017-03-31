@@ -23,6 +23,8 @@ namespace MCForge.Commands
                 p.whisperTo = who.name;
                 Player.SendMessage(p, "Auto-whisper enabled.  All messages will now be sent to " + who.name + ".");
             }
+
+
         }
         public override void Help(Player p)
         {
