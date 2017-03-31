@@ -25,7 +25,7 @@ using System.Threading;
 using System.Windows.Forms;
 using MCForge;
 
-namespace MCForge_.Gui
+namespace MCForge.Gui
 {
     public static class Program
     {

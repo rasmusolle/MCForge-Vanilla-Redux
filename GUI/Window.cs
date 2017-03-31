@@ -203,11 +203,11 @@ namespace MCForge.Gui
 
         private void Window_FormClosing(object sender, FormClosingEventArgs e) {
             if (e.CloseReason == CloseReason.WindowsShutDown) {
-                MCForge_.Gui.Program.ExitProgram(false);
+                MCForge.Gui.Program.ExitProgram(false);
             }
             if (Server.shuttingDown || MessageBox.Show("Really Shutdown the Server? All Connections will break!", "Exit", MessageBoxButtons.OKCancel) == DialogResult.OK) {
                 if (!Server.shuttingDown) {
-                    MCForge_.Gui.Program.ExitProgram(false);
+                    MCForge.Gui.Program.ExitProgram(false);
                 }
             }
             else {
@@ -331,7 +331,7 @@ namespace MCForge.Gui
 
         private void Restart_Click(object sender, EventArgs e) {
             if ( MessageBox.Show("Are you sure you want to restart?", "Restart", MessageBoxButtons.OKCancel) == DialogResult.OK ) {
-                MCForge_.Gui.Program.ExitProgram(true);
+                MCForge.Gui.Program.ExitProgram(true);
             }
 
         }

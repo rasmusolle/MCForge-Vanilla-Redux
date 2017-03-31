@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCForge_.Gui;
+using MCForge.Gui;
 
 namespace MCForge.Commands
 {
@@ -14,7 +14,7 @@ namespace MCForge.Commands
 
         public override void Use(Player p, string message)
         {
-            MCForge_.Gui.Program.ExitProgram(true);
+            MCForge.Gui.Program.ExitProgram(true);
         }
         public override void Help(Player p)
         {
