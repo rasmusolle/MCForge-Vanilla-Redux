@@ -6,10 +6,10 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{12597DB0-7C34-4DE1-88EA-9250FF3372EB}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MCForge</RootNamespace>
-    <AssemblyName>MCForge_</AssemblyName>
+    <AssemblyName>MCForge</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -79,6 +79,9 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -99,8 +102,6 @@
   <ItemGroup>
     <Compile Include="Commands\CmdIrc.cs" />
     <Compile Include="GUI\Win32\Margins.cs" />
-    <Compile Include="Heartbeat\Heartbeat.cs" />
-    <Compile Include="Heartbeat\IBeat.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Player\Player.CPE.cs" />
     <Compile Include="IRC\Sharkbite.thresher.cs" />
@@ -117,7 +118,7 @@
     <Compile Include="GUI\Win32\Natives.cs" />
     <Compile Include="GUI\Win32\RECT.cs" />
     <Compile Include="GUI\Win32\Utils.cs" />
-    <Compile Include="Server\Heart.cs" />
+    <Compile Include="Server\Heartbeat.cs" />
     <Compile Include="Commands\CmdNews.cs" />
     <Compile Include="Commands\CmdPCount.cs" />
     <Compile Include="Commands\CmdCrashServer.cs" />
