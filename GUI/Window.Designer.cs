@@ -63,14 +63,6 @@ namespace MCForge.Gui
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
-            this.playerStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.whoisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.kickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.banToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.voiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clonesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.promoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.demoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iconContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,10 +92,6 @@ namespace MCForge.Gui
             this.dgvPlayers = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.txtSystem = new System.Windows.Forms.TextBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.txtChangelog = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.txtErrors = new System.Windows.Forms.TextBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -115,11 +103,6 @@ namespace MCForge.Gui
             this.liRCUsers = new System.Windows.Forms.ListBox();
             this.grpRCSettings = new System.Windows.Forms.GroupBox();
             this.grpConnectedRCs = new System.Windows.Forms.GroupBox();
-            this.dgvMaps = new System.Windows.Forms.DataGridView();
-            this.button_saveall = new System.Windows.Forms.Button();
-            this.killphysics_button = new System.Windows.Forms.Button();
-            this.Unloadempty_button = new System.Windows.Forms.Button();
-            this.playerStrip.SuspendLayout();
             this.iconContext.SuspendLayout();
             this.txtLogMenuStrip.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -127,74 +110,9 @@ namespace MCForge.Gui
             this.gBChat.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPlayers)).BeginInit();
             this.tabControl1.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMaps)).BeginInit();
             this.SuspendLayout();
-            // 
-            // playerStrip
-            // 
-            this.playerStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.whoisToolStripMenuItem,
-            this.kickToolStripMenuItem,
-            this.banToolStripMenuItem,
-            this.voiceToolStripMenuItem,
-            this.clonesToolStripMenuItem,
-            this.promoteToolStripMenuItem,
-            this.demoteToolStripMenuItem});
-            this.playerStrip.Name = "playerStrip";
-            this.playerStrip.Size = new System.Drawing.Size(121, 158);
-            // 
-            // whoisToolStripMenuItem
-            // 
-            this.whoisToolStripMenuItem.Name = "whoisToolStripMenuItem";
-            this.whoisToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-            this.whoisToolStripMenuItem.Text = "Whois";
-            this.whoisToolStripMenuItem.Click += new System.EventHandler(this.whoisToolStripMenuItem_Click);
-            // 
-            // kickToolStripMenuItem
-            // 
-            this.kickToolStripMenuItem.Name = "kickToolStripMenuItem";
-            this.kickToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-            this.kickToolStripMenuItem.Text = "Kick";
-            this.kickToolStripMenuItem.Click += new System.EventHandler(this.kickToolStripMenuItem_Click);
-            // 
-            // banToolStripMenuItem
-            // 
-            this.banToolStripMenuItem.Name = "banToolStripMenuItem";
-            this.banToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-            this.banToolStripMenuItem.Text = "Ban";
-            this.banToolStripMenuItem.Click += new System.EventHandler(this.banToolStripMenuItem_Click);
-            // 
-            // voiceToolStripMenuItem
-            // 
-            this.voiceToolStripMenuItem.Name = "voiceToolStripMenuItem";
-            this.voiceToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-            this.voiceToolStripMenuItem.Text = "Voice";
-            this.voiceToolStripMenuItem.Click += new System.EventHandler(this.voiceToolStripMenuItem_Click);
-            // 
-            // clonesToolStripMenuItem
-            // 
-            this.clonesToolStripMenuItem.Name = "clonesToolStripMenuItem";
-            this.clonesToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-            this.clonesToolStripMenuItem.Text = "Clones";
-            this.clonesToolStripMenuItem.Click += new System.EventHandler(this.clonesToolStripMenuItem_Click);
-            // 
-            // promoteToolStripMenuItem
-            // 
-            this.promoteToolStripMenuItem.Name = "promoteToolStripMenuItem";
-            this.promoteToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-            this.promoteToolStripMenuItem.Text = "Promote";
-            this.promoteToolStripMenuItem.Click += new System.EventHandler(this.promoteToolStripMenuItem_Click);
-            // 
-            // demoteToolStripMenuItem
-            // 
-            this.demoteToolStripMenuItem.Name = "demoteToolStripMenuItem";
-            this.demoteToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-            this.demoteToolStripMenuItem.Text = "Demote";
-            this.demoteToolStripMenuItem.Click += new System.EventHandler(this.demoteToolStripMenuItem_Click);
             // 
             // iconContext
             // 
@@ -236,7 +154,6 @@ namespace MCForge.Gui
             this.btnProperties.TabIndex = 34;
             this.btnProperties.Text = "Properties";
             this.btnProperties.UseVisualStyleBackColor = true;
-            this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click_1);
             // 
             // btnClose
             // 
@@ -345,11 +262,7 @@ namespace MCForge.Gui
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
-            this.tabPage1.Controls.Add(this.Unloadempty_button);
-            this.tabPage1.Controls.Add(this.killphysics_button);
-            this.tabPage1.Controls.Add(this.button_saveall);
             this.tabPage1.Controls.Add(this.gBCommands);
-            this.tabPage1.Controls.Add(this.dgvMaps);
             this.tabPage1.Controls.Add(this.gBChat);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.txtCommands);
@@ -459,14 +372,13 @@ namespace MCForge.Gui
             this.dgvPlayers.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvPlayers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dgvPlayers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPlayers.ContextMenuStrip = this.playerStrip;
             this.dgvPlayers.Location = new System.Drawing.Point(512, 7);
             this.dgvPlayers.MultiSelect = false;
             this.dgvPlayers.Name = "dgvPlayers";
             this.dgvPlayers.ReadOnly = true;
             this.dgvPlayers.RowHeadersVisible = false;
             this.dgvPlayers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPlayers.Size = new System.Drawing.Size(297, 250);
+            this.dgvPlayers.Size = new System.Drawing.Size(297, 442);
             this.dgvPlayers.TabIndex = 37;
             this.dgvPlayers.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvPlayers_RowPrePaint);
             // 
@@ -483,8 +395,6 @@ namespace MCForge.Gui
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Cursor = System.Windows.Forms.Cursors.Default;
@@ -494,52 +404,6 @@ namespace MCForge.Gui
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(834, 517);
             this.tabControl1.TabIndex = 2;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.BackColor = System.Drawing.Color.Transparent;
-            this.tabPage4.Controls.Add(this.txtSystem);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(826, 491);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "System";
-            // 
-            // txtSystem
-            // 
-            this.txtSystem.BackColor = System.Drawing.Color.White;
-            this.txtSystem.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.txtSystem.Location = new System.Drawing.Point(7, 6);
-            this.txtSystem.Multiline = true;
-            this.txtSystem.Name = "txtSystem";
-            this.txtSystem.ReadOnly = true;
-            this.txtSystem.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSystem.Size = new System.Drawing.Size(754, 471);
-            this.txtSystem.TabIndex = 1;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.Color.Transparent;
-            this.tabPage2.Controls.Add(this.txtChangelog);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(826, 491);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Changelog";
-            // 
-            // txtChangelog
-            // 
-            this.txtChangelog.BackColor = System.Drawing.Color.White;
-            this.txtChangelog.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.txtChangelog.Location = new System.Drawing.Point(7, 6);
-            this.txtChangelog.Multiline = true;
-            this.txtChangelog.Name = "txtChangelog";
-            this.txtChangelog.ReadOnly = true;
-            this.txtChangelog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtChangelog.Size = new System.Drawing.Size(751, 471);
-            this.txtChangelog.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -624,7 +488,7 @@ namespace MCForge.Gui
             // 
             this.liRCUsers.Location = new System.Drawing.Point(0, 0);
             this.liRCUsers.Name = "liRCUsers";
-            this.liRCUsers.Size = new System.Drawing.Size(120, 96);
+            this.liRCUsers.Size = new System.Drawing.Size(120, 95);
             this.liRCUsers.TabIndex = 0;
             // 
             // grpRCSettings
@@ -643,56 +507,6 @@ namespace MCForge.Gui
             this.grpConnectedRCs.TabIndex = 0;
             this.grpConnectedRCs.TabStop = false;
             // 
-            // dgvMaps
-            // 
-            this.dgvMaps.AllowUserToAddRows = false;
-            this.dgvMaps.AllowUserToDeleteRows = false;
-            this.dgvMaps.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvMaps.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.dgvMaps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMaps.Location = new System.Drawing.Point(512, 292);
-            this.dgvMaps.MultiSelect = false;
-            this.dgvMaps.Name = "dgvMaps";
-            this.dgvMaps.ReadOnly = true;
-            this.dgvMaps.RowHeadersVisible = false;
-            this.dgvMaps.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMaps.Size = new System.Drawing.Size(297, 150);
-            this.dgvMaps.TabIndex = 38;
-            // 
-            // button_saveall
-            // 
-            this.button_saveall.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_saveall.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_saveall.Location = new System.Drawing.Point(513, 263);
-            this.button_saveall.Name = "button_saveall";
-            this.button_saveall.Size = new System.Drawing.Size(63, 23);
-            this.button_saveall.TabIndex = 39;
-            this.button_saveall.Text = "Save All";
-            this.button_saveall.UseVisualStyleBackColor = true;
-            this.button_saveall.Click += new System.EventHandler(this.button_saveall_Click);
-            // 
-            // killphysics_button
-            // 
-            this.killphysics_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.killphysics_button.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.killphysics_button.Location = new System.Drawing.Point(582, 263);
-            this.killphysics_button.Name = "killphysics_button";
-            this.killphysics_button.Size = new System.Drawing.Size(88, 23);
-            this.killphysics_button.TabIndex = 40;
-            this.killphysics_button.Text = "Kill All Physics";
-            this.killphysics_button.UseVisualStyleBackColor = true;
-            // 
-            // Unloadempty_button
-            // 
-            this.Unloadempty_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Unloadempty_button.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Unloadempty_button.Location = new System.Drawing.Point(676, 263);
-            this.Unloadempty_button.Name = "Unloadempty_button";
-            this.Unloadempty_button.Size = new System.Drawing.Size(81, 23);
-            this.Unloadempty_button.TabIndex = 41;
-            this.Unloadempty_button.Text = "Unload Empty";
-            this.Unloadempty_button.UseVisualStyleBackColor = true;
-            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -709,7 +523,6 @@ namespace MCForge.Gui
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Window_FormClosing);
             this.Load += new System.EventHandler(this.Window_Load);
             this.Resize += new System.EventHandler(this.Window_Resize);
-            this.playerStrip.ResumeLayout(false);
             this.iconContext.ResumeLayout(false);
             this.txtLogMenuStrip.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -719,15 +532,10 @@ namespace MCForge.Gui
             this.gBChat.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPlayers)).EndInit();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMaps)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -740,16 +548,8 @@ namespace MCForge.Gui
         private ContextMenuStrip iconContext;
         private ToolStripMenuItem openConsole;
         private ToolStripMenuItem shutdownServer;
-        private ContextMenuStrip playerStrip;
-        private ToolStripMenuItem whoisToolStripMenuItem;
-        private ToolStripMenuItem kickToolStripMenuItem;
-        private ToolStripMenuItem banToolStripMenuItem;
-        private ToolStripMenuItem voiceToolStripMenuItem;
-        private ToolStripMenuItem clonesToolStripMenuItem;
         private Button Restart;
         private ToolStripMenuItem restartServerToolStripMenuItem;
-        private ToolStripMenuItem promoteToolStripMenuItem;
-        private ToolStripMenuItem demoteToolStripMenuItem;
         private ContextMenuStrip txtLogMenuStrip;
         private ToolStripMenuItem nightModeToolStripMenuItem;
         private ToolStripMenuItem colorsToolStripMenuItem;
@@ -777,19 +577,11 @@ namespace MCForge.Gui
         private DataGridView dgvPlayers;
         private Label label1;
         private TabControl tabControl1;
-        private TabPage tabPage4;
-        private TextBox txtSystem;
-        private TabPage tabPage2;
-        private TextBox txtChangelog;
         private TabPage tabPage3;
         private TextBox txtErrors;
         private TabPage tabPage5;
         private Label label3;
         private DateTimePicker dateTimePicker1;
         internal RichTextBox LogsTxtBox;
-        private Button Unloadempty_button;
-        private Button killphysics_button;
-        private Button button_saveall;
-        private DataGridView dgvMaps;
     }
 }

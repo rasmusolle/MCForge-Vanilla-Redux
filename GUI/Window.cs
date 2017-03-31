@@ -30,16 +30,12 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MCForge.Gui {
-    public partial class Window : Form {
-        // What is this???
-        /*Regex regex = new Regex(@"^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\." +
-                                "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$");*/
-        
-        // for cross thread use
+namespace MCForge.Gui 
+{
+    public partial class Window : Form 
+    {
         delegate void StringCallback(string s);
         delegate void PlayerListCallback(List<Player> players);
-        //delegate void ReportCallback(Report r);
         delegate void VoidDelegate();
         public static bool fileexists = false;
         public static Window thisWindow;
@@ -48,9 +44,7 @@ namespace MCForge.Gui {
         LevelCollection lc = new LevelCollection(new LevelListView());
         LevelCollection lcTAB = new LevelCollection(new LevelListViewForTab());
 
-        //public static event EventHandler Minimize;
         public NotifyIcon notifyIcon1 = new NotifyIcon();
-        //  public static bool Minimized = false;
 
         internal static Server s;
 
@@ -62,9 +56,8 @@ namespace MCForge.Gui {
 
         private void Window_Load(object sender, EventArgs e) {
             btnProperties.Enabled = false;
-            //thisWindow = this;
             MaximizeBox = false;
-            this.Text = "Starting MCForge...";
+            this.Text = "Starting Server...";
             this.Show();
             this.BringToFront();
             WindowState = FormWindowState.Normal;
@@ -73,10 +66,6 @@ namespace MCForge.Gui {
                 s.OnLog += WriteLine;
                 s.OnCommand += newCommand;
                 s.OnError += newError;
-                s.OnSystem += newSystem;
-                s.OnAdmin += WriteAdmin;
-                s.OnOp += WriteOp;
-
 
                 s.HeartBeatFail += HeartBeatFail;
                 s.OnURLChange += UpdateUrl;
@@ -97,12 +86,6 @@ namespace MCForge.Gui {
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
 
-            if ( File.Exists("Changelog.txt") ) {
-                txtChangelog.Text = "Changelog for " + Server.Version + ":";
-                foreach ( string line in File.ReadAllLines(( "Changelog.txt" )) ) {
-                    txtChangelog.AppendText("\r\n           " + line);
-                }
-            }
 
             UpdateListTimer.Elapsed += delegate {
                 try {
@@ -118,7 +101,6 @@ namespace MCForge.Gui {
             var d = new VoidDelegate(() => Invoke(new VoidDelegate(act)));  //SOME ADVANCED STUFF RIGHT HERR
             d.Invoke();
         }
-
 
         void SettingsUpdate() {
             if ( Server.shuttingDown ) return;
@@ -146,24 +128,9 @@ namespace MCForge.Gui {
             }
             catch { }
         }
-        void newSystem(string message) {
-            try {
-                if ( txtSystem.InvokeRequired ) {
-                    this.Invoke(new LogDelegate(newSystem), new object[] { message });
-                }
-                else {
-                    txtSystem.AppendText(Environment.NewLine + message);
-                }
-            }
-            catch { }
-        }
 
         delegate void LogDelegate(string message);
 
-        /// <summary>
-        /// Does the same as Console.WriteLine() only in the form
-        /// </summary>
-        /// <param name="s">The line to write</param>
         public void WriteLine(string s) {
             if ( Server.shuttingDown ) return;
             if ( this.InvokeRequired ) {
@@ -189,33 +156,6 @@ namespace MCForge.Gui {
             }
         }
 
-
-        public void WriteOp(string s) {
-            if ( Server.shuttingDown ) return;
-            if ( this.InvokeRequired ) {
-                this.Invoke(new LogDelegate(WriteOp), new object[] { s });
-            }
-            else {
-                //txtLog.AppendText(Environment.NewLine + s);
-
-            }
-        }
-
-        public void WriteAdmin(string s) {
-            if ( Server.shuttingDown ) return;
-            if ( this.InvokeRequired ) {
-                this.Invoke(new LogDelegate(WriteAdmin), new object[] { s });
-            }
-            else {
-                //txtLog.AppendText(Environment.NewLine + s);
-
-            }
-        }
-
-        /// <summary>
-        /// Updates the list of client names in the window
-        /// </summary>
-        /// <param name="players">The list of players to add</param>
         public void UpdateClientList(List<Player> players) {
 
             if ( InvokeRequired ) {
@@ -260,11 +200,6 @@ namespace MCForge.Gui {
 
         public delegate void UpdateList();
 
-
-        /// <summary>
-        /// Places the server's URL at the top of the window
-        /// </summary>
-        /// <param name="s">The URL to display</param>
         public void UpdateUrl(string s) {
             if ( this.InvokeRequired ) {
                 StringCallback d = UpdateUrl;
@@ -372,10 +307,6 @@ namespace MCForge.Gui {
             }
         }
 
-        private void btnProperties_Click_1(object sender, EventArgs e) {
-
-        }
-
         public static bool prevLoaded = false;
 
         private void Window_Resize(object sender, EventArgs e) {
@@ -404,86 +335,6 @@ namespace MCForge.Gui {
                 return null;
 
             return (Player)( this.dgvPlayers.SelectedRows[0].DataBoundItem );
-        }
-
-        private Level GetSelectedLevel() {
-
-            if ( this.dgvMaps.SelectedRows.Count <= 0 )
-                return null;
-
-            return (Level)( this.dgvMaps.SelectedRows[0].DataBoundItem );
-        }
-
-        private void clonesToolStripMenuItem_Click(object sender, EventArgs e) {
-            playerselect("clones");
-        }
-
-        private void voiceToolStripMenuItem_Click(object sender, EventArgs e) {
-            playerselect("voice");
-        }
-
-        private void whoisToolStripMenuItem_Click(object sender, EventArgs e) {
-            playerselect("whois");
-        }
-
-        private void kickToolStripMenuItem_Click(object sender, EventArgs e) {
-            playerselect("kick", " You have been kicked by the console.");
-        }
-
-
-        private void banToolStripMenuItem_Click(object sender, EventArgs e) {
-            playerselect("ban");
-        }
-
-        private void playerselect(string com) {
-            if ( GetSelectedPlayer() != null )
-                Command.all.Find(com).Use(null, GetSelectedPlayer().name);
-        }
-        private void playerselect(string com, string args) {
-            if ( GetSelectedPlayer() != null )
-                Command.all.Find(com).Use(null, GetSelectedPlayer().name + args);
-        }
-
-        private void finiteModeToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " finite");
-        }
-
-        private void animalAIToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " ai");
-        }
-
-        private void edgeWaterToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " edge");
-        }
-
-        private void growingGrassToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " grass");
-        }
-
-        private void survivalDeathToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " death");
-        }
-
-        private void killerBlocksToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " killer");
-        }
-
-        private void rPChatToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("map", " chat");
-        }
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
-            levelcommand("save");
-        }
-
-        private void levelcommand(string com) {
-            if ( GetSelectedLevel() != null )
-                Command.all.Find(com).Use(null, GetSelectedLevel().name);
-        }
-
-        private void levelcommand(string com, string args) {
-            if ( GetSelectedLevel() != null )
-                Command.all.Find(com).Use(null, GetSelectedLevel().name + args);
         }
 
         private void Restart_Click(object sender, EventArgs e) {
@@ -522,19 +373,6 @@ namespace MCForge.Gui {
 
         private void dgvPlayers_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e) {
             e.PaintParts &= ~DataGridViewPaintParts.Focus;
-        }
-
-        private void promoteToolStripMenuItem_Click(object sender, EventArgs e) {
-            playerselect("promote");
-        }
-
-        private void demoteToolStripMenuItem_Click(object sender, EventArgs e) {
-            playerselect("demote");
-        }
-
-
-        private void button_saveall_Click(object sender, EventArgs e) {
-            Command.all.Find("save").Use(null, "all");
         }
 
         #region Colored Reader Context Menu
@@ -578,10 +416,5 @@ namespace MCForge.Gui {
             }
         }
         #endregion
-
-        private void tabPage8_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
