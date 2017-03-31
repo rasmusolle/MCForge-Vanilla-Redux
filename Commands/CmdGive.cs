@@ -5,7 +5,6 @@ namespace MCForge.Commands
     public class CmdGive : Command
     {
         public override string name { get { return "give"; } }
-        public override string shortcut { get { return "gib"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
         public override void Use(Player p, string message)
         {

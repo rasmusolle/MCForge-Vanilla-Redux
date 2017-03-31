@@ -19,7 +19,6 @@ namespace MCForge.Commands
     public class CmdBan : Command
     {
         public override string name { get { return "ban"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override void Use(Player p, string message)
         {

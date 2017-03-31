@@ -5,7 +5,6 @@ namespace MCForge.Commands
     public class CmdPay : Command
     {
         public override string name { get { return "pay"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public override void Use(Player p, string message)
         {

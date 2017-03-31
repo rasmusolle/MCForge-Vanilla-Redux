@@ -19,7 +19,6 @@ namespace MCForge.Commands
     public class CmdRoll : Command
     {
         public override string name { get { return "roll"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdRoll() { }
 

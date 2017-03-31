@@ -23,7 +23,6 @@ namespace MCForge.Commands
     public class CmdUnbanip : Command
     {
         public override string name { get { return "unbanip"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override void Use(Player p, string message)
         {

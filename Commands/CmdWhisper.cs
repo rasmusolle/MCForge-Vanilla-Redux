@@ -5,7 +5,6 @@ namespace MCForge.Commands
     public class CmdWhisper : Command
     {
         public override string name { get { return "whisper"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
         public CmdWhisper() { }
 

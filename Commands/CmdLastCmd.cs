@@ -7,7 +7,6 @@ namespace MCForge.Commands
     public class CmdLastCmd : Command
     {
         public override string name { get { return "lastcmd"; } }
-        public override string shortcut { get { return "last"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override void Use(Player p, string message)
         {

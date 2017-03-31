@@ -20,11 +20,10 @@ namespace MCForge.Commands
     public class CmdCuboid : Command
     {
         public override string name { get { return "cuboid"; } }
-        public override string shortcut { get { return "z"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override void Use(Player p, string message)
         {
-            //aa
+            p.level.Blockchange(p, 5, 5, 5, Block.stone);
         }
         
         public override void Help(Player p)

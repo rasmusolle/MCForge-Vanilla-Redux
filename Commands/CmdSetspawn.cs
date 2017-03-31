@@ -20,7 +20,6 @@ namespace MCForge.Commands
     public class CmdSetspawn : Command
     {
         public override string name { get { return "setspawn"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdSetspawn() { }
 

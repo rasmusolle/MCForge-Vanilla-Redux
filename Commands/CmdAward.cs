@@ -20,7 +20,6 @@ namespace MCForge.Commands
     public class CmdAward : Command
     {
         public override string name { get { return "award"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override void Use(Player p, string message)
         {

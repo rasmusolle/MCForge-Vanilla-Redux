@@ -22,7 +22,6 @@ namespace MCForge.Commands
     class CmdRules : Command
     {
         public override string name { get { return "rules"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdRules() { }
 

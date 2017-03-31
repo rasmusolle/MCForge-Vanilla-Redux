@@ -21,7 +21,6 @@ namespace MCForge.Commands
     public class CmdSave : Command
     {
         public override string name { get { return "save"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdSave() { }
 

@@ -9,7 +9,6 @@ namespace MCForge.Commands
     public class CmdRestart : Command
     {
         public override string name { get { return "restart"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
 
         public override void Use(Player p, string message)

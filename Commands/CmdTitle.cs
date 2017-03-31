@@ -21,7 +21,6 @@ namespace MCForge.Commands
     public class CmdTitle : Command
     {
         public override string name { get { return "title"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
         public override void Use(Player p, string message)
         {

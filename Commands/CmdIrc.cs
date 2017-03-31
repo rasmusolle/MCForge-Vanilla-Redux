@@ -20,7 +20,6 @@ namespace MCForge.Commands
     public class CmdIrc : Command
     {
         public override string name { get { return "irc"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public override void Use(Player p, string message)
         {

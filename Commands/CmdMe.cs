@@ -18,7 +18,6 @@ namespace MCForge.Commands
     public class CmdMe : Command
     {
         public override string name { get { return "me"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public override void Use(Player p, string message)
         {

@@ -7,7 +7,6 @@ namespace MCForge.Commands
     public class CmdCrashServer : Command
     {
         public override string name { get { return "crashserver"; } }
-        public override string shortcut { get { return "crash"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public override void Use(Player p, string message)
         {

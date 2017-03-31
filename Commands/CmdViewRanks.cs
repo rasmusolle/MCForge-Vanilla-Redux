@@ -21,7 +21,6 @@ namespace MCForge.Commands
     public class CmdViewRanks : Command
     {
         public override string name { get { return "viewranks"; } }
-        public override string shortcut { get { return ""; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
         public override void Use(Player p, string message)
         {

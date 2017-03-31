@@ -27,7 +27,6 @@ namespace MCForge.Commands
     public class CmdBanip : Command
     {
         public override string name { get { return "banip"; } }
-        public override string shortcut { get { return "bi"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override void Use(Player p, string message)
         {

@@ -20,7 +20,6 @@ namespace MCForge
     public abstract class Command
     {
         public abstract string name { get; }
-        public abstract string shortcut { get; }
         public abstract LevelPermission defaultRank { get; }
         public abstract void Use(Player p, string message);
         public abstract void Help(Player p);
