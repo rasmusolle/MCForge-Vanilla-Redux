@@ -23,8 +23,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "rules"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
-        public CmdRules() { }
-
         public override void Use(Player p, string message)
         {
             List<string> rules = new List<string>();

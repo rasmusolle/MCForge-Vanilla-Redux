@@ -20,8 +20,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "unban"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public CmdUnban() { }
-
         public override void Use(Player p, string message)
         {
             if (message == "") { Help(p); return; }

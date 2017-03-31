@@ -22,8 +22,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "say"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public CmdSay() { }
-
         public override void Use(Player p, string message)
         {
             if (message == "") { Help(p); return; }

@@ -21,8 +21,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "setspawn"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public CmdSetspawn() { }
-
         public override void Use(Player p, string message)
         {
             if (message != "") { Help(p); return; }

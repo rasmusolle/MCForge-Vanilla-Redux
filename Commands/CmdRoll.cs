@@ -20,8 +20,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "roll"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public CmdRoll() { }
-
         public override void Use(Player p, string message)
         {
             int min, max; Random rand = new Random();

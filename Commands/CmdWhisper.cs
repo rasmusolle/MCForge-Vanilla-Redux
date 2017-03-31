@@ -6,8 +6,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "whisper"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
-        public CmdWhisper() { }
-
         public override void Use(Player p, string message)
         {
             if (message == "")

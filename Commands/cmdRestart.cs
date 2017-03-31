@@ -10,7 +10,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "restart"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
-
         public override void Use(Player p, string message)
         {
             MCForge.Gui.Program.ExitProgram(true);

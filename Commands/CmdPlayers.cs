@@ -20,12 +20,10 @@ namespace MCForge.Commands
 {
     class CmdPlayers : Command
     {
+        struct groups { public Group group; public List<string> players; }
 
         public override string name { get { return "players"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
-        public CmdPlayers() { }
-
-        struct groups { public Group group; public List<string> players; }
         public override void Use(Player p, string message)
         {
             try

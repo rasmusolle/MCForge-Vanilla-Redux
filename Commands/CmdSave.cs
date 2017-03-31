@@ -22,8 +22,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "save"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public CmdSave() { }
-
         public override void Use(Player p, string message)
         {
             if (message.ToLower() == "all")

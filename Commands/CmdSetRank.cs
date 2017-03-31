@@ -20,8 +20,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "setrank"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public CmdSetRank() { }
-
         public override void Use(Player p, string message)
         {
             if (message.Split(' ').Length < 2) { Help(p); return; }

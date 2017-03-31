@@ -20,8 +20,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "spawn"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
-        public CmdSpawn() { }
-
         public override void Use(Player p, string message)
         {
             if (message != "") { Help(p); return; }

@@ -25,8 +25,6 @@ namespace MCForge.Commands
     {
         public override string name { get { return "serverreport"; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
-        public CmdServerReport() { }
-
         public override void Use(Player p, string message)
         {
             if (Server.PCCounter == null)
