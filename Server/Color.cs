@@ -1,5 +1,5 @@
 /*
-    Copyright © 2009-2014 MCSharp team (Modified for use with MCZall/MCLawl/MCForge/MCForge-Redux)
+    Copyright 2009 MCSharp team (Modified for use with MCZall/MCLawl/MCForge/MCForge-Redux/MCSpleef)
     
     Dual-licensed under the	Educational Community License, Version 2.0 and
     the GNU General Public License, Version 3 (the "Licenses"); you may

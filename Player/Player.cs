@@ -1,5 +1,5 @@
 /*
-    Copyright © 2011-2014 MCForge-Redux
+    Copyright 2011-2014 MCForge-Redux (Modified for use with MCSpleef)
 		
     Dual-licensed under the	Educational Community License, Version 2.0 and
     the GNU General Public License, Version 3 (the "Licenses"); you may

@@ -1,5 +1,5 @@
 /*
-	Copyright © 2011-2014 MCForge-Redux
+	Copyright 2011-2014 MCForge-Redux (Modified for use with MCSpleef)
 	
 	Author: fenderrock87
 	
