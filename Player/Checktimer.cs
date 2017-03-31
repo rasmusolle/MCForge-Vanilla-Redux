@@ -13,7 +13,6 @@ or implied. See the Licenses for the specific language governing
 permiusing MCForge;ssions and limitations under the Licenses.
 */
 ﻿using System;
-using System.IO;
 namespace MCForge
 {
     public static class Checktimer
