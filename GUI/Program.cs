@@ -69,67 +69,12 @@ namespace MCForge.Gui
             PidgeonLogger.Init();
             AppDomain.CurrentDomain.UnhandledException += GlobalExHandler;
             Application.ThreadException += ThreadExHandler;
-            bool skip = false;
-        remake:
-            try
-            {
-                if (!File.Exists("Viewmode.cfg") || skip)
-                {
-                    StreamWriter SW = new StreamWriter(File.Create("Viewmode.cfg"));
-                    SW.WriteLine("#This file controls how the console window is shown to the server host");
-                    SW.WriteLine("#cli: True or False (Determines whether a CLI interface is used)");
-                    SW.WriteLine("#high-quality: True or false (Determines whether the GUI interface uses higher quality objects)");
-                    SW.WriteLine();
-                    SW.WriteLine("cli = false");
-                    SW.WriteLine("high-quality = true");
-                    SW.Flush();
-                    SW.Close();
-                    SW.Dispose();
-                }
 
-                if (File.ReadAllText("Viewmode.cfg") == "") { skip = true; goto remake; }
-
-                string[] foundView = File.ReadAllLines("Viewmode.cfg");
-                if (foundView[0][0] != '#') { skip = true; goto remake; }
-
-                if (foundView[4].Split(' ')[2].ToLower() == "true")
-                {
-                    Server s = new Server();
-                    s.OnLog += WriteToConsole;
-                    s.OnCommand += WriteToConsole;
-                    s.OnSystem += WriteToConsole;
-                    s.Start();
-
-                    Console.Title = Server.name + " - MCForge " + Server.Version;
-                    usingConsole = true;
-                    handleComm();
-
-                    
-                    //Application.Run();
-                }
-                else
-                {
-
-                    IntPtr hConsole = GetConsoleWindow();
-                    if (IntPtr.Zero != hConsole)
-                    {
-                        ShowWindow(hConsole, 0);
-                    }
-                    if (foundView[5].Split(' ')[2].ToLower() == "true")
-                    {
-                        Application.EnableVisualStyles();
-                        Application.SetCompatibleTextRenderingDefault(false);
-                    }
-
-                    Application.Run(new MCForge.Gui.Window());
-                }
-                WriteToConsole("Completed in " + (DateTime.Now - startTime).Milliseconds + "ms");
-            }
-            catch (Exception e) { Server.ErrorLog(e); }
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MCForge.Gui.Window());
         }
 
-        //U WANT TO SEE HOW WE DO IT MCSTORM?
-        //I WOULD EXPLAIN, BUT ITS BETTER TO JUST COPY AND PASTE, AMIRITE?
         private static void WriteToConsole(string message)
         {
             if (!message.Contains("&") && !message.Contains("%"))
@@ -255,76 +200,8 @@ namespace MCForge.Gui
                 }
             }
         }
-        /*
-        public static void handleComm(string s)
-        {
 
-            string sentCmd = "", sentMsg = "";
-            List<string> cmdtest = new List<string>();
-            cmdtest = Command.all.commandNames();
-            //blank lines are considered accidental
-            if (s == "")
-            {
-                handleComm(Console.ReadLine());
-                return;
-            }
-
-            //commands all start with a slash
-
-            if (s.IndexOf('/') == 0)
-            {
-                //remove the preceding slash
-                s = s.Remove(0, 1);
-
-                //continue parsing
-                if (s.IndexOf(' ') != -1)
-                {
-                    sentCmd = s.Split(' ')[0];
-                    sentMsg = s.Substring(s.IndexOf(' ') + 1);
-                }
-                else if (s != "")
-                {
-                    sentCmd = s;
-                }
-            }
-            //anything else is treated as chat
-            else
-            {
-                sentCmd = "say";
-                sentMsg = Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]: &f" + s;
-            }
-
-
-
-            try
-            {
-
-                Command cmd = Command.all.Find(sentCmd);
-                if (cmd != null)
-                {
-                    cmd.Use(null, sentMsg);
-                    Console.WriteLine("CONSOLE: USED /" + sentCmd + " " + sentMsg);
-                    handleComm(Console.ReadLine());
-                    return;
-                }
-
-
-            }
-            catch (Exception e)
-            {
-                Server.ErrorLog(e);
-                Console.WriteLine("CONSOLE: Failed command.");
-                handleComm(Console.ReadLine());
-                return;
-            }
-            //handleComm(Console.ReadLine());
-
-
-        } */
-
-        public static bool CurrentUpdate = false;
         public static System.Timers.Timer updateTimer = new System.Timers.Timer(120 * 60 * 1000);
-
 
         static public void ExitProgram(bool AutoRestart)
         {
@@ -335,17 +212,6 @@ namespace MCForge.Gui
 
             new Thread(new ThreadStart(delegate
             {
-                /*try
-                {
-                    if (MCForge.Gui.Window.thisWindow.notifyIcon1 != null)
-                    {
-                        MCForge.Gui.Window.thisWindow.notifyIcon1.Icon = null;
-                        MCForge.Gui.Window.thisWindow.notifyIcon1.Visible = false;
-                        MCForge.Gui.Window.thisWindow.notifyIcon1.Dispose();
-                    }
-                }
-                catch { }
-                */
                 if (AutoRestart)
                 {
                     saveAll(true);
