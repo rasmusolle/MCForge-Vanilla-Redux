@@ -1533,8 +1533,6 @@ namespace MCForge
 
                 if (CommandHasBadColourCodes(this, message))
                     return;
-                string foundShortcut = Command.all.FindShort(cmd);
-                if (foundShortcut != "") cmd = foundShortcut;
                 if (OnCommand != null)
                     OnCommand(cmd, this, message);
                 if (PlayerCommand != null)

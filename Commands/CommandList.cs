@@ -47,18 +47,7 @@ namespace MCForge
         public Command Find(string name)
         {
             name = name.ToLower();
-            return commands.FirstOrDefault(cmd => cmd.name == name || cmd.shortcut == name);
-        }
-
-        public string FindShort(string shortcut)
-        {
-            if (shortcut == "") return "";
-
-            shortcut = shortcut.ToLower();
-            foreach (Command cmd in commands.Where(cmd => cmd.shortcut == shortcut)){
-                return cmd.name;
-            }
-            return "";
+            return commands.FirstOrDefault(cmd => cmd.name == name);
         }
 
         public List<Command> All() { return new List<Command>(commands); }
