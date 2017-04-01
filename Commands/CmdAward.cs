@@ -36,14 +36,10 @@ namespace MCForge.Commands
                 return;
             }
 
-            if (Awards.giveAward(foundPlayer, awardName))
-            {
+            if (Awards.giveAward(foundPlayer, awardName)) 
                 Player.GlobalChat(p, Server.FindColor(foundPlayer) + foundPlayer + Server.DefaultColor + " was awarded: &b" + Awards.camelCase(awardName), false);
-            }
-            else
-            {
+            else 
                 Player.SendMessage(p, "The player already has that award!");
-            }
 
             Awards.Save();
         }

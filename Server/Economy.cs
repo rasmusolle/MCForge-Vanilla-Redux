@@ -22,7 +22,7 @@ namespace MCForge
     public static class Economy
     {
         public struct EcoStats {
-            public string playerName, purchase, payment, salary, fine;
+            public string playerName, purchase, payment;
             public int money, totalSpent;
             public EcoStats(string name, int mon, int tot, string pur, string pay) {
                 playerName = name;
