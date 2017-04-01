@@ -47,7 +47,6 @@ namespace MCForge
             all.Add(new CmdNewLvl());
             all.Add(new CmdNews());
             all.Add(new CmdPay());
-            all.Add(new CmdPCount());
             all.Add(new CmdPlayers());
             all.Add(new CmdRestart());
             all.Add(new CmdRoll());
