@@ -298,7 +298,6 @@ namespace MCForge
         public string[] cmdBind = new string[10];
         public string[] messageBind = new string[10];
         public string lastCMD = "";
-        public sbyte c4circuitNumber = -1;
 
         public Level level = Server.mainLevel;
         public bool Loading = true; //True if player is loading a map.
@@ -1070,17 +1069,6 @@ namespace MCForge
                 level.blockCache.Add(bP);
                 placeBlock(b, type, x, y, z);
             }
-        }
-
-        //TODO: Check if this's needed 
-        public void createTntAnimation(ushort[] start, out List<ushort[]> animation)
-        {
-            animation = new List<ushort[]>();
-            for (int i = -1; i <= 1; i++)
-                for (int x = -1; x <= 1; x++)
-                    for (int y = -1; y <= 1; y++)
-                        animation.Add(new[] { (ushort)(start[0] - i), (ushort)(start[1] - x), (ushort)(start[2] - y) });
-            animation.Remove(start);
         }
 
         private bool checkOp() { return group.Permission < LevelPermission.Operator; }
