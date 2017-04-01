@@ -1300,15 +1300,6 @@ namespace MCForge
                     case Block.deathlava:
                     case Block.activedeathlava: GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " stood in &cmagma and melted.", false); break;
 
-                    case Block.air: GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " hit the floor &chard.", false); break;
-                    case Block.water: GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " &cdrowned.", false); break;
-                    case Block.Zero: GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " was &cterminated", false); break;
-                    case Block.rock:
-                        GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
-                        break;
-                    case Block.stone:
-                        GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + customMessage, false);
-                        break;
                 }
                 Command.all.Find("spawn").Use(this, "");
                 overallDeath++;
