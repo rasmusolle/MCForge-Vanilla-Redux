@@ -46,14 +46,6 @@ namespace MCForge {
 								p.payment = value;
 								section = key;
 								break;
-								case "salary":
-								p.salary = value;
-								section = key;
-								break;
-								case "fine":
-								p.fine = value;
-								section = key;
-								break;
 							}
 						} catch(Exception e) {
 							Server.s.Log( "Loading " + p.playerName + "'s economy database failed at section: " + section );
@@ -63,11 +55,9 @@ namespace MCForge {
 				}
 				return true;
 			} else {
-				p.fine = "";
 				p.money = Player.Find(p.playerName).money;
 				p.payment = "";
 				p.purchase = "";
-				p.salary = "";
 				p.totalSpent = 0;
 				Save( p );
 				return false;
@@ -80,8 +70,6 @@ namespace MCForge {
 			sw.WriteLine( "Total = " + p.totalSpent);
 			sw.WriteLine( "Purchase = " + p.purchase);
 			sw.WriteLine( "Payment = " + p.payment);
-			sw.WriteLine( "Salary = " + p.salary);
-			sw.WriteLine( "Fine = " + p.fine);
 			sw.Flush();
 			sw.Close();
 			sw.Dispose();
