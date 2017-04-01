@@ -36,15 +36,6 @@ namespace MCForge.Commands
             {
                 if (Group.findPlayerGroup(message) != Group.findPerm(LevelPermission.Banned))
                 {
-                    foreach (Server.TempBan tban in Server.tempBans)
-                    {
-                        if (tban.name.ToLower() == message.ToLower())
-                        {
-                            Server.tempBans.Remove(tban);
-                            Player.GlobalMessage(message + " has had their temporary ban lifted.");
-                            return;
-                        }
-                    }
                     Player.SendMessage(p, "Player is not banned.");
                     return;
                 }
@@ -55,15 +46,6 @@ namespace MCForge.Commands
             {
                 if (Group.findPlayerGroup(message) != Group.findPerm(LevelPermission.Banned))
                 {
-                    foreach (Server.TempBan tban in Server.tempBans)
-                    {
-                        if (tban.name == who.name)
-                        {
-                            Server.tempBans.Remove(tban);
-                            Player.GlobalMessage(who.color + who.prefix + who.name + Server.DefaultColor + "has had their temporary ban lifted.");
-                            return;
-                        }
-                    }
                     Player.SendMessage(p, "Player is not banned.");
                     return;
                 }

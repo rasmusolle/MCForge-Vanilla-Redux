@@ -34,7 +34,6 @@ namespace MCForge
         public static bool canceladmin = false;
         public static bool cancellog = false;
         public static bool canceloplog = false;
-        public static string apppath = Application.StartupPath;
         public delegate void OnConsoleCommand(string cmd, string message);
         public static event OnConsoleCommand ConsoleCommand;
         public delegate void OnServerError(Exception error);
@@ -64,15 +63,7 @@ namespace MCForge
         public static Thread blockThread;
 
         public static Version Version { get { return System.Reflection.Assembly.GetAssembly(typeof(Server)).GetName().Version; } }
-
-        public static string VersionString
-        {
-            get
-            {
-                //return Version.Major + "." + Version.Minor + "." + Version.Build + "." + Version.Revision;
-                return Version.ToString(); //Lol....
-            }
-        }
+        public static string VersionString { get { return Version.ToString(); } }
 
         // URL hash for connecting to the server
         public static string Hash = String.Empty;
@@ -81,7 +72,6 @@ namespace MCForge
         public static Socket listen;
         public static System.Diagnostics.Process process = System.Diagnostics.Process.GetCurrentProcess();
         public static System.Timers.Timer updateTimer = new System.Timers.Timer(100);
-        //static System.Timers.Timer heartbeatTimer = new System.Timers.Timer(60000); //Every 45 seconds
         static System.Timers.Timer messageTimer = new System.Timers.Timer(60000 * 5); //Every 5 mins
         public static System.Timers.Timer cloneTimer = new System.Timers.Timer(5000);
 
@@ -92,15 +82,9 @@ namespace MCForge
         public static PlayerList muted;
         public static PlayerList ignored;
 
-        // The MCForge Developer List
+        // The Developer List
         internal static readonly List<string> devs = new List<string>();
         public static List<string> Devs { get { return new List<string>(devs); } }
-        //The MCForge Moderation List
-        internal static readonly List<string> mods = new List<string>();
-        public static List<string> Mods { get { return new List<string>(mods); } }
-
-        public static List<TempBan> tempBans = new List<TempBan>();
-        public struct TempBan { public string name; public DateTime allowedJoin; }
 
         public static Thread checkPosThread;
 
@@ -110,19 +94,12 @@ namespace MCForge
         public static Level mainLevel;
         public static List<Level> levels;
 
-        //public static List<levelID> allLevels = new List<levelID>();
         public struct levelID { public int ID; public string name; }
-        public static List<string> afkset = new List<string>();
         public static List<string> ircafkset = new List<string>();
-        public static List<string> afkmessages = new List<string>();
         public static List<string> messages = new List<string>();
-        
 
         public static DateTime timeOnline;
         public static string IP;
-
-        public static bool autorestart;
-        public static DateTime restarttime;
 
         public static Dictionary<string, string> customdollars = new Dictionary<string, string>();
 
@@ -183,8 +160,6 @@ namespace MCForge
         public static LevelPermission opchatperm = LevelPermission.Operator;
         public static string server_owner = "Notch";
 
-        public static bool flipHead = false;
-
         public static bool shuttingDown = false;
         public static bool restarting = false;
 
@@ -231,15 +206,10 @@ namespace MCForge
                     File.WriteAllText("text/bans.txt", bantext);
                 }
             }
-
             if (!Directory.Exists("extra")) Directory.CreateDirectory("extra");
-            
             LoadAllSettings();
-
             timeOnline = DateTime.Now;
-
             UpdateStaffList();
-            //Log("MCForge Staff Protection Level: " + forgeProtection);
 
             if (levels != null)
                 foreach (Level l in levels) { l.Unload(); }
@@ -255,29 +225,13 @@ namespace MCForge
                         mainLevel.unload = false;
                         if (mainLevel == null)
                         {
-                            if (File.Exists("levels/" + level + ".mcf.backup"))
-                            {
-                                Log("Attempting to load backup of " + level + ".");
-                                File.Copy("levels/" + level + ".mcf.backup", "levels/" + level + ".mcf", true);
-                                mainLevel = Level.Load(level);
-                                if (mainLevel == null)
-                                {
-                                    Log("BACKUP FAILED!");
-                                    Console.ReadLine(); return;
-                                }
-                            }
-                            else
-                            {
-                                Log("mainlevel not found");
-                                mainLevel = new Level(level, 128, 64, 128, "flat") { permissionvisit = LevelPermission.Guest, permissionbuild = LevelPermission.Guest };
-                                mainLevel.Save();
-                                Level.CreateLeveldb(level);
-                            }
+                            mainLevel = new Level(level, 128, 64, 128, "flat") { permissionvisit = LevelPermission.Guest, permissionbuild = LevelPermission.Guest };
+                            mainLevel.Save();
+                            Level.CreateLeveldb(level);
                         }
                     }
                     else
                     {
-                        Log("mainlevel not found");
                         mainLevel = new Level(level, 128, 64, 128, "flat") { permissionvisit = LevelPermission.Guest, permissionbuild = LevelPermission.Guest };
                         mainLevel.Save();
                         Level.CreateLeveldb(level);
@@ -304,40 +258,24 @@ namespace MCForge
             {
                 Log("Creating listening socket on port " + port + "... ");
                 Setup();
-                //s.Log(Setup() ? "Done." : "Could not create socket connection. Shutting down.");
             });
 
             ml.Queue(delegate
             {
-                updateTimer.Elapsed += delegate
-                {
-                    Player.GlobalUpdate();
-                };
-
+                updateTimer.Elapsed += delegate { Player.GlobalUpdate(); };
                 updateTimer.Start();
             });
 
-
-            // Heartbeat code here:
-
+            // Heartbeat
             ml.Queue(delegate
             {
-                try
-                {
-                    Heartbeat.Init();
-                }
-                catch (Exception e)
-                {
-                    Server.ErrorLog(e);
-                }
+                try { Heartbeat.Init(); }
+                catch (Exception e) { Server.ErrorLog(e); }
             });
 
             ml.Queue(delegate
             {
-                messageTimer.Elapsed += delegate
-                {
-                    RandomMessage();
-                };
+                messageTimer.Elapsed += delegate { RandomMessage(); };
                 messageTimer.Start();
 
                 process = System.Diagnostics.Process.GetCurrentProcess();
@@ -352,15 +290,8 @@ namespace MCForge
                 }
                 else File.Create("text/messages.txt").Close();
 
-
-                // We always construct this to prevent errors...
-				if(Server.irc)
-				{
-                IRC = new ForgeBot(Server.ircChannel, Server.ircOpChannel, Server.ircNick, Server.ircServer);
-				}
-
+				if(Server.irc) IRC = new ForgeBot(Server.ircChannel, Server.ircOpChannel, Server.ircNick, Server.ircServer);
                 if (Server.irc) IRC.Connect();
-
 
                 new AutoSaver(Server.backupInterval);
 
@@ -377,10 +308,7 @@ namespace MCForge
                                 l.saveChanges();
                             }
                             }
-                            catch (Exception e)
-                            {
-                                Server.ErrorLog(e);
-                            }
+                            catch (Exception e) { Server.ErrorLog(e); }
                         });
                     }
                 }));
@@ -458,7 +386,6 @@ namespace MCForge
             try
             {
                 p = new Player(listen.EndAccept(result));
-                //new Thread(p.Start).Start();
                 listen.BeginAccept(Accept, Block.air);
                 begin = true;
             }
@@ -477,7 +404,6 @@ namespace MCForge
                 if (!begin)
                     listen.BeginAccept(Accept, Block.air);
             }
-
         }
 
         public static void Exit(bool AutoRestart)
@@ -503,49 +429,28 @@ namespace MCForge
             }
             );
 
-            if (listen != null)
-            {
-                listen.Close();
-            }
-            try
-            {
-                IRC.Disconnect(!AutoRestart ? "Server is shutting down." : "Server is restarting.");
-            }
+            if (listen != null) { listen.Close(); }
+            try { IRC.Disconnect(!AutoRestart ? "Server is shutting down." : "Server is restarting."); }
             catch { }
         }
 
-        public static void addLevel(Level level)
-        {
-            levels.Add(level);
-        }
+        public static void addLevel(Level level) { levels.Add(level); }
 
-        public void PlayerListUpdate()
-        {
-            if (Server.s.OnPlayerListChange != null) Server.s.OnPlayerListChange(Player.players);
-        }
+        public void PlayerListUpdate() { if (Server.s.OnPlayerListChange != null) Server.s.OnPlayerListChange(Player.players); }
 
-        public void FailBeat()
-        {
-            if (HeartBeatFail != null) HeartBeatFail();
-        }
+        public void FailBeat() { if (HeartBeatFail != null) HeartBeatFail(); }
 
-        public void UpdateUrl(string url)
-        {
-            if (OnURLChange != null) OnURLChange(url);
-        }
+        public void UpdateUrl(string url) { if (OnURLChange != null) OnURLChange(url); }
 
         public void Log(string message, bool systemMsg = false, LogType type = LogType.Main)
         {
-            // This is to make the logs look a little more uniform! - HeroCane
             retry :
             if ( message.Trim().EndsWith( "!" ) || message.Trim().EndsWith( ":" ) ) {
                 message = message.Substring( 0, message.Length - 1 );
                 goto retry;
             }
 
-            if ( type == LogType.Process && !message.Trim().EndsWith( ".." ) ) {
-                message += "...";
-            } //Sorry, got annoyed with the dots xD...
+            if ( type == LogType.Process && !message.Trim().EndsWith( ".." ) ) { message += "..."; }
 
             if (type == LogType.Main)
             {
@@ -560,16 +465,9 @@ namespace MCForge
                 }
                 if (OnLog != null)
                 {
-                    if (!systemMsg)
-                    {
-                        OnLog(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                    }
-                    else
-                    {
-                        OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                    }
+                    if (!systemMsg) OnLog(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+                    else OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
                 }
-
                 Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
             }
             if(type == LogType.Op)
@@ -585,16 +483,9 @@ namespace MCForge
                 }
                 if (OnOp != null)
                 {
-                    if (!systemMsg)
-                    {
-                        OnOp(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                    }
-                    else
-                    {
-                        OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                    }
+                    if (!systemMsg) OnOp(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+                    else OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
                 }
-
                 Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
             }
             if(type == LogType.Admin)
@@ -610,16 +501,9 @@ namespace MCForge
                 }
                 if (OnAdmin != null)
                 {
-                    if (!systemMsg)
-                    {
-                        OnAdmin(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                    }
-                    else
-                    {
-                        OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                    }
+                    if (!systemMsg) OnAdmin(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+                    else OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
                 }
-
                 Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
             }
         }
@@ -641,10 +525,7 @@ namespace MCForge
             if (ServerError != null)
                 ServerError(ex);
             Logger.WriteError(ex);
-            try
-            {
-                s.Log("!!!Error! See " + Logger.ErrorLogPath + " for more information.");
-            }
+            try { s.Log("!Error! See " + Logger.ErrorLogPath + " for more information."); }
             catch { }
         }
 
@@ -654,25 +535,18 @@ namespace MCForge
                 Player.GlobalMessage(messages[new Random().Next(0, messages.Count)]);
         }
 
-        internal void SettingsUpdate()
-        {
-            if (OnSettingsUpdate != null) OnSettingsUpdate();
-        }
+        internal void SettingsUpdate() { if (OnSettingsUpdate != null) OnSettingsUpdate(); }
 
         public static string FindColor(string Username)
         {
-            foreach (Group grp in Group.GroupList.Where(grp => grp.playerList.Contains(Username)))
-            {
-                return grp.color;
-            }
+            foreach (Group grp in Group.GroupList.Where(grp => grp.playerList.Contains(Username))) { return grp.color; }
             return Group.standard.color;
         }
 
         public void UpdateStaffList()
         {
-                devs.Clear();
-                mods.Clear();
-                devs.Add("rasmusolle");
+            devs.Clear();
+            devs.Add("rasmusolle");
         }
     }
 }

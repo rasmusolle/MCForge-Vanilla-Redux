@@ -2457,8 +2457,6 @@ namespace MCForge
                 timespent.Stop();
                 timespent.Dispose();
 
-                if (Server.afkset.Contains(name)) Server.afkset.Remove(name);
-
                 if (kickString == "") kickString = "Disconnected.";
 
                 SendKick(kickString);
