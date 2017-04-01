@@ -742,7 +742,7 @@ namespace Sharkbite.Irc
                 socketThread.Start();
             }
         }
-        System.Net.IPAddress ipAddress = System.Net.Dns.Resolve("localhost").AddressList[0];
+        System.Net.IPAddress ipAddress = System.Net.Dns.GetHostEntry("localhost").AddressList[0];
 
         public static bool IsRunning() { lock (lockObject) { return running; } }
 
