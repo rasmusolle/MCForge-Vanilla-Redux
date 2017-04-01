@@ -63,8 +63,6 @@ namespace MCForge
         public static bool UseTextures = false;
         public static Thread blockThread;
 
-        public static int speedPhysics = 250;
-
         public static Version Version { get { return System.Reflection.Assembly.GetAssembly(typeof(Server)).GetName().Version; } }
 
         public static string VersionString

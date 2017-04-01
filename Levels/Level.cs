@@ -40,12 +40,6 @@ namespace MCForge
         Nobody = 120,
         Null = 150
     }
-    public enum PhysicsState
-    {
-        Stopped,
-        Warning,
-        Other
-    }
 
     public enum MapType
     {
@@ -66,7 +60,6 @@ namespace MCForge
         public delegate void OnLevelUnload(Level l);
 
         #endregion
-        public int speedphysics = 250;
         public bool Death;
 
         public static bool cancelload;
@@ -450,7 +443,6 @@ namespace MCForge
         }
 
         // Returns true if ListCheck does not already have an check in the position.
-        // Useful for fireworks, which depend on two physics blocks being checked, one with extraInfo.
         public bool CheckClear(ushort x, ushort y, ushort z)
         {
             int b = PosToInt(x, y, z);
@@ -978,7 +970,6 @@ namespace MCForge
             }
             catch
             {
-                //s.Log("Warning-PhysicsUpdate");
                 //ListUpdate.Add(new Update(b, (byte)type));    //Lousy back up plan
                 return false;
             }
@@ -988,74 +979,6 @@ namespace MCForge
         {
             AddUpdate(PosToInt((ushort)x, (ushort)y, (ushort)z), b, true);
             AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)z));
-        }
-
-        public void finiteMovement(Check C, ushort x, ushort y, ushort z)
-        {
-            var rand = new Random();
-
-            var bufferfiniteWater = new List<int>();
-            var bufferfiniteWaterList = new List<Pos>();
-
-            if (GetTile(x, (ushort)(y - 1), z) == Block.air)
-            {
-                AddUpdate(PosToInt(x, (ushort)(y - 1), z), blocks[C.b], false, C.extraInfo);
-                AddUpdate(C.b, Block.air);
-                C.extraInfo = "";
-            }
-            else if (GetTile(x, (ushort)(y - 1), z) == Block.waterstill ||
-                     GetTile(x, (ushort)(y - 1), z) == Block.lavastill)
-            {
-                AddUpdate(C.b, Block.air);
-                C.extraInfo = "";
-            }
-            else
-            {
-                for (int i = 0; i < 25; ++i) bufferfiniteWater.Add(i);
-
-                for (int k = bufferfiniteWater.Count - 1; k > 1; --k)
-                {
-                    int randIndx = rand.Next(k); //
-                    int temp = bufferfiniteWater[k];
-                    bufferfiniteWater[k] = bufferfiniteWater[randIndx]; // move random num to end of list.
-                    bufferfiniteWater[randIndx] = temp;
-                }
-
-                Pos pos;
-
-                for (var xx = (ushort)(x - 2); xx <= x + 2; ++xx)
-                {
-                    for (var zz = (ushort)(z - 2); zz <= z + 2; ++zz)
-                    {
-                        pos.x = xx;
-                        pos.z = zz;
-                        bufferfiniteWaterList.Add(pos);
-                    }
-                }
-
-                foreach (int i in bufferfiniteWater)
-                {
-                    pos = bufferfiniteWaterList[i];
-                    if (GetTile(pos.x, (ushort)(y - 1), pos.z) == Block.air&&
-                        GetTile(pos.x, y, pos.z) == Block.air)
-                    {
-                        if (pos.x < x) pos.x = (ushort)(Math.Floor((double)(pos.x + x) / 2));
-                        else pos.x = (ushort)(Math.Ceiling((double)(pos.x + x) / 2));
-                        if (pos.z < z) pos.z = (ushort)(Math.Floor((double)(pos.z + z) / 2));
-                        else pos.z = (ushort)(Math.Ceiling((double)(pos.z + z) / 2));
-
-                        if (GetTile(pos.x, y, pos.z) == Block.air)
-                        {
-                            if (AddUpdate(PosToInt(pos.x, y, pos.z), blocks[C.b], false, C.extraInfo))
-                            {
-                                AddUpdate(C.b, Block.air);
-                                C.extraInfo = "";
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         public struct Pos
