@@ -157,7 +157,6 @@ namespace MCForge
         public static string defaultRank = "guest";
 
         public static string moneys = "moneys";
-        public static LevelPermission opchatperm = LevelPermission.Operator;
         public static string server_owner = "Notch";
 
         public static bool shuttingDown = false;

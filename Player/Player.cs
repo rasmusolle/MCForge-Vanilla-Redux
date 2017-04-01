@@ -1351,7 +1351,7 @@ namespace MCForge
                     if (text[0] == '#') newtext = text.Remove(0, 1).Trim();
 
                     GlobalMessageOps("To Ops &f-" + color + name + "&f- " + newtext);
-                    if (group.Permission < Server.opchatperm && !isStaff)
+                    if (group.Permission < LevelPermission.Operator && !isStaff)
                         SendMessage("To Ops &f-" + color + name + "&f- " + newtext);
                     Server.s.Log("(OPs): " + name + ": " + newtext);
                     Server.IRC.Say(name + ": " + newtext, true);
@@ -1493,7 +1493,7 @@ namespace MCForge
             if (p.hidden) { if (this.hidden == false) { Player.SendMessage(p, "Could not find player."); } }
             if (p.ignoreglobal == true)
             {
-                    if (this.group.Permission >= Server.opchatperm)
+                    if (this.group.Permission >= LevelPermission.Operator)
                     {
                         if (p.group.Permission < this.group.Permission)
                         {
@@ -2201,7 +2201,7 @@ namespace MCForge
                         Player.SendMessage(p, message);
                         return;
                     }
-                    if (from.group.Permission >= Server.opchatperm)
+                    if (from.group.Permission >= LevelPermission.Operator)
                     {
                         if (p.group.Permission < from.group.Permission) { Player.SendMessage(p, message); }
                     }
@@ -2330,7 +2330,7 @@ namespace MCForge
             {
                 players.ForEach(delegate(Player p)
                 {
-                    if (p.group.Permission >= Server.opchatperm || p.isStaff)
+                    if (p.group.Permission >= LevelPermission.Operator || p.isStaff)
                     {
                         Player.SendMessage(p, message);
                     }

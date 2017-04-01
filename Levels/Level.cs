@@ -862,7 +862,7 @@ namespace MCForge
                     Player.players.Where(
                         pl =>
                         pl.level == this &&
-                        (pl.group.Permission >= Server.opchatperm || pl.isStaff )))
+                        (pl.group.Permission >= LevelPermission.Operator || pl.isStaff )))
             {
                 pl.SendMessage(message);
             }
