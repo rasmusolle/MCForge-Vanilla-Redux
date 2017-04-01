@@ -75,5 +75,19 @@ namespace MCForge
                 complete[i] = complete[i].ToLower();
             File.WriteAllLines(file, complete);
         }
+
+        public static string getPlural(string groupName)
+        {
+            try {
+                string last2 = groupName.Substring(groupName.Length - 2).ToLower();
+                if ((last2 != "ed" || groupName.Length <= 3) && last2[1] != 's') {
+                    return groupName + "s";
+                }
+                return groupName;
+            }
+            catch {
+                return groupName;
+            }
+        }
     }
 }
