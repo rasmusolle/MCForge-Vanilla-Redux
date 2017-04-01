@@ -57,17 +57,11 @@ namespace MCForge.Commands
 
                         if (Server.devs.Contains(pl.name.ToLower()))
                         {
-                            if (pl.voice)
-                                devs += " " + "&f+" + Server.DefaultColor + foundName + " (" + pl.level.name + "),";
-                            else
-                                devs += " " + foundName + " (" + pl.level.name + "),";
+                            devs += " " + foundName + " (" + pl.level.name + "),";
                         }
                         else
                         {
-                            if (pl.voice)
-                                playerList.Find(grp => grp.group == pl.group).players.Add("&f+" + Server.DefaultColor + foundName + " (" + pl.level.name + ")");
-                            else
-                                playerList.Find(grp => grp.group == pl.group).players.Add(foundName + " (" + pl.level.name + ")");
+                            playerList.Find(grp => grp.group == pl.group).players.Add(foundName + " (" + pl.level.name + ")");
                         }
                     }
                 }
