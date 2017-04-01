@@ -28,7 +28,6 @@ namespace MCForge {
 		private List<string> banCmd;
 		private string channel, opchannel;
 		private string nick;
-	//	private string server;
 		private bool reset = false;
 		private byte retries = 0;
 		public string usedCmd = "";
