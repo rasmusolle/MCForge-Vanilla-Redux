@@ -204,10 +204,6 @@ namespace MCForge {
 									if (value != "")
 										Server.ZallState = value;
 									break;
-								case "server-owner":
-									if (value != "")
-										Server.server_owner = value;
-									break;
 
 								case "mute-on-spam":
 									try
@@ -307,7 +303,6 @@ namespace MCForge {
 			w.WriteLine("deathcount = " + Server.deathcount.ToString().ToLower());
 			w.WriteLine("money-name = " + Server.moneys);
 			w.WriteLine("host-state = " + Server.ZallState.ToString());
-			w.WriteLine("server-owner = " + Server.server_owner.ToString());
 			w.WriteLine();
 			w.WriteLine("#Colors");
 			w.WriteLine("defaultColor = " + Server.DefaultColor);
