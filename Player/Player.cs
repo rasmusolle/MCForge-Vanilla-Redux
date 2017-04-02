@@ -820,12 +820,8 @@ namespace MCForge
                     GlobalMessage(name + " is still muted from the last time they went offline.");
                 }
             }
-			if(!Directory.Exists("players/economy"))
-				Directory.CreateDirectory ("players/economy");
 
-			Economy.EcoStats es = new Economy.EcoStats();
-			es.playerName = this.name;
-			EconomyDB.Load(es);
+			//es.playerName = this.name;
             SetPrefix();
 
             if (PlayerConnect != null)

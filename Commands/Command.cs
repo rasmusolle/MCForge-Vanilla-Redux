@@ -36,7 +36,7 @@ namespace MCForge
             all.Add(new CmdBanip());
             all.Add(new CmdColor());
             all.Add(new CmdCuboid());
-            all.Add(new CmdGive());
+            all.Add(new CmdEco());
             all.Add(new CmdHelp());
             all.Add(new CmdInfo());
             all.Add(new CmdIrc());
@@ -46,7 +46,6 @@ namespace MCForge
             all.Add(new CmdMute());
             all.Add(new CmdNewLvl());
             all.Add(new CmdNews());
-            all.Add(new CmdPay());
             all.Add(new CmdPlayers());
             all.Add(new CmdRestart());
             all.Add(new CmdRoll());
@@ -58,7 +57,6 @@ namespace MCForge
             all.Add(new CmdSetspawn());
             all.Add(new CmdSpawn());
             //all.Add(new CmdSpleef());
-            all.Add(new CmdTake());
             all.Add(new CmdTitle());
             all.Add(new CmdUnban());
             all.Add(new CmdUnbanip());

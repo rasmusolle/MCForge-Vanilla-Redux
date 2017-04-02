@@ -100,6 +100,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CmdEco.cs" />
     <Compile Include="Commands\CmdIrc.cs" />
     <Compile Include="GUI\Win32\Margins.cs" />
     <Compile Include="Player\Opcode.cs" />
@@ -158,9 +159,6 @@
     <Compile Include="Commands\CmdRoll.cs" />
     <Compile Include="Commands\CmdWhisper.cs" />
     <Compile Include="Commands\CmdLastCmd.cs" />
-    <Compile Include="Commands\CmdGive.cs" />
-    <Compile Include="Commands\CmdTake.cs" />
-    <Compile Include="Commands\CmdPay.cs" />
     <Compile Include="Commands\CmdView.cs" />
     <Compile Include="Levels\LevelCollection.cs" />
     <Compile Include="Player\PlayerCollection.cs" />
@@ -203,8 +201,6 @@
     <Compile Include="Database\PlayerDB.cs" />
     <Compile Include="Commands\CmdWhoip.cs" />
     <Compile Include="Commands\CmdWhowas.cs" />
-    <Compile Include="Server\Economy.cs" />
-    <Compile Include="Database\EconomyDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
