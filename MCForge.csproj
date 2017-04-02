@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CmdEco.cs" />
+    <Compile Include="Commands\CmdGamble.cs" />
     <Compile Include="Commands\CmdIrc.cs" />
     <Compile Include="GUI\Win32\Margins.cs" />
     <Compile Include="Player\Opcode.cs" />

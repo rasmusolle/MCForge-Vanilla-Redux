@@ -37,6 +37,7 @@ namespace MCForge
             all.Add(new CmdColor());
             all.Add(new CmdCuboid());
             all.Add(new CmdEco());
+            all.Add(new CmdGamble());
             all.Add(new CmdHelp());
             all.Add(new CmdInfo());
             all.Add(new CmdIrc());
