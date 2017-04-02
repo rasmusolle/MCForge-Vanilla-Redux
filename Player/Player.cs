@@ -313,9 +313,6 @@ namespace MCForge
         public static int spamBlockTimer = 5;
         Queue<DateTime> spamBlockLog = new Queue<DateTime>(spamBlockCount);
 
-        public int consecutivemessages;
-        private System.Timers.Timer resetSpamCount = new System.Timers.Timer(Server.spamcountreset * 1000);
-
         //Random...
         public Random random = new Random();
 
@@ -495,14 +492,6 @@ namespace MCForge
 
                     extraTimer.Dispose();
                 };
-
-                resetSpamCount.Elapsed += delegate
-                {
-                    if (consecutivemessages > 0)
-                        consecutivemessages = 0;
-                };
-                resetSpamCount.Start();
-
 
                 connections.Add(this);
             }
@@ -1266,33 +1255,6 @@ namespace MCForge
                 // People who are muted can't speak or vote
                 if (muted) { this.SendMessage("You are muted."); return; } //Muted: Only allow commands
 
-                if (Server.checkspam == true)
-                {
-                    if (Player.lastMSG == this.name)
-                        consecutivemessages++;
-                    else
-                        consecutivemessages--;
-
-                    if (this.consecutivemessages >= Server.spamcounter)
-                    {
-                        int total = Server.mutespamtime;
-                        Command.all.Find("mute").Use(null, this.name);
-                        Player.GlobalMessage(this.name + " has been &0muted &efor spamming!");
-                        muteTimer.Elapsed += delegate
-                        {
-                            total--;
-                            if (total <= 0)
-                            {
-                                muteTimer.Stop();
-                                if (this.muted == true) { Command.all.Find("mute").Use(null, this.name); }
-                                this.consecutivemessages = 0;
-                                Player.SendMessage(this, "Remember, no &cspamming &e" + "next time!");
-                            }
-                        };
-                        muteTimer.Start();
-                        return;
-                    }
-                }
                 Player.lastMSG = this.name;
 
                 if (text.Length >= 2 && text[0] == '@' && text[1] == '@')

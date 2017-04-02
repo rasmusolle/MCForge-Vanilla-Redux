@@ -124,12 +124,6 @@ namespace MCForge
         public static bool pub = true;
         public static bool verify = true;
 
-        //Spam Prevention
-        public static bool checkspam = false;
-        public static int spamcounter = 8;
-        public static int mutespamtime = 60;
-        public static int spamcountreset = 5;
-
         public static string ZallState = "Alive";
 
         public static string level = "main";

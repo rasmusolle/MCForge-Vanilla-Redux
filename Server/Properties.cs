@@ -48,7 +48,6 @@ namespace MCForge {
 							string value = "";
 							if (line.IndexOf ('=') >= 0)
 								value = line.Substring (line.IndexOf ('=') + 1).Trim (); // allowing = in the values
-							string color = "";
 
 							switch (key.ToLower())
 							{
@@ -147,40 +146,6 @@ namespace MCForge {
 									Server.ircPassword = value;
 									break;
 
-								case "deathcount":
-									Server.deathcount = (value.ToLower() == "true") ? true : false;
-                                    break;
-                                case "defaultcolor":
-									color = c.Parse(value);
-									if (color == "")
-									{
-										color = c.Name(value);
-										if (color != "")
-											color = value;
-										else
-                                        {
-											Server.s.Log("Could not find " + value);
-											return;
-                                        }
-                                    }
-                                    Server.DefaultColor = color;
-									break;
-								case "irc-color":
-									color = c.Parse(value);
-									if (color == "")
-									{
-										color = c.Name(value);
-										if (color != "")
-											color = value;
-										else
-										{
-											Server.s.Log("Could not find " + value);
-											return;
-										}
-									}
-									Server.IRCColour = color;
-									break;
-
 								case "default-rank":
 									try
 									{
@@ -199,51 +164,6 @@ namespace MCForge {
 								case "texture-url":
 									if (value != "")
 										Server.textureUrl = value;
-									break;
-								case "host-state":
-									if (value != "")
-										Server.ZallState = value;
-									break;
-
-								case "mute-on-spam":
-									try
-									{
-										Server.checkspam = bool.Parse(value);
-									}
-									catch
-									{
-										Server.s.Log("Invalid " + key + ". Using default");
-									}
-									break;
-								case "spam-messages":
-									try
-									{
-										Server.spamcounter = int.Parse(value);
-									}
-									catch
-									{
-										Server.s.Log("Invalid " + key + ". Using default");
-									}
-									break;
-								case "spam-mute-time":
-									try
-									{
-										Server.mutespamtime = int.Parse(value);
-									}
-									catch
-									{
-										Server.s.Log("Invalid " + key + ". Using default");
-									}
-									break;
-								case "spam-counter-reset-time":
-									try
-									{
-										Server.spamcountreset = int.Parse(value);
-									}
-									catch
-									{
-										Server.s.Log("Invalid " + key + ". Using default");
-									}
 									break;
 							}
 						}
@@ -287,7 +207,6 @@ namespace MCForge {
 			w.WriteLine("public = " + Server.pub.ToString().ToLower());
 			w.WriteLine("max-players = " + Server.players.ToString());
 			w.WriteLine("texture-url = " + Server.textureUrl);
-			w.WriteLine("main-name = " + Server.level);
 			w.WriteLine();
 			w.WriteLine("# irc bot options");
 			w.WriteLine("irc = " + Server.irc.ToString().ToLower());
@@ -304,18 +223,8 @@ namespace MCForge {
 			w.WriteLine("money-name = " + Server.moneys);
 			w.WriteLine("host-state = " + Server.ZallState.ToString());
 			w.WriteLine();
-			w.WriteLine("#Colors");
-			w.WriteLine("defaultColor = " + Server.DefaultColor);
-			w.WriteLine("irc-color = " + Server.IRCColour);
-			w.WriteLine();
 			try { w.WriteLine("default-rank = " + Server.defaultRank); }
 			catch { w.WriteLine("default-rank = guest"); }
-			w.WriteLine();
-			w.WriteLine("#Spam Control");
-			w.WriteLine("mute-on-spam = " + Server.checkspam.ToString().ToLower());
-			w.WriteLine("spam-messages = " + Server.spamcounter.ToString());
-			w.WriteLine("spam-mute-time = " + Server.mutespamtime.ToString());
-			w.WriteLine("spam-counter-reset-time = " + Server.spamcountreset.ToString());
 		}
 	}
 }
