@@ -26,15 +26,6 @@ namespace MCForge {
 		{
 			if (!skipsalt) {
 				bool gotSalt = false;
-				if (File.Exists ("text/salt.txt")) {
-					string salt = File.ReadAllText ("text/salt.txt");
-					if (salt.Length != 16)
-						Server.s.Log ("Invalid salt in salt.txt!");
-					else {
-						Server.salt = salt;
-						gotSalt = true;
-					}
-				}
 				if (!gotSalt) {
 					RandomNumberGenerator prng = RandomNumberGenerator.Create ();
 					StringBuilder sb = new StringBuilder ();
