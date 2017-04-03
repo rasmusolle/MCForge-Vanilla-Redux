@@ -25,7 +25,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-
 namespace MCForge
 {
     public partial class Player : IDisposable
@@ -383,12 +382,7 @@ namespace MCForge
                 socket = s;
                 ip = socket.RemoteEndPoint.ToString().Split(':')[0];
 
-                /*
-                if (IPInPrivateRange(ip))
-                    exIP = ResolveExternalIP(ip);
-                else
-                */
-                    exIP = ip;
+                exIP = ip;
 
                 Server.s.Log(ip + " connected to the server.");
 
