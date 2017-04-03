@@ -28,16 +28,12 @@ namespace MCForge {
     /// </summary>
     public class Group {
         public delegate void RankSet(Player p, Group newrank);
-        //[Obsolete("Please use OnPlayerRankSetEvent.Register()")]
         public static event RankSet OnPlayerRankSet;
         public delegate void GroupSave();
-        //[Obsolete("Please use OnGroupSaveEvent.Register()")]
         public static event GroupSave OnGroupSave;
         public delegate void GroupLoad();
-        //[Obsolete("Please use OnGroupLoadEvent.Register()")]
         public static event GroupLoad OnGroupLoad;
         public delegate void GroupLoaded(Group mGroup);
-        //[Obsolete("Please use OnGroupLoadedEvent.Register()")]
         public static event GroupLoaded OnGroupLoaded;
         public static bool cancelrank = false;
         //Move along...nothing to see here...
@@ -52,12 +48,7 @@ namespace MCForge {
         public PlayerList playerList;
         public string MOTD = String.Empty;
 
-        /// <summary>
-        /// Create a new group object
-        /// </summary>
-        public Group() {
-            Permission = LevelPermission.Null;
-        }
+        public Group() { Permission = LevelPermission.Null; }
 
         /// <summary>
         /// Create a new group object
@@ -75,7 +66,6 @@ namespace MCForge {
             playerList = name != "nobody" ? PlayerList.Load(fileName, this) : new PlayerList();
             if (OnGroupLoaded != null)
                 OnGroupLoaded(this);
-            //OnGroupLoadedEvent.Call(this);
         }
         /// <summary>
         /// Fill the commands that this group can use
@@ -271,41 +261,13 @@ namespace MCForge {
 
             return GroupList.FirstOrDefault(gr => gr.name == name.ToLower());
         }
-        /// <summary>
-        /// Find the group with the permission /Perm/
-        /// </summary>
-        /// <param name="Perm">The level permission to search for</param>
-        /// <returns>The group object with that level permission</returns>
-        public static Group findPerm(LevelPermission Perm) {
-            return GroupList.FirstOrDefault(grp => grp.Permission == Perm);
-        }
 
-        /// <summary>
-        /// Find the group with the permission /Perm/
-        /// </summary>
-        /// <param name="Perm">The level permission to search for</param>
-        /// <returns>The group object with that level permission</returns>
-        public static Group findPermInt(int Perm) {
-            return GroupList.FirstOrDefault(grp => (int)grp.Permission == Perm);
-        }
-
-        /// <summary>
-        /// Get the group name that player /playerName/ is in
-        /// </summary>
-        /// <param name="playerName">The player Name</param>
-        /// <returns>The group name</returns>
+        public static Group findPerm(LevelPermission Perm) { return GroupList.FirstOrDefault(grp => grp.Permission == Perm); }
+        public static Group findPermInt(int Perm) { return GroupList.FirstOrDefault(grp => (int)grp.Permission == Perm); }
         public static string findPlayer(string playerName) {
-            foreach (Group grp in Group.GroupList.Where(grp => grp.playerList.Contains(playerName))) {
-                return grp.name;
-            }
+            foreach (Group grp in Group.GroupList.Where(grp => grp.playerList.Contains(playerName))) { return grp.name; }
             return Group.standard.name;
         }
-
-        /// <summary>
-        /// Find the group object that the player /playerName/ is in
-        /// </summary>
-        /// <param name="playerName">The player name</param>
-        /// <returns>The group object that the player is in</returns>
         public static Group findPlayerGroup(string playerName) {
             foreach (Group grp in Group.GroupList.Where(grp => grp.playerList.Contains(playerName))) {
                 return grp;
@@ -362,8 +324,6 @@ namespace MCForge {
             if (File.Exists("properties/command.properties")) {
                 string[] lines = File.ReadAllLines("properties/command.properties");
 
-                //if (lines.Length == 0) ; // this is useless?
-                /*else */
                 if (lines[0] == "#Version 2") {
                     string[] colon = new[] { " : " };
                     foreach (string line in lines) {
