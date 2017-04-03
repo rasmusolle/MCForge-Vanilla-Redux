@@ -1,4 +1,5 @@
-﻿using System;
+﻿//TODO: Cleanup and put license
+using System;
 using System.IO;
 namespace MCForge.Commands
 {
