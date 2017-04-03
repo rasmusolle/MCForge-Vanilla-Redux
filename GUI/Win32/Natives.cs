@@ -16,20 +16,11 @@
     permissions and limitations under the Licenses.
 */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
-using System.Drawing;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Forms;
 
 namespace MCForge.Gui.Utils {
-
     internal class Natives {
-
-        #region Consts
-
         private const int SOURCE_COPY = 0x00CC0020;
         private const int BI_RGB = 0;
         private const int DIB_RGB_COLORS = 0;
@@ -65,8 +56,6 @@ namespace MCForge.Gui.Utils {
         public const int WVR_HREDRAW = 0x100;
         public const int WVR_VREDRAW = 0x200;
         public const int WVR_REDRAW = ( WVR_HREDRAW | WVR_VREDRAW );
-
-        #endregion
 
         #region Enums/Structs
 
@@ -175,10 +164,6 @@ namespace MCForge.Gui.Utils {
 
         #endregion
 
-        #region Drawing / Utils
-
-        //Most methods have been snipped
-
         public static bool CanRender() {
             Type t = typeof(Application);
             System.Reflection.PropertyInfo pi = t.GetProperty("RenderWithVisualStyles");
@@ -188,9 +173,7 @@ namespace MCForge.Gui.Utils {
                 if (os.Platform == PlatformID.Win32NT && (((os.Version.Major == 5) && (os.Version.Minor >= 1)) || (os.Version.Major > 5))) {
                     DLLVersionInfo version = new DLLVersionInfo();
                     version.cbSize = Marshal.SizeOf(typeof(DLLVersionInfo));
-                    if (DllGetVersion(ref version) == 0) {
-                        return (version.dwMajorVersion > 5) && IsThemeActive() && IsAppThemed();
-                    }
+                    if (DllGetVersion(ref version) == 0) { return (version.dwMajorVersion > 5) && IsThemeActive() && IsAppThemed(); }
                 }
 
                 return false;
@@ -200,7 +183,5 @@ namespace MCForge.Gui.Utils {
                 return result;
             }
         }
-
-        #endregion
     }
 }

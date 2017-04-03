@@ -15,20 +15,9 @@
     or implied. See the Licenses for the specific language governing
     permissions and limitations under the Licenses.
 */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-
 namespace MCForge.Gui.Utils {
     public class Utilities {
-
-        /// <summary>
-        /// Gets a color from a char.
-        /// </summary>
-        /// <param name="c">The char.</param>
-        /// <returns>A color, that can be null</returns>
         public static Color? GetDimColorFromChar( char c ) {
             switch ( c ) {
                 case '0': return Color.Black;
@@ -50,18 +39,13 @@ namespace MCForge.Gui.Utils {
                 default: return null;
             }
         }
-
         public static int HexIntFromChar( char hexChar ) {
-            hexChar = char.ToUpper( hexChar );  // may not be necessary
+            hexChar = char.ToUpper( hexChar );
 
             return ( int ) hexChar < ( int ) 'A' ?
                 ( ( int ) hexChar - ( int ) '0' ) :
                 10 + ( ( int ) hexChar - ( int ) 'A' );
         }
-
-        public static char HexCharFromInt( int hexInt ) {
-            return char.Parse(hexInt.ToString());
-        }
-
+        public static char HexCharFromInt( int hexInt ) { return char.Parse(hexInt.ToString()); }
     }
 }
