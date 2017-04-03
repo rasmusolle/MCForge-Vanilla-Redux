@@ -25,6 +25,8 @@ namespace MCForge.Commands
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public override void Use(Player p, string message)
         {
+            Player.SendMessage(p, "/save is currently broken.");
+            /*
             if (message.ToLower() == "all")
             {
                 foreach (Level l in Server.levels)
@@ -48,7 +50,7 @@ namespace MCForge.Commands
                         Player.SendMessage(p, "Level \"" + foundLevel.name + "\" saved.");
                         int backupNumber = p.level.Backup(true);
                         if (backupNumber != -1)
-                            p.level.ChatLevel("Backup " + backupNumber + " saved.");
+                            Player.SendMessage(p, "Backup " + backupNumber + " saved.");
                     }
                     else
                     {
@@ -83,10 +85,11 @@ namespace MCForge.Commands
 
                         int backupNumber = p.level.Backup(true);
                         if (backupNumber != -1)
-                            p.level.ChatLevel("Backup " + backupNumber + " saved.");
+                            Player.SendMessage(p, "Backup " + backupNumber + " saved.");
                     }
                 }
             }
+            */
         }
         public override void Help(Player p)
         {
