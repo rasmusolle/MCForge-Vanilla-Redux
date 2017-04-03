@@ -1,5 +1,5 @@
 /*
-	Copyright 2010 MCSharp team (Modified for use with MCZall/MCLawl/MCSpleef)
+	Copyright 2017 MCSpleef
 	
 	Dual-licensed under the	Educational Community License, Version 2.0 and
 	the GNU General Public License, Version 3 (the "Licenses"); you may
@@ -15,9 +15,6 @@
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-using System;
-using System.Collections.Generic;
-using System.IO;
 namespace MCForge.Commands
 {
 	class CmdRules : Command
@@ -26,45 +23,12 @@ namespace MCForge.Commands
 		public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
 		public override void Use(Player p, string message)
 		{
-			List<string> rules = new List<string>();
-			if (!File.Exists("text/rules.txt"))
-			{
-				File.WriteAllText("text/rules.txt", "No rules entered yet!");
-			}
-			StreamReader r = File.OpenText("text/rules.txt");
-			while (!r.EndOfStream)
-				rules.Add(r.ReadLine());
-
-			r.Close();
-			r.Dispose();
-
-			Player who = null;
-			if (message != "")
-			{
-				if (p.group.Permission <= LevelPermission.Guest)
-				{ Player.SendMessage(p, "You cant send /rules to another player!"); return; }
-				who = Player.Find(message);
-			}
-			else
-			{
-				who = p;
-			}
-
-			if (who != null)
-			{
-				if (who.level == Server.mainLevel && Server.mainLevel.permissionbuild == LevelPermission.Guest) { who.SendMessage("You are currently on the guest map where anyone can build"); }
-				who.SendMessage("Server Rules:");
-				foreach (string s in rules)
-					who.SendMessage(s);
-			}
-			else
-			{
-				Player.SendMessage(p, "There is no player \"" + message + "\"!");
-			}
+			Player.SendMessage(p, "Server Rules:");
+			Command.all.Find("view").Use(p, "rules");
 		}
 		public override void Help(Player p)
 		{
-			Player.SendMessage(p, "/rules [player]- Displays server rules to a player");
+			Player.SendMessage(p, "/rules - Displays server rules.");
 		}
 	}
 }
