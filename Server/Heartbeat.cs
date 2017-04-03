@@ -100,17 +100,11 @@ namespace MCForge
 				}
 			}
 			catch (WebException e) {
-				if (e.Status == WebExceptionStatus.Timeout) {
-					Pump();
-				}
-			}
-			catch {
+				if (e.Status == WebExceptionStatus.Timeout) { Pump(); }
+			} catch {
 				if (totalTries < 3) goto retry;
 				return false;
-			}
-			finally {
-				request.Abort();
-			}
+			} finally { request.Abort(); }
 			return true;
 		}
 
@@ -124,9 +118,7 @@ namespace MCForge
 					input[i] == '-' || input[i] == '_' || input[i] == '.' || input[i] == '~') {
 					output.Append(input[i]);
 				}
-				else if (Array.IndexOf<char>(reservedChars, input[i]) != -1) {
-					output.Append('%').Append(((int)input[i]).ToString("X"));
-				}
+				else if (Array.IndexOf<char>(reservedChars, input[i]) != -1) { output.Append('%').Append(((int)input[i]).ToString("X")); }
 			}
 			return output.ToString();
 		}
