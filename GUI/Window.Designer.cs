@@ -81,8 +81,6 @@ namespace MCForge.Gui
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.gBCommands = new System.Windows.Forms.GroupBox();
-            this.txtCommandsUsed = new MCForge.Gui.AutoScrollTextBox();
             this.gBChat = new System.Windows.Forms.GroupBox();
             this.txtLog = new MCForge.Gui.Components.ColoredTextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -106,7 +104,6 @@ namespace MCForge.Gui
             this.iconContext.SuspendLayout();
             this.txtLogMenuStrip.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.gBCommands.SuspendLayout();
             this.gBChat.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPlayers)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -262,7 +259,6 @@ namespace MCForge.Gui
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
-            this.tabPage1.Controls.Add(this.gBCommands);
             this.tabPage1.Controls.Add(this.gBChat);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.txtCommands);
@@ -277,37 +273,13 @@ namespace MCForge.Gui
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             // 
-            // gBCommands
-            // 
-            this.gBCommands.Controls.Add(this.txtCommandsUsed);
-            this.gBCommands.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gBCommands.Location = new System.Drawing.Point(13, 326);
-            this.gBCommands.Name = "gBCommands";
-            this.gBCommands.Size = new System.Drawing.Size(493, 123);
-            this.gBCommands.TabIndex = 34;
-            this.gBCommands.TabStop = false;
-            this.gBCommands.Text = "Commands";
-            // 
-            // txtCommandsUsed
-            // 
-            this.txtCommandsUsed.BackColor = System.Drawing.Color.White;
-            this.txtCommandsUsed.Cursor = System.Windows.Forms.Cursors.Default;
-            this.txtCommandsUsed.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCommandsUsed.Location = new System.Drawing.Point(9, 16);
-            this.txtCommandsUsed.Multiline = true;
-            this.txtCommandsUsed.Name = "txtCommandsUsed";
-            this.txtCommandsUsed.ReadOnly = true;
-            this.txtCommandsUsed.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCommandsUsed.Size = new System.Drawing.Size(478, 100);
-            this.txtCommandsUsed.TabIndex = 0;
-            // 
             // gBChat
             // 
             this.gBChat.Controls.Add(this.txtLog);
             this.gBChat.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gBChat.Location = new System.Drawing.Point(13, 34);
             this.gBChat.Name = "gBChat";
-            this.gBChat.Size = new System.Drawing.Size(493, 286);
+            this.gBChat.Size = new System.Drawing.Size(493, 415);
             this.gBChat.TabIndex = 32;
             this.gBChat.TabStop = false;
             this.gBChat.Text = "Chat";
@@ -321,7 +293,7 @@ namespace MCForge.Gui
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.txtLog.Size = new System.Drawing.Size(480, 250);
+            this.txtLog.Size = new System.Drawing.Size(480, 379);
             this.txtLog.TabIndex = 0;
             this.txtLog.Text = "";
             // 
@@ -527,8 +499,6 @@ namespace MCForge.Gui
             this.txtLogMenuStrip.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.gBCommands.ResumeLayout(false);
-            this.gBCommands.PerformLayout();
             this.gBChat.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPlayers)).EndInit();
             this.tabControl1.ResumeLayout(false);
@@ -566,8 +536,6 @@ namespace MCForge.Gui
         private GroupBox grpConnectedRCs;
         public ListBox liRCUsers;
         private TabPage tabPage1;
-        private GroupBox gBCommands;
-        private AutoScrollTextBox txtCommandsUsed;
         private GroupBox gBChat;
         private Components.ColoredTextBox txtLog;
         private Label label2;

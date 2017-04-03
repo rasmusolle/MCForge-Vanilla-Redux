@@ -42,9 +42,7 @@ namespace MCForge.Gui
 
         readonly System.Timers.Timer UpdateListTimer = new System.Timers.Timer(10000);
 
-        public Window() {
-            InitializeComponent();
-        }
+        public Window() { InitializeComponent(); }
 
         private void Window_Load(object sender, EventArgs e) {
             btnProperties.Enabled = false;
@@ -65,28 +63,20 @@ namespace MCForge.Gui
                 s.OnSettingsUpdate += SettingsUpdate;
                 s.Start();
 
-
                 RunOnUiThread(() => btnProperties.Enabled = true);
-
             }).Start();
 
-
-            notifyIcon1.Text = ( "MCForge Server: " + Server.name ).Truncate(64);
+            notifyIcon1.Text = ( "Server: " + Server.name ).Truncate(64);
 
             this.notifyIcon1.ContextMenuStrip = this.iconContext;
             this.notifyIcon1.Icon = this.Icon;
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
 
-
             UpdateListTimer.Elapsed += delegate {
-                try {
-                    UpdateClientList(Player.players);
-                }
-                catch { } // needed for slower computers
-                //Server.s.Log("Lists updated!");
+                try { UpdateClientList(Player.players); }
+                catch { }
             }; UpdateListTimer.Start();
-
         }
 
         public void RunOnUiThread(Action act) {
@@ -105,16 +95,13 @@ namespace MCForge.Gui
             }
         }
 
-        void HeartBeatFail() {
-            WriteLine("Recent Heartbeat Failed");
-        }
+        void HeartBeatFail() { WriteLine("Recent Heartbeat Failed"); }
 
         void newError(string message) {
             try {
                 if ( txtErrors.InvokeRequired ) {
                     this.Invoke(new LogDelegate(newError), new object[] { message });
-                }
-                else {
+                } else {
                     txtErrors.AppendText(Environment.NewLine + message);
                 }
             }
@@ -127,24 +114,17 @@ namespace MCForge.Gui
             if ( Server.shuttingDown ) return;
             if ( this.InvokeRequired ) {
                 this.Invoke(new LogDelegate(WriteLine), new object[] { s });
-            }
-            else {
-
+            } else {
                 string cleaned = s;
-                //Begin substring of crappy date stamp
 
                 int substr = s.IndexOf(')');
                 if ( substr == -1 ) {
                     cleaned = s;
-                }
-                else {
+                } else {
                     cleaned = s.Substring(substr + 1);
                 }
 
-                //end substring
-
                 txtLog.AppendLog(cleaned + Environment.NewLine);
-                // ColorBoxes(txtLog);
             }
         }
 
@@ -257,11 +237,9 @@ namespace MCForge.Gui
             if ( txtCommands.Text.IndexOf(' ') != -1 ) {
                 sentCmd = txtCommands.Text.Split(' ')[0];
                 sentMsg = txtCommands.Text.Substring(txtCommands.Text.IndexOf(' ') + 1);
-            }
-            else if ( txtCommands.Text != "" ) {
+            } else if ( txtCommands.Text != "" ) {
                 sentCmd = txtCommands.Text;
-            }
-            else {
+            } else {
                 return;
             }
 
@@ -274,7 +252,6 @@ namespace MCForge.Gui
                     }
                     commandcmd.Use(null, sentMsg);
                     newCommand("CONSOLE: USED /" + sentCmd + " " + sentMsg);
-
                 }
                 catch ( Exception ex ) {
                     Server.ErrorLog(ex);
@@ -285,18 +262,10 @@ namespace MCForge.Gui
             txtCommands.Clear();
         }
 
-        private void btnClose_Click_1(object sender, EventArgs e) {
-            Close();
-        }
+        private void btnClose_Click_1(object sender, EventArgs e) { Close(); }
 
         public void newCommand(string p) {
-            if ( txtCommandsUsed.InvokeRequired ) {
-                LogDelegate d = newCommand;
-                this.Invoke(d, new object[] { p });
-            }
-            else {
-                txtCommandsUsed.AppendTextAndScroll(p);
-            }
+            WriteLine(p);
         }
 
         public static bool prevLoaded = false;
