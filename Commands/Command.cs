@@ -70,7 +70,6 @@ namespace MCForge
 			all.Add(new CmdWhois());
 			all.Add(new CmdWhowas());
 			all.Add(new CmdXban());
-			all.Add(new CmdCrashServer());
 			all.Add(new CmdAward());
 			all.Add(new CmdAwards());
 
