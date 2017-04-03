@@ -2124,37 +2124,29 @@ namespace MCForge
             if (showname)
                 message = from.color + from.prefix + from.DisplayName + ": &f" + message;
 
-            players.ForEach(delegate(Player p)
-            {
-                if (p.level.worldChat)
-                {
-                    if (p.ignoreglobal == false)
+			players.ForEach(delegate(Player p)
+			{
+				if (from != null)
+				{
+					if (!p.listignored.Contains(from.name))
+					{
+						Player.SendMessage(p, message);
+						return;
+					}
+					return;
+				}
+				if (from.group.Permission >= LevelPermission.Operator)
+				{
+					if (p.group.Permission < from.group.Permission) { Player.SendMessage(p, message); }
+				}
+				if (from != null)
+				{
+					if (from == p)
                     {
-                        if (from != null)
-                        {
-                            if (!p.listignored.Contains(from.name))
-                            {
-                                Player.SendMessage(p, message);
-                                return;
-                            }
-                            return;
-                        }
-                        Player.SendMessage(p, message);
-                        return;
-                    }
-                    if (from.group.Permission >= LevelPermission.Operator)
-                    {
-                        if (p.group.Permission < from.group.Permission) { Player.SendMessage(p, message); }
-                    }
-                    if (from != null)
-                    {
-                        if (from == p)
-                        {
-                            Player.SendMessage(from, message);
-                            return;
-                        }
-                    }
-                }
+						Player.SendMessage(from, message);
+						return;
+					}
+				}
             });
         }
 

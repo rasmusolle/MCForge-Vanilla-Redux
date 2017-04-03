@@ -294,12 +294,7 @@ namespace MCForge
                         Thread.Sleep(blockInterval * 1000);
                         levels.ForEach(delegate(Level l)
                         {
-                            try
-                            {
-                            if (l.mapType != MapType.Game) {
-                                l.saveChanges();
-                            }
-                            }
+                            try { l.saveChanges(); }
                             catch (Exception e) { Server.ErrorLog(e); }
                         });
                     }

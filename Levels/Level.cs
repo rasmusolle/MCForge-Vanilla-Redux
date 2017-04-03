@@ -41,22 +41,13 @@ namespace MCForge
         Null = 150
     }
 
-    public enum MapType
-    {
-        General,
-        Game,
-    }
-
     public sealed class Level : IDisposable
     {
         #region Delegates
 
         public delegate void OnLevelLoad(string level);
-
         public delegate void OnLevelLoaded(Level l);
-
         public delegate void OnLevelSave(Level l);
-
         public delegate void OnLevelUnload(Level l);
 
         #endregion
@@ -72,7 +63,6 @@ namespace MCForge
         public List<Blockchange> blockCache = new List<Blockchange>();
         public ushort[] blocks;
         public bool cancelsave1;
-        public bool cancelunload;
         public bool changed;
 
         public ushort depth; // y       THIS IS STUPID, SHOULD HAVE BEEN Z
@@ -83,15 +73,9 @@ namespace MCForge
         public string motd = "ignore";
         public string name;
 
-        public int maxBuildHeight;
-        public ushort divider;
-
-
         public LevelPermission permissionbuild = LevelPermission.Guest;
         public LevelPermission permissionvisit = LevelPermission.Guest;
 
-
-        public bool randomFlow = true;
         public bool realistic = true;
         public byte rotx;
         public byte roty;
@@ -104,27 +88,16 @@ namespace MCForge
         public string theme = "Normal";
         public bool unload = true;
         public ushort width; // x
-        public bool worldChat = true;
         public List<BlockQueue.block> blockqueue = new List<BlockQueue.block>();
 
-        public Level(string n, ushort x, ushort y, ushort z, string type, int seed = 0, bool useSeed = false, MapType mt = MapType.General)
+        public Level(string n, ushort x, ushort y, ushort z, string type, int seed = 0, bool useSeed = false)
         {
-            //onLevelSave += null;
             width = x;
             depth = y;
             height = z;
-            if (width < 16)
-            {
-                width = 16;
-            }
-            if (depth < 16)
-            {
-                depth = 16;
-            }
-            if (height < 16)
-            {
-                height = 16;
-            }
+            if (width < 16)  width = 16;
+            if (depth < 16)  depth = 16;
+            if (height < 16) height = 16;
 
             name = n;
             blocks = new ushort[width * depth * height];
@@ -139,7 +112,6 @@ namespace MCForge
                                 SetTile(x, y, z, y < half ? Block.dirt : Block.grass);
                     //SetTile(x, y, z, (byte)(y != half ? (y >= half) ? 0 : 3 : 2));
                     break;
-                //no need for default
             }
             spawnx = (ushort)(width / 2);
             spawny = (ushort)(depth * 0.75f);
@@ -148,20 +120,11 @@ namespace MCForge
             roty = 0;
         }
 
-        public ushort length
-        {
-            get { return height; }
-        }
-
-        public List<Player> players
-        {
-            get { return getPlayers(); }
-        }
+        public ushort length { get { return height; } }
+        public List<Player> players { get { return getPlayers(); } }
 
         public static event OnLevelUnload LevelUnload = null;
         public static event OnLevelSave LevelSave = null;
-        //public static event OnLevelSave onLevelSave = null;
-  //      public event OnLevelUnload onLevelUnload = null;
         public static event OnLevelLoad LevelLoad = null;
         public static event OnLevelLoaded LevelLoaded;
 
@@ -194,28 +157,19 @@ namespace MCForge
         public bool Unload(bool silent = false, bool save = true)
         {
             if (Server.mainLevel == this) return false;
-            if (name.Contains("&cMuseum ")) return false;
             if (LevelUnload != null)
                 LevelUnload(this);
-            //OnLevelUnloadEvent.Call(this);
-            if (cancelunload)
-            {
-                Server.s.Log("Unload canceled by Plugin! (Map: " + name + ")");
-                cancelunload = false;
-                return false;
-            }
+
             Player.players.ForEach(
                 delegate(Player pl) { if (pl.level == this) Command.all.Find("goto").Use(pl, Server.mainLevel.name); });
 
-            if (changed && mapType != MapType.Game)
+            if (changed)
             {
                 Save(false, true);
                 saveChanges();
             }
 
-
             Server.levels.Remove(this);
-
             {
                 Dispose();
                 GC.Collect();
@@ -251,11 +205,8 @@ namespace MCForge
         public ushort GetTile(ushort x, ushort y, ushort z)
         {
             if (blocks == null) return Block.Zero;
-            //if (PosToInt(x, y, z) >= blocks.Length) { return null; }
-            //Avoid internal overflow
             return !InBound(x, y, z) ? Block.Zero : blocks[PosToInt(x, y, z)];
         }
-
         public ushort GetTile(int b)
         {
             ushort x = 0, y = 0, z = 0;
@@ -268,20 +219,15 @@ namespace MCForge
             if (b >= blocks.Length) return;
             if (b < 0) return;
             blocks[b] = (ushort)type;
-            //blockchanges[x + width * z + width * height * y] = pName;
         }
         public void SetTile(ushort x, ushort y, ushort z, ushort type)
         {
             if (blocks == null) return;
             if (!InBound(x, y, z)) return;
             blocks[PosToInt(x, y, z)] = (ushort)type;
-            //blockchanges[x + width * z + width * height * y] = pName;
         }
 
-        public bool InBound(ushort x, ushort y, ushort z)
-        {
-            return x >= 0 && y >= 0 && z >= 0 && x < width && y < depth && z < height;
-        }
+        public bool InBound(ushort x, ushort y, ushort z) { return x >= 0 && y >= 0 && z >= 0 && x < width && y < depth && z < height; }
 
         public static Level Find(string levelName)
         {
@@ -299,11 +245,7 @@ namespace MCForge
             return returnNull ? null : tempLevel;
         }
 
-        public static Level FindExact(string levelName)
-        {
-            return Server.levels.Find(lvl => levelName.ToLower() == lvl.name.ToLower());
-        }
-
+        public static Level FindExact(string levelName) { return Server.levels.Find(lvl => levelName.ToLower() == lvl.name.ToLower()); }
 
         public void Blockchange(Player p, ushort x, ushort y, ushort z, ushort type, bool addaction = true)
         {
@@ -317,18 +259,12 @@ namespace MCForge
                 ushort b = GetTile(x, y, z);
 
                 errorLocation = "Block rank checking";
-                if (!Block.AllowBreak(b))
-                {
-                    if (!Block.canPlace(p, b) && !Block.BuildIn(b))
-                    {
-                        p.SendBlockchange(x, y, z, b);
-                        return;
-                    }
+                if (!Block.AllowBreak(b)) {
+                    if (!Block.canPlace(p, b) && !Block.BuildIn(b)) { p.SendBlockchange(x, y, z, b); return; }
                 }
 
 
                 errorLocation = "Map rank checking";
-
                 if (p.group.Permission < permissionbuild)
                 {
                     p.SendBlockchange(x, y, z, b);
@@ -348,9 +284,7 @@ namespace MCForge
 
                 errorLocation = "Growing grass";
                 if (GetTile(x, (ushort)(y - 1), z) == Block.grass && !Block.LightPass(type))
-                {
                     Blockchange(p, x, (ushort)(y - 1), z, Block.dirt);
-                }
 
                 changed = true;
                 backedup = false;
@@ -374,11 +308,10 @@ namespace MCForge
         {
             try
             {
-                File.Create("levels/level properties/" + level.name + ".properties").Dispose();
-                using (StreamWriter SW = File.CreateText("levels/level properties/" + level.name + ".properties"))
+                File.Create("levels/" + level.name + ".properties").Dispose();
+                using (StreamWriter SW = File.CreateText("levels/" + level.name + ".properties"))
                 {
                     SW.WriteLine("#Level properties for " + level.name);
-                    SW.WriteLine("WorldChat = " + level.worldChat.ToString());
                     SW.WriteLine("PerBuild = " +
                                  (Group.Exists(PermissionToName(level.permissionbuild).ToLower())
                                       ? PermissionToName(level.permissionbuild).ToLower()
@@ -387,7 +320,6 @@ namespace MCForge
                                  (Group.Exists(PermissionToName(level.permissionvisit).ToLower())
                                       ? PermissionToName(level.permissionvisit).ToLower()
                                       : PermissionToName(LevelPermission.Guest)));
-                    SW.WriteLine("Type = " + level.mapType.ToString());
                 }
             }
             catch (Exception)
@@ -395,8 +327,8 @@ namespace MCForge
                 Server.s.Log("Failed to save level properties!");
             }
         }
+
         public void Blockchange(int b, ushort type, bool overRide = false, string extraInfo = "")
-        //Block change made by physics
         {
             if (b < 0) return;
             if (b >= blocks.Length) return;
@@ -404,22 +336,13 @@ namespace MCForge
 
             try
             {
-                if (!overRide)
-                    if (Block.OPBlocks(bb) || (Block.OPBlocks(type) && extraInfo != "")) return;
-
-                if (Block.Convert(bb) != Block.Convert(type))
-                    //Should save bandwidth sending identical looking blocks, like air/op_air changes.
-                    Player.GlobalBlockchange(this, b, type);
-
-                SetTile(b, type); //Updates server level blocks
-            }
-            catch
-            {
+                if (!overRide) { if (Block.OPBlocks(bb) || (Block.OPBlocks(type) && extraInfo != "")) return; }
+                if (Block.Convert(bb) != Block.Convert(type)) { Player.GlobalBlockchange(this, b, type); }
                 SetTile(b, type);
             }
+            catch { SetTile(b, type); }
         }
         public void Blockchange(ushort x, ushort y, ushort z, ushort type, bool overRide = false, string extraInfo = "")
-        //Block change made by physics
         {
             if (x < 0 || y < 0 || z < 0) return;
             if (x >= width || y >= depth || z >= height) return;
@@ -427,22 +350,13 @@ namespace MCForge
 
             try
             {
-                if (!overRide)
-                    if (Block.OPBlocks(b) || (Block.OPBlocks(type) && extraInfo != "")) return;
-
-                if (Block.Convert(b) != Block.Convert(type))
-                    //Should save bandwidth sending identical looking blocks, like air/op_air changes.
-                    Player.GlobalBlockchange(this, x, y, z, type);
-
-                SetTile(x, y, z, type); //Updates server level blocks
-            }
-            catch
-            {
+                if (!overRide) { if (Block.OPBlocks(b) || (Block.OPBlocks(type) && extraInfo != "")) return; }
+                if (Block.Convert(b) != Block.Convert(type)) { Player.GlobalBlockchange(this, x, y, z, type); }
                 SetTile(x, y, z, type);
             }
+            catch { SetTile(x, y, z, type); }
         }
 
-        // Returns true if ListCheck does not already have an check in the position.
         public bool CheckClear(ushort x, ushort y, ushort z)
         {
             int b = PosToInt(x, y, z);
@@ -459,34 +373,18 @@ namespace MCForge
 
         public void Save(bool Override = false, bool clearPhysics = false)
         {
-            if(mapType == MapType.Game)
-            {
-                return;
-            }
             if (blocks == null) return;
             string path = "levels/" + name + ".mcf";
             if (LevelSave != null)
                 LevelSave(this);
-            //OnLevelSaveEvent.Call(this);
-            if (cancelsave1)
-            {
-                cancelsave1 = false;
-                return;
-            }
-            if (cancelsave)
-            {
-                cancelsave = false;
-                return;
-            }
+            if (cancelsave1) { cancelsave1 = false; return; }
+            if (cancelsave) { cancelsave = false; return; }
             try
             {
                 if (!Directory.Exists("levels")) Directory.CreateDirectory("levels");
-                if (!Directory.Exists("levels/level properties")) Directory.CreateDirectory("levels/level properties");
 
                 if (changed || !File.Exists(path) || Override)
                 {
-
-                    
                     string backFile = string.Format("{0}.back", path);
                     string backupFile = string.Format("{0}.backup", path);
                     
@@ -514,16 +412,8 @@ namespace MCForge
                             for (int i = 0; i < blocks.Length; ++i)
                             {
                             	ushort blockVal = 0;
-                                if (blocks[i] < 57)
-                                //CHANGED THIS TO INCOPARATE SOME MORE SPACE THAT I NEEDED FOR THE door_orange_air ETC.
-                                {
-                                    if(blocks[i] != Block.air)
-                                        blockVal = (ushort)blocks[i];
-                                }
-                                else
-                                {
+                                if (blocks[i] < 57) { if (blocks[i] != Block.air) { blockVal = (ushort)blocks[i]; } }
 
-                                }
                                 level[i*2] = (byte)blockVal;
                                 level[i*2 + 1] = (byte)(blockVal >> 8);
                             }
@@ -537,10 +427,7 @@ namespace MCForge
                     	File.Delete(backupFile);
                     	File.Replace(backFile, path, backupFile);
                     }
-                    else
-                    {
-                    	File.Move(backFile, path);
-                    }
+                    else { File.Move(backFile, path); }
 
                     SaveSettings(this);
 
@@ -567,21 +454,12 @@ namespace MCForge
                         byte[] level = new byte[blocks.Length];
                         for (int i = 0; i < blocks.Length; ++i)
                         {
-                            if (blocks[i] < 80)
-                            {
-                                level[i] = blocks[i];
-                            }
-                            else
-                            {
-                                level[i] = Block.SaveConvert(blocks[i]);
-                            }
+                            if (blocks[i] < 80) { level[i] = blocks[i]; }
+                            else { level[i] = Block.SaveConvert(blocks[i]); }
                         } fs.Write(level, 0, level.Length); fs.Close();
                     }*/
                 }
-                else
-                {
-                    Server.s.Log("Skipping level save for " + name + ".");
-                }
+                else { Server.s.Log("Skipping level save for " + name + "."); }
             }
             catch (OutOfMemoryException e)
             {
@@ -600,27 +478,17 @@ namespace MCForge
             GC.WaitForPendingFinalizers();
         }
 
-        public MapType mapType;
-
         public int Backup(bool Forced = false, string backupName = "")
         {
             if (!backedup || Forced)
             {
                 int backupNumber = 1;
                 string backupPath = @Server.backupLocation;
-                if (Directory.Exists(string.Format("{0}/{1}", backupPath, name)))
-                {
-                    backupNumber = Directory.GetDirectories(string.Format("{0}/" + name, backupPath)).Length + 1;
-                }
-                else
-                {
-                    Directory.CreateDirectory(backupPath + "/" + name);
-                }
+                if (Directory.Exists(string.Format("{0}/{1}", backupPath, name))) { backupNumber = Directory.GetDirectories(string.Format("{0}/" + name, backupPath)).Length + 1; }
+                else { Directory.CreateDirectory(backupPath + "/" + name); }
+
                 string path = string.Format("{0}/" + name + "/" + backupNumber, backupPath);
-                if (backupName != "")
-                {
-                    path = string.Format("{0}/" + name + "/" + backupName, backupPath);
-                }
+                if (backupName != "") { path = string.Format("{0}/" + name + "/" + backupName, backupPath); }
                 Directory.CreateDirectory(path);
 
                 string BackPath = string.Format("{0}/{1}.mcf", path, name);
@@ -642,26 +510,18 @@ namespace MCForge
             return -1;
         }
 
-        public static void CreateLeveldb(string givenName)
-        {
-          //  Database.executeQuery("CREATE TABLE if not exists `Portals" + givenName +
-          //                        "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
-        //    Database.executeQuery("CREATE TABLE if not exists `Zone" + givenName +
-        //                          "` (SmallX SMALLINT UNSIGNED, SmallY SMALLINT UNSIGNED, SmallZ SMALLINT UNSIGNED, BigX SMALLINT UNSIGNED, BigY SMALLINT UNSIGNED, BigZ SMALLINT UNSIGNED, Owner VARCHAR(20));");
+        //TODO: Remove this.
+        public static void CreateLeveldb(string givenName) {
+
         }
 
-        public static Level Load(string givenName)
-        {
-            return Load(givenName, 0);
-        }
+        public static Level Load(string givenName) { return Load(givenName, 0); }
 
-        //givenName is safe against SQL injections, it gets checked in CmdLoad.cs
         public static Level Load(string givenName, byte phys, bool bite = false) 
         {
 			GC.Collect();
             if (LevelLoad != null)
                 LevelLoad(givenName);
-            //OnLevelLoadEvent.Call(givenName);
             if (cancelload)
             {
                 cancelload = false;
@@ -696,9 +556,6 @@ namespace MCForge
 
                         rot[0] = header[12];
                         rot[1] = header[13];
-
-                        //level.permissionvisit = (LevelPermission)header[14];
-                        //level.permissionbuild = (LevelPermission)header[15];
                     }
                     else
                     {
@@ -741,16 +598,15 @@ namespace MCForge
                             level.blocks[i] = (ushort)blocks[i];
                     gs.Close();
                     gs.Dispose();
-                    //level.textures = new LevelTextures(level);
                     level.backedup = true;
                     
                     try
                     {
                         string foundLocation;
-                        foundLocation = "levels/level properties/" + level.name + ".properties";
+                        foundLocation = "levels/" + level.name + ".properties";
                         if (!File.Exists(foundLocation))
                         {
-                            foundLocation = "levels/level properties/" + level.name;
+                            foundLocation = "levels/" + level.name;
                         }
 
                         foreach (string line in File.ReadAllLines(foundLocation))
@@ -762,29 +618,18 @@ namespace MCForge
 
                                 switch (line.Substring(0, line.IndexOf(" = ")).ToLower())
                                 {
-                                    case "worldchat":
-                                        level.worldChat = bool.Parse(value);
-                                        break;
                                     case "perbuild":
                                         level.permissionbuild = PermissionFromName(value) != LevelPermission.Null ? PermissionFromName(value) : LevelPermission.Guest;
                                         break;
                                     case "pervisit":
                                         level.permissionvisit = PermissionFromName(value) != LevelPermission.Null ? PermissionFromName(value) : LevelPermission.Guest;
                                         break;
-                                    case "type":
-                                        level.mapType = (MapType)Enum.Parse(typeof(MapType), value);
-                                        break;
                                 }
                             }
-                            catch (Exception e)
-                            {
-                                Server.ErrorLog(e);
-                            }
+                            catch (Exception e) { Server.ErrorLog(e); }
                         }
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                     Server.s.Log(string.Format("Level \"{0}\" loaded.", level.name));
                     if (LevelLoaded != null)
                         LevelLoaded(level);
@@ -811,69 +656,11 @@ namespace MCForge
             return null;
         }
 
-        public static bool CheckLoadOnGoto(string givenName)
-        {
-            try
-            {
-                string foundLocation;
-                foundLocation = "levels/level properties/" + givenName + ".properties";
-                if (!File.Exists(foundLocation))
-                    foundLocation = "levels/level properties/" + givenName;
-                if (!File.Exists(foundLocation))
-                    return true;
-
-                foreach (string line in File.ReadAllLines(foundLocation))
-                {
-                    try
-                    {
-                        if (line[0] == '#') continue;
-                        string value = line.Substring(line.IndexOf(" = ") + 3);
-
-                        switch (line.Substring(0, line.IndexOf(" = ")).ToLower())
-                        {
-                            case "loadongoto":
-                                return bool.Parse(value);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Server.ErrorLog(e);
-                    }
-                }
-            }
-            catch
-            {
-            }
-            return true;
-        }
-
-        public void ChatLevel(string message)
-        {
-            foreach (Player pl in Player.players.Where(pl => pl.level == this))
-            {
-                pl.SendMessage(message);
-            }
-        }
-
-        public void ChatLevelOps(string message)
-        {
-            foreach (
-                Player pl in
-                    Player.players.Where(
-                        pl =>
-                        pl.level == this &&
-                        (pl.group.Permission >= LevelPermission.Operator || pl.isStaff )))
-            {
-                pl.SendMessage(message);
-            }
-        }
-
         public int PosToInt(ushort x, ushort y, ushort z)
         {
             if (x < 0 || x >= width || y < 0 || y >= depth || z < 0 || z >= height)
                 return -1;
             return x + (z * width) + (y * width * height);
-            //alternate method: (h * widthY + y) * widthX + x;
         }
 
         public void IntToPos(int pos, out ushort x, out ushort y, out ushort z)
@@ -885,10 +672,7 @@ namespace MCForge
             x = (ushort)pos;
         }
 
-        public int IntOffset(int pos, int x, int y, int z)
-        {
-            return pos + x + z * width + y * width * height;
-        }
+        public int IntOffset(int pos, int x, int y, int z) { return pos + x + z * width + y * width * height; }
 
         public static LevelPermission PermissionFromName(string name)
         {
@@ -902,23 +686,15 @@ namespace MCForge
             return foundGroup != null ? foundGroup.name : ((int)perm).ToString();
         }
 
-        public List<Player> getPlayers()
-        {
-            return Player.players.Where(p => p.level == this).ToList();
-        }
+        public List<Player> getPlayers() { return Player.players.Where(p => p.level == this).ToList(); }
 
         #region ==Physics==
 
         public string foundInfo(ushort x, ushort y, ushort z)
         {
             Check foundCheck = null;
-            try
-            {
-                foundCheck = ListCheck.Find(Check => Check.b == PosToInt(x, y, z));
-            }
-            catch
-            {
-            }
+            try { foundCheck = ListCheck.Find(Check => Check.b == PosToInt(x, y, z)); }
+            catch { }
             if (foundCheck != null)
                 return foundCheck.extraInfo;
             return "";
@@ -928,29 +704,16 @@ namespace MCForge
         {
             try
             {
-                if (!ListCheck.Exists(Check => Check.b == b))
-                {
-                    ListCheck.Add(new Check(b, extraInfo, Placer)); //Adds block to list to be updated
-                }
+                if (!ListCheck.Exists(Check => Check.b == b)) { ListCheck.Add(new Check(b, extraInfo, Placer)); }
                 else
                 {
                     if (overRide)
                     {
-                        foreach (Check C2 in ListCheck)
-                        {
-                            if (C2.b == b)
-                            {
-                                C2.extraInfo = extraInfo; //Dont need to check physics here because if the list is active, then physics is active :)
-                                return;
-                            }
-                        }
+                        foreach (Check C2 in ListCheck) { if (C2.b == b) { C2.extraInfo = extraInfo; return; } }
                     }
                 }
             }
-            catch
-            {
-                //ListCheck.Add(new Check(b));    //Lousy back up plan
-            }
+            catch { }
         }
 
         public bool AddUpdate(int b, ushort type, bool overRide = false, string extraInfo = "")
@@ -965,14 +728,9 @@ namespace MCForge
                     Blockchange(x, y, z, (ushort)type, true, extraInfo);
                     return true;
                 }
-
                 return false;
             }
-            catch
-            {
-                //ListUpdate.Add(new Update(b, (byte)type));    //Lousy back up plan
-                return false;
-            }
+            catch { return false; }
         }
 
         public void placeBlock(ushort x, ushort y, ushort z, ushort b)
@@ -981,10 +739,7 @@ namespace MCForge
             AddCheck(PosToInt((ushort)x, (ushort)y, (ushort)z));
         }
 
-        public struct Pos
-        {
-            public ushort x, z;
-        }
+        public struct Pos { public ushort x, z; }
 
         #endregion
 
