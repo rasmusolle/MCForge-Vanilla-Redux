@@ -57,13 +57,11 @@ namespace MCForge
 			all.Add(new CmdSetRank());
 			all.Add(new CmdSetspawn());
 			all.Add(new CmdSpawn());
-			//all.Add(new CmdSpleef());
 			all.Add(new CmdTitle());
 			all.Add(new CmdUnban());
 			all.Add(new CmdUnbanip());
 			all.Add(new CmdView());
 			all.Add(new CmdViewRanks());
-			all.Add(new CmdWhisper());
 			all.Add(new CmdWhoip());
 			all.Add(new CmdWhois());
 			all.Add(new CmdWhowas());
