@@ -15,36 +15,22 @@
     or implied. See the Licenses for the specific language governing
     permissions and limitations under the Licenses.
 */
-
-namespace MCForge.Gui.Components {
-    partial class ColoredTextBox {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
+namespace MCForge.Gui.Components
+{
+    partial class ColoredTextBox
+    {
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
-                components.Dispose();
-            }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null)) { components.Dispose(); }
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             components = new System.ComponentModel.Container();
             this.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(ColoredReader_LinkClicked);
         }
-
-        #endregion
     }
 }
