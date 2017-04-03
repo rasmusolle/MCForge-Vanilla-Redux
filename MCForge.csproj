@@ -155,7 +155,6 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandList.cs" />
     <Compile Include="Commands\CmdTitle.cs" />
-    <Compile Include="Commands\CmdRoll.cs" />
     <Compile Include="Commands\CmdWhisper.cs" />
     <Compile Include="Commands\CmdLastCmd.cs" />
     <Compile Include="Commands\CmdView.cs" />
