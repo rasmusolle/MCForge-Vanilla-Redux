@@ -23,7 +23,6 @@ namespace MCForge
     {
         public Group group;
         List<string> players = new List<string>();
-        public PlayerList() { }
         public void Add(string p) { players.Add(p.ToLower()); }
         public bool Remove(string p) { return players.Remove(p.ToLower()); }
         public bool Contains(string p) { return players.Contains(p.ToLower()); }
