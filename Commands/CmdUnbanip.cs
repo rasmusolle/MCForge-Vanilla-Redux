@@ -18,48 +18,48 @@
 using System;
 namespace MCForge.Commands
 {
-    public class CmdUnbanip : Command
-    {
-        public override string name { get { return "unbanip"; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public override void Use(Player p, string message)
-        {
-            if (message == "") { Help(p); return; }
-            if (message[0] == '@')
-            {
-                message = message.Remove(0, 1).Trim();
-                Player who = Player.Find(message);
-                if (who == null)
-                {
-                    p.SendMessage("Player offline...");
-                }
-                else
-                {
-                    message = who.ip;
-                }
-            }
+	public class CmdUnbanip : Command
+	{
+		public override string name { get { return "unbanip"; } }
+		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
+		public override void Use(Player p, string message)
+		{
+			if (message == "") { Help(p); return; }
+			if (message[0] == '@')
+			{
+				message = message.Remove(0, 1).Trim();
+				Player who = Player.Find(message);
+				if (who == null)
+				{
+					p.SendMessage("Player offline...");
+				}
+				else
+				{
+					message = who.ip;
+				}
+			}
 
-            if (message.IndexOf('.') == -1) { Player.SendMessage(p, "Not a valid ip!"); return; }
-            if (p != null) if (p.ip == message) { Player.SendMessage(p, "You shouldn't be able to use this command..."); return; }
-            if (!Server.bannedIP.Contains(message)) { Player.SendMessage(p, message + " doesn't seem to be banned..."); return; }
-            Server.bannedIP.Remove(message); Server.bannedIP.Save("banned-ip.txt", false);
+			if (message.IndexOf('.') == -1) { Player.SendMessage(p, "Not a valid ip!"); return; }
+			if (p != null) if (p.ip == message) { Player.SendMessage(p, "You shouldn't be able to use this command..."); return; }
+			if (!Server.bannedIP.Contains(message)) { Player.SendMessage(p, message + " doesn't seem to be banned..."); return; }
+			Server.bannedIP.Remove(message); Server.bannedIP.Save("banned-ip.txt", false);
 
-            if (p != null)
-            {
-                Server.IRC.Say(message.ToLower() + " was un-ip-banned by " + p.name + ".");
-                Server.s.Log("IP-UNBANNED: " + message.ToLower() + " by " + p.name + ".");
-                Player.GlobalMessage(message + " was &8un-ip-banned" + Server.DefaultColor + " by " + p.color + p.name + Server.DefaultColor + ".");
-            }
-            else
-            {
-                Server.IRC.Say(message.ToLower() + " was un-ip-banned by console.");
-                Server.s.Log("IP-UNBANNED: " + message.ToLower() + " by console.");
-                Player.GlobalMessage(message + " was &8un-ip-banned" + Server.DefaultColor + " by console.");
-            }
-        }
-        public override void Help(Player p)
-        {
-            Player.SendMessage(p, "/unbanip <ip/player> - Un-bans an ip.  Also accepts a player name when you use @ before the name.");
-        }
-    }
+			if (p != null)
+			{
+				Server.IRC.Say(message.ToLower() + " was un-ip-banned by " + p.name + ".");
+				Server.s.Log("IP-UNBANNED: " + message.ToLower() + " by " + p.name + ".");
+				Player.GlobalMessage(message + " was &8un-ip-banned" + Server.DefaultColor + " by " + p.color + p.name + Server.DefaultColor + ".");
+			}
+			else
+			{
+				Server.IRC.Say(message.ToLower() + " was un-ip-banned by console.");
+				Server.s.Log("IP-UNBANNED: " + message.ToLower() + " by console.");
+				Player.GlobalMessage(message + " was &8un-ip-banned" + Server.DefaultColor + " by console.");
+			}
+		}
+		public override void Help(Player p)
+		{
+			Player.SendMessage(p, "/unbanip <ip/player> - Un-bans an ip.  Also accepts a player name when you use @ before the name.");
+		}
+	}
 }

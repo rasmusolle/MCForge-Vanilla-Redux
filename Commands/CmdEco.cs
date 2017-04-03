@@ -18,51 +18,51 @@
 using System;
 namespace MCForge.Commands
 {
-    class CmdEco : Command
-    {
-        public override string name { get { return "eco"; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
-        public override void Use(Player p, string message)
-        {
-            string[] command = message.Trim().Split(' ');
-            string par0 = String.Empty;
-            string par1 = String.Empty;
-            string par2 = String.Empty;
-            try {
-                par0 = command[0].ToLower();
-                par1 = command[1].ToLower();
-                par2 = command[2];
-            }
-            catch { }
+	class CmdEco : Command
+	{
+		public override string name { get { return "eco"; } }
+		public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
+		public override void Use(Player p, string message)
+		{
+			string[] command = message.Trim().Split(' ');
+			string par0 = String.Empty;
+			string par1 = String.Empty;
+			string par2 = String.Empty;
+			try {
+				par0 = command[0].ToLower();
+				par1 = command[1].ToLower();
+				par2 = command[2];
+			}
+			catch { }
 
-            if (par0 == String.Empty) { Help(p); return; }
+			if (par0 == String.Empty) { Help(p); return; }
 
-            switch (par0) { 
-                case "give":
-                    if (p.group.Permission >= LevelPermission.Operator) {
-                        if (message.IndexOf(' ') == -1) { Help(p); return; }
-                        if (message.Split(' ').Length != 3) { Help(p); return; }
+			switch (par0) { 
+				case "give":
+					if (p.group.Permission >= LevelPermission.Operator) {
+						if (message.IndexOf(' ') == -1) { Help(p); return; }
+						if (message.Split(' ').Length != 3) { Help(p); return; }
 
-                        Player givep = Player.Find(par1);
-                        if (givep == null) { Player.SendMessage(p, "Could not find player entered"); return; }
-                        //if (givep == p) { Player.SendMessage(p, "You can't give yourself money."); return; }
+						Player givep = Player.Find(par1);
+						if (givep == null) { Player.SendMessage(p, "Could not find player entered"); return; }
+						//if (givep == p) { Player.SendMessage(p, "You can't give yourself money."); return; }
 
-                        int amountGiven;
-                        try { amountGiven = int.Parse(par2); }
-                        catch { Player.SendMessage(p, "Invalid amount"); return; }
+						int amountGiven;
+						try { amountGiven = int.Parse(par2); }
+						catch { Player.SendMessage(p, "Invalid amount"); return; }
 
-                        if (givep.money + amountGiven > 16777215) { Player.SendMessage(p, "Invalid amount"); return; }
-                        if (amountGiven < 0) { Player.SendMessage(p, "Cannot give someone negative " + Server.moneys); return; }
+						if (givep.money + amountGiven > 16777215) { Player.SendMessage(p, "Invalid amount"); return; }
+						if (amountGiven < 0) { Player.SendMessage(p, "Cannot give someone negative " + Server.moneys); return; }
 
-                        givep.money += amountGiven;
-                        Player.GlobalMessage(givep.color + givep.prefix + givep.name + Server.DefaultColor + " was given " + amountGiven + " " + Server.moneys);
-                    } else {
-                        Player.SendMessage(p, "This command's only for operators and higher.");
-                        return;
-                    }
-                break;
-                case "pay":
-                    if (message.IndexOf(' ') == -1) { Help(p); return; }
+						givep.money += amountGiven;
+						Player.GlobalMessage(givep.color + givep.prefix + givep.name + Server.DefaultColor + " was given " + amountGiven + " " + Server.moneys);
+					} else {
+						Player.SendMessage(p, "This command's only for operators and higher.");
+						return;
+					}
+				break;
+				case "pay":
+					if (message.IndexOf(' ') == -1) { Help(p); return; }
 					if (message.Split(' ').Length != 3) { Help(p); return; }
 
 					Player payp = Player.Find(par1);
@@ -80,7 +80,7 @@ namespace MCForge.Commands
 					payp.money += amountPaid;
 					p.money -= amountPaid;
 					Player.GlobalMessage(p.color + p.name + Server.DefaultColor + " paid " + payp.color + payp.name + Server.DefaultColor + " " + amountPaid + " " + Server.moneys);
-                break;
+				break;
 				case "take":
 					if (message.IndexOf(' ') == -1) { Help(p); return; }
 					if (message.Split(' ').Length != 3) { Help(p); return; }
@@ -100,27 +100,27 @@ namespace MCForge.Commands
 					Player.GlobalMessage(takep.color + takep.prefix + takep.name + Server.DefaultColor + " was rattled down for " + amountTaken + " " + Server.moneys);
 				break;
 				case "money":
-                    if (Player.players.Count != 1)
-					    Player.SendMessage(p, "Money of currently active players:");
-                    else
-                        Player.SendMessage(p, "Money of currently active player:");
+					if (Player.players.Count != 1)
+						Player.SendMessage(p, "Money of currently active players:");
+					else
+						Player.SendMessage(p, "Money of currently active player:");
 					foreach (Player pl in Player.players)
 					{
 						Player.SendMessage(p, pl.name + " - " + pl.money + " " + Server.moneys);
 					}
 				break;
-                default:
-                    Help(p);
-                return;
+				default:
+					Help(p);
+				return;
 
-            }
-        }
-        public override void Help(Player p)
-        {
-            Player.SendMessage(p, "/eco give [player] <amount> - Gives [player] <amount> " + Server.moneys);
+			}
+		}
+		public override void Help(Player p)
+		{
+			Player.SendMessage(p, "/eco give [player] <amount> - Gives [player] <amount> " + Server.moneys);
 			Player.SendMessage(p, "/eco pay [player] <amount> - Pays <amount> of " + Server.moneys + " to [player]");
 			Player.SendMessage(p, "/eco take [player] <amount> - Takes <amount> of " + Server.moneys + " from [player]");
-        }
+		}
 
-    }
+	}
 }

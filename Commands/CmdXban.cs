@@ -15,43 +15,43 @@
 using System;
 namespace MCForge.Commands
 {
-    public class CmdXban : Command
-    {
-        public override string name { get { return "xban"; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public override void Use(Player p, string message)
-        {
-            if (message == "") { Help(p); return; }
-            Player who = Player.Find(message.Split(' ')[0]);
-            string msg = message.Split(' ')[0];
+	public class CmdXban : Command
+	{
+		public override string name { get { return "xban"; } }
+		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
+		public override void Use(Player p, string message)
+		{
+			if (message == "") { Help(p); return; }
+			Player who = Player.Find(message.Split(' ')[0]);
+			string msg = message.Split(' ')[0];
 
-            if (p != null)
-            {
-                p.ignorePermission = true;
-            }
-            try
-            {
-                if (who != null)
-                {
-                    Command.all.Find("ban").Use(p, msg);
-                    Command.all.Find("banip").Use(p, "@" + msg);
-                    Command.all.Find("kick").Use(p, message);
-                }
-                else
-                {
-                    Command.all.Find("ban").Use(p, msg);
-                    Command.all.Find("banip").Use(p, "@" + msg);
-                }
-            }
-            finally
-            {
-                if (p != null) p.ignorePermission = false;
-            }
-        }
+			if (p != null)
+			{
+				p.ignorePermission = true;
+			}
+			try
+			{
+				if (who != null)
+				{
+					Command.all.Find("ban").Use(p, msg);
+					Command.all.Find("banip").Use(p, "@" + msg);
+					Command.all.Find("kick").Use(p, message);
+				}
+				else
+				{
+					Command.all.Find("ban").Use(p, msg);
+					Command.all.Find("banip").Use(p, "@" + msg);
+				}
+			}
+			finally
+			{
+				if (p != null) p.ignorePermission = false;
+			}
+		}
 
-        public override void Help(Player p)
-        {
-            Player.SendMessage(p, "/xban [name] - Bans and kicks [name].");
-        }
-    }
+		public override void Help(Player p)
+		{
+			Player.SendMessage(p, "/xban [name] - Bans and kicks [name].");
+		}
+	}
 }

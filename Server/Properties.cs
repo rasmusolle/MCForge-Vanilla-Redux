@@ -83,8 +83,8 @@ namespace MCForge {
 									break;
 								case "verify-names":
 									Server.verify = (value.ToLower() == "true") ? true : false;
-                                    break;
-                                case "public":
+									break;
+								case "public":
 									Server.pub = (value.ToLower() == "true") ? true : false;
 									break;
 								case "max-players":
@@ -107,10 +107,10 @@ namespace MCForge {
 										Server.s.Log("max-players invalid! setting to default.");
 									}
 									break;
-                                case "irc":
+								case "irc":
 									Server.irc = (value.ToLower() == "true") ? true : false;
 									break;
-                                case "irc-server":
+								case "irc-server":
 									Server.ircServer = value;
 									break;
 								case "irc-nick":
@@ -119,7 +119,7 @@ namespace MCForge {
 								case "irc-channel":
 									Server.ircChannel = value;
 									break;
-                                case "irc-opchannel":
+								case "irc-opchannel":
 									Server.ircOpChannel = value;
 									break;
 								case "irc-port":
@@ -198,7 +198,7 @@ namespace MCForge {
 		}
 		public static void SaveProps(StreamWriter w) {
 			w.WriteLine("#   Edit the settings below to modify how your server operates.");
-            w.WriteLine();
+			w.WriteLine();
 			w.WriteLine("# Server options");
 			w.WriteLine("server-name = " + Server.name);
 			w.WriteLine("motd = " + Server.motd);

@@ -20,62 +20,62 @@ using System.Collections.Generic;
 using MCForge.Commands;
 namespace MCForge
 {
-    public abstract class Command
-    {
-        public abstract string name { get; }
-        public abstract LevelPermission defaultRank { get; }
-        public abstract void Use(Player p, string message);
-        public abstract void Help(Player p);
-        public bool isIntervalized;
-        public int intervalInMinutes;
-        public DateTime nextExecution;
-        public Player intervalUsingPlayer;
+	public abstract class Command
+	{
+		public abstract string name { get; }
+		public abstract LevelPermission defaultRank { get; }
+		public abstract void Use(Player p, string message);
+		public abstract void Help(Player p);
+		public bool isIntervalized;
+		public int intervalInMinutes;
+		public DateTime nextExecution;
+		public Player intervalUsingPlayer;
 
-        public static CommandList all = new CommandList();
-        public static CommandList core = new CommandList();
-        public static void InitAll()
-        {
-            all.Add(new CmdBan());
-            all.Add(new CmdBanip());
-            all.Add(new CmdColor());
-            all.Add(new CmdCuboid());
-            all.Add(new CmdEco());
-            all.Add(new CmdGamble());
-            all.Add(new CmdHelp());
-            all.Add(new CmdInfo());
-            all.Add(new CmdIrc());
-            all.Add(new CmdKick());
-            all.Add(new CmdLastCmd());
-            all.Add(new CmdMe());
-            all.Add(new CmdMute());
-            all.Add(new CmdNewLvl());
-            all.Add(new CmdNews());
-            all.Add(new CmdPlayers());
-            all.Add(new CmdRestart());
-            all.Add(new CmdRoll());
-            all.Add(new CmdRules());
-            all.Add(new CmdSave());
-            all.Add(new CmdSay());
-            all.Add(new CmdServerReport());
-            all.Add(new CmdSetRank());
-            all.Add(new CmdSetspawn());
-            all.Add(new CmdSpawn());
-            //all.Add(new CmdSpleef());
-            all.Add(new CmdTitle());
-            all.Add(new CmdUnban());
-            all.Add(new CmdUnbanip());
-            all.Add(new CmdView());
-            all.Add(new CmdViewRanks());
-            all.Add(new CmdWhisper());
-            all.Add(new CmdWhoip());
-            all.Add(new CmdWhois());
-            all.Add(new CmdWhowas());
-            all.Add(new CmdXban());
-            all.Add(new CmdCrashServer());
-            all.Add(new CmdAward());
-            all.Add(new CmdAwards());
+		public static CommandList all = new CommandList();
+		public static CommandList core = new CommandList();
+		public static void InitAll()
+		{
+			all.Add(new CmdBan());
+			all.Add(new CmdBanip());
+			all.Add(new CmdColor());
+			all.Add(new CmdCuboid());
+			all.Add(new CmdEco());
+			all.Add(new CmdGamble());
+			all.Add(new CmdHelp());
+			all.Add(new CmdInfo());
+			all.Add(new CmdIrc());
+			all.Add(new CmdKick());
+			all.Add(new CmdLastCmd());
+			all.Add(new CmdMe());
+			all.Add(new CmdMute());
+			all.Add(new CmdNewLvl());
+			all.Add(new CmdNews());
+			all.Add(new CmdPlayers());
+			all.Add(new CmdRestart());
+			all.Add(new CmdRoll());
+			all.Add(new CmdRules());
+			all.Add(new CmdSave());
+			all.Add(new CmdSay());
+			all.Add(new CmdServerReport());
+			all.Add(new CmdSetRank());
+			all.Add(new CmdSetspawn());
+			all.Add(new CmdSpawn());
+			//all.Add(new CmdSpleef());
+			all.Add(new CmdTitle());
+			all.Add(new CmdUnban());
+			all.Add(new CmdUnbanip());
+			all.Add(new CmdView());
+			all.Add(new CmdViewRanks());
+			all.Add(new CmdWhisper());
+			all.Add(new CmdWhoip());
+			all.Add(new CmdWhois());
+			all.Add(new CmdWhowas());
+			all.Add(new CmdXban());
+			all.Add(new CmdCrashServer());
+			all.Add(new CmdAward());
+			all.Add(new CmdAwards());
 
-            core.commands = new List<Command>(all.commands);
-        }
-    }
+			core.commands = new List<Command>(all.commands);
+		}
+	}
 }

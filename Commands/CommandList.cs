@@ -19,37 +19,37 @@ using System.Collections.Generic;
 using System.Linq;
 namespace MCForge
 {
-    public class CommandList
-    {
-        public List<Command> commands = new List<Command>();
-        public CommandList() { }
-        public void Add(Command cmd) { commands.Add(cmd); }
-        public void AddRange(List<Command> listCommands)
-        {
-            listCommands.ForEach(delegate(Command cmd) { commands.Add(cmd); });
-        }
-        public List<string> commandNames()
-        {
-            var tempList = new List<string>();
+	public class CommandList
+	{
+		public List<Command> commands = new List<Command>();
+		public CommandList() { }
+		public void Add(Command cmd) { commands.Add(cmd); }
+		public void AddRange(List<Command> listCommands)
+		{
+			listCommands.ForEach(delegate(Command cmd) { commands.Add(cmd); });
+		}
+		public List<string> commandNames()
+		{
+			var tempList = new List<string>();
 
-            commands.ForEach(cmd => tempList.Add(cmd.name));
+			commands.ForEach(cmd => tempList.Add(cmd.name));
 
-            return tempList;
-        }
+			return tempList;
+		}
 
-        public bool Remove(Command cmd) { return commands.Remove(cmd); }
-        public bool Contains(Command cmd) { return commands.Contains(cmd); }
-        public bool Contains(string name)
-        {
-            name = name.ToLower();
-            return commands.Any(cmd => cmd.name == name.ToLower());
-        }
-        public Command Find(string name)
-        {
-            name = name.ToLower();
-            return commands.FirstOrDefault(cmd => cmd.name == name);
-        }
+		public bool Remove(Command cmd) { return commands.Remove(cmd); }
+		public bool Contains(Command cmd) { return commands.Contains(cmd); }
+		public bool Contains(string name)
+		{
+			name = name.ToLower();
+			return commands.Any(cmd => cmd.name == name.ToLower());
+		}
+		public Command Find(string name)
+		{
+			name = name.ToLower();
+			return commands.FirstOrDefault(cmd => cmd.name == name);
+		}
 
-        public List<Command> All() { return new List<Command>(commands); }
-    }
+		public List<Command> All() { return new List<Command>(commands); }
+	}
 }

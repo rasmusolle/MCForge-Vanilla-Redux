@@ -19,42 +19,42 @@ using System;
 using System.Threading;
 namespace MCForge
 {
-    public class AutoSaver
-    {
-        static int _interval;
+	public class AutoSaver
+	{
+		static int _interval;
 
-        static int count = 1;
-        public AutoSaver(int interval)
-        {
-            _interval = interval * 1000;
+		static int count = 1;
+		public AutoSaver(int interval)
+		{
+			_interval = interval * 1000;
 
-            new Thread(new ThreadStart(delegate
-            {
-                while (true)
-                {
-                    Thread.Sleep(_interval);
-                    Server.ml.Queue(delegate { Run(); });
-                }
-            })).Start();
-        }
+			new Thread(new ThreadStart(delegate
+			{
+				while (true)
+				{
+					Thread.Sleep(_interval);
+					Server.ml.Queue(delegate { Run(); });
+				}
+			})).Start();
+		}
 
-        public static void Run()
-        {
-            try
-            {
-                count--;
-                Server.levels.ForEach(delegate(Level l)
-                {
-                    try
-                    {
-                        if (!l.changed) return;
-                        l.Save();
-                    }
-                    catch { Server.s.Log("Save for " + l.name + " has caused an error."); }
-                });
-                if (count <= 0) count = 15;
-            }
-            catch (Exception e) { Server.ErrorLog(e); }
-        }
-    }
+		public static void Run()
+		{
+			try
+			{
+				count--;
+				Server.levels.ForEach(delegate(Level l)
+				{
+					try
+					{
+						if (!l.changed) return;
+						l.Save();
+					}
+					catch { Server.s.Log("Save for " + l.name + " has caused an error."); }
+				});
+				if (count <= 0) count = 15;
+			}
+			catch (Exception e) { Server.ErrorLog(e); }
+		}
+	}
 }

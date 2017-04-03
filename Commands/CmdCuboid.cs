@@ -15,19 +15,19 @@
 using System;
 namespace MCForge.Commands
 {
-    public class CmdCuboid : Command
-    {
-        public override string name { get { return "cuboid"; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public override void Use(Player p, string message)
-        {
-            p.level.Blockchange(p, 5, 5, 5, Block.stone);
-        }
-        
-        public override void Help(Player p)
-        {
-            Player.SendMessage(p, "/cuboid [type] - create a cuboid of blocks.");
-        }
+	public class CmdCuboid : Command
+	{
+		public override string name { get { return "cuboid"; } }
+		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
+		public override void Use(Player p, string message)
+		{
+			p.level.Blockchange(p, 5, 5, 5, Block.stone);
+		}
+		
+		public override void Help(Player p)
+		{
+			Player.SendMessage(p, "/cuboid [type] - create a cuboid of blocks.");
+		}
 
-    }
+	}
 }

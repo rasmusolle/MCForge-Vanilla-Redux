@@ -31,77 +31,77 @@ using System.Threading;
 
 namespace MCForge
 {
-    public delegate void MainLoopResult(object result);
-    public delegate object MainLoopJob();
-    public delegate void MainLoopTask();
+	public delegate void MainLoopResult(object result);
+	public delegate object MainLoopJob();
+	public delegate void MainLoopTask();
 
-    public class MainLoop
-    {
-        private class SchedulerTask
-        {
-            public Exception StoredException;
-            public MainLoopTask Task;
+	public class MainLoop
+	{
+		private class SchedulerTask
+		{
+			public Exception StoredException;
+			public MainLoopTask Task;
 
-            public void Execute()
-            {
-                try
-                {
-                    Task();
-                }
-                catch (Exception ex)
-                {
-                    StoredException = ex;
-                    throw;
-                }
-            }
-        }
+			public void Execute()
+			{
+				try
+				{
+					Task();
+				}
+				catch (Exception ex)
+				{
+					StoredException = ex;
+					throw;
+				}
+			}
+		}
 
-        AutoResetEvent handle = new AutoResetEvent(false);
-        Queue<SchedulerTask> tasks = new Queue<SchedulerTask>();
-        internal Thread thread;
+		AutoResetEvent handle = new AutoResetEvent(false);
+		Queue<SchedulerTask> tasks = new Queue<SchedulerTask>();
+		internal Thread thread;
 
-        public MainLoop(string name)
-        {
-            thread = new Thread(Loop);
-            thread.Name = name;
-            thread.IsBackground = true;
-            thread.Start();
-        }
+		public MainLoop(string name)
+		{
+			thread = new Thread(Loop);
+			thread.Name = name;
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
-        void Loop()
-        {
-            while (true)
-            {
-                SchedulerTask task = null;
-                lock (tasks)
-                {
-                    if (tasks.Count > 0)
-                        task = tasks.Dequeue();
-                }
+		void Loop()
+		{
+			while (true)
+			{
+				SchedulerTask task = null;
+				lock (tasks)
+				{
+					if (tasks.Count > 0)
+						task = tasks.Dequeue();
+				}
 
-                if (task == null)
-                {
-                    handle.WaitOne();
-                }
-                else
-                {
-                    task.Execute();
-                }
-                Thread.Sleep(10);
-            }
-        }
+				if (task == null)
+				{
+					handle.WaitOne();
+				}
+				else
+				{
+					task.Execute();
+				}
+				Thread.Sleep(10);
+			}
+		}
 
-        /// <summary> Queues an action that is asynchronously executed. </summary>
-        public void Queue(MainLoopTask action)
-        {
-            SchedulerTask task = new SchedulerTask();
-            task.Task = action;
+		/// <summary> Queues an action that is asynchronously executed. </summary>
+		public void Queue(MainLoopTask action)
+		{
+			SchedulerTask task = new SchedulerTask();
+			task.Task = action;
 
-            lock (tasks)
-            {
-                tasks.Enqueue(task);
-                handle.Set();
-            }
-        }
-    }
+			lock (tasks)
+			{
+				tasks.Enqueue(task);
+				handle.Set();
+			}
+		}
+	}
 }

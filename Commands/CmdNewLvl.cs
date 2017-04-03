@@ -15,101 +15,101 @@
 using System;
 namespace MCForge.Commands
 {
-    class CmdNewLvl : Command
-    {
-        public override string name { get { return "newlvl"; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
-        public override void Use(Player p, string message)
-        {
-            if (message == "") { Help(p); return; }
+	class CmdNewLvl : Command
+	{
+		public override string name { get { return "newlvl"; } }
+		public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
+		public override void Use(Player p, string message)
+		{
+			if (message == "") { Help(p); return; }
 
-            string[] parameters = message.Split(' '); // Grab the parameters from the player's message
-            if (parameters.Length == 5) // make sure there are 5 params
-            {
-                switch (parameters[4])
-                {
-                    case "flat":
-                        break;
+			string[] parameters = message.Split(' '); // Grab the parameters from the player's message
+			if (parameters.Length == 5) // make sure there are 5 params
+			{
+				switch (parameters[4])
+				{
+					case "flat":
+						break;
 
-                    default:
-                        Player.SendMessage(p, "Valid type: flat"); return;
-                }
+					default:
+						Player.SendMessage(p, "Valid type: flat"); return;
+				}
 
-                string name = parameters[0].ToLower();
-                ushort x = 1, y = 1, z = 1;
-                try
-                {
-                    x = Convert.ToUInt16(parameters[1]);
-                    y = Convert.ToUInt16(parameters[2]);
-                    z = Convert.ToUInt16(parameters[3]);
-                }
-                catch { Player.SendMessage(p, "Invalid dimensions."); return; }
-                if (!isGood(x)) { Player.SendMessage(p, x + " is not a good dimension! Use a power of 2 next time."); }
-                if (!isGood(y)) { Player.SendMessage(p, y + " is not a good dimension! Use a power of 2 next time."); }
-                if (!isGood(z)) { Player.SendMessage(p, z + " is not a good dimension! Use a power of 2 next time."); }
+				string name = parameters[0].ToLower();
+				ushort x = 1, y = 1, z = 1;
+				try
+				{
+					x = Convert.ToUInt16(parameters[1]);
+					y = Convert.ToUInt16(parameters[2]);
+					z = Convert.ToUInt16(parameters[3]);
+				}
+				catch { Player.SendMessage(p, "Invalid dimensions."); return; }
+				if (!isGood(x)) { Player.SendMessage(p, x + " is not a good dimension! Use a power of 2 next time."); }
+				if (!isGood(y)) { Player.SendMessage(p, y + " is not a good dimension! Use a power of 2 next time."); }
+				if (!isGood(z)) { Player.SendMessage(p, z + " is not a good dimension! Use a power of 2 next time."); }
 
-                if (!Player.ValidName(name)) { Player.SendMessage(p, "Invalid name!"); return; }
+				if (!Player.ValidName(name)) { Player.SendMessage(p, "Invalid name!"); return; }
 
-                try
-                {
-                    if (p != null)
-                    if (p.group.Permission < LevelPermission.Admin)
-                    {
-                        if (x * y * z > 30000000) { Player.SendMessage(p, "Cannot create a map with over 30million blocks"); return; }
-                    }
-                    else
-                    {
-                        if (x * y * z > 225000000) { Player.SendMessage(p, "You cannot make a map with over 225million blocks"); return; }
-                    }
-                }
-                catch 
-                { 
-                    Player.SendMessage(p, "An error occured"); 
-                }
+				try
+				{
+					if (p != null)
+					if (p.group.Permission < LevelPermission.Admin)
+					{
+						if (x * y * z > 30000000) { Player.SendMessage(p, "Cannot create a map with over 30million blocks"); return; }
+					}
+					else
+					{
+						if (x * y * z > 225000000) { Player.SendMessage(p, "You cannot make a map with over 225million blocks"); return; }
+					}
+				}
+				catch 
+				{ 
+					Player.SendMessage(p, "An error occured"); 
+				}
 
-                // create a new level...
-                try
-                {
-                    Level lvl = new Level(name, x, y, z, parameters[4]);
-                    lvl.Save(true); //... and save it.
-                }
-                finally
-                {
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                }
-                Player.GlobalMessage("Level " + name + " created");
-            }
-            else
-                Help(p);
-        }
-        public override void Help(Player p)
-        {
-            Player.SendMessage(p, "/newlvl - creates a new level.");
-            Player.SendMessage(p, "/newlvl mapname 128 64 128");
-        }
+				// create a new level...
+				try
+				{
+					Level lvl = new Level(name, x, y, z, parameters[4]);
+					lvl.Save(true); //... and save it.
+				}
+				finally
+				{
+					GC.Collect();
+					GC.WaitForPendingFinalizers();
+				}
+				Player.GlobalMessage("Level " + name + " created");
+			}
+			else
+				Help(p);
+		}
+		public override void Help(Player p)
+		{
+			Player.SendMessage(p, "/newlvl - creates a new level.");
+			Player.SendMessage(p, "/newlvl mapname 128 64 128");
+		}
 
-        public bool isGood(ushort value)
-        {
-            switch (value)
-            {
-                case 2:
-                case 4:
-                case 8:
-                case 16:
-                case 32:
-                case 64:
-                case 128:
-                case 256:
-                case 512:
-                case 1024:
-                case 2048:
-                case 4096:
-                case 8192:
-                    return true;
-            }
+		public bool isGood(ushort value)
+		{
+			switch (value)
+			{
+				case 2:
+				case 4:
+				case 8:
+				case 16:
+				case 32:
+				case 64:
+				case 128:
+				case 256:
+				case 512:
+				case 1024:
+				case 2048:
+				case 4096:
+				case 8192:
+					return true;
+			}
 
-            return false;
-        }
-    }
+			return false;
+		}
+	}
 }

@@ -15,54 +15,54 @@
 using System;
 namespace MCForge.Commands
 {
-    public class CmdUnban : Command
-    {
-        public override string name { get { return "unban"; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public override void Use(Player p, string message)
-        {
-            if (message == "") { Help(p); return; }
-            bool totalUnban = false;
-            if (message[0] == '@')
-            {
-                totalUnban = true;
-                message = message.Remove(0, 1).Trim();
-            }
+	public class CmdUnban : Command
+	{
+		public override string name { get { return "unban"; } }
+		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
+		public override void Use(Player p, string message)
+		{
+			if (message == "") { Help(p); return; }
+			bool totalUnban = false;
+			if (message[0] == '@')
+			{
+				totalUnban = true;
+				message = message.Remove(0, 1).Trim();
+			}
 
-            Player who = Player.Find(message);
+			Player who = Player.Find(message);
 
-            if (who == null)
-            {
-                if (Group.findPlayerGroup(message) != Group.findPerm(LevelPermission.Banned))
-                {
-                    Player.SendMessage(p, "Player is not banned.");
-                    return;
-                }
-                Player.GlobalMessage(message + " &8(banned)" + Server.DefaultColor + " is now " + Group.standard.color + Group.standard.name + Server.DefaultColor + "!");
-                Group.findPerm(LevelPermission.Banned).playerList.Remove(message);
-            }
-            else
-            {
-                if (Group.findPlayerGroup(message) != Group.findPerm(LevelPermission.Banned))
-                {
-                    Player.SendMessage(p, "Player is not banned.");
-                    return;
-                }
-                Player.GlobalChat(who, who.color + who.prefix + who.name + Server.DefaultColor + " is now " + Group.standard.color + Group.standard.name + Server.DefaultColor + "!", false);
-                who.group = Group.standard; who.color = who.group.color; Player.GlobalDie(who, false);
-                Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
-                Group.findPerm(LevelPermission.Banned).playerList.Remove(message);
-            }
+			if (who == null)
+			{
+				if (Group.findPlayerGroup(message) != Group.findPerm(LevelPermission.Banned))
+				{
+					Player.SendMessage(p, "Player is not banned.");
+					return;
+				}
+				Player.GlobalMessage(message + " &8(banned)" + Server.DefaultColor + " is now " + Group.standard.color + Group.standard.name + Server.DefaultColor + "!");
+				Group.findPerm(LevelPermission.Banned).playerList.Remove(message);
+			}
+			else
+			{
+				if (Group.findPlayerGroup(message) != Group.findPerm(LevelPermission.Banned))
+				{
+					Player.SendMessage(p, "Player is not banned.");
+					return;
+				}
+				Player.GlobalChat(who, who.color + who.prefix + who.name + Server.DefaultColor + " is now " + Group.standard.color + Group.standard.name + Server.DefaultColor + "!", false);
+				who.group = Group.standard; who.color = who.group.color; Player.GlobalDie(who, false);
+				Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
+				Group.findPerm(LevelPermission.Banned).playerList.Remove(message);
+			}
 
-            Group.findPerm(LevelPermission.Banned).playerList.Save(); 
-            if (totalUnban)
-            {
-                Command.all.Find("unbanip").Use(p, "@" + message);
-            }
-        }
-        public override void Help(Player p)
-        {
-            Player.SendMessage(p, "/unban <player> - Unbans a player.  This includes temporary bans.");
-        }
-    }
+			Group.findPerm(LevelPermission.Banned).playerList.Save(); 
+			if (totalUnban)
+			{
+				Command.all.Find("unbanip").Use(p, "@" + message);
+			}
+		}
+		public override void Help(Player p)
+		{
+			Player.SendMessage(p, "/unban <player> - Unbans a player.  This includes temporary bans.");
+		}
+	}
 }

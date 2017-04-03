@@ -1,7 +1,7 @@
 ﻿/*
 	Copyright 2010 MCLawl Team - Written by Valek
  
-    Licensed under the
+	Licensed under the
 	Educational Community License, Version 2.0 (the "License"); you may
 	not use this file except in compliance with the License. You may
 	obtain a copy of the License at
@@ -17,32 +17,32 @@
 using System;
 namespace MCForge.Commands
 {
-    public class CmdIrc : Command
-    {
-        public override string name { get { return "irc"; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
-        public override void Use(Player p, string message)
-        {
-            string hasirc;
-            string ircdetails = "";
-            if (Server.irc)
-            {
-                hasirc = "&aEnabled" + Server.DefaultColor + ".";
-                ircdetails = Server.ircServer + " > " + Server.ircChannel;
-            }
-            else
-            {
-                hasirc = "&cDisabled" + Server.DefaultColor + ".";
-            }
-            Player.SendMessage(p, "IRC is " + hasirc);
-            if (ircdetails != "")
-            {
-                Player.SendMessage(p, "Location: " + ircdetails);
-            }
-        }
-        public override void Help(Player p)
-        {
-            Player.SendMessage(p, "/irc - Displays the server and channel information.");
-        }
-    }
+	public class CmdIrc : Command
+	{
+		public override string name { get { return "irc"; } }
+		public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
+		public override void Use(Player p, string message)
+		{
+			string hasirc;
+			string ircdetails = "";
+			if (Server.irc)
+			{
+				hasirc = "&aEnabled" + Server.DefaultColor + ".";
+				ircdetails = Server.ircServer + " > " + Server.ircChannel;
+			}
+			else
+			{
+				hasirc = "&cDisabled" + Server.DefaultColor + ".";
+			}
+			Player.SendMessage(p, "IRC is " + hasirc);
+			if (ircdetails != "")
+			{
+				Player.SendMessage(p, "Location: " + ircdetails);
+			}
+		}
+		public override void Help(Player p)
+		{
+			Player.SendMessage(p, "/irc - Displays the server and channel information.");
+		}
+	}
 }

@@ -37,9 +37,9 @@ namespace MCForge {
 			banCmd = new List<string>();
 			if (Server.irc) {
 
-                ConnectionArgs con = new ConnectionArgs(nick, server);
-                con.Port = Server.ircPort;
-                connection = new Connection(con, false, false);
+				ConnectionArgs con = new ConnectionArgs(nick, server);
+				con.Port = Server.ircPort;
+				connection = new Connection(con, false, false);
 
 				// Regster events for outgoing
 				Player.PlayerChat += new Player.OnPlayerChat(Player_PlayerChat);
@@ -103,12 +103,12 @@ namespace MCForge {
 		}
 		void Player_PlayerDisconnect(Player p, string reason) {
 			if (Server.irc && IsConnected())
-			    connection.Sender.PublicMessage(channel, p.name + " left the game (" + reason + ")");
+				connection.Sender.PublicMessage(channel, p.name + " left the game (" + reason + ")");
 		}
 
 		void Player_PlayerConnect(Player p) {
 			if (Server.irc && IsConnected())
-			    connection.Sender.PublicMessage(channel, p.name + " joined the game");
+				connection.Sender.PublicMessage(channel, p.name + " joined the game");
 		}
 
 		void Listener_OnQuit(UserInfo user, string reason) {
@@ -118,15 +118,15 @@ namespace MCForge {
 		}
 
 		void Listener_OnError(ReplyCode code, string message) {
-            //Ugly hack before I find the result of the error.
-            if (message == "You :Unknown command")
-            {
-                return;
-            }
-            else 
-            {
-                Server.s.Log("IRC Error: " + message);
-            }
+			//Ugly hack before I find the result of the error.
+			if (message == "You :Unknown command")
+			{
+				return;
+			}
+			else 
+			{
+				Server.s.Log("IRC Error: " + message);
+			}
 		}
 
 		void Listener_OnPrivate(UserInfo user, string message) {

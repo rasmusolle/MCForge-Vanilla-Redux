@@ -15,37 +15,37 @@
 using System;
 namespace MCForge.Commands
 {
-    public class CmdKick : Command
-    {
-        public override string name { get { return "kick"; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public override void Use(Player p, string message)
-        {
-            if (message == "") { Help(p); return; }
-            Player who = Player.Find(message.Split(' ')[0]);
-            if (who == null) { Player.SendMessage(p, "Could not find player specified."); return; }
-            if (message.Split(' ').Length > 1)
-                message = message.Substring(message.IndexOf(' ') + 1);
-            else
-                if (p == null) message = "You were kicked by an IRC controller!"; else message = "You were kicked by " + p.name + "!";
+	public class CmdKick : Command
+	{
+		public override string name { get { return "kick"; } }
+		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
+		public override void Use(Player p, string message)
+		{
+			if (message == "") { Help(p); return; }
+			Player who = Player.Find(message.Split(' ')[0]);
+			if (who == null) { Player.SendMessage(p, "Could not find player specified."); return; }
+			if (message.Split(' ').Length > 1)
+				message = message.Substring(message.IndexOf(' ') + 1);
+			else
+				if (p == null) message = "You were kicked by an IRC controller!"; else message = "You were kicked by " + p.name + "!";
 
-            if (p != null)
-                if (who == p)
-                {
-                    Player.SendMessage(p, "You cannot kick yourself!");
-                    return;
-                }
-                else if (who.group.Permission >= p.group.Permission && p != null) 
-                { 
-                    Player.GlobalChat(p, p.color + p.name + Server.DefaultColor + " tried to kick " + who.color + who.name + " but failed.", false); 
-                    return; 
-                }
+			if (p != null)
+				if (who == p)
+				{
+					Player.SendMessage(p, "You cannot kick yourself!");
+					return;
+				}
+				else if (who.group.Permission >= p.group.Permission && p != null) 
+				{ 
+					Player.GlobalChat(p, p.color + p.name + Server.DefaultColor + " tried to kick " + who.color + who.name + " but failed.", false); 
+					return; 
+				}
 
-            who.Kick(message);
-        }
-        public override void Help(Player p)
-        {
-            Player.SendMessage(p, "/kick <player> [message] - Kicks a player.");
-        }
-    }
+			who.Kick(message);
+		}
+		public override void Help(Player p)
+		{
+			Player.SendMessage(p, "/kick <player> [message] - Kicks a player.");
+		}
+	}
 }

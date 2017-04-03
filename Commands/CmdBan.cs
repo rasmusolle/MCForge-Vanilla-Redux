@@ -15,86 +15,86 @@
 using System;
 namespace MCForge.Commands
 {
-    public class CmdBan : Command
-    {
-        public override string name { get { return "ban"; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-        public override void Use(Player p, string message)
-        {
-            try
-            {
-                if (message == "") { Help(p); return; }
+	public class CmdBan : Command
+	{
+		public override string name { get { return "ban"; } }
+		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
+		public override void Use(Player p, string message)
+		{
+			try
+			{
+				if (message == "") { Help(p); return; }
 
-                Player who = Player.Find(message);
+				Player who = Player.Find(message);
 
-                if (who == null)
-                {
-                    if (!Player.ValidName(message))
-                    {
-                        Player.SendMessage(p, "Invalid name \"" + message + "\".");
-                        return;
-                    }
+				if (who == null)
+				{
+					if (!Player.ValidName(message))
+					{
+						Player.SendMessage(p, "Invalid name \"" + message + "\".");
+						return;
+					}
 
-                    Group foundGroup = Group.findPlayerGroup(message);
+					Group foundGroup = Group.findPlayerGroup(message);
 
-                    if (foundGroup.Permission >= LevelPermission.Operator)
-                    {
-                        Player.SendMessage(p, "You can't ban a " + foundGroup.name + "!");
-                        return;
-                    }
-                    if (foundGroup.Permission == LevelPermission.Banned)
-                    {
-                        Player.SendMessage(p, message + " is already banned.");
-                        return;
-                    }
+					if (foundGroup.Permission >= LevelPermission.Operator)
+					{
+						Player.SendMessage(p, "You can't ban a " + foundGroup.name + "!");
+						return;
+					}
+					if (foundGroup.Permission == LevelPermission.Banned)
+					{
+						Player.SendMessage(p, message + " is already banned.");
+						return;
+					}
 
-                    foundGroup.playerList.Remove(message);
-                    foundGroup.playerList.Save();
+					foundGroup.playerList.Remove(message);
+					foundGroup.playerList.Save();
 
-                    Player.GlobalMessage(message + " &f(offline)" + Server.DefaultColor + " is now &8banned" + Server.DefaultColor + "!");
-                    Group.findPerm(LevelPermission.Banned).playerList.Add(message);
-                }
-                else
-                {
-                    if (!Player.ValidName(who.name))
-                    {
-                        Player.SendMessage(p, "Invalid name \"" + who.name + "\".");
-                        return;
-                    }
+					Player.GlobalMessage(message + " &f(offline)" + Server.DefaultColor + " is now &8banned" + Server.DefaultColor + "!");
+					Group.findPerm(LevelPermission.Banned).playerList.Add(message);
+				}
+				else
+				{
+					if (!Player.ValidName(who.name))
+					{
+						Player.SendMessage(p, "Invalid name \"" + who.name + "\".");
+						return;
+					}
 
-                    if (who.group.Permission >= LevelPermission.Operator)
-                    {
-                        Player.SendMessage(p, "You can't ban a " + who.group.name + "!");
-                        return;
-                    }
-                    if (who.group.Permission == LevelPermission.Banned)
-                    {
-                        Player.SendMessage(p, message + " is already banned.");
-                        return;
-                    }
+					if (who.group.Permission >= LevelPermission.Operator)
+					{
+						Player.SendMessage(p, "You can't ban a " + who.group.name + "!");
+						return;
+					}
+					if (who.group.Permission == LevelPermission.Banned)
+					{
+						Player.SendMessage(p, message + " is already banned.");
+						return;
+					}
 
-                    who.group.playerList.Remove(message);
-                    who.group.playerList.Save();
+					who.group.playerList.Remove(message);
+					who.group.playerList.Save();
 
-                    Player.GlobalChat(who, who.color + who.name + Server.DefaultColor + " is now &8banned" + Server.DefaultColor + "!", false);
+					Player.GlobalChat(who, who.color + who.name + Server.DefaultColor + " is now &8banned" + Server.DefaultColor + "!", false);
 
-                    who.group = Group.findPerm(LevelPermission.Banned);
-                    who.color = who.group.color;
-                    Player.GlobalDie(who, false);
-                    Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
-                    Group.findPerm(LevelPermission.Banned).playerList.Add(who.name);
-                }
-                Group.findPerm(LevelPermission.Banned).playerList.Save();
+					who.group = Group.findPerm(LevelPermission.Banned);
+					who.color = who.group.color;
+					Player.GlobalDie(who, false);
+					Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
+					Group.findPerm(LevelPermission.Banned).playerList.Add(who.name);
+				}
+				Group.findPerm(LevelPermission.Banned).playerList.Save();
 
-                Server.IRC.Say(message + " was banned.");
-                Server.s.Log("BANNED: " + message.ToLower());
+				Server.IRC.Say(message + " was banned.");
+				Server.s.Log("BANNED: " + message.ToLower());
 
-            }
-            catch (Exception e) { Server.ErrorLog(e); }
-        }
-        public override void Help(Player p)
-        {
-            Player.SendMessage(p, "/ban <player> - Bans a player without kicking him.");
-        }
-    }
+			}
+			catch (Exception e) { Server.ErrorLog(e); }
+		}
+		public override void Help(Player p)
+		{
+			Player.SendMessage(p, "/ban <player> - Bans a player without kicking him.");
+		}
+	}
 }
