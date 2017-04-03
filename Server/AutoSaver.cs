@@ -16,13 +16,9 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-
 namespace MCForge
 {
-    //I
     public class AutoSaver
     {
         static int _interval;
@@ -33,79 +29,30 @@ namespace MCForge
             _interval = interval * 1000;
 
             new Thread(new ThreadStart(delegate
-              {
-                 while (true)
-                      {
-                            Thread.Sleep(_interval);
-                            Server.ml.Queue(delegate { Run(); });
-
-                          if (Player.players.Count <= 0) continue;
-                          string allCount = Player.players.Aggregate("", (current, pl) => current + (", " + pl.name));
-                          try { Server.s.Log("!PLAYERS ONLINE: " + allCount.Remove(0, 2), true); }
-                          catch { }
-
-                          allCount = Server.levels.Aggregate("", (current, l) => current + (", " + l.name));
-                          try { Server.s.Log("!LEVELS ONLINE: " + allCount.Remove(0, 2), true); }
-                          catch { }
-                      }
-                                                           })).Start();
-        }
-
-        /*
-        static void Exec()
-        {
-            Server.ml.Queue(delegate
             {
-                Run();
-            });
-        }*/
+                while (true)
+                {
+                    Thread.Sleep(_interval);
+                    Server.ml.Queue(delegate { Run(); });
+                }
+            })).Start();
+        }
 
         public static void Run()
         {
             try
             {
                 count--;
-
                 Server.levels.ForEach(delegate(Level l)
                 {
                     try
                     {
                         if (!l.changed) return;
-
                         l.Save();
-                        if (count == 0)
-                        {
-                            int backupNumber = l.Backup();
-
-                            if (backupNumber != -1)
-                            {
-                                l.ChatLevel("Backup " + backupNumber + " saved.");
-                                Server.s.Log("Backup " + backupNumber + " saved for " + l.name);
-                            }
-                        }
                     }
-                    catch
-                    {
-                        Server.s.Log("Backup for " + l.name + " has caused an error.");
-                    }
+                    catch { Server.s.Log("Save for " + l.name + " has caused an error."); }
                 });
-
-                if (count <= 0)
-                {
-                    count = 15;
-                }
-            }
-            catch (Exception e) { Server.ErrorLog(e); }
-
-            try
-            {
-                if (Player.players.Count > 0)
-                {
-                    List<Player> tempList = new List<Player>();
-                    tempList.AddRange(Player.players);
-                    foreach (Player p in tempList) { p.save(); }
-                    tempList.Clear();
-                }
+                if (count <= 0) count = 15;
             }
             catch (Exception e) { Server.ErrorLog(e); }
         }
