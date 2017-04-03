@@ -13,7 +13,6 @@
 	permissions and limitations under the License.
 */
 using System;
-
 namespace MCForge.Commands
 {
     public class CmdKick : Command

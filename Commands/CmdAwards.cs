@@ -14,7 +14,6 @@
 */
 using System;
 using System.Collections.Generic;
-
 namespace MCForge.Commands
 {
     public class CmdAwards : Command

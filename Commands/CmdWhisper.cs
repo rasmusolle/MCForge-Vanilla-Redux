@@ -1,5 +1,4 @@
 using System;
-
 namespace MCForge.Commands
 {
     public class CmdWhisper : Command

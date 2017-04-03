@@ -16,9 +16,7 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-using System.Data;
 using System.IO;
-using System.Text;
 namespace MCForge.Commands
 {
     public class CmdWhowas : Command

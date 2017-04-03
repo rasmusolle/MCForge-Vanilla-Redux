@@ -13,8 +13,6 @@
 	permissions and limitations under the License.
 */
 using System;
-using System.IO;
-
 namespace MCForge.Commands
 {
     public class CmdSetspawn : Command

@@ -16,8 +16,6 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-using System.Data;
-
 namespace MCForge.Commands
 {
     public class CmdUnbanip : Command

@@ -15,10 +15,8 @@
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-using System.Collections.Generic;
-using System.Data;
+using System;
 using System.IO;
-using System.Text;
 namespace MCForge.Commands
 {
     public class CmdWhoip : Command

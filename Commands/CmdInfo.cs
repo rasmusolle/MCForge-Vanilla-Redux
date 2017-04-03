@@ -14,7 +14,6 @@
 */
 using System;
 using System.IO;
-
 namespace MCForge.Commands
 {
     public class CmdInfo : Command

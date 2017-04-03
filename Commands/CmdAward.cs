@@ -13,8 +13,6 @@
 	permissions and limitations under the License.
 */
 using System;
-using System.Collections.Generic;
-
 namespace MCForge.Commands
 {
     public class CmdAward : Command

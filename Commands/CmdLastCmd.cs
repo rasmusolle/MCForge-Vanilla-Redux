@@ -1,7 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
-
 namespace MCForge.Commands
 {
     public class CmdLastCmd : Command

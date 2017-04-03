@@ -14,9 +14,7 @@
 */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-
 namespace MCForge.Commands
 {
     class CmdRules : Command
@@ -61,7 +59,6 @@ namespace MCForge.Commands
                 Player.SendMessage(p, "There is no player \"" + message + "\"!");
             }
         }
-
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/rules [player]- Displays server rules to a player");
