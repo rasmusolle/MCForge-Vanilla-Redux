@@ -45,7 +45,6 @@ namespace MCForge
 			all.Add(new CmdInfo());
 			all.Add(new CmdIrc());
 			all.Add(new CmdKick());
-			all.Add(new CmdLastCmd());
 			all.Add(new CmdMe());
 			all.Add(new CmdMute());
 			all.Add(new CmdNewLvl());
