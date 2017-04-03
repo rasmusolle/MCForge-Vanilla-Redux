@@ -32,11 +32,7 @@ namespace MCForge.Commands
 				string allFiles = "";
 				foreach (FileInfo fi in di.GetFiles("*.txt"))
 				{
-					try
-					{
-						string firstLine = File.ReadAllLines("text/view" + fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length) + ".txt")[0];
-						allFiles += ", " + fi.Name;
-					} catch (Exception e) { Server.ErrorLog(e); Player.SendMessage(p, "Error"); }
+					allFiles += ", " + fi.Name;
 				}
 
 				if (allFiles == "") {
@@ -48,27 +44,18 @@ namespace MCForge.Commands
 			}
 			else
 			{
-				Player who = null;
-				if (message.IndexOf(' ') != -1)
-				{
-					who = Player.Find(message.Split(' ')[message.Split(' ').Length - 1]);
-					if (who != null)
-						message = message.Substring(0, message.LastIndexOf(' '));
-				}
-				if (who == null) who = p;
-
-				if (File.Exists("text/view" + message + ".txt"))
+				rulesretry:
+				if (File.Exists("text/view/" + message + ".txt"))
 				{
 					try
 					{
-						string[] allLines = File.ReadAllLines("text/view" + message + ".txt");
-						for (int i = 1; i < allLines.Length; i++) Player.SendMessage(who, allLines[i]);
+						string[] allLines = File.ReadAllLines("text/view/" + message + ".txt");
+						for (int i = 0; i < allLines.Length; i++) 
+							Player.SendMessage(p, allLines[i]);
 					} catch { Player.SendMessage(p, "An error occurred when retrieving the file"); }
 				}
-				else
-				{
-					Player.SendMessage(p, "File specified doesn't exist");
-				}
+				else if (message == "rules") { File.AppendAllText("text/view/rules.txt", "(This text's customizable in text/view/rules.txt!)" + Environment.NewLine + "Use common sense!"); goto rulesretry; }
+				else { Player.SendMessage(p, "File specified doesn't exist"); }
 			}
 		}
 		public override void Help(Player p)
