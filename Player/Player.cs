@@ -1384,6 +1384,7 @@ namespace MCForge
                             SendMessage("Cannot use /me while muted");
                             return;
                         }
+                        Server.s.CommandUsed(name + " used /" + cmd + " " + message);
 
                         this.commThread = new Thread(new ThreadStart(delegate
                         {
