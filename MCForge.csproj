@@ -121,7 +121,6 @@
     <Compile Include="GUI\Win32\RECT.cs" />
     <Compile Include="GUI\Win32\Utils.cs" />
     <Compile Include="Server\Heartbeat.cs" />
-    <Compile Include="Commands\CmdNews.cs" />
     <Compile Include="Commands\CmdCrashServer.cs" />
     <Compile Include="Player\Awards.cs" />
     <Compile Include="Commands\CmdAward.cs" />
