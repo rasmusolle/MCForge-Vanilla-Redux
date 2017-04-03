@@ -30,10 +30,7 @@ namespace MCForge.Commands
 			{
 				DirectoryInfo di = new DirectoryInfo("text/view");
 				string allFiles = "";
-				foreach (FileInfo fi in di.GetFiles("*.txt"))
-				{
-					allFiles += ", " + fi.Name;
-				}
+				foreach (FileInfo fi in di.GetFiles("*.txt")) { allFiles += ", " + fi.Name; }
 
 				if (allFiles == "") {
 					Player.SendMessage(p, "No files are viewable by you");
