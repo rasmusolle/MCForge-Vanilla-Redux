@@ -156,7 +156,6 @@
     <Compile Include="Commands\CommandList.cs" />
     <Compile Include="Commands\CmdTitle.cs" />
     <Compile Include="Commands\CmdView.cs" />
-    <Compile Include="Levels\LevelCollection.cs" />
     <Compile Include="Player\PlayerCollection.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Player\Group.cs" />

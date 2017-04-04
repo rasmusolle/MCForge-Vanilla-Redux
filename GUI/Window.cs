@@ -33,8 +33,6 @@ namespace MCForge.Gui
 		public static Window thisWindow;
 
 		PlayerCollection pc = new PlayerCollection(new PlayerListView());
-		LevelCollection lc = new LevelCollection(new LevelListView());
-		LevelCollection lcTAB = new LevelCollection(new LevelListViewForTab());
 
 		public NotifyIcon notifyIcon1 = new NotifyIcon();
 
