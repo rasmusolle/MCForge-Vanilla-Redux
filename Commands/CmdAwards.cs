@@ -26,7 +26,7 @@ namespace MCForge.Commands
 		public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
 		public override void Use(Player p, string message)
 		{
-			if (message.Split(' ').Length > 2) { Help(p); return; }
+			if (message.Split(' ').Length > 1) { Help(p); return; }
 
 			int totalCount = 0;
 			string foundPlayer = "";
@@ -38,24 +38,14 @@ namespace MCForge.Commands
 					foundPlayer = message.Split(' ')[0];
 					Player who = Player.Find(foundPlayer);
 					if (who != null) foundPlayer = who.name;
-					try
-					{
-						totalCount = int.Parse(message.Split(' ')[1]);
-					}
-					catch
-					{
-						Help(p);
-						return;
-					}
+					try { totalCount = int.Parse(message.Split(' ')[1]); }
+					catch { Help(p); return; }
 				}
 				else
 				{
 					if (message.Length <= 3)
 					{
-						try
-						{
-							totalCount = int.Parse(message);
-						}
+						try { totalCount = int.Parse(message); }
 						catch
 						{
 							foundPlayer = message;
@@ -72,17 +62,9 @@ namespace MCForge.Commands
 				}
 			}
 
-			if (totalCount < 0)
-			{
-				Player.SendMessage(p, "Cannot display pages less than 0");
-				return;
-			}
 
 			List<Awards.awardData> awardList = new List<Awards.awardData>();
-			if (foundPlayer == "")
-			{
-				awardList = Awards.allAwards;
-			}
+			if (foundPlayer == "") { awardList = Awards.allAwards; }
 			else
 			{
 				foreach (string s in Awards.getPlayersAwards(foundPlayer))
@@ -94,46 +76,12 @@ namespace MCForge.Commands
 				}
 			}
 
-			if (awardList.Count == 0)
-			{
-				if (foundPlayer != "")
-					Player.SendMessage(p, "The player has no awards!");
-				else
-					Player.SendMessage(p, "There are no awards in this server yet");
+			if (awardList.Count == 0) { Player.SendMessage(p, "No awards found."); return; }
 
-				return;
-			}
+			if (foundPlayer != "") { Player.SendMessage(p, Server.FindColor(foundPlayer) + foundPlayer + Server.DefaultColor + " has the following awards:"); }
+			else { Player.SendMessage(p, "Awards available: "); }
 
-			int max = totalCount * 5;
-			int start = (totalCount - 1) * 5;
-			if (start > awardList.Count)
-			{
-				Player.SendMessage(p, "There aren't that many awards. Enter a smaller number");
-				return;
-			}
-			if (max > awardList.Count) 
-				max = awardList.Count;
-
-			if (foundPlayer != "")
-				Player.SendMessage(p, Server.FindColor(foundPlayer) + foundPlayer + Server.DefaultColor + " has the following awards:");
-			else
-				Player.SendMessage(p, "Awards available: ");
-
-			if (totalCount == 0)
-			{
-				foreach (Awards.awardData aD in awardList)
-					Player.SendMessage(p, "&6" + aD.awardName + ": &7" + aD.description);
-
-				if (awardList.Count > 8) Player.SendMessage(p, "&5Use &b/awards " + message + " 1/2/3/... &5for a more ordered list");
-			}
-			else
-			{
-				for (int i = start; i < max; i++)
-				{
-					Awards.awardData aD = awardList[i];
-					Player.SendMessage(p, "&6" + aD.awardName + ": &7" + aD.description);
-				}
-			}
+			foreach (Awards.awardData aD in awardList) { Player.SendMessage(p, "&6" + aD.awardName + ": &7" + aD.description); }
 		}
 		public override void Help(Player p)
 		{
