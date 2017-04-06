@@ -26,33 +26,17 @@ namespace MCForge
 {
 	public static class Logger
 	{
-		public static void Write(string str) //Kept for backwards compatibility
-		{
-			PidgeonLogger.LogMessage(str);
-		}
-		public static void WriteError(Exception ex)
-		{
-			PidgeonLogger.LogError(ex);
-		}
+		public static void Write(string str) { PidgeonLogger.LogMessage(str); }
+		public static void WriteError(Exception ex) { PidgeonLogger.LogError(ex); }
 		public static string LogPath { get { return PidgeonLogger.MessageLogPath; } set { PidgeonLogger.MessageLogPath = value; } }
 		public static string ErrorLogPath { get { return PidgeonLogger.ErrorLogPath; } set { PidgeonLogger.ErrorLogPath = value; } }
 
-		//Everything is static..!
-		public static void Dispose()
-		{
-			PidgeonLogger.Dispose();
-		}
-
+		public static void Dispose() { PidgeonLogger.Dispose(); }
 	}
-	/// <summary>
-	/// Temporary class, will replace Logger completely once satisfied
-	/// </summary>
+
 	static class PidgeonLogger
 	{
-		//TODO: Implement report back feature
-
-		static Boolean NeedRestart = false;
-	  //  static System.Timers.Timer RestartTimer = new System.Timers.Timer(30000);
+		static bool NeedRestart = false;
 
 		static bool _disposed;
 		static string _messagePath = "logs/" + DateTime.Now.ToString("yyyy-MM-dd").Replace("/", "-") + ".txt";
@@ -75,16 +59,8 @@ namespace MCForge
 			_workingThread.Start();
 		}
 
-		public static string MessageLogPath
-		{
-			get { return _messagePath; }
-			set { _messagePath = value; }
-		}
-		public static string ErrorLogPath
-		{
-			get { return _errorPath; }
-			set { _errorPath = value; }
-		}
+		public static string MessageLogPath { get { return _messagePath; } set { _messagePath = value; } }
+		public static string ErrorLogPath { get { return _errorPath; } set { _errorPath = value; } }
 
 		public static void LogMessage(string message)
 		{
@@ -97,11 +73,7 @@ namespace MCForge
 						Monitor.Pulse(_lockObject);
 					}
 			}
-			catch
-			{
-
-			}
-			//Should it error or passed null or zero string?
+			catch { }
 		}
 		public static void LogError(Exception ex)
 		{
@@ -119,37 +91,22 @@ namespace MCForge
 
 				sb.AppendLine(new string('-', 25));
 
-				if(Server.s != null)
-					Server.s.ErrorCase(sb.ToString());
+				if (Server.s != null) { Server.s.ErrorCase(sb.ToString()); }
 
-				lock (_lockObject)
-				{
-					_errorCache.Enqueue(sb.ToString());
-					Monitor.Pulse(_lockObject);
-				}
-
-
+				lock (_lockObject) { _errorCache.Enqueue(sb.ToString()); Monitor.Pulse(_lockObject); }
 
 				if (NeedRestart)
 				{
 					Server.listen.Close();
 					Server.Setup();
-					//http://alltheragefaces.com/img/faces/large/misc-jackie-chan-l.png
 
 					NeedRestart = false;
 				}
 			} catch (Exception e) {
-				try
-				{
-					File.AppendAllText("ErrorLogError.log", getErrorText(e));
-				}
-				catch (Exception _ex)
-				{
-					MessageBox.Show("ErrorLogError Error:\n Could not log the error logs error. This is a big error. \n" + _ex.Message);
-				}
+				try { File.AppendAllText("ErrorLogError.log", getErrorText(e)); }
+				catch (Exception _ex) { MessageBox.Show("Could not log the error logs error. \n" + _ex.Message); }
 			}
 		}
-
 
 		static void WorkerThread()
 		{
@@ -157,18 +114,13 @@ namespace MCForge
 			{
 				lock (_lockObject)
 				{
-					if (_errorCache.Count > 0)
-						FlushCache(_errorPath, _errorCache);
-
-					if (_messageCache.Count > 0)
-						FlushCache(_messagePath, _messageCache);
-					//Monitor.Wait(_lockObject, 500);
+					if (_errorCache.Count > 0) { FlushCache(_errorPath, _errorCache); }
+					if (_messageCache.Count > 0) { FlushCache(_messagePath, _messageCache); }
 				}
 				Thread.Sleep(500);
 			}
 		}
 
-		//Only call from within synchronised code or all hell will break loose
 		static void FlushCache(string path, Queue<string> cache)
 		{
 			lock (_fileLockObject)
@@ -176,7 +128,6 @@ namespace MCForge
 				FileStream fs = null;
 				try
 				{
-					//TODO: not happy about constantly opening and closing a stream like this but I suppose its ok (Pidgeon)
 					fs = new FileStream(path, FileMode.Append, FileAccess.Write);
 					while (cache.Count > 0)
 					{
@@ -185,10 +136,7 @@ namespace MCForge
 					}
 					fs.Close();
 				}
-				finally
-				{
-					fs.Dispose();
-				}
+				finally { fs.Dispose(); }
 			}
 		}
 		static string getErrorText(Exception e)
@@ -205,16 +153,12 @@ namespace MCForge
 			try { sb.AppendLine("Target: " + e.TargetSite.Name); } catch { }
 			try { sb.AppendLine("Trace: " + e.StackTrace); } catch { }
 
-			if (e.Message != null && e.Message.IndexOf("An existing connection was forcibly closed by the remote host") != -1)
-			{
-				NeedRestart = true;
-			}
+			if (e.Message != null && e.Message.IndexOf("An existing connection was forcibly closed by the remote host") != -1) { NeedRestart = true; }
 
 			return sb.ToString();
 		}
 
 		#region IDisposable Members
-
 		public static void Dispose()
 		{
 			if (_disposed)
@@ -222,16 +166,12 @@ namespace MCForge
 			_disposed = true;
 			lock (_lockObject)
 			{
-				if (_errorCache.Count > 0)
-				{
-					FlushCache(_errorPath, _errorCache);
-				}
+				if (_errorCache.Count > 0) { FlushCache(_errorPath, _errorCache); }
 
 				_messageCache.Clear();
 				Monitor.Pulse(_lockObject);
 			}
 		}
-
 		#endregion
 	}
 }
