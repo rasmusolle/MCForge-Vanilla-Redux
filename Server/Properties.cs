@@ -34,7 +34,7 @@ namespace MCForge
 					byte[] oneChar = new byte[1];
 					while (sb.Length < 16) {
 						prng.GetBytes (oneChar);
-						if (Char.IsLetterOrDigit ((char)oneChar [0])) { sb.Append ((char)oneChar [0]); }
+						if (Char.IsLetterOrDigit((char)oneChar[0])) { sb.Append((char)oneChar[0]); }
 					}
 					Server.salt = sb.ToString();
 				}
