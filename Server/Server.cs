@@ -184,20 +184,6 @@ namespace MCForge
 			if (!Directory.Exists("properties")) Directory.CreateDirectory("properties");
 			if (!Directory.Exists("levels")) Directory.CreateDirectory("levels");
 			if (!Directory.Exists("text")) Directory.CreateDirectory("text");
-			if (!File.Exists("text/rankinfo.txt")) File.CreateText("text/rankinfo.txt").Dispose();
-			if (!File.Exists("text/bans.txt")) File.CreateText("text/bans.txt").Dispose();
-			// DO NOT STICK ANYTHING IN BETWEEN HERE!!!!!!!!!!!!!!!
-			else
-			{
-				string bantext = File.ReadAllText("text/bans.txt");
-				if (!bantext.Contains("%20") && bantext != "")
-				{
-					bantext = bantext.Replace("~", "%20");
-					bantext = bantext.Replace("-", "%20");
-					File.WriteAllText("text/bans.txt", bantext);
-				}
-			}
-			if (!Directory.Exists("extra")) Directory.CreateDirectory("extra");
 			LoadAllSettings();
 			timeOnline = DateTime.Now;
 			UpdateStaffList();
