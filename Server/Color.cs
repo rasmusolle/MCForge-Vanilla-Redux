@@ -87,22 +87,22 @@ namespace MCForge
 		{
 			switch (str)
 			{
+				case white: return 0;
 				case black: return 1;
 				case navy: return 2;
 				case green: return 3;
-				case teal: return 10;
+				case red: return 4;
 				case maroon: return 5;
 				case purple: return 6;
 				case gold: return 7;
-				case silver: return 15;
-				case gray: return 14;
-				case blue: return 12;
-				case lime: return 9;
-				case aqua: return 11;
-				case red: return 4;
-				case pink: return 13;
 				case yellow: return 8;
-				case white: return 0;
+				case lime: return 9;
+				case teal: return 10;
+				case aqua: return 11;
+				case blue: return 12;
+				case pink: return 13;
+				case gray: return 14;
+				case silver: return 15;
 				default: return 0;
 			}
 		}
