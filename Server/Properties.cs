@@ -19,12 +19,11 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-
 namespace MCForge
 {
 	public static class SrvProperties
 	{
-		public static void Load (string givenPath, bool skipsalt = false)
+		public static void Load(string givenPath, bool skipsalt = false)
 		{
 			if (!skipsalt) {
 				bool gotSalt = false;
