@@ -42,11 +42,9 @@ namespace MCForge {
 		public string trueName;
 		public string color;
 		public LevelPermission Permission;
-		public int maxBlocks;
 		public CommandList commands;
 		public string fileName;
 		public PlayerList playerList;
-		public string MOTD = String.Empty;
 
 		public Group() { Permission = LevelPermission.Null; }
 
@@ -210,7 +208,6 @@ namespace MCForge {
 			}
 			if (OnGroupLoad != null)
 				OnGroupLoad();
-			//OnGroupLoadEvent.Call();
 			saveGroups(GroupList);
 		}
 		/// <summary>

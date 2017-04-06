@@ -1630,8 +1630,7 @@ namespace MCForge
 				StringFormat("&0cfg=" + (IsLocalIpAddress(ip) ? ip : Server.IP) + ":" + Server.port + "/" + level.name + "~motd", 64).CopyTo(buffer, 65);
 			else
 			{
-				if (!String.IsNullOrEmpty(group.MOTD)) StringFormat(group.MOTD, 64).CopyTo(buffer, 65);
-				else StringFormat(Server.motd, 64).CopyTo(buffer, 65);
+				StringFormat(Server.motd, 64).CopyTo(buffer, 65);
 			}
 
 			if (Block.canPlace(this, Block.blackrock))
@@ -1649,10 +1648,8 @@ namespace MCForge
 			if (level.motd == "ignore")
 			{
 				StringFormat(Server.name, 64).CopyTo(buffer, 1);
-				if (!String.IsNullOrEmpty(group.MOTD)) StringFormat(group.MOTD, 64).CopyTo(buffer, 65);
-				else StringFormat(Server.motd, 64).CopyTo(buffer, 65);
+				StringFormat(Server.motd, 64).CopyTo(buffer, 65);
 			}
-
 			else StringFormat(level.motd, 128).CopyTo(buffer, 1);
 
 			if (Block.canPlace(this.group.Permission, Block.blackrock))
