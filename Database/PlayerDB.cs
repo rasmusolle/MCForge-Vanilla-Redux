@@ -17,19 +17,18 @@
 */
 using System;
 using System.IO;
-
 namespace MCForge {
 	public class PlayerDB {
-		public static bool Load( Player p ) {
-			if ( File.Exists( "players/" + p.name.ToLower() + "DB.txt" ) ) {
-				foreach ( string line in File.ReadAllLines( "players/" + p.name.ToLower() + "DB.txt" ) ) {
-					if ( !string.IsNullOrEmpty( line ) && !line.StartsWith( "#" ) ) {
-						string key = line.Split( '=' )[0].Trim();
-						string value = line.Split( '=' )[1].Trim();
+		public static bool Load(Player p) {
+			if (File.Exists( "players/" + p.name.ToLower() + "DB.txt")) {
+				foreach (string line in File.ReadAllLines( "players/" + p.name.ToLower() + "DB.txt") ) {
+					if (!string.IsNullOrEmpty(line) && !line.StartsWith("#")) {
+						string key = line.Split('=')[0].Trim();
+						string value = line.Split('=')[1].Trim();
 						string section = "nowhere yet...";
 
 						try {
-							switch ( key.ToLower() ) {
+							switch (key.ToLower()) {
 								case "title":
 								p.title = value;
 								section = key;
@@ -43,7 +42,7 @@ namespace MCForge {
 								section = key;
 								break;
 								case "money":
-								p.money = int.Parse( value );
+								p.money = int.Parse(value);
 								section = key;
 								break;
 								case "timespent":
@@ -51,27 +50,27 @@ namespace MCForge {
 								section = key;
 								break;
 								case "firstlogin":
-								p.firstLogin = DateTime.Parse( value );
+								p.firstLogin = DateTime.Parse(value);
 								section = key;
 								break;
 								case "lastlogin":
-								p.lastlogin = DateTime.Parse( value );
+								p.lastlogin = DateTime.Parse(value);
 								section = key;
 								break;
 								case "totallogins":
-								p.totalLogins = int.Parse( value ) + 1;
+								p.totalLogins = int.Parse(value) + 1;
 								section = key;
 								break;
 								case "totalkicked":
-								p.totalKicked = int.Parse( value );
+								p.totalKicked = int.Parse(value);
 								section = key;
 								break;
 								case "overalldeath":
-								p.overallDeath = int.Parse( value );
+								p.overallDeath = int.Parse(value);
 								section = key;
 								break;
 								case "overallblocks":
-								p.overallBlocks = int.Parse( value );
+								p.overallBlocks = int.Parse(value);
 								section = key;
 								break;
 								case "nick":
@@ -79,10 +78,9 @@ namespace MCForge {
 								section = key;
 								break;
 							}
-
 						} catch(Exception e) {
-							Server.s.Log( "Loading " + p.name + "'s database failed at section: " + section );
-							Server.ErrorLog( e );
+							Server.s.Log("Loading " + p.name + "'s database failed at section: " + section);
+							Server.ErrorLog(e);
 						}
 
 						p.timeLogged = DateTime.Now;
@@ -103,13 +101,13 @@ namespace MCForge {
 				p.points = 0;
 				p.time = "0 0 0 1";
 				p.timeLogged = DateTime.Now;
-				Save( p );
+				Save(p);
 				return false;
 			}
 		}
 
-		public static void Save( Player p ) {
-			StreamWriter sw = new StreamWriter( File.Create( "players/" + p.name.ToLower() + "DB.txt" ) );
+		public static void Save(Player p) {
+			StreamWriter sw = new StreamWriter(File.Create( "players/" + p.name.ToLower() + "DB.txt"));
 			sw.WriteLine( "IP = " + p.ip);
 			sw.WriteLine( "TimeSpent = " + p.time);
 			sw.WriteLine( "Title = " + p.title);
@@ -122,7 +120,7 @@ namespace MCForge {
 			sw.WriteLine( "TotalKicked = " + p.totalKicked);
 			sw.WriteLine( "OverallDeaths = " + p.overallDeath);
 			sw.WriteLine( "OverallBlocks = " + p.overallBlocks);
-			sw.WriteLine ("Nick = " + p.DisplayName );
+			sw.WriteLine("Nick = " + p.DisplayName);
 			sw.Flush();
 			sw.Close();
 			sw.Dispose();
