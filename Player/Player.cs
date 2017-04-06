@@ -976,8 +976,6 @@ namespace MCForge
 				Blockchange(this, x, y, z, type);
 				return;
 			}
-			if (PlayerBlockChange != null)
-				PlayerBlockChange(this, x, y, z, type);
 			if (cancelBlock)
 			{
 				cancelBlock = false;
@@ -1115,15 +1113,7 @@ namespace MCForge
 				});
 			}
 			catch { }
-			if (OnMove != null)
-				OnMove(this, x, y, z);
-			if (PlayerMove != null)
-				PlayerMove(this, x, y, z);
 
-			if (OnRotate != null)
-					OnRotate(this, rot);
-			if (PlayerRotate != null)
-					PlayerRotate(this, rot);
 			if (cancelmove)
 			{
 				unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
@@ -1154,10 +1144,6 @@ namespace MCForge
 			ushort xx = pos[0];
 			ushort yy = pos[1];
 			ushort zz = pos[2];
-			if (OnDeath != null)
-				OnDeath(this, b);
-			if (PlayerDeath != null)
-				PlayerDeath(this, b);
 			if (lastDeath.AddSeconds(2) < DateTime.Now)
 			{
 				switch (b)
@@ -1349,10 +1335,6 @@ namespace MCForge
 
 				if (CommandHasBadColourCodes(this, message))
 					return;
-				if (OnCommand != null)
-					OnCommand(cmd, this, message);
-				if (PlayerCommand != null)
-					PlayerCommand(cmd, this, message);
 				if (cancelcommand)
 				{
 					cancelcommand = false;
@@ -1704,7 +1686,6 @@ namespace MCForge
 				buffer[129] = 100;
 			else
 				buffer[129] = 0;
-			if (OnSendMOTD != null) { OnSendMOTD(this, buffer); }
 			SendRaw(0, buffer);
 
 		}
@@ -1767,9 +1748,6 @@ namespace MCForge
 
 				SendRaw(OpCode.MapEnd, buffer);
 				Loading = false;
-
-				if (OnSendMap != null)
-					OnSendMap(this, buffer);
 			}
 			catch (Exception ex)
 			{
