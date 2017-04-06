@@ -32,13 +32,13 @@ namespace MCForge
 					StringBuilder sb = new StringBuilder();
 					byte[] oneChar = new byte[1];
 					while (sb.Length < 16) {
-						prng.GetBytes (oneChar);
+						prng.GetBytes(oneChar);
 						if (Char.IsLetterOrDigit((char)oneChar[0])) { sb.Append((char)oneChar[0]); }
 					}
 					Server.salt = sb.ToString();
 				}
 
-				if (File.Exists (givenPath)) {
+				if (File.Exists(givenPath)) {
 					string[] lines = File.ReadAllLines(givenPath);
 					foreach (string line in lines) {
 						if (line != "" && line [0] != '#') {
@@ -121,21 +121,21 @@ namespace MCForge
 		}
 		public static bool ValidString(string str, string allowed) {
 			string allowedchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890" + allowed;
-			foreach ( char ch in str ) {
-				if ( allowedchars.IndexOf(ch) == -1 ) { return false; }
+			foreach (char ch in str) {
+				if (allowedchars.IndexOf(ch) == -1) { return false; }
 			} return true;
 		}
 		public static void Save(string givenPath) {
 			try {
 				File.Create(givenPath).Dispose();
-				using ( StreamWriter w = File.CreateText(givenPath) ) {
-					if ( givenPath.IndexOf("server") != -1 ) { SaveProps(w); }
+				using (StreamWriter w = File.CreateText(givenPath)) {
+					if (givenPath.IndexOf("server") != -1) { SaveProps(w); }
 				}
 			}
 			catch { Server.s.Log("SAVE FAILED! " + givenPath); }
 		}
 		public static void SaveProps(StreamWriter w) {
-			w.WriteLine("#   Edit the settings below to modify how your server operates.");
+			w.WriteLine("# Edit the settings below to modify how your server operates.");
 			w.WriteLine();
 			w.WriteLine("# Server options");
 			w.WriteLine("server-name = " + Server.name);
