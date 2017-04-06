@@ -1625,13 +1625,7 @@ namespace MCForge
 			byte[] buffer = new byte[130];
 			buffer[0] = (byte)8;
 			StringFormat(Server.name, 64).CopyTo(buffer, 1);
-
-			if (Server.UseTextures)
-				StringFormat("&0cfg=" + (IsLocalIpAddress(ip) ? ip : Server.IP) + ":" + Server.port + "/" + level.name + "~motd", 64).CopyTo(buffer, 65);
-			else
-			{
-				StringFormat(Server.motd, 64).CopyTo(buffer, 65);
-			}
+			StringFormat(Server.motd, 64).CopyTo(buffer, 65);
 
 			if (Block.canPlace(this, Block.blackrock))
 				buffer[129] = 100;
@@ -1710,10 +1704,7 @@ namespace MCForge
 				GC.WaitForPendingFinalizers();
 			}
 			/*
-			if (HasExtension("EnvWeatherType"))
-			{
-				SendSetMapWeather(level.weather);
-			}
+			if (HasExtension("EnvWeatherType")) { SendSetMapWeather(level.weather); }
 			*/
 		}
 		public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty, string displayName, string skinName)

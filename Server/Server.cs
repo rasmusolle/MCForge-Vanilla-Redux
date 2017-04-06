@@ -59,7 +59,6 @@ namespace MCForge
 		public event VoidHandler OnSettingsUpdate;
 		public static ForgeBot IRC;
 		public static Thread locationChecker;
-		public static bool UseTextures = false;
 		public static Thread blockThread;
 
 		public static Version Version { get { return System.Reflection.Assembly.GetAssembly(typeof(Server)).GetName().Version; } }
