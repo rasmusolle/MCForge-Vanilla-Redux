@@ -1349,7 +1349,6 @@ namespace MCForge
 						//Shortcuts
 						case "z": cmd = "cuboid"; break;
 						case "k": cmd = "kick"; break;
-						case "rank": cmd = "setrank"; break;
 
 						default: retry = false; break; //Unknown command, then
 					}

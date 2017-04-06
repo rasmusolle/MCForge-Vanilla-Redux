@@ -18,9 +18,9 @@
 using System;
 namespace MCForge.Commands
 {
-	public class CmdSetRank : Command
+	public class CmdRank : Command
 	{
-		public override string name { get { return "setrank"; } }
+		public override string name { get { return "rank"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
 		public override void Use(Player p, string message)
 		{
@@ -96,7 +96,7 @@ namespace MCForge.Commands
 		}
 		public override void Help(Player p)
 		{
-			Player.SendMessage(p, "/setrank <player> <rank> <yay> - Sets or returns a players rank.");
+			Player.SendMessage(p, "/rank <player> <rank> <yay> - Sets or returns a players rank.");
 			Player.SendMessage(p, "You may use /rank as a shortcut");
 			Player.SendMessage(p, "Valid Ranks are: " + Group.concatList(true, true));
 			Player.SendMessage(p, "<yay> is a celebratory message");
