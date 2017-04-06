@@ -320,7 +320,6 @@ namespace MCForge
 
 		public bool isDev, isMod; //is this player a dev/mod?
 		public bool isStaff;
-		public bool isProtected;
 		public bool verifiedName;
 
 		public string appName;
