@@ -399,21 +399,9 @@ namespace MCForge
 							int Minutes = Convert.ToInt32(time.Split(' ')[2]);
 							int Seconds = Convert.ToInt32(time.Split(' ')[3]);
 							Seconds++;
-							if (Seconds >= 60)
-							{
-								Minutes++;
-								Seconds = 0;
-							}
-							if (Minutes >= 60)
-							{
-								Hours++;
-								Minutes = 0;
-							}
-							if (Hours >= 24)
-							{
-								Days++;
-								Hours = 0;
-							}
+							if (Seconds >= 60) { Minutes++; Seconds = 0; }
+							if (Minutes >= 60) { Hours++; Minutes = 0; }
+							if (Hours >= 24) { Days++; Hours = 0; }
 							time = "" + Days + " " + Hours + " " + Minutes + " " + Seconds;
 						}
 						catch { time = "0 0 0 1"; }
@@ -450,7 +438,6 @@ namespace MCForge
 						}
 						else
 						{
-							Server.s.Log("Could not find welcome.txt. Using default.");
 							File.WriteAllText("text/welcome.txt", "Welcome to my server!");
 							SendMessage("Welcome to my server!");
 						}
@@ -466,13 +453,11 @@ namespace MCForge
 				{
 					extraTimer.Stop();
 
-					if (Server.updateTimer.Interval > 1000) SendMessage("Lowlag mode is currently &aON.");
 					try
 					{
 						if (!Group.Find("Nobody").commands.Contains("pay") && !Group.Find("Nobody").commands.Contains("give") && !Group.Find("Nobody").commands.Contains("take")) SendMessage("You currently have &a" + money + Server.DefaultColor + " " + Server.moneys);
 					}
 					catch { }
-					SendMessage("You have modified &a" + overallBlocks + Server.DefaultColor + " blocks!");
 					if (players.Count == 1)
 						SendMessage("There is currently &a" + players.Count + " player online.");
 					else
@@ -700,16 +685,8 @@ namespace MCForge
 				}
 
 				// ban check
-				if (Server.bannedIP.Contains(ip))
-				{
-					Kick("You're banned!");
-					return;
-				}
-				if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned))
-				{
-					Kick("You're banned!");
-					return;
-				}
+				if (Server.bannedIP.Contains(ip)) { Kick("You're banned!"); return; }
+				if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned)) { Kick("You're banned!"); return; }
 
 				//server maxplayer check
 				if (!isDev && !isMod)
@@ -803,7 +780,6 @@ namespace MCForge
 				}
 			}
 
-			//es.playerName = this.name;
 			SetPrefix();
 
 			if (PlayerConnect != null)
@@ -862,10 +838,7 @@ namespace MCForge
 
 			string joinm = "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " joined the server.";
 
-			Player.players.ForEach(p1 =>
-			{
-				Player.SendMessage(p1, joinm);
-			});
+			Player.players.ForEach(p1 => { Player.SendMessage(p1, joinm); });
 
 			try
 			{
@@ -888,10 +861,7 @@ namespace MCForge
 				else { File.Create("ranks/muted.txt").Close(); }
 			}
 			catch { muted = false; }
-			if (!UsingID)
-				Server.s.Log(name + " [" + ip + "] + has joined the server.");
-			else
-				Server.s.Log(name + " [" + ip + "]" + "(" + ID + ") + has joined the server.");
+			Server.s.Log(name + " [" + ip + "] + has joined the server.");
 		}
 
 		public void SetPrefix()
@@ -939,7 +909,6 @@ namespace MCForge
 			ushort b = level.GetTile(x, y, z);
 
 			if (b == Block.Zero) { return; }
-			if (level.name.Contains("Museum " + Server.DefaultColor) && Blockchange == null) { return; }
 
 			if (!deleteMode)
 			{
@@ -963,7 +932,6 @@ namespace MCForge
 			lastClick[0] = x;
 			lastClick[1] = y;
 			lastClick[2] = z;
-			//bool test2 = false;
 			if (Blockchange != null)
 			{
 				if (Blockchange.Method.ToString().IndexOf("AboutBlockchange") == -1 && !level.name.Contains("Museum " + Server.DefaultColor))
@@ -992,13 +960,10 @@ namespace MCForge
 
 				if (Diff > 12)
 				{
-					if (lastCMD != "click")
-					{
-						Server.s.Log(name + " attempted to build with a " + Diff.ToString() + " distance offset");
-						GlobalMessageOps("To Ops &f-" + color + name + "&f- attempted to build with a " + Diff.ToString() + " distance offset");
-						SendMessage("You can't build that far away.");
-						SendBlockchange(x, y, z, b); return;
-					}
+					Server.s.Log(name + " attempted to build with a " + Diff.ToString() + " distance offset");
+					GlobalMessageOps("To Ops &f-" + color + name + "&f- attempted to build with a " + Diff.ToString() + " distance offset");
+					SendMessage("You can't build that far away.");
+					SendBlockchange(x, y, z, b); return;
 				}
 			}
 
@@ -1027,7 +992,6 @@ namespace MCForge
 
 			ushort oldType = type;
 			type = bindings[(int)type];
-			//Ignores updating blocks that are the same and send block only to the player
 			if (b == (byte)(( action == 1) ? type : (byte)0))
 			{
 				if (oldType != type) { SendBlockchange(x, y, z, b); } return;
@@ -1052,7 +1016,6 @@ namespace MCForge
 		private void deleteBlock(ushort b, ushort type, ushort x, ushort y, ushort z)
 		{
 			Random rand = new Random();
-
 			level.Blockchange(this, x, y, z, (ushort)Block.air);
 		}
 
@@ -1102,16 +1065,6 @@ namespace MCForge
 			ushort x = NTHO(message, 1);
 			ushort y = NTHO(message, 3);
 			ushort z = NTHO(message, 5);
-
-			//TODO: Check if this's needed
-			try
-			{
-				Player.players.ForEach(delegate(Player player)
-				{
-
-				});
-			}
-			catch { }
 
 			if (cancelmove)
 			{
