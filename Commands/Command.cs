@@ -51,7 +51,6 @@ namespace MCForge
 			all.Add(new CmdPlayers());
 			all.Add(new CmdRestart());
 			all.Add(new CmdRules());
-			all.Add(new CmdSave());
 			all.Add(new CmdSay());
 			all.Add(new CmdServerReport());
 			all.Add(new CmdRank());
