@@ -15,7 +15,6 @@
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-//TODO: Go through this
 using System;
 namespace MCForge.Commands
 {
@@ -41,14 +40,9 @@ namespace MCForge.Commands
 
 					Group foundGroup = Group.findPlayerGroup(message);
 
-					if (foundGroup.Permission >= LevelPermission.Operator)
-					{
-						Player.SendMessage(p, "You can't ban a " + foundGroup.name + "!");
-						return;
-					}
 					if (foundGroup.Permission == LevelPermission.Banned)
 					{
-						Player.SendMessage(p, message + " is already banned.");
+						Player.SendMessage(p, "Player is already banned.");
 						return;
 					}
 
@@ -66,14 +60,9 @@ namespace MCForge.Commands
 						return;
 					}
 
-					if (who.group.Permission >= LevelPermission.Operator)
-					{
-						Player.SendMessage(p, "You can't ban a " + who.group.name + "!");
-						return;
-					}
 					if (who.group.Permission == LevelPermission.Banned)
 					{
-						Player.SendMessage(p, message + " is already banned.");
+						Player.SendMessage(p, "Player is already banned.");
 						return;
 					}
 
@@ -98,7 +87,7 @@ namespace MCForge.Commands
 		}
 		public override void Help(Player p)
 		{
-			Player.SendMessage(p, "/ban <player> - Bans a player without kicking him.");
+			Player.SendMessage(p, "/ban <player> - Bans a player.");
 		}
 	}
 }
