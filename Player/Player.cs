@@ -29,6 +29,7 @@ namespace MCForge
 {
 	public partial class Player : IDisposable
 	{
+		#region EMOTES
 		private static readonly char[] UnicodeReplacements = " ☺☻♥♦♣♠•◘○\n♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼".ToCharArray();
 
 		/// <summary> List of chat keywords, and emotes that they stand for. </summary>
@@ -138,7 +139,6 @@ namespace MCForge
 
 			{ "house", '\u007F' } // ⌂
 		};
-
 		public static string ReplaceEmoteKeywords(string message ) {
 			if ( message == null )
 				throw new ArgumentNullException( "message" );
@@ -185,9 +185,10 @@ namespace MCForge
 			output.Append( message, lastAppendedIndex, message.Length - lastAppendedIndex );
 			return output.ToString();
 		}
-
-
 		private static readonly Regex EmoteSymbols = new Regex( "[\x00-\x1F\x7F☺☻♥♦♣♠•◘○\n♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼⌂]" );
+
+		#endregion
+
 		public void ClearChat() { OnChat = null; }
 		/// <summary>
 		/// List of all server players.
