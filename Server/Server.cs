@@ -199,7 +199,6 @@ namespace MCForge
 					if (File.Exists("levels/" + level + ".mcf"))
 					{
 						mainLevel = Level.Load(level);
-						mainLevel.unload = false;
 						if (mainLevel == null)
 						{
 							mainLevel = new Level(level, 128, 64, 128, "flat") { permissionvisit = LevelPermission.Guest, permissionbuild = LevelPermission.Guest };

@@ -58,7 +58,6 @@ namespace MCForge
 		public readonly List<Check> ListCheck = new List<Check>(); //A list of blocks that need to be updated
 		public readonly List<Update> ListUpdate = new List<Update>(); //A list of block to change after calculation
 
-		public bool ai = true;
 		public bool backedup;
 		public List<Blockchange> blockCache = new List<Blockchange>();
 		public ushort[] blocks;
@@ -79,14 +78,11 @@ namespace MCForge
 		public bool realistic = true;
 		public byte rotx;
 		public byte roty;
-		public bool rp = true;
 		public ushort spawnx;
 		public ushort spawny;
 		public ushort spawnz;
 		public ushort[] backupBlocks;
 
-		public string theme = "Normal";
-		public bool unload = true;
 		public ushort width; // x
 		public List<BlockQueue.block> blockqueue = new List<BlockQueue.block>();
 
@@ -304,30 +300,6 @@ namespace MCForge
 			}
 		}
 
-		public static void SaveSettings(Level level)
-		{
-			try
-			{
-				File.Create("levels/" + level.name + ".properties").Dispose();
-				using (StreamWriter SW = File.CreateText("levels/" + level.name + ".properties"))
-				{
-					SW.WriteLine("#Level properties for " + level.name);
-					SW.WriteLine("PerBuild = " +
-								 (Group.Exists(PermissionToName(level.permissionbuild).ToLower())
-									  ? PermissionToName(level.permissionbuild).ToLower()
-									  : PermissionToName(LevelPermission.Guest)));
-					SW.WriteLine("PerVisit = " +
-								 (Group.Exists(PermissionToName(level.permissionvisit).ToLower())
-									  ? PermissionToName(level.permissionvisit).ToLower()
-									  : PermissionToName(LevelPermission.Guest)));
-				}
-			}
-			catch (Exception)
-			{
-				Server.s.Log("Failed to save level properties!");
-			}
-		}
-
 		public void Blockchange(int b, ushort type, bool overRide = false, string extraInfo = "")
 		{
 			if (b < 0) return;
@@ -428,8 +400,6 @@ namespace MCForge
 						File.Replace(backFile, path, backupFile);
 					}
 					else { File.Move(backFile, path); }
-
-					SaveSettings(this);
 
 					Server.s.Log(string.Format("SAVED: Level \"{0}\". ({1}/{2}/{3})", name, players.Count,
 											   Player.players.Count, Server.players));
@@ -599,37 +569,7 @@ namespace MCForge
 					gs.Close();
 					gs.Dispose();
 					level.backedup = true;
-					
-					try
-					{
-						string foundLocation;
-						foundLocation = "levels/" + level.name + ".properties";
-						if (!File.Exists(foundLocation))
-						{
-							foundLocation = "levels/" + level.name;
-						}
 
-						foreach (string line in File.ReadAllLines(foundLocation))
-						{
-							try
-							{
-								if (line[0] == '#') continue;
-								string value = line.Substring(line.IndexOf(" = ") + 3);
-
-								switch (line.Substring(0, line.IndexOf(" = ")).ToLower())
-								{
-									case "perbuild":
-										level.permissionbuild = PermissionFromName(value) != LevelPermission.Null ? PermissionFromName(value) : LevelPermission.Guest;
-										break;
-									case "pervisit":
-										level.permissionvisit = PermissionFromName(value) != LevelPermission.Null ? PermissionFromName(value) : LevelPermission.Guest;
-										break;
-								}
-							}
-							catch (Exception e) { Server.ErrorLog(e); }
-						}
-					}
-					catch { }
 					Server.s.Log(string.Format("Level \"{0}\" loaded.", level.name));
 					if (LevelLoaded != null)
 						LevelLoaded(level);
