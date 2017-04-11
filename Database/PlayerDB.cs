@@ -20,8 +20,8 @@ using System.IO;
 namespace MCForge {
 	public class PlayerDB {
 		public static bool Load(Player p) {
-			if (File.Exists( "players/" + p.name.ToLower() + "DB.txt")) {
-				foreach (string line in File.ReadAllLines( "players/" + p.name.ToLower() + "DB.txt") ) {
+			if (File.Exists("players/" + p.name.ToLower() + "DB.txt")) {
+				foreach (string line in File.ReadAllLines("players/" + p.name.ToLower() + "DB.txt")) {
 					if (!string.IsNullOrEmpty(line) && !line.StartsWith("#")) {
 						string key = line.Split('=')[0].Trim();
 						string value = line.Split('=')[1].Trim();
@@ -107,19 +107,19 @@ namespace MCForge {
 		}
 
 		public static void Save(Player p) {
-			StreamWriter sw = new StreamWriter(File.Create( "players/" + p.name.ToLower() + "DB.txt"));
-			sw.WriteLine( "IP = " + p.ip);
-			sw.WriteLine( "TimeSpent = " + p.time);
-			sw.WriteLine( "Title = " + p.title);
-			sw.WriteLine( "TitleColor = " + p.titlecolor);
-			sw.WriteLine( "Color = " + p.color);
-			sw.WriteLine( "Money = " + p.money);
-			sw.WriteLine( "FirstLogin = " + p.firstLogin);
-			sw.WriteLine( "LastLogin = " + p.lastlogin);
-			sw.WriteLine( "TotalLogins = " + p.totalLogins);
-			sw.WriteLine( "TotalKicked = " + p.totalKicked);
-			sw.WriteLine( "OverallDeaths = " + p.overallDeath);
-			sw.WriteLine( "OverallBlocks = " + p.overallBlocks);
+			StreamWriter sw = new StreamWriter(File.Create("players/" + p.name.ToLower() + "DB.txt"));
+			sw.WriteLine("IP = " + p.ip);
+			sw.WriteLine("TimeSpent = " + p.time);
+			sw.WriteLine("Title = " + p.title);
+			sw.WriteLine("TitleColor = " + p.titlecolor);
+			sw.WriteLine("Color = " + p.color);
+			sw.WriteLine("Money = " + p.money);
+			sw.WriteLine("FirstLogin = " + p.firstLogin);
+			sw.WriteLine("LastLogin = " + p.lastlogin);
+			sw.WriteLine("TotalLogins = " + p.totalLogins);
+			sw.WriteLine("TotalKicked = " + p.totalKicked);
+			sw.WriteLine("OverallDeaths = " + p.overallDeath);
+			sw.WriteLine("OverallBlocks = " + p.overallBlocks);
 			sw.WriteLine("Nick = " + p.DisplayName);
 			sw.Flush();
 			sw.Close();

@@ -93,7 +93,7 @@ namespace MCForge.Commands
 		}
 		public override void Help(Player p)
 		{
-			Player.SendMessage(p, "/rank <player> <rank> <yay> - Sets a players rank.");
+			Player.SendMessage(p, "/rank <player> <rank> - Sets a players rank.");
 		}
 	}
 }

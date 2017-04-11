@@ -103,6 +103,7 @@
     <Compile Include="Commands\CmdEco.cs" />
     <Compile Include="Commands\CmdGamble.cs" />
     <Compile Include="Commands\CmdIrc.cs" />
+    <Compile Include="Database\BlockDB.cs" />
     <Compile Include="GUI\Win32\Margins.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Player\Player.CPE.cs" />
@@ -192,7 +193,6 @@
     </EmbeddedResource>
     <Compile Include="Levels\Block.cs" />
     <Compile Include="util\Extensions.cs" />
-    <Compile Include="Database\BlockDB.cs" />
     <Compile Include="Database\PlayerDB.cs" />
     <Compile Include="Commands\CmdWhoip.cs" />
     <Compile Include="Commands\CmdWhowas.cs" />
