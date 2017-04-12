@@ -16,7 +16,7 @@
 	permissions and limitations under the Licenses.
 */
 using System.Text.RegularExpressions;
-namespace MCForge.Commands
+namespace MCSpleef.Commands
 {
 	public class CmdTitle : Command
 	{

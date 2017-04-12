@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MCForge.Commands
+namespace MCSpleef.Commands
 {
 	public class CmdRestart : Command
 	{
@@ -7,7 +7,7 @@ namespace MCForge.Commands
 		public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
 		public override void Use(Player p, string message)
 		{
-			MCForge.Gui.Program.ExitProgram(true);
+			MCSpleef.Gui.Program.ExitProgram(true);
 		}
 		public override void Help(Player p)
 		{

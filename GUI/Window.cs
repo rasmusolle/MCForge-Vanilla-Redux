@@ -22,7 +22,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MCForge.Gui 
+namespace MCSpleef.Gui 
 {
 	public partial class Window : Form 
 	{
@@ -181,11 +181,11 @@ namespace MCForge.Gui
 
 		private void Window_FormClosing(object sender, FormClosingEventArgs e) {
 			if (e.CloseReason == CloseReason.WindowsShutDown) {
-				MCForge.Gui.Program.ExitProgram(false);
+				MCSpleef.Gui.Program.ExitProgram(false);
 			}
 			if (Server.shuttingDown || MessageBox.Show("Really Shutdown the Server? All Connections will break!", "Exit", MessageBoxButtons.OKCancel) == DialogResult.OK) {
 				if (!Server.shuttingDown) {
-					MCForge.Gui.Program.ExitProgram(false);
+					MCSpleef.Gui.Program.ExitProgram(false);
 				}
 			}
 			else {
@@ -298,7 +298,7 @@ namespace MCForge.Gui
 
 		private void Restart_Click(object sender, EventArgs e) {
 			if ( MessageBox.Show("Are you sure you want to restart?", "Restart", MessageBoxButtons.OKCancel) == DialogResult.OK ) {
-				MCForge.Gui.Program.ExitProgram(true);
+				MCSpleef.Gui.Program.ExitProgram(true);
 			}
 
 		}

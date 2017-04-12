@@ -21,7 +21,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace MCForge
+namespace MCSpleef
 {
 	public class BlocksDB {
 		public static List<Blockchange> blockchanges = new List<Blockchange>();

@@ -17,7 +17,7 @@
 */
 using System.Collections.Generic;
 using System.IO;
-namespace MCForge
+namespace MCSpleef
 {
 	public class PlayerList
 	{

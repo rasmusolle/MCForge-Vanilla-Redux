@@ -19,7 +19,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace MCForge.Gui.Utils {
+namespace MCSpleef.Gui.Utils {
 	internal class Natives {
 		private const int SOURCE_COPY = 0x00CC0020;
 		private const int BI_RGB = 0;

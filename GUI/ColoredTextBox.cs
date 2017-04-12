@@ -24,11 +24,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using MCForge.Gui.Utils;
+using MCSpleef.Gui.Utils;
 
-//MCForge 6 Preview :D
-
-namespace MCForge.Gui.Components {
+namespace MCSpleef.Gui.Components {
 
 	/// <summary>
 	/// A rich text box, that can parse Minecraft/MCForge color codes.

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-namespace MCForge.Commands
+namespace MCSpleef.Commands
 {
 	public class CmdBanip : Command
 	{

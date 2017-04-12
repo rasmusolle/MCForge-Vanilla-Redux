@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MCForge.properties {
+namespace MCSpleef.properties {
     using System;
     
     

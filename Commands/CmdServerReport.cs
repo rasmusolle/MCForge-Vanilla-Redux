@@ -18,7 +18,7 @@
 //TODO: Rewrite or delete
 using System;
 using System.Diagnostics;
-namespace MCForge.Commands
+namespace MCSpleef.Commands
 {
 	public class CmdServerReport : Command
 	{

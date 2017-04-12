@@ -22,7 +22,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Text.RegularExpressions;
-namespace MCForge
+namespace MCSpleef
 {
 	public static class Extensions
 	{

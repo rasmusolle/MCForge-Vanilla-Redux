@@ -29,7 +29,7 @@ using System.Linq;
 //WARNING! DO NOT CHANGE THE WAY THE LEVEL IS SAVED/LOADED!
 //You MUST make it able to save and load as a new version other wise you will make old levels incompatible!
 
-namespace MCForge
+namespace MCSpleef
 {
 	public enum LevelPermission //int is default
 	{
@@ -640,7 +640,7 @@ namespace MCForge
 			return "";
 		}
 
-		public void AddCheck(int b, string extraInfo = "", bool overRide = false, MCForge.Player Placer = null)
+		public void AddCheck(int b, string extraInfo = "", bool overRide = false, MCSpleef.Player Placer = null)
 		{
 			try
 			{
@@ -704,9 +704,9 @@ public class Check
 	public int b;
 	public string extraInfo = "";
 	public byte time;
-	public MCForge.Player p;
+	public MCSpleef.Player p;
 
-	public Check(int b, string extraInfo = "", MCForge.Player placer = null)
+	public Check(int b, string extraInfo = "", MCSpleef.Player placer = null)
 	{
 		this.b = b;
 		time = 0;

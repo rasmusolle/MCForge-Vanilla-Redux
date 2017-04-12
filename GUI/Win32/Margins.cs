@@ -18,7 +18,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-namespace MCForge.Gui.Utils {
+namespace MCSpleef.Gui.Utils {
 	[StructLayout( LayoutKind.Sequential )]
 	public struct Margins {
 

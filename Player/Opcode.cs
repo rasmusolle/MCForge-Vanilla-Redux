@@ -1,6 +1,6 @@
 ﻿// Part of fCraft | Copyright 2009-2013 Matvei Stefarov <me@matvei.org> | BSD-3 | See LICENSE.txt
 
-namespace MCForge
+namespace MCSpleef
 {
 	/// <summary> Minecraft protocol's opCodes. 
 	/// For detailed explanation of Minecraft Classic protocol, see http://wiki.vg/Classic_Protocol </summary>

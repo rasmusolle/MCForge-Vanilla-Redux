@@ -17,7 +17,7 @@
 */
 using System;
 using System.Threading;
-namespace MCForge
+namespace MCSpleef
 {
 	public class AutoSaver
 	{

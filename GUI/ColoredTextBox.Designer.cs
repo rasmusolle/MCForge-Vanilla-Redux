@@ -15,7 +15,7 @@
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-namespace MCForge.Gui.Components
+namespace MCSpleef.Gui.Components
 {
 	partial class ColoredTextBox
 	{

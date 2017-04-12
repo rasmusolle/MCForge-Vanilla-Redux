@@ -16,7 +16,7 @@
 	permiusing MCForge;ssions and limitations under the Licenses.
 */
 ﻿using System;
-namespace MCForge
+namespace MCSpleef
 {
 	public static class Checktimer
 	{

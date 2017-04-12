@@ -25,7 +25,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-namespace MCForge
+namespace MCSpleef
 {
 	public partial class Player : IDisposable
 	{

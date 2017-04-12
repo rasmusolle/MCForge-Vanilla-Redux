@@ -17,7 +17,7 @@
 */
 using System;
 using System.IO;
-namespace MCForge {
+namespace MCSpleef {
 	public class PlayerDB {
 		public static bool Load(Player p) {
 			if (File.Exists("players/" + p.name.ToLower() + "DB.txt")) {

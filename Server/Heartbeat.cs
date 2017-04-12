@@ -21,7 +21,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
-namespace MCForge
+namespace MCSpleef
 {
 	public static class Heartbeat
 	{

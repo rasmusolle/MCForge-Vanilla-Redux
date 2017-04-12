@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Text;
 using Sharkbite.Irc;
 
-namespace MCForge {
+namespace MCSpleef {
 	public class ForgeBot {
 		public static readonly string ColorSignal = "\x03";
 		public static readonly string ResetSignal = "\x0F";

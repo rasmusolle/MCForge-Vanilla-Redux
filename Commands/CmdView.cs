@@ -17,7 +17,7 @@
 */
 using System;
 using System.IO;
-namespace MCForge.Commands
+namespace MCSpleef.Commands
 {
 	public class CmdView : Command
 	{

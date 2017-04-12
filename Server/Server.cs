@@ -25,7 +25,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MCForge
+namespace MCSpleef
 {
 	public enum LogType { Process, Main, Op, Admin }
 	public class Server

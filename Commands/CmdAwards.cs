@@ -18,7 +18,7 @@
 //TODO: Cleanup this
 using System;
 using System.Collections.Generic;
-namespace MCForge.Commands
+namespace MCSpleef.Commands
 {
 	public class CmdAwards : Command
 	{

@@ -18,7 +18,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace MCForge.Gui
+namespace MCSpleef.Gui
 {
 	public partial class Window
 	{
@@ -82,7 +82,7 @@ namespace MCForge.Gui
 			this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.gBChat = new System.Windows.Forms.GroupBox();
-			this.txtLog = new MCForge.Gui.Components.ColoredTextBox();
+			this.txtLog = new MCSpleef.Gui.Components.ColoredTextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.txtCommands = new System.Windows.Forms.TextBox();
 			this.txtInput = new System.Windows.Forms.TextBox();

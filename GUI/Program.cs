@@ -23,9 +23,9 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using MCForge;
+using MCSpleef;
 
-namespace MCForge.Gui
+namespace MCSpleef.Gui
 {
 	public static class Program
 	{
@@ -72,7 +72,7 @@ namespace MCForge.Gui
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MCForge.Gui.Window());
+			Application.Run(new MCSpleef.Gui.Window());
 		}
 
 		private static void WriteToConsole(string message)

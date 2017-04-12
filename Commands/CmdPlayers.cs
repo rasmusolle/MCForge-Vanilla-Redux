@@ -18,7 +18,7 @@
 //TODO: Look through this
 using System;
 using System.Collections.Generic;
-namespace MCForge.Commands
+namespace MCSpleef.Commands
 {
 	class CmdPlayers : Command
 	{

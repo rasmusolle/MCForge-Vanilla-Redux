@@ -21,7 +21,7 @@
 */
 
 using System;
-namespace MCForge
+namespace MCSpleef
 {
 	public static class BlockQueue
 	{

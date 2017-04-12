@@ -16,7 +16,7 @@
 	permissions and limitations under the Licenses.
 */
 using System.Drawing;
-namespace MCForge.Gui.Utils {
+namespace MCSpleef.Gui.Utils {
 	public class Utilities {
 		public static Color? GetDimColorFromChar( char c ) {
 			switch ( c ) {

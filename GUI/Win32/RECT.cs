@@ -16,7 +16,7 @@
 	permissions and limitations under the Licenses.
 */
 using System.Drawing;
-namespace MCForge.Gui.Utils {
+namespace MCSpleef.Gui.Utils {
 	public struct RECT {
 		private int left;
 		private int top;

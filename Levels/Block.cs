@@ -17,7 +17,7 @@
 */
 using System.Collections.Generic;
 
-namespace MCForge
+namespace MCSpleef
 {
 	public class Block
 	{

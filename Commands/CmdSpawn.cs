@@ -16,7 +16,7 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-namespace MCForge.Commands
+namespace MCSpleef.Commands
 {
 	public class CmdSpawn : Command
 	{

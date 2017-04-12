@@ -21,7 +21,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-namespace MCForge {
+namespace MCSpleef {
 	/// <summary>
 	/// This is the group object
 	/// Where ranks and there data are stored

@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-namespace MCForge
+namespace MCSpleef
 {
 	public class PlayerCollection : List<Player>, ITypedList
 	{

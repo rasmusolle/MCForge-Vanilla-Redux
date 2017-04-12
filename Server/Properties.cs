@@ -19,7 +19,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-namespace MCForge
+namespace MCSpleef
 {
 	public static class SrvProperties
 	{

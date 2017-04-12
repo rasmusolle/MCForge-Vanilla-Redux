@@ -29,7 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace MCForge
+namespace MCSpleef
 {
 	public delegate void MainLoopResult(object result);
 	public delegate object MainLoopJob();
