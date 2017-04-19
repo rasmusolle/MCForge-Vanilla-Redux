@@ -73,22 +73,6 @@ namespace MCSpleef
 		public const ushort bookcase = (ushort)47;
 		public const ushort stonevine = (ushort)48;
 		public const ushort obsidian = (ushort)49;
-		public const ushort cobblestoneslab = (ushort)50;
-		public const ushort rope = (ushort)51;
-		public const ushort sandstone = (ushort)52;
-		public const ushort snowreal = (ushort)53;
-		public const ushort firereal = (ushort)54;
-		public const ushort lightpinkwool = (ushort)55;
-		public const ushort forestgreenwool = (ushort)56;
-		public const ushort brownwool = (ushort)57;
-		public const ushort deepblue = (ushort)58;
-		public const ushort turquoise = (ushort)59;
-		public const ushort ice = (ushort)60;
-		public const ushort ceramictile = (ushort)61;
-		public const ushort magmablock = (ushort)62;
-		public const ushort pillar = (ushort)63;
-		public const ushort crate = (ushort)64;
-		public const ushort stonebrick = (ushort)65;
 		public const ushort Zero = 0xff;
 
 		//Death
@@ -332,7 +316,6 @@ namespace MCSpleef
 				case Block.mushroom:
 				case Block.redmushroom:
 				case Block.shrub:
-				case Block.rope:
 					return true;
 
 				default:
@@ -394,22 +377,6 @@ namespace MCSpleef
 				case 47: return "bookcase";
 				case 48: return "mossy_cobblestone";
 				case 49: return "obsidian";
-				case 50: return "cobblestoneslab";
-				case 51: return "rope";
-				case 52: return "sandstone";
-				case 53: return "snowreal";
-				case 54: return "firereal";
-				case 55: return "lightpinkwool";
-				case 56: return "forestgreenwool";
-				case 57: return "brownwool";
-				case 58: return "deepblue";
-				case 59: return "turquoise";
-				case 60: return "ice";
-				case 61: return "ceramictile";
-				case 62: return "magmablock";
-				case 63: return "pillar";
-				case 64: return "crate";
-				case 65: return "stonebrick";
 
 				case 190: return "hot_lava";
 				case activedeathlava: return "active_hot_lava";
@@ -476,22 +443,6 @@ namespace MCSpleef
 				case "bookcase": return 47;
 				case "mossy_cobblestone": return 48;
 				case "obsidian": return 49;
-				case "cobblestoneslab": return 50;
-				case "rope": return 51;
-				case "sandstone": return 52;
-				case "snowreal": return 53;
-				case "firereal": return 54;
-				case "lightpinkwool": return 55;
-				case "forestgreenwool": return 56;
-				case "brownwool": return 57;
-				case "deepblue": return 58;
-				case "turquoise": return 59;
-				case "ice": return 60;
-				case "ceramictile": return 61;
-				case "magmablock": return 62;
-				case "pillar": return 63;
-				case "crate": return 64;
-				case "stonebrick": return 65;
 
 				case "hot_lava": return 190;
 				case "ahl":
@@ -510,31 +461,6 @@ namespace MCSpleef
 
 				default:
 					if (b < 66 || b == Block.air) return b; else return 22;
-			}
-		}
-
-		public static ushort ConvertCPE(ushort b)
-		{
-			switch (b)
-			{
-				case 50: return 44;
-				case 51: return 39;
-				case 52: return 12;
-				case 53: return 0;
-				case 54: return 10;
-				case 55: return 33;
-				case 56: return 25;
-				case 57: return 3;
-				case 58: return 29;
-				case 59: return 28;
-				case 60: return 20;
-				case 61: return 42;
-				case 62: return 49;
-				case 63: return 36;
-				case 64: return 5;
-				case 65: return 1;
-				default:
-					return b;
 			}
 		}
 	}

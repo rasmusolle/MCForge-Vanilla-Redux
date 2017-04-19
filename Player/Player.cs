@@ -279,7 +279,6 @@ namespace MCSpleef
 		public bool adminpen = false;
 
 		public bool spawned = false;
-		public bool sentCustomBlockSupport = false;
 
 		public string prevMsg = "";
 
@@ -326,7 +325,6 @@ namespace MCSpleef
 		public string appName;
 		public int extensionCount;
 		public List<string> extensions = new List<string>();
-		public int customBlockSupportLevel;
 		public bool extension;
 
 		public struct OfflinePlayer
@@ -620,9 +618,6 @@ namespace MCSpleef
 						case 17:
 							HandleExtEntry(message);
 							break;
-						case 19:
-							HandleCustomBlockSupportLevel(message);
-							break;
 					}
 					//thread.Start((object)message);
 					if (buffer.Length > 0)
@@ -657,8 +652,6 @@ namespace MCSpleef
 			Buffer.BlockCopy(x, offset, y, 0, 4); Array.Reverse(y);
 			return BitConverter.ToInt32(y, 0);
 		}
-
-		public void HandleCustomBlockSupportLevel(byte[] message) { customBlockSupportLevel = message[0]; }
 
 		void HandleLogin(byte[] message)
 		{
@@ -710,7 +703,6 @@ namespace MCSpleef
 					extension = true;
 					SendExtInfo(14);
 					SendExtEntry("ClickDistance", 1);
-					SendExtEntry("CustomBlocks", 1);
 					SendExtEntry("HeldBlock", 1);
 					SendExtEntry("TextHotKey", 1);
 					SendExtEntry("ExtPlayerList", 2);
@@ -1661,11 +1653,7 @@ namespace MCSpleef
 				byte[] buffer = new byte[level.blocks.Length + 4];
 				BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
 			for ( int i = 0; i < level.blocks.Length; ++i ) {
-				if ( extension ) {
-					buffer[4 + i] = (byte)Block.Convert( level.blocks[i] );
-				} else {
-					buffer[4 + i] = (byte)Block.Convert( Block.ConvertCPE( level.blocks[i] ) );
-				}
+				buffer[4 + i] = (byte)Block.Convert( level.blocks[i] );
 			}
 				SendRaw(OpCode.MapBegin);
 				buffer = buffer.GZip();
@@ -1791,8 +1779,7 @@ namespace MCSpleef
 			HTNO(x).CopyTo(buffer, 0);
 			HTNO(y).CopyTo(buffer, 2);
 			HTNO(z).CopyTo(buffer, 4);
-			if (extension == true) { buffer[6] = (byte)Block.Convert(type); }
-			else { buffer[6] = (byte)Block.Convert(Block.ConvertCPE(type)); }
+
 			SendRaw(OpCode.SetBlockServer, buffer);
 		}
 		void SendKick(string message) { SendRaw(OpCode.Kick, StringFormat(message, 64)); }
@@ -1821,12 +1808,6 @@ namespace MCSpleef
 			byte[] buffer = new byte[2];
 			HTNO(distance).CopyTo(buffer, 0);
 			SendRaw(OpCode.SetClickDistance, buffer);
-		}
-		public void SendCustomBlockSupportLevel(byte level)
-		{
-			byte[] buffer = new byte[1];
-			buffer[0] = level;
-			SendRaw(OpCode.CustomBlockSupportLevel, buffer);
 		}
 		public void SendHoldThis(byte type, byte locked)
 		{

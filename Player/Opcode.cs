@@ -65,9 +65,6 @@ namespace MCSpleef
 		/// <summary> Extended server packet. Changes player's allowed click distance. </summary>
 		SetClickDistance = 18,
 
-		/// <summary> Extended client/server packet. Declares CustomBlocks support level. </summary>
-		CustomBlockSupportLevel = 19,
-
 		/// <summary> Extended server packet. Tells client which block to hold. </summary>
 		HoldThis = 20,
 

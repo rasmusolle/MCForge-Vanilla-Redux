@@ -21,7 +21,6 @@ namespace MCSpleef
 	public partial class Player
 	{
 		public int ClickDistance = 0;
-		public int CustomBlocks = 0;
 		public int HeldBlock = 0;
 		public int TextHotKey = 0;
 		public int ExtPlayerList = 0;
@@ -43,11 +42,6 @@ namespace MCSpleef
 				{
 					case "ClickDistance":
 						ClickDistance = version;
-						break;
-					case "CustomBlocks":
-						CustomBlocks = version;
-						if (version == 1)
-							SendCustomBlockSupportLevel(1);
 						break;
 					case "HeldBlock":
 						HeldBlock = version;
@@ -134,7 +128,6 @@ namespace MCSpleef
 			switch (Extension)
 			{
 				case "ClickDistance": return ClickDistance == version;
-				case "CustomBlocks": return CustomBlocks == version;
 				case "HeldBlock": return HeldBlock == version;
 				case "TextHotKey": return TextHotKey == version;
 				case "ExtPlayerList": return ExtPlayerList == version;
