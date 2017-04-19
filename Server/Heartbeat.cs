@@ -37,7 +37,7 @@ namespace MCSpleef
 		public static void Init()
 		{
 			staticVars = "port=" + Server.port +
-							"&users=" + Player.number +
+							"&users=" + 10 +
 							"&max=" + Server.players +
 							"&name=" + UrlEncode(Server.name) +
 							"&public=" + Server.pub +

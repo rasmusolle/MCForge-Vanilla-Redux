@@ -701,11 +701,10 @@ namespace MCSpleef
 				if (type == 0x42)
 				{
 					extension = true;
-					SendExtInfo(14);
+					SendExtInfo(12);
 					SendExtEntry("ClickDistance", 1);
 					SendExtEntry("HeldBlock", 1);
 					SendExtEntry("TextHotKey", 1);
-					SendExtEntry("ExtPlayerList", 2);
 					SendExtEntry("EnvColors", 1);
 					SendExtEntry("SelectionCuboid", 1);
 					SendExtEntry("BlockPermissions", 1);
@@ -1825,32 +1824,6 @@ namespace MCSpleef
 			buffer[132] = mods;
 			SendRaw(OpCode.SetTextHotKey, buffer);
 		}
-		public void SendExtAddPlayerName(short id, string name, Group grp, string displayname = "")
-		{
-			byte[] buffer = new byte[195];
-			HTNO(id).CopyTo(buffer, 0);
-			StringFormat(name, 64).CopyTo(buffer, 2);
-			if (displayname == "") { displayname = name; }
-			StringFormat(displayname, 64).CopyTo(buffer, 66);
-			StringFormat(grp.color + grp.name.ToUpper() + "s:", 64).CopyTo(buffer, 130);
-			buffer[194] = (byte)grp.Permission.GetHashCode();
-			SendRaw(OpCode.ExtAddPlayerName, buffer);
-		}
-		public void SendExtAddEntity(byte id, string name, string displayname = "")
-		{
-			byte[] buffer = new byte[129];
-			buffer[0] = id;
-			StringFormat(name, 64).CopyTo(buffer, 1);
-			if (displayname == "") { displayname = name; }
-			StringFormat(displayname, 64).CopyTo(buffer, 65);
-			SendRaw(OpCode.ExtAddEntity, buffer);
-		}
-		public void SendExtRemovePlayerName(short id)
-		{
-			byte[] buffer = new byte[2];
-			HTNO(id).CopyTo(buffer, 0);
-			SendRaw(OpCode.ExtRemovePlayerName, buffer);
-		}
 		public void SendEnvSetColor(byte type, short r, short g, short b)
 		{
 			byte[] buffer = new byte[7];
@@ -2325,7 +2298,7 @@ namespace MCSpleef
 					{
 						if (p != this && p.extension)
 						{
-							p.SendExtRemovePlayerName(this.id);
+							//TODO: Remove this.
 						}
 					});
 					Server.s.PlayerListUpdate();
