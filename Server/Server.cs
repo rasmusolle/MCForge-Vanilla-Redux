@@ -116,7 +116,7 @@ namespace MCSpleef
 		public static string name = "[MCForge] Default";
 		public static string motd = "Welcome!";
 		public static string textureUrl = "";
-		public static byte players = 12;
+		public static byte players = 128;
 
 		public static byte maps = 5;
 		public static int port = 25565;
