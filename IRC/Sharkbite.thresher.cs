@@ -39,7 +39,6 @@ namespace Sharkbite.Irc
 {
 	public class ChannelModeInfo
 	{
-
 		private ModeAction action;
 		private ChannelMode mode;
 		private string parameter;
@@ -91,14 +90,8 @@ namespace Sharkbite.Irc
 								break;
 							case 'l':
 								modeInfo.Mode = Rfc2812Util.CharToChannelMode(tokens[i][j]);
-								if (modeInfo.Action == ModeAction.Add)
-								{
-									modeInfo.Parameter = tokens[parmIndex++];
-								}
-								else
-								{
-									modeInfo.Parameter = "";
-								}
+								if (modeInfo.Action == ModeAction.Add) { modeInfo.Parameter = tokens[parmIndex++]; }
+								else { modeInfo.Parameter = ""; }
 								break;
 							default:
 								modeInfo.Mode = Rfc2812Util.CharToChannelMode(tokens[i][j]);
@@ -158,10 +151,8 @@ namespace Sharkbite.Irc
 			for (int i = 0; i < pieces; i++)
 			{
 				int start = i * maxSize;
-				if (i == pieces - 1)
-					parts[i] = message.Substring(start);
-				else
-					parts[i] = message.Substring(start, maxSize);
+				if (i == pieces - 1) { parts[i] = message.Substring(start); }
+				else { parts[i] = message.Substring(start, maxSize); }
 			}
 			return parts;
 		}
@@ -230,11 +221,7 @@ namespace Sharkbite.Irc
 			TextEncoding = Encoding.Default;
 		}
 
-		public Connection(Encoding textEncoding, ConnectionArgs args, bool enableCtcp, bool enableDcc)
-			: this(args, enableCtcp, enableDcc)
-		{
-			TextEncoding = textEncoding;
-		}
+		public Connection(Encoding textEncoding, ConnectionArgs args, bool enableCtcp, bool enableDcc) : this(args, enableCtcp, enableDcc) { TextEncoding = textEncoding; }
 
 		public Encoding TextEncoding { get { return encoding; } set { encoding = value; } }
 
@@ -247,10 +234,7 @@ namespace Sharkbite.Irc
 
 		public bool EnableCtcp
 		{
-			get
-			{
-				return ctcpEnabled;
-			}
+			get { return ctcpEnabled; }
 			set
 			{
 				if (value && !ctcpEnabled)
@@ -271,16 +255,10 @@ namespace Sharkbite.Irc
 
 		public CtcpResponder CtcpResponder
 		{
-			get
-			{
-				return ctcpResponder;
-			}
+			get { return ctcpResponder; }
 			set
 			{
-				if (value == null && ctcpResponder != null)
-				{
-					ctcpResponder.Disable();
-				}
+				if (value == null && ctcpResponder != null) { ctcpResponder.Disable(); }
 				ctcpResponder = value;
 			}
 		}
@@ -290,16 +268,7 @@ namespace Sharkbite.Irc
 		public Listener Listener { get { return listener; } }
 		public CtcpSender CtcpSender { get { return ctcpSender; } }
 
-		public CtcpListener CtcpListener
-		{
-			get
-			{
-				if (ctcpEnabled)
-					return ctcpListener;
-				else
-					return null;
-			}
-		}
+		public CtcpListener CtcpListener { get { if (ctcpEnabled) { return ctcpListener; } else { return null; } } }
 
 		public ConnectionArgs ConnectionData { get { return connectionArgs; } }
 		public ServerProperties ServerProperties { get { return properties; } }
@@ -319,10 +288,7 @@ namespace Sharkbite.Irc
 
 		private void KeepAlive(string message) { sender.Pong(message); }
 
-		private void MyNickChanged(UserInfo user, string newNick)
-		{
-			if (connectionArgs.Nick == user.Nick) { connectionArgs.Nick = newNick; }
-		}
+		private void MyNickChanged(UserInfo user, string newNick) { if (connectionArgs.Nick == user.Nick) { connectionArgs.Nick = newNick; } }
 		private void OnRegistered()
 		{
 			registered = true;
@@ -335,10 +301,7 @@ namespace Sharkbite.Irc
 			{
 				NameGenerator generator = new NameGenerator();
 				string nick;
-				do
-				{
-					nick = generator.MakeName();
-				}
+				do { nick = generator.MakeName(); }
 				while (!Rfc2812Util.IsValidNick(nick) || nick.Length == 1);
 				//Try to reconnect
 				Sender.Register(nick);
@@ -353,10 +316,7 @@ namespace Sharkbite.Irc
 				MatchCollection matches = propertiesRegex.Matches(info);
 				if (matches.Count > 0)
 				{
-					foreach (Match match in matches)
-					{
-						properties.SetProperty(match.Groups[1].ToString(), match.Groups[2].ToString());
-					}
+					foreach (Match match in matches) { properties.SetProperty(match.Groups[1].ToString(), match.Groups[2].ToString()); }
 				}
 				//Extract ones we are interested in
 				ExtractProperties();
@@ -377,14 +337,11 @@ namespace Sharkbite.Irc
 		}
 
 #if SSL
-		private void ConnectClient( SecureProtocol protocol )   
+		private void ConnectClient(SecureProtocol protocol)   
 		{
-			lock ( this ) 
+			lock (this) 
 			{
-				if( connected ) 
-				{
-					throw new Exception("Connection with IRC server already opened.");
-				}
+				if(connected) { throw new Exception("Connection with IRC server already opened."); }
 				Debug.WriteLineIf( Rfc2812Util.IrcTrace.TraceInfo,"[" + Thread.CurrentThread.Name +"] Connection::Connect()");
 			
 					SecurityOptions options = new SecurityOptions( protocol );
@@ -397,13 +354,13 @@ namespace Sharkbite.Irc
 					client.Connect( connectionArgs.Hostname, connectionArgs.Port );
 			
 				connected = true;
-				writer = new StreamWriter( client.GetStream(), TextEncoding );
+				writer = new StreamWriter(client.GetStream(), TextEncoding);
 				writer.AutoFlush = true;
-				reader = new StreamReader(  client.GetStream(), TextEncoding );
-				socketListenThread = new Thread(new ThreadStart( ReceiveIRCMessages ) );
+				reader = new StreamReader(client.GetStream(), TextEncoding);
+				socketListenThread = new Thread(new ThreadStart(ReceiveIRCMessages));
 				socketListenThread.Name = Name;
 				socketListenThread.Start();		
-				sender.RegisterConnection( connectionArgs );
+				sender.RegisterConnection(connectionArgs);
 			}
 		}
 #endif
@@ -500,10 +457,7 @@ namespace Sharkbite.Irc
 		{
 			lock (this)
 			{
-				if (connected)
-				{
-					throw new Exception("Connection with IRC server already opened.");
-				}
+				if (connected) { throw new Exception("Connection with IRC server already opened."); }
 				Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] Connection::Connect()");
 				client = new TcpClient();
 				client.Connect(connectionArgs.Hostname, connectionArgs.Port);
@@ -529,8 +483,7 @@ namespace Sharkbite.Irc
 				sender.Quit(reason);
 				listener.Disconnected();
 				//Thanks to Thomas for this next block
-				if (socketListenThread.Join(TimeSpan.FromSeconds(1)) == false)
-					socketListenThread.Abort();
+				if (socketListenThread.Join(TimeSpan.FromSeconds(1)) == false) { socketListenThread.Abort(); }
 			}
 		}
 
@@ -731,10 +684,7 @@ namespace Sharkbite.Irc
 		{
 			lock (lockObject)
 			{
-				if (running == true)
-				{
-					throw new Exception("Identd already started.");
-				}
+				if (running == true) { throw new Exception("Identd already started."); }
 				running = true;
 				username = userName;
 				Thread socketThread = new Thread(new ThreadStart(Identd.Run));
@@ -785,30 +735,16 @@ namespace Sharkbite.Irc
 						//Close connection with client
 						client.Close();
 					}
-					catch (IOException ioe)
-					{
-						Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] Identd::Run() exception=" + ioe);
-					}
+					catch (IOException ioe) { Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] Identd::Run() exception=" + ioe); }
 					goto loop;
 				}
 			}
-			catch (Exception)
-			{
-				Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] Identd::Run() Identd stopped");
-			}
-			finally
-			{
-				running = false;
-			}
+			catch (Exception) { Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] Identd::Run() Identd stopped"); }
+			finally { running = false; }
 		}
-
 	}
 
-	public interface IParser
-	{
-		bool CanParse(string line);
-		void Parse(string message);
-	}
+	public interface IParser { bool CanParse(string line); void Parse(string message); }
 
 	public class Listener
 	{
@@ -911,20 +847,10 @@ namespace Sharkbite.Irc
 			else { ParseCommand(tokens); }
 		}
 
-		internal void Disconnecting()
-		{
-			if (OnDisconnecting != null) { OnDisconnecting(); }
-		}
+		internal void Disconnecting() { if (OnDisconnecting != null) { OnDisconnecting(); } }
+		internal void Disconnected() { if (OnDisconnected != null) { OnDisconnected(); } }
 
-		internal void Disconnected()
-		{
-			if (OnDisconnected != null) { OnDisconnected(); }
-		}
-
-		internal void Error(ReplyCode code, string message)
-		{
-			if (OnError != null) { OnError(code, message); }
-		}
+		internal void Error(ReplyCode code, string message) { if (OnError != null) { OnError(code, message); } }
 
 		private void ParseCommand(string[] tokens)
 		{
@@ -990,17 +916,13 @@ namespace Sharkbite.Irc
 					}
 					break;
 				case NICK:
-					if (OnNick != null)
-					{
-						OnNick(Rfc2812Util.UserInfoFromString(tokens[0]), RemoveLeadingColon(tokens[2]));
-					}
+					if (OnNick != null) { OnNick(Rfc2812Util.UserInfoFromString(tokens[0]), RemoveLeadingColon(tokens[2])); }
 					break;
 				case TOPIC:
 					if (OnTopicChanged != null)
 					{
 						tokens[3] = RemoveLeadingColon(tokens[3]);
-						OnTopicChanged(
-							Rfc2812Util.UserInfoFromString(tokens[0]), tokens[2], CondenseStrings(tokens, 3));
+						OnTopicChanged(Rfc2812Util.UserInfoFromString(tokens[0]), tokens[2], CondenseStrings(tokens, 3));
 					}
 					break;
 				case PART:
@@ -1020,11 +942,7 @@ namespace Sharkbite.Irc
 					}
 					break;
 				case INVITE:
-					if (OnInvite != null)
-					{
-						OnInvite(
-							Rfc2812Util.UserInfoFromString(tokens[0]), RemoveLeadingColon(tokens[3]));
-					}
+					if (OnInvite != null) { OnInvite(Rfc2812Util.UserInfoFromString(tokens[0]), RemoveLeadingColon(tokens[3])); }
 					break;
 				case KICK:
 					if (OnKick != null)
@@ -1107,9 +1025,7 @@ namespace Sharkbite.Irc
 						int numberOfUsers = tokens.Length - 5;
 						string[] users = new string[numberOfUsers];
 						Array.Copy(tokens, 5, users, 0, numberOfUsers);
-						OnNames(tokens[4],
-							users,
-							false);
+						OnNames(tokens[4], users, false);
 					}
 					break;
 				case ReplyCode.RPL_ENDOFNAMES:
@@ -1119,11 +1035,7 @@ namespace Sharkbite.Irc
 					if (OnList != null)
 					{
 						tokens[5] = RemoveLeadingColon(tokens[5]);
-						OnList(
-							tokens[3],
-							int.Parse(tokens[4], CultureInfo.InvariantCulture),
-							CondenseStrings(tokens, 5),
-							false);
+						OnList( tokens[3], int.Parse(tokens[4], CultureInfo.InvariantCulture), CondenseStrings(tokens, 5), false);
 					}
 					break;
 				case ReplyCode.RPL_LISTEND:
@@ -1157,14 +1069,7 @@ namespace Sharkbite.Irc
 					if (OnWho != null)
 					{
 						UserInfo user = new UserInfo(tokens[7], tokens[4], tokens[5]);
-						OnWho(
-							user,
-							tokens[3],
-							tokens[6],
-							tokens[8],
-							int.Parse(RemoveLeadingColon(tokens[9]), CultureInfo.InvariantCulture),
-							tokens[10],
-							false);
+						OnWho(user, tokens[3], tokens[6], tokens[8], int.Parse(RemoveLeadingColon(tokens[9]), CultureInfo.InvariantCulture), tokens[10], false);
 					}
 					break;
 				case ReplyCode.RPL_ENDOFWHO:
@@ -1219,7 +1124,6 @@ namespace Sharkbite.Irc
 				case ReplyCode.RPL_UMODEIS:
 					if (OnUserModeRequest != null)
 					{
-						//First drop the '+'
 						string chars = tokens[3].Substring(1);
 						UserMode[] modes = Rfc2812Util.UserModesToArray(chars);
 						OnUserModeRequest(modes);
@@ -1287,13 +1191,7 @@ namespace Sharkbite.Irc
 					if (OnLusers != null) { OnLusers(RemoveLeadingColon(CondenseStrings(tokens, 3))); }
 					break;
 				case ReplyCode.RPL_LINKS:
-					if (OnLinks != null)
-					{
-						OnLinks(tokens[3], //mask
-									tokens[4], //hostname
-									int.Parse(RemoveLeadingColon(tokens[5]), CultureInfo.InvariantCulture), //hopcount
-									CondenseStrings(tokens, 6), false);
-					}
+					if (OnLinks != null) { OnLinks(tokens[3], tokens[4], int.Parse(RemoveLeadingColon(tokens[5]), CultureInfo.InvariantCulture), CondenseStrings(tokens, 6), false); }
 					break;
 				case ReplyCode.RPL_ENDOFLINKS:
 					if (OnLinks != null) { OnLinks(String.Empty, String.Empty, -1, String.Empty, true); }
@@ -1315,19 +1213,13 @@ namespace Sharkbite.Irc
 
 		private void HandleDefaultReply(ReplyCode code, string[] tokens)
 		{
-			if (code >= ReplyCode.ERR_NOSUCHNICK && code <= ReplyCode.ERR_USERSDONTMATCH)
-			{
-				if (OnError != null) { OnError(code, CondenseStrings(tokens, 3)); }
-			}
+			if (code >= ReplyCode.ERR_NOSUCHNICK && code <= ReplyCode.ERR_USERSDONTMATCH) { if (OnError != null) { OnError(code, CondenseStrings(tokens, 3)); } }
 			else if (OnReply != null) { OnReply(code, CondenseStrings(tokens, 3)); }
 		}
 
 		private WhoisInfo LookupInfo(string nick)
 		{
-			if (whoisInfos == null)
-			{
-				whoisInfos = new Hashtable();
-			}
+			if (whoisInfos == null) { whoisInfos = new Hashtable(); }
 			WhoisInfo info = (WhoisInfo)whoisInfos[nick];
 			if (info == null)
 			{
@@ -1348,10 +1240,7 @@ namespace Sharkbite.Irc
 			return text;
 		}
 
-		private string RemoveTrailingQuote(string text)
-		{
-			return text.Substring(0, text.Length - 1);
-		}
+		private string RemoveTrailingQuote(string text) { return text.Substring(0, text.Length - 1); }
 
 		private StatsQuery GetQueryType(ReplyCode code)
 		{
@@ -1370,7 +1259,6 @@ namespace Sharkbite.Irc
 					return StatsQuery.CommandUsage;
 			}
 		}
-
 	}
 
 	public class NameGenerator
@@ -1428,153 +1316,36 @@ namespace Sharkbite.Irc
 
 	public enum ReplyCode : int
 	{
-		RPL_WELCOME = 001,
-		RPL_YOURHOST = 002,
-		RPL_CREATED = 003,
-		RPL_MYINFO = 004,
-		RPL_BOUNCE = 005,
-		RPL_USERHOST = 302,
-		RPL_ISON = 303,
-		RPL_AWAY = 301,
-		RPL_UNAWAY = 305,
-		RPL_NOWAWAY = 306,
-		RPL_WHOISUSER = 311,
-		RPL_WHOISSERVER = 312,
-		RPL_WHOISOPERATOR = 313,
-		RPL_WHOISIDLE = 317,
-		RPL_ENDOFWHOIS = 318,
-		RPL_WHOISCHANNELS = 319,
-		RPL_WHOWASUSER = 314,
-		RPL_ENDOFWHOWAS = 369,
-		RPL_LISTSTART = 321,
-		RPL_LIST = 322,
-		RPL_LISTEND = 323,
-		RPL_UNIQOPIS = 325,
-		RPL_CHANNELMODEIS = 324,
-		RPL_NOTOPIC = 331,
-		RPL_TOPIC = 332,
-		RPL_INVITING = 341,
-		RPL_SUMMONING = 342,
-		RPL_INVITELIST = 346,
-		RPL_ENDOFINVITELIST = 347,
-		RPL_EXCEPTLIST = 348,
-		RPL_ENDOFEXCEPTLIST = 349,
-		RPL_VERSION = 351,
-		RPL_WHOREPLY = 352,
-		RPL_ENDOFWHO = 315,
-		RPL_NAMREPLY = 353,
-		RPL_ENDOFNAMES = 366,
-		RPL_LINKS = 364,
-		RPL_ENDOFLINKS = 365,
-		RPL_BANLIST = 367,
-		RPL_ENDOFBANLIST = 368,
-		RPL_INFO = 371,
-		RPL_ENDOFINFO = 374,
-		RPL_MOTDSTART = 375,
-		RPL_MOTD = 372,
-		RPL_ENDOFMOTD = 376,
-		RPL_YOUREOPER = 381,
-		RPL_REHASHING = 382,
-		RPL_YOURESERVICE = 383,
-		RPL_TIME = 391,
-		RPL_USERSSTART = 392,
-		RPL_USERS = 393,
-		RPL_ENDOFUSERS = 394,
-		RPL_NOUSERS = 395,
-		RPL_TRACELINK = 200,
-		RPL_TRACECONNECTING = 201,
-		RPL_TRACEHANDSHAKE = 202,
-		RPL_TRACEUNKNOWN = 203,
-		RPL_TRACEOPERATOR = 204,
-		RPL_TRACEUSER = 205,
-		RPL_TRACESERVER = 206,
-		RPL_TRACESERVICE = 207,
-		RPL_TRACENEWTYPE = 208,
-		RPL_TRACECLASS = 209,
-		RPL_TRACERECONNECT = 210,
-		RPL_TRACELOG = 261,
-		RPL_TRACEEND = 262,
-		RPL_STATSLINKINFO = 211,
-		RPL_STATSCOMMANDS = 212,
-		RPL_ENDOFSTATS = 219,
-		RPL_STATSUPTIME = 242,
-		RPL_STATSOLINE = 243,
-		RPL_UMODEIS = 221,
-		RPL_SERVLIST = 234,
-		RPL_SERVLISTEND = 235,
-		RPL_LUSERCLIENT = 251,
-		RPL_LUSEROP = 252,
-		RPL_LUSERUNKNOWN = 253,
-		RPL_LUSERCHANNELS = 254,
-		RPL_LUSERME = 255,
-		RPL_ADMINME = 256,
-		RPL_ADMINLOC1 = 257,
-		RPL_ADMINLOC2 = 258,
-		RPL_ADMINEMAIL = 259,
-		RPL_TRYAGAIN = 263,
-		ERR_NOSUCHNICK = 401,
-		ERR_NOSUCHSERVER = 402,
-		ERR_NOSUCHCHANNEL = 403,
-		ERR_CANNOTSENDTOCHAN = 404,
-		ERR_TOOMANYCHANNELS = 405,
-		ERR_WASNOSUCHNICK = 406,
-		ERR_TOOMANYTARGETS = 407,
-		ERR_NOSUCHSERVICE = 408,
-		ERR_NOORIGIN = 409,
-		ERR_NORECIPIENT = 411,
-		ERR_NOTEXTTOSEND = 412,
-		ERR_NOTOPLEVEL = 413,
-		ERR_WILDTOPLEVEL = 414,
-		ERR_BADMASK = 415,
-		ERR_TOOMANYLINES = 416,
-		ERR_UNKNOWNCOMMAND = 421,
-		ERR_NOMOTD = 422,
-		ERR_NOADMININFO = 423,
-		ERR_FILEERROR = 424,
-		ERR_NONICKNAMEGIVEN = 431,
-		ERR_ERRONEUSNICKNAME = 432,
-		ERR_NICKNAMEINUSE = 433,
-		ERR_NICKCOLLISION = 436,
-		ERR_UNAVAILRESOURCE = 437,
-		ERR_USERNOTINCHANNEL = 441,
-		ERR_NOTONCHANNEL = 442,
-		ERR_USERONCHANNEL = 443,
-		ERR_NOLOGIN = 444,
-		ERR_SUMMONDISABLED = 445,
-		ERR_USERSDISABLED = 446,
-		ERR_NOTREGISTERED = 451,
-		ERR_NEEDMOREPARAMS = 461,
-		ERR_ALREADYREGISTRED = 462,
-		ERR_NOPERMFORHOST = 463,
-		ERR_PASSWDMISMATCH = 464,
-		ERR_YOUREBANNEDCREEP = 465,
-		ERR_YOUWILLBEBANNED = 466,
-		ERR_KEYSET = 467,
-		ERR_CHANNELISFULL = 471,
-		ERR_UNKNOWNMODE = 472,
-		ERR_INVITEONLYCHAN = 473,
-		ERR_BANNEDFROMCHAN = 474,
-		ERR_BADCHANNELKEY = 475,
-		ERR_BADCHANMASK = 476,
-		ERR_NOCHANMODES = 477,
-		ERR_BANLISTFULL = 478,
-		ERR_NOPRIVILEGES = 481,
-		ERR_CHANOPRIVSNEEDED = 482,
-		ERR_CANTKILLSERVER = 483,
-		ERR_RESTRICTED = 484,
-		ERR_UNIQOPPRIVSNEEDED = 485,
-		ERR_NOOPERHOST = 491,
-		ERR_UMODEUNKNOWNFLAG = 501,
-		ERR_USERSDONTMATCH = 502,
-		ConnectionFailed = 1000,
-		IrcServerError = 1001,
-		BadDccEndpoint = 1002,
-		UnparseableMessage = 1003,
-		UnableToResume = 1004,
-		UnknownEncryptionProtocol = 1005,
-		BadDccAcceptValue = 1006,
-		BadResumePosition = 1007,
-		DccConnectionRefused = 1008
+		RPL_WELCOME = 001, RPL_YOURHOST = 002, RPL_CREATED = 003, RPL_MYINFO = 004, RPL_BOUNCE = 005,
+		RPL_USERHOST = 302, RPL_ISON = 303, RPL_AWAY = 301, RPL_UNAWAY = 305, RPL_NOWAWAY = 306,
+		RPL_WHOISUSER = 311, RPL_WHOISSERVER = 312, RPL_WHOISOPERATOR = 313, RPL_WHOISIDLE = 317, RPL_ENDOFWHOIS = 318,
+		RPL_WHOISCHANNELS = 319, RPL_WHOWASUSER = 314, RPL_ENDOFWHOWAS = 369, RPL_LISTSTART = 321, RPL_LIST = 322,
+		RPL_LISTEND = 323, RPL_UNIQOPIS = 325, RPL_CHANNELMODEIS = 324, RPL_NOTOPIC = 331, RPL_TOPIC = 332,
+		RPL_INVITING = 341, RPL_SUMMONING = 342, RPL_INVITELIST = 346, RPL_ENDOFINVITELIST = 347, RPL_EXCEPTLIST = 348,
+		RPL_ENDOFEXCEPTLIST = 349, RPL_VERSION = 351, RPL_WHOREPLY = 352, RPL_ENDOFWHO = 315, RPL_NAMREPLY = 353,
+		RPL_ENDOFNAMES = 366, RPL_LINKS = 364, RPL_ENDOFLINKS = 365, RPL_BANLIST = 367, RPL_ENDOFBANLIST = 368,
+		RPL_INFO = 371, RPL_ENDOFINFO = 374, RPL_MOTDSTART = 375, RPL_MOTD = 372, RPL_ENDOFMOTD = 376,
+		RPL_YOUREOPER = 381, RPL_REHASHING = 382, RPL_YOURESERVICE = 383, RPL_TIME = 391, RPL_USERSSTART = 392,
+		RPL_USERS = 393, RPL_ENDOFUSERS = 394, RPL_NOUSERS = 395, RPL_TRACELINK = 200, RPL_TRACECONNECTING = 201,
+		RPL_TRACEHANDSHAKE = 202, RPL_TRACEUNKNOWN = 203, RPL_TRACEOPERATOR = 204, RPL_TRACEUSER = 205, RPL_TRACESERVER = 206,
+		RPL_TRACESERVICE = 207, RPL_TRACENEWTYPE = 208, RPL_TRACECLASS = 209, RPL_TRACERECONNECT = 210, RPL_TRACELOG = 261,
+		RPL_TRACEEND = 262,RPL_STATSLINKINFO = 211, RPL_STATSCOMMANDS = 212,RPL_ENDOFSTATS = 219, RPL_STATSUPTIME = 242,
+		RPL_STATSOLINE = 243, RPL_UMODEIS = 221, RPL_SERVLIST = 234, RPL_SERVLISTEND = 235, RPL_LUSERCLIENT = 251,
+		RPL_LUSEROP = 252, RPL_LUSERUNKNOWN = 253, RPL_LUSERCHANNELS = 254, RPL_LUSERME = 255, RPL_ADMINME = 256,
+		RPL_ADMINLOC1 = 257, RPL_ADMINLOC2 = 258, RPL_ADMINEMAIL = 259, RPL_TRYAGAIN = 263, ERR_NOSUCHNICK = 401,
+		ERR_NOSUCHSERVER = 402, ERR_NOSUCHCHANNEL = 403, ERR_CANNOTSENDTOCHAN = 404, ERR_TOOMANYCHANNELS = 405, ERR_WASNOSUCHNICK = 406,
+		ERR_TOOMANYTARGETS = 407, ERR_NOSUCHSERVICE = 408, ERR_NOORIGIN = 409, ERR_NORECIPIENT = 411, ERR_NOTEXTTOSEND = 412,
+		ERR_NOTOPLEVEL = 413, ERR_WILDTOPLEVEL = 414, ERR_BADMASK = 415, ERR_TOOMANYLINES = 416, ERR_UNKNOWNCOMMAND = 421,
+		ERR_NOMOTD = 422, ERR_NOADMININFO = 423, ERR_FILEERROR = 424, ERR_NONICKNAMEGIVEN = 431, ERR_ERRONEUSNICKNAME = 432,
+		ERR_NICKNAMEINUSE = 433, ERR_NICKCOLLISION = 436, ERR_UNAVAILRESOURCE = 437, ERR_USERNOTINCHANNEL = 441, ERR_NOTONCHANNEL = 442,
+		ERR_USERONCHANNEL = 443, ERR_NOLOGIN = 444, ERR_SUMMONDISABLED = 445, ERR_USERSDISABLED = 446, ERR_NOTREGISTERED = 451,
+		ERR_NEEDMOREPARAMS = 461, ERR_ALREADYREGISTRED = 462, ERR_NOPERMFORHOST = 463, ERR_PASSWDMISMATCH = 464, ERR_YOUREBANNEDCREEP = 465,
+		ERR_YOUWILLBEBANNED = 466, ERR_KEYSET = 467, ERR_CHANNELISFULL = 471, ERR_UNKNOWNMODE = 472, ERR_INVITEONLYCHAN = 473,
+		ERR_BANNEDFROMCHAN = 474, ERR_BADCHANNELKEY = 475, ERR_BADCHANMASK = 476, ERR_NOCHANMODES = 477, ERR_BANLISTFULL = 478,
+		ERR_NOPRIVILEGES = 481, ERR_CHANOPRIVSNEEDED = 482, ERR_CANTKILLSERVER = 483, ERR_RESTRICTED = 484, ERR_UNIQOPPRIVSNEEDED = 485,
+		ERR_NOOPERHOST = 491, ERR_UMODEUNKNOWNFLAG = 501, ERR_USERSDONTMATCH = 502,
+		ConnectionFailed = 1000, IrcServerError = 1001, BadDccEndpoint = 1002, UnparseableMessage = 1003, UnableToResume = 1004,
+		UnknownEncryptionProtocol = 1005, BadDccAcceptValue = 1006, BadResumePosition = 1007, DccConnectionRefused = 1008
 	}
 
 	public class Rfc2812Util
@@ -1645,10 +1416,7 @@ namespace Sharkbite.Irc
 		public static bool IsValidNicklList(string[] nicks)
 		{
 			if (nicks == null || nicks.Length == 0) { return false; }
-			foreach (string nick in nicks)
-			{
-				if (!IsValidNick(nick)) { return false; }
-			}
+			foreach (string nick in nicks) { if (!IsValidNick(nick)) { return false; } }
 			return true;
 		}
 
@@ -1814,7 +1582,6 @@ namespace Sharkbite.Irc
 					Buffer.Append(SPACE);
 					Buffer.Append(channel);
 					Buffer.Append(SPACE);
-					//8 is the JOIN + 2 spaces + CR + LF
 					password = Truncate(password, 8);
 					Buffer.Append(password);
 					Connection.SendCommand(Buffer);
@@ -1927,7 +1694,6 @@ namespace Sharkbite.Irc
 					Buffer.Append(SPACE);
 					Buffer.Append(channel);
 					Buffer.Append(SPACE_COLON);
-					// 9 is TOPIC + 2 x Spaces + : + CR = LF
 					newTopic = Truncate(newTopic, 9 + channel.Length);
 					Buffer.Append(newTopic);
 					Connection.SendCommand(Buffer);
@@ -1996,7 +1762,6 @@ namespace Sharkbite.Irc
 					string channelList = String.Join(",", channels);
 					Buffer.Append(channelList);
 					Buffer.Append(SPACE_COLON);
-					// 9 is PART + 2 x Spaces + : + CR + LF
 					reason = Truncate(reason, 9);
 					Buffer.Append(reason);
 					Connection.SendCommand(Buffer);
@@ -2039,7 +1804,6 @@ namespace Sharkbite.Irc
 				}
 				if (Rfc2812Util.IsValidChannelName(channel))
 				{
-					// 11 is NOTICE + 2 x Spaces + : + CR + LF
 					int max = MAX_COMMAND_SIZE - 11 - channel.Length;
 					if (message.Length > max)
 					{
@@ -2719,11 +2483,7 @@ namespace Sharkbite.Irc
 
 		internal void SetProperty(string key, string propertyValue)
 		{
-			if (properties.ContainsKey(key))
-			{
-				properties[key] = propertyValue;
-				return;
-			}
+			if (properties.ContainsKey(key)) { properties[key] = propertyValue; return; }
 			properties.Add(key, propertyValue);
 		}
 
@@ -2776,15 +2536,7 @@ namespace Sharkbite.Irc
 		public static string MakeColor(string text, MircColor textColor) { return string.Format(TextColorFormat, (int)textColor, text); }
 		public static string MakeColor(string text, MircColor textColor, MircColor backgroundColor) { return string.Format(FullColorFormat, (int)textColor, (int)backgroundColor, text); }
 
-		private static bool IsControlCode(char c)
-		{
-			return
-				c == '\x0003' ||
-				c == '\x001F' ||
-				c == '\x0002' ||
-				c == '\x000F' ||
-				c == '\x0016';
-		}
+		private static bool IsControlCode(char c) { return c == '\x0003' || c == '\x001F' || c == '\x0002' || c == '\x000F' || c == '\x0016'; }
 	}
 
 	public class UserInfo
@@ -2876,10 +2628,7 @@ namespace Sharkbite.Irc
 				Match match = ctcpRegex.Match(message);
 				return new string[] { match.Groups[1].ToString(), match.Groups[2].ToString(), match.Groups[3].ToString().Trim() };
 			}
-			catch (Exception)
-			{
-				return null;
-			}
+			catch (Exception) { return null; }
 		}
 
 		internal void Parse(string line)
@@ -2894,25 +2643,12 @@ namespace Sharkbite.Irc
 						connection.CtcpSender.ReplyReceived(ctcpTokens[Text]);
 						if (OnCtcpPingReply != null) { OnCtcpPingReply(Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]); }
 					}
-					else
-					{
-						//Ignore PING's with now parameters
-						if (ctcpTokens[Text] != null && ctcpTokens[Text].TrimEnd().Length != 0)
-						{
-							if (OnCtcpPingRequest != null) { OnCtcpPingRequest(Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]); }
-						}
-					}
+					else { if (ctcpTokens[Text] != null && ctcpTokens[Text].TrimEnd().Length != 0) { if (OnCtcpPingRequest != null) { OnCtcpPingRequest(Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]); } } }
 				}
 				else
 				{
-					if (IsReply(ctcpTokens))
-					{
-						if (OnCtcpReply != null) { OnCtcpReply(ctcpTokens[Command].ToUpper(CultureInfo.CurrentCulture), Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]); }
-					}
-					else
-					{
-						if (OnCtcpRequest != null) { OnCtcpRequest(ctcpTokens[Command].ToUpper(CultureInfo.CurrentCulture), Rfc2812Util.UserInfoFromString(ctcpTokens[Name])); }
-					}
+					if (IsReply(ctcpTokens)) { if (OnCtcpReply != null) { OnCtcpReply(ctcpTokens[Command].ToUpper(CultureInfo.CurrentCulture), Rfc2812Util.UserInfoFromString(ctcpTokens[Name]), ctcpTokens[Text]); } }
+					else { if (OnCtcpRequest != null) { OnCtcpRequest(ctcpTokens[Command].ToUpper(CultureInfo.CurrentCulture), Rfc2812Util.UserInfoFromString(ctcpTokens[Name])); } }
 				}
 			}
 			else
@@ -2921,9 +2657,7 @@ namespace Sharkbite.Irc
 				Debug.WriteLineIf(CtcpUtil.CtcpTrace.TraceWarning, "Unknown CTCP command '" + line + "' recieved by CtcpListener");
 			}
 		}
-
 		public static bool IsCtcpMessage(string message) { return ctcpRegex.IsMatch(message); }
-
 	}
 
 	public class CtcpResponder
@@ -2941,9 +2675,7 @@ namespace Sharkbite.Irc
 		{
 			this.connection = connection;
 			nextTime = DateTime.Now.ToFileTime();
-			//Wait at least 2 second in between automatic CTCP responses
 			floodDelay = 2000;
-			//Send back user nick by default for finger requests.
 			userInfoMessage = "Thresher CTCP Responder";
 			fingerMessage = userInfoMessage;
 			versionMessage = "Thresher IRC library 1.1";
@@ -3022,18 +2754,13 @@ namespace Sharkbite.Irc
 			connection.CtcpListener.OnCtcpRequest -= new CtcpRequestEventHandler(OnCtcpRequest);
 			connection.CtcpListener.OnCtcpPingRequest -= new CtcpPingRequestEventHandler(OnCtcpPingRequest);
 		}
-
 	}
 
 	public class CtcpSender : CommandBuilder
 	{
 		private ArrayList pingList;
 
-		internal CtcpSender(Connection connection)
-			: base(connection)
-		{
-			pingList = new ArrayList();
-		}
+		internal CtcpSender(Connection connection) : base(connection) { pingList = new ArrayList(); }
 
 		internal bool IsMyRequest(string timestamp) { return pingList.Contains(timestamp); }
 		internal void ReplyReceived(string timestamp) { pingList.Remove(timestamp); }
@@ -3057,7 +2784,6 @@ namespace Sharkbite.Irc
 					ClearBuffer();
 					throw new ArgumentException("The Ctcp command cannot be null or empty.");
 				}
-				// 14 is NOTICE + 3 x Spaces + : + CR + LF + 2xCtcpQuote
 				int max = MAX_COMMAND_SIZE - 14 - nick.Length - command.Length;
 				if (reply.Length > max) { reply = reply.Substring(0, max); }
 				SendMessage("NOTICE", nick, CtcpQuote + command.ToUpper(CultureInfo.InvariantCulture) + " " + reply + CtcpQuote);
@@ -3176,7 +2902,6 @@ namespace Sharkbite.Irc
 
 		private void SendChatRequest(string listenIPAddress, int listenPort)
 		{
-			//512 is the max IRC message size
 			StringBuilder builder = new StringBuilder("PRIVMSG ", 512);
 			builder.Append(dccUserInfo.Nick);
 			builder.Append(" :\x0001DCC CHAT CHAT ");
@@ -3215,14 +2940,8 @@ namespace Sharkbite.Irc
 				//Start listening for messages
 				ReceiveMessages();
 			}
-			catch (Exception)
-			{
-				Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccChatSession::Listen() Connection broken");
-			}
-			finally
-			{
-				SendClosedEvent();
-			}
+			catch (Exception) { Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccChatSession::Listen() Connection broken"); }
+			finally { SendClosedEvent(); }
 		}
 
 		private void Connect()
@@ -3238,20 +2957,11 @@ namespace Sharkbite.Irc
 			catch (Exception se)
 			{
 				Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] DccChatSession::Connect() exception=" + se);
-				if (se.Message.IndexOf("refused") > 0)
-				{
-					dccUserInfo.Connection.Listener.Error(ReplyCode.DccConnectionRefused, "Connection refused by remote user.");
-				}
-				else
-				{
-					dccUserInfo.Connection.Listener.Error(ReplyCode.ConnectionFailed, "Unknown socket error:" + se.Message);
-				}
+				if (se.Message.IndexOf("refused") > 0) { dccUserInfo.Connection.Listener.Error(ReplyCode.DccConnectionRefused, "Connection refused by remote user."); }
+				else { dccUserInfo.Connection.Listener.Error(ReplyCode.ConnectionFailed, "Unknown socket error:" + se.Message); }
 				CloseClientConnection();
 			}
-			finally
-			{
-				SendClosedEvent();
-			}
+			finally { SendClosedEvent(); }
 		}
 		private void ReceiveMessages()
 		{
@@ -3272,23 +2982,15 @@ namespace Sharkbite.Irc
 					}
 				}
 				receiving = false;
-				//Read loop broken. Remote user must have closed the socket
 				dccUserInfo.Connection.Listener.Error(ReplyCode.ConnectionFailed, "Chat connection closed by remote user.");
 			}
 			catch (ThreadAbortException)
 			{
 				Debug.WriteLineIf(DccUtil.DccTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] DccChatSession::ReceiveMessages() Thread manually stopped. ");
-				//Prevent the exception from being re-thrown in the Listen() method.
 				Thread.ResetAbort();
 			}
-			catch (Exception e)
-			{
-				Debug.WriteLineIf(DccUtil.DccTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] DccChatSession::ReceiveMessages() exception= " + e);
-			}
-			finally
-			{
-				CloseClientConnection();
-			}
+			catch (Exception e) { Debug.WriteLineIf(DccUtil.DccTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] DccChatSession::ReceiveMessages() exception= " + e); }
+			finally { CloseClientConnection(); }
 		}
 
 		public void SendMessage(string text)
@@ -3338,10 +3040,7 @@ namespace Sharkbite.Irc
 			session.thread.Name = session.ToString();
 			session.thread.Start();
 			session.SendChatRequest(listenIPAddress, listenPort);
-			if (timeout > 0)
-			{
-				Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccChatSession::Request timeout thread started");
-			}
+			if (timeout > 0) { Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccChatSession::Request timeout thread started"); }
 			return session;
 		}
 
@@ -3367,81 +3066,35 @@ namespace Sharkbite.Irc
 		public DccFileInfo(FileInfo fileInfo)
 		{
 			this.fileInfo = fileInfo;
-			if (!fileInfo.Exists)
-			{
-				throw new ArgumentException(fileInfo.Name + " does not exist.");
-			}
+			if (!fileInfo.Exists) { throw new ArgumentException(fileInfo.Name + " does not exist."); }
 			this.completeFileSize = fileInfo.Length;
 			fileStartingPosition = 0;
 			bytesTransfered = 0;
 		}
-
 		public DccFileInfo(string fileName)
 		{
 			this.fileInfo = new FileInfo(fileName);
-			if (!fileInfo.Exists)
-			{
-				throw new ArgumentException(fileName + " does not exist.");
-			}
+			if (!fileInfo.Exists) { throw new ArgumentException(fileName + " does not exist."); }
 			this.completeFileSize = fileInfo.Length;
 			fileStartingPosition = 0;
 			bytesTransfered = 0;
 		}
 
 		public long FileStartingPosition { get { return fileStartingPosition; } }
-
-		public long BytesTransfered
-		{
-			get
-			{
-				lock (this)
-				{
-					return bytesTransfered;
-				}
-			}
-		}
+		public long BytesTransfered { get { lock (this) { return bytesTransfered; } } }
 
 		public long CompleteFileSize { get { return completeFileSize; } }
 		public string DccFileName { get { return DccUtil.SpacesToUnderscores(fileInfo.Name); } }
 		internal FileStream TransferStream { get { return fileStream; } }
 
-		internal void AddBytesTransfered(int additionalBytes)
-		{
-			lock (this)
-			{
-				bytesTransfered += additionalBytes;
-			}
-		}
+		internal void AddBytesTransfered(int additionalBytes) { lock (this) { bytesTransfered += additionalBytes; } }
 
-		internal bool AcceptPositionMatches(long position)
-		{
-			return position == fileStartingPosition;
-		}
-
-		internal void GotoWritePosition()
-		{
-			fileStream.Seek(fileStartingPosition + 1, SeekOrigin.Begin);
-		}
-
-		internal void GotoReadPosition()
-		{
-			fileStream.Seek(fileStartingPosition, SeekOrigin.Begin);
-		}
-
-		internal bool ResumePositionValid(long position)
-		{
-			return position > 1 && position < fileInfo.Length;
-		}
-
-		internal bool CanResume()
-		{
-			return fileStream.CanSeek;
-		}
-
-		internal void SetResumeToFileSize()
-		{
-			fileStartingPosition = fileInfo.Length;
-		}
+		internal bool AcceptPositionMatches(long position) { return position == fileStartingPosition; }
+		internal void GotoWritePosition() { fileStream.Seek(fileStartingPosition + 1, SeekOrigin.Begin); }
+		internal void GotoReadPosition() { fileStream.Seek(fileStartingPosition, SeekOrigin.Begin); }
+		internal bool ResumePositionValid(long position) { return position > 1 && position < fileInfo.Length; }
+		internal bool CanResume() { return fileStream.CanSeek; }
+		internal void SetResumeToFileSize() { fileStartingPosition = fileInfo.Length; }
 
 		internal void SetResumePosition(long resumePosition)
 		{
@@ -3450,44 +3103,18 @@ namespace Sharkbite.Irc
 		}
 
 		internal long CurrentFilePosition()
-		{
-			return BytesTransfered + fileStartingPosition;
-		}
+		{ return BytesTransfered + fileStartingPosition; }
 
 		internal Boolean AllBytesTransfered()
 		{
-			if (completeFileSize == 0)
-			{
-				return false;
-			}
-			else
-			{
-				return (fileStartingPosition + BytesTransfered) == completeFileSize;
-			}
+			if (completeFileSize == 0) { return false; }
+			else { return (fileStartingPosition + BytesTransfered) == completeFileSize; }
 		}
 
-		internal void CloseFile()
-		{
-			if (fileStream != null)
-			{
-				fileStream.Close();
-			}
-		}
-
-		internal void OpenForRead()
-		{
-			fileStream = fileInfo.OpenRead();
-		}
-
-		internal void OpenForWrite()
-		{
-			fileStream = fileInfo.OpenWrite();
-		}
-
-		internal bool ShouldResume()
-		{
-			return fileInfo.Length > 0 && CanResume();
-		}
+		internal void CloseFile() { if (fileStream != null) { fileStream.Close(); } }
+		internal void OpenForRead() { fileStream = fileInfo.OpenRead(); }
+		internal void OpenForWrite() { fileStream = fileInfo.OpenWrite(); }
+		internal bool ShouldResume() { return fileInfo.Length > 0 && CanResume(); }
 
 		internal bool AcksFinished(long ack)
 		{
@@ -3495,7 +3122,6 @@ namespace Sharkbite.Irc
 			lastAckValue = ack;
 			return done;
 		}
-
 	}
 
 	public class DccFileSession
@@ -3584,60 +3210,37 @@ namespace Sharkbite.Irc
 		{
 			Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccFileSession::Cleanup()");
 			DccFileSessionManager.DefaultInstance.RemoveSession(this);
-			if (serverSocket != null)
-			{
-				serverSocket.Close();
-			}
+			if (serverSocket != null) { serverSocket.Close(); }
 			if (socket != null)
 			{
-				try
-				{
-					socket.Close();
-				}
-				catch (Exception)
-				{
-					//Ignore this exception
-				}
+				try { socket.Close(); }
+				catch (Exception) { }
 			}
 			dccFileInfo.CloseFile();
 		}
 		private void ResetActivityTimer()
-		{
-			lastActivity = DateTime.Now;
-		}
+		{ lastActivity = DateTime.Now; }
 		private void SignalTransferStart()
 		{
 			ResetActivityTimer();
-			if (OnFileTransferStarted != null)
-			{
-				OnFileTransferStarted(this);
-			}
+			if (OnFileTransferStarted != null) { OnFileTransferStarted(this); }
 		}
 		private void Listen()
 		{
 			Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccFileSession::Listen()");
 			try
 			{
-				//Wait for remote client to connect
 				IPEndPoint localEndPoint = new IPEndPoint(DccUtil.LocalHost(), listenPort);
 				serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 				serverSocket.Bind(localEndPoint);
 				serverSocket.Listen(1);
-				//Got one!
 				socket = serverSocket.Accept();
 				serverSocket.Close();
 				Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccFileSession::Listen() Remote user connected.");
-				//Advance to the correct point in the file in case this is a resume 
 				dccFileInfo.GotoReadPosition();
 				SignalTransferStart();
-				if (turboMode)
-				{
-					Upload();
-				}
-				else
-				{
-					UploadLegacy();
-				}
+				if (turboMode) { Upload(); }
+				else { UploadLegacy(); }
 			}
 			catch (Exception)
 			{
@@ -3651,14 +3254,12 @@ namespace Sharkbite.Irc
 			try
 			{
 				int bytesRead = 0;
-				//	byte[] ack = new byte[4];
 				while ((bytesRead = dccFileInfo.TransferStream.Read(buffer, 0, buffer.Length)) != 0)
 				{
 					socket.Send(buffer, 0, bytesRead, SocketFlags.None);
 					ResetActivityTimer();
 					AddBytesProcessed(bytesRead);
 				}
-				//Now we are done
 				Finished();
 			}
 			catch (Exception e)
@@ -3682,14 +3283,8 @@ namespace Sharkbite.Irc
 					//Wait for acks from client
 					socket.Receive(ack);
 				}
-				//Some IRC clients need a moment to catch up on their acks if our send buffer
-				//is larger than their receive buffer. Test to make sure they ack all the bytes
-				//before closing. This is only needed in legacy mode.
-				while (!dccFileInfo.AcksFinished(DccUtil.DccBytesToLong(ack)))
-				{
-					socket.Receive(ack);
-				}
-				//Now we are done
+				//Some IRC clients need a moment to catch up on their acks.
+				while (!dccFileInfo.AcksFinished(DccUtil.DccBytesToLong(ack))) { socket.Receive(ack); }
 				Finished();
 			}
 			catch (Exception e)
@@ -3719,10 +3314,7 @@ namespace Sharkbite.Irc
 					AddBytesProcessed(bytesRead);
 					dccFileInfo.TransferStream.Write(buffer, 0, bytesRead);
 					//Send ack if in legacy mode
-					if (!turboMode)
-					{
-						socket.Send(DccUtil.DccBytesReceivedFormat(dccFileInfo.CurrentFilePosition()));
-					}
+					if (!turboMode) { socket.Send(DccUtil.DccBytesReceivedFormat(dccFileInfo.CurrentFilePosition())); }
 				}
 				dccFileInfo.TransferStream.Flush();
 				Finished();
@@ -3730,14 +3322,8 @@ namespace Sharkbite.Irc
 			catch (Exception e)
 			{
 				Debug.WriteLineIf(Rfc2812Util.IrcTrace.TraceWarning, "[" + Thread.CurrentThread.Name + "] DccFileSession::Download() exception=" + e);
-				if (e.Message.IndexOf("refused") > 0)
-				{
-					dccUserInfo.Connection.Listener.Error(ReplyCode.DccConnectionRefused, "Connection refused by remote user.");
-				}
-				else
-				{
-					dccUserInfo.Connection.Listener.Error(ReplyCode.ConnectionFailed, "Unknown socket error:" + e.Message);
-				}
+				if (e.Message.IndexOf("refused") > 0) { dccUserInfo.Connection.Listener.Error(ReplyCode.DccConnectionRefused, "Connection refused by remote user."); }
+				else { dccUserInfo.Connection.Listener.Error(ReplyCode.ConnectionFailed, "Unknown socket error:" + e.Message); }
 				Interrupted();
 			}
 		}
@@ -3745,10 +3331,7 @@ namespace Sharkbite.Irc
 		internal void AddBytesProcessed(int bytesRead)
 		{
 			dccFileInfo.AddBytesTransfered(bytesRead);
-			if (OnFileTransferProgress != null)
-			{
-				OnFileTransferProgress(this, bytesRead);
-			}
+			if (OnFileTransferProgress != null) { OnFileTransferProgress(this, bytesRead); }
 		}
 
 		internal void OnDccAcceptReceived(long position)
@@ -3756,13 +3339,7 @@ namespace Sharkbite.Irc
 			Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccFileSession::OnDccAcceptReceived()");
 			lock (this)
 			{
-				//Are we still waiting on the accept?
-				if (!waitingOnAccept)
-				{
-					//Assume that a normal receive has gone ahead
-					return;
-				}
-				//No longer waiting
+				if (!waitingOnAccept) { return; }
 				waitingOnAccept = false;
 				if (!dccFileInfo.AcceptPositionMatches(position))
 				{
@@ -3785,11 +3362,8 @@ namespace Sharkbite.Irc
 			lock (this)
 			{
 				ResetActivityTimer();
-				//Make sure we have not already started transfering data and that this file is
-				//resumeable.
 				if (dccFileInfo.BytesTransfered == 0 && dccFileInfo.CanResume())
 				{
-					//Make sure the position is valid
 					if (dccFileInfo.ResumePositionValid(resumePosition))
 					{
 						dccFileInfo.SetResumePosition(resumePosition);
@@ -3798,7 +3372,6 @@ namespace Sharkbite.Irc
 					else
 					{
 						dccUserInfo.Connection.Listener.Error(ReplyCode.BadResumePosition, ToString() + " sent an invalid resume position.");
-						//Close the socket and stop listening
 						Cleanup();
 					}
 				}
@@ -3818,10 +3391,7 @@ namespace Sharkbite.Irc
 			}
 			else
 			{
-				if (OnFileTransferTimeout != null)
-				{
-					OnFileTransferTimeout(this);
-				}
+				if (OnFileTransferTimeout != null) { OnFileTransferTimeout(this); }
 				Cleanup();
 			}
 		}
@@ -3830,20 +3400,14 @@ namespace Sharkbite.Irc
 		{
 			Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccFileSession::Interrupted()");
 			Cleanup();
-			if (OnFileTransferInterrupted != null)
-			{
-				OnFileTransferInterrupted(this);
-			}
+			if (OnFileTransferInterrupted != null) { OnFileTransferInterrupted(this); }
 		}
 
 		internal void Finished()
 		{
 			Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccFileSession::Finished()");
 			Cleanup();
-			if (OnFileTransferCompleted != null)
-			{
-				OnFileTransferCompleted(this);
-			}
+			if (OnFileTransferCompleted != null) { OnFileTransferCompleted(this); }
 		}
 
 		public void Stop()
@@ -3852,17 +3416,11 @@ namespace Sharkbite.Irc
 			lock (this)
 			{
 				Cleanup();
-				if (OnFileTransferInterrupted != null)
-				{
-					OnFileTransferInterrupted(this);
-				}
+				if (OnFileTransferInterrupted != null) { OnFileTransferInterrupted(this); }
 			}
 		}
 
-		public override string ToString()
-		{
-			return "DccFileSession:: ID=" + sessionID + " User=" + dccUserInfo.ToString() + " File=" + dccFileInfo.DccFileName;
-		}
+		public override string ToString() { return "DccFileSession:: ID=" + sessionID + " User=" + dccUserInfo.ToString() + " File=" + dccFileInfo.DccFileName; }
 
 		public static void Get(Connection connection, string nick, string fileName, bool turbo)
 		{
@@ -3876,48 +3434,29 @@ namespace Sharkbite.Irc
 			connection.Sender.Raw(builder.ToString());
 		}
 
-		public static DccFileSession Send(
-			DccUserInfo dccUserInfo,
-			string listenIPAddress,
-			int listenPort,
-			DccFileInfo dccFileInfo,
-			int bufferSize,
-			bool turbo)
+		public static DccFileSession Send(DccUserInfo dccUserInfo, string listenIPAddress, int listenPort, DccFileInfo dccFileInfo, int bufferSize, bool turbo)
 		{
 			Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccFileSession::Send()");
 			DccFileSession session = null;
-			//Test if we are already using this port
-			if (DccFileSessionManager.DefaultInstance.ContainsSession("S" + listenPort))
-			{
-				throw new ArgumentException("Already listening on port " + listenPort);
-			}
+			if (DccFileSessionManager.DefaultInstance.ContainsSession("S" + listenPort)) { throw new ArgumentException("Already listening on port " + listenPort); }
 			try
 			{
 				session = new DccFileSession(dccUserInfo, dccFileInfo, bufferSize, listenPort, "S" + listenPort);
-				//set turbo mode
 				session.turboMode = turbo;
-				//Add session to active sessions hashtable
 				DccFileSessionManager.DefaultInstance.AddSession(session);
-				//Create stream to file
 				dccFileInfo.OpenForRead();
-				//Start session Thread
 				session.thread = new Thread(new ThreadStart(session.Listen));
 				session.thread.Name = session.ToString();
 				session.thread.Start();
-				//Send DCC Send request to remote user
 				session.DccSend(IPAddress.Parse(listenIPAddress));
 				return session;
 			}
 			catch (Exception e)
 			{
-				if (session != null)
-				{
-					DccFileSessionManager.DefaultInstance.RemoveSession(session);
-				}
+				if (session != null) { DccFileSessionManager.DefaultInstance.RemoveSession(session); }
 				throw e;
 			}
 		}
-
 		public static DccFileSession Receive(DccUserInfo dccUserInfo, DccFileInfo dccFileInfo, bool turbo)
 		{
 			Debug.WriteLineIf(DccUtil.DccTrace.TraceInfo, "[" + Thread.CurrentThread.Name + "] DccFileSession::Receive()");
@@ -3960,7 +3499,6 @@ namespace Sharkbite.Irc
 				throw e;
 			}
 		}
-
 	}
 
 	public class DccFileSessionManager
@@ -3991,10 +3529,7 @@ namespace Sharkbite.Irc
 
 		private Boolean TimedOut(DccFileSession session)
 		{
-			if ((DateTime.Now - session.LastActivity) >= timeout)
-			{
-				return true;
-			}
+			if ((DateTime.Now - session.LastActivity) >= timeout) { return true; }
 			return false;
 		}
 
@@ -4025,19 +3560,10 @@ namespace Sharkbite.Irc
 			foreach (object session in sessionClone.Values)
 			{
 				DccFileSession fileSession = (DccFileSession)session;
-				lock (fileSession)
-				{
-					if (TimedOut(fileSession))
-					{
-						fileSession.TimedOut();
-					}
-				}
+				lock (fileSession) { if (TimedOut(fileSession)) { fileSession.TimedOut(); } }
 			}
 		}
-		internal bool ContainsSession(string sessionID) 
-		{
-			return sessions.Contains(sessionID);
-		}
+		internal bool ContainsSession(string sessionID) { return sessions.Contains(sessionID); }
 		internal DccFileSession LookupSession(string sessionID)
 		{
 			//Make sure this session is till active
@@ -4064,25 +3590,7 @@ namespace Sharkbite.Irc
 				return defaultInstance;
 			}
 		}
-
-		public long TimeoutPeriod
-		{
-			get
-			{
-				lock (defaultInstance)
-				{
-					return timeout.Ticks * TimeSpan.TicksPerMillisecond;
-				}
-			}
-			set
-			{
-				lock (defaultInstance)
-				{
-					timeout = new TimeSpan(value * TimeSpan.TicksPerMillisecond);
-				}
-			}
-		}
-
+		public long TimeoutPeriod { get { lock (defaultInstance) { return timeout.Ticks * TimeSpan.TicksPerMillisecond; } } set { lock (defaultInstance) { timeout = new TimeSpan(value * TimeSpan.TicksPerMillisecond); } } }
 	}
 
 	public class DccListener
@@ -4113,9 +3621,7 @@ namespace Sharkbite.Irc
 		private const string ACCEPT = "ACCEPT";
 
 		static DccListener()
-		{
-			dccMatchRegex = new Regex(":([^ ]+) PRIVMSG [^:]+:\u0001DCC (CHAT|SEND|GET|RESUME|ACCEPT)[^\u0001]*\u0001", RegexOptions.Compiled | RegexOptions.Singleline);
-		}
+		{ dccMatchRegex = new Regex(":([^ ]+) PRIVMSG [^:]+:\u0001DCC (CHAT|SEND|GET|RESUME|ACCEPT)[^\u0001]*\u0001", RegexOptions.Compiled | RegexOptions.Singleline); }
 
 		private DccListener()
 		{
@@ -4125,10 +3631,7 @@ namespace Sharkbite.Irc
 
 		private bool IsTurbo(int minimumTokens, string[] tokens)
 		{
-			if (tokens.Length <= minimumTokens)
-			{
-				return false;
-			}
+			if (tokens.Length <= minimumTokens) { return false; }
 			return tokens[minimumTokens] == "T";
 		}
 
@@ -4163,14 +3666,8 @@ namespace Sharkbite.Irc
 							connection.Listener.Error(ReplyCode.BadDccEndpoint, "Invalid TCP/IP connection information sent.");
 							return;
 						}
-						try
-						{
-							OnDccChatRequest(dccUserInfo);
-						}
-						catch (ArgumentException ae)
-						{
-							connection.Listener.Error(ReplyCode.UnknownEncryptionProtocol, ae.ToString());
-						}
+						try { OnDccChatRequest(dccUserInfo); }
+						catch (ArgumentException ae) { connection.Listener.Error(ReplyCode.UnknownEncryptionProtocol, ae.ToString()); }
 					}
 					break;
 				case SEND:
@@ -4203,10 +3700,7 @@ namespace Sharkbite.Irc
 								int.Parse(tokens[FileSize], CultureInfo.InvariantCulture),
 								IsTurbo(5, tokens));
 						}
-						catch (ArgumentException ae)
-						{
-							connection.Listener.Error(ReplyCode.UnknownEncryptionProtocol, ae.ToString());
-						}
+						catch (ArgumentException ae) { connection.Listener.Error(ReplyCode.UnknownEncryptionProtocol, ae.ToString()); }
 					}
 					break;
 				case GET:
@@ -4227,10 +3721,7 @@ namespace Sharkbite.Irc
 								tokens[FileName],
 								IsTurbo(2, tokens));
 						}
-						catch (ArgumentException ae)
-						{
-							connection.Listener.Error(ReplyCode.UnknownEncryptionProtocol, ae.ToString());
-						}
+						catch (ArgumentException ae) { connection.Listener.Error(ReplyCode.UnknownEncryptionProtocol, ae.ToString()); }
 					}
 					break;
 				case ACCEPT:
@@ -4246,10 +3737,7 @@ namespace Sharkbite.Irc
 						DccFileSession session = DccFileSessionManager.DefaultInstance.LookupSession("C" + tokens[2]);
 						session.OnDccAcceptReceived(long.Parse(tokens[3], CultureInfo.InvariantCulture));
 					}
-					catch (ArgumentException e)
-					{
-						connection.Listener.Error(ReplyCode.UnableToResume, e.ToString());
-					}
+					catch (ArgumentException e) { connection.Listener.Error(ReplyCode.UnableToResume, e.ToString()); }
 					break;
 				case RESUME:
 					//Test for sufficient number of arguments
@@ -4264,10 +3752,7 @@ namespace Sharkbite.Irc
 						DccFileSession session = DccFileSessionManager.DefaultInstance.LookupSession("S" + tokens[2]);
 						session.OnDccResumeRequest(long.Parse(tokens[3], CultureInfo.InvariantCulture));
 					}
-					catch (ArgumentException e)
-					{
-						connection.Listener.Error(ReplyCode.UnableToResume, e.ToString());
-					}
+					catch (ArgumentException e) { connection.Listener.Error(ReplyCode.UnableToResume, e.ToString()); }
 					break;
 				default:
 					connection.Listener.Error(ReplyCode.UnparseableMessage, message);
@@ -4291,7 +3776,6 @@ namespace Sharkbite.Irc
 				return listener;
 			}
 		}
-
 		public static bool IsDccRequest(string message) { return dccMatchRegex.IsMatch(message); }
 	}
 
@@ -4301,63 +3785,23 @@ namespace Sharkbite.Irc
 
 		internal IPEndPoint remoteEndPoint;
 
-		internal DccUserInfo(Connection connection, string[] userInfoParts, IPEndPoint remoteEndPoint) :
-			base(userInfoParts[0], userInfoParts[1], userInfoParts[2])
+		internal DccUserInfo(Connection connection, string[] userInfoParts, IPEndPoint remoteEndPoint) : base(userInfoParts[0], userInfoParts[1], userInfoParts[2])
 		{
 			this.connection = connection;
 			this.remoteEndPoint = remoteEndPoint;
 		}
 
-		internal DccUserInfo(Connection connection, string[] userInfoParts) :
-			base(userInfoParts[0], userInfoParts[1], userInfoParts[2])
-		{
-			this.connection = connection;
-		}
+		internal DccUserInfo(Connection connection, string[] userInfoParts) : base(userInfoParts[0], userInfoParts[1], userInfoParts[2]) { this.connection = connection; }
 
-		public DccUserInfo(Connection connection, string nick) :
-			base(nick, "", "")
-		{
-			this.connection = connection;
-		}
+		public DccUserInfo(Connection connection, string nick) : base(nick, "", "") { this.connection = connection; }
 
-		public IPAddress RemoteAddress
-		{
-			get
-			{
-				if (remoteEndPoint == null)
-				{
-					return null;
-				}
-				return remoteEndPoint.Address;
-			}
-		}
-
-		public int Port
-		{
-			get
-			{
-				if (remoteEndPoint == null)
-				{
-					return -1;
-				}
-				return remoteEndPoint.Port;
-			}
-		}
+		public IPAddress RemoteAddress { get { if (remoteEndPoint == null) { return null; } return remoteEndPoint.Address; } }
+		public int Port { get { if (remoteEndPoint == null) { return -1; } return remoteEndPoint.Port; } }
 
 		public IPEndPoint RemoteEndPoint { get { return remoteEndPoint; } }
 		public Connection Connection { get { return connection; } }
 
-		public override string ToString()
-		{
-			if (RemoteAddress == null)
-			{
-				return Nick;
-			}
-			else
-			{
-				return Nick + "@" + RemoteAddress.ToString();
-			}
-		}
+		public override string ToString() { if (RemoteAddress == null) { return Nick; } else { return Nick + "@" + RemoteAddress.ToString(); } }
 	}
 
 	public class DccUtil
@@ -4384,28 +3828,19 @@ namespace Sharkbite.Irc
 
 		public static string IPAddressToLong(IPAddress ipAddress)
 		{
-			if (ipAddress == null)
-			{
-				throw new ArgumentException("Address cannot be null");
-			}
+			if (ipAddress == null) { throw new ArgumentException("Address cannot be null"); }
 			return NetworkUnsignedLong(ipAddress.Address).ToString(CultureInfo.InvariantCulture);
 		}
 
 		public static IPAddress LongToIPAddress(string networkOrder)
 		{
-			if (networkOrder == null || networkOrder.Trim() == "")
-			{
-				throw new ArgumentException("Network order address cannot be null or empty.");
-			}
+			if (networkOrder == null || networkOrder.Trim() == "") { throw new ArgumentException("Network order address cannot be null or empty."); }
 			try
 			{
 				byte[] quads = BitConverter.GetBytes(long.Parse(networkOrder, CultureInfo.InvariantCulture));
 				return IPAddress.Parse(quads[3] + "." + quads[2] + "." + quads[1] + "." + quads[0]);
 			}
-			catch (FormatException)
-			{
-				throw new ArgumentException(networkOrder + " is not a valid network address.");
-			}
+			catch (FormatException) { throw new ArgumentException(networkOrder + " is not a valid network address."); }
 
 		}
 
@@ -4416,7 +3851,6 @@ namespace Sharkbite.Irc
 			long networkLong = IPAddress.HostToNetworkOrder(hostOrderLong);
 			return (networkLong >> 32) & 0x00000000ffffffff;
 		}
-
 	}
 
 	#endregion
