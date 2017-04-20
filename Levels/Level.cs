@@ -85,7 +85,7 @@ namespace MCSpleef
 		public ushort width; // x
 		public List<BlockQueue.block> blockqueue = new List<BlockQueue.block>();
 
-		public Level(string n, ushort x, ushort y, ushort z, string type, int seed = 0, bool useSeed = false)
+		public Level(string n, ushort x, ushort y, ushort z)
 		{
 			width = x;
 			depth = y;
@@ -98,16 +98,12 @@ namespace MCSpleef
 			blocks = new ushort[width * depth * height];
 
 			var half = (ushort)(depth / 2);
-			switch (type)
-			{
-				case "flat":
-					for (x = 0; x < width; ++x)
-						for (z = 0; z < height; ++z)
-							for (y = 0; y <= half; ++y)
-								SetTile(x, y, z, y < half ? Block.dirt : Block.grass);
-					//SetTile(x, y, z, (byte)(y != half ? (y >= half) ? 0 : 3 : 2));
-					break;
-			}
+
+			for (x = 0; x < width; ++x)
+				for (z = 0; z < height; ++z)
+					for (y = 0; y <= half; ++y)
+						SetTile(x, y, z, y < half ? Block.dirt : Block.grass);
+
 			spawnx = (ushort)(width / 2);
 			spawny = (ushort)(depth * 0.75f);
 			spawnz = (ushort)(height / 2);
@@ -542,7 +538,7 @@ namespace MCSpleef
 						rot[1] = header[11];
 					}
 
-					var level = new Level(givenName, vars[0], vars[2], vars[1], "empty")
+					var level = new Level(givenName, vars[0], vars[2], vars[1])
 									{
 										permissionbuild = (LevelPermission)0,
 										spawnx = vars[3],
