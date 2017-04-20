@@ -701,8 +701,7 @@ namespace MCSpleef
 				if (type == 0x42)
 				{
 					extension = true;
-					SendExtInfo(9);
-					SendExtEntry("ClickDistance", 1);
+					SendExtInfo(8);
 					SendExtEntry("HeldBlock", 1);
 					SendExtEntry("TextHotKey", 1);
 					SendExtEntry("SelectionCuboid", 1);
@@ -1775,12 +1774,7 @@ namespace MCSpleef
 			version_.CopyTo(buffer, 64);
 			SendRaw(OpCode.ExtEntry, buffer);
 		}
-		public void SendClickDistance(short distance)
-		{
-			byte[] buffer = new byte[2];
-			HTNO(distance).CopyTo(buffer, 0);
-			SendRaw(OpCode.SetClickDistance, buffer);
-		}
+
 		public void SendHoldThis(byte type, byte locked)
 		{
 			byte[] buffer = new byte[2];

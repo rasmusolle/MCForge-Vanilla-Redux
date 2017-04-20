@@ -20,7 +20,6 @@ namespace MCSpleef
 {
 	public partial class Player
 	{
-		public int ClickDistance = 0;
 		public int HeldBlock = 0;
 		public int TextHotKey = 0;
 		public int SelectionCuboid = 0;
@@ -36,9 +35,6 @@ namespace MCSpleef
 			{
 				switch (Extension.Trim())
 				{
-					case "ClickDistance":
-						ClickDistance = version;
-						break;
 					case "HeldBlock":
 						HeldBlock = version;
 						break;
@@ -72,7 +68,6 @@ namespace MCSpleef
 			if (!extension) return false;
 			switch (Extension)
 			{
-				case "ClickDistance": return ClickDistance == version;
 				case "HeldBlock": return HeldBlock == version;
 				case "TextHotKey": return TextHotKey == version;
 				case "SelectionCuboid": return SelectionCuboid == version;

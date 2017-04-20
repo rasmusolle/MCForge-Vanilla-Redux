@@ -62,9 +62,6 @@ namespace MCSpleef
 		/// <summary> Extended client/server packet. Lists supported extensions. </summary>
 		ExtEntry = 17,
 
-		/// <summary> Extended server packet. Changes player's allowed click distance. </summary>
-		SetClickDistance = 18,
-
 		/// <summary> Extended server packet. Tells client which block to hold. </summary>
 		HoldThis = 20,
 
