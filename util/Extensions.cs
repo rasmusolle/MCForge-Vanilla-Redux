@@ -18,7 +18,6 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -28,10 +27,7 @@ namespace MCSpleef
 	{
 		public static string Truncate(this string source, int maxLength)
 		{
-			if (source.Length > maxLength)
-			{
-				source = source.Substring(0, maxLength);
-			}
+			if (source.Length > maxLength) { source = source.Substring(0, maxLength); }
 			return source;
 		}
 		public static byte[] GZip(this byte[] bytes)
@@ -69,7 +65,6 @@ namespace MCSpleef
 
 			return sb.ToString();
 		}
-
 		public static string getPlural(string groupName)
 		{
 			try {
