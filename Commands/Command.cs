@@ -47,7 +47,6 @@ namespace MCSpleef
 			all.Add(new CmdKick());
 			all.Add(new CmdMe());
 			all.Add(new CmdMute());
-			all.Add(new CmdNewLvl());
 			all.Add(new CmdPlayers());
 			all.Add(new CmdRestart());
 			all.Add(new CmdRules());

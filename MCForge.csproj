@@ -141,7 +141,6 @@
     <Compile Include="Commands\CmdKick.cs" />
     <Compile Include="Commands\CmdMe.cs" />
     <Compile Include="Commands\CmdMute.cs" />
-    <Compile Include="Commands\CmdNewLvl.cs" />
     <Compile Include="Commands\CmdPlayers.cs" />
     <Compile Include="Commands\CmdRules.cs" />
     <Compile Include="Commands\CmdSay.cs" />
