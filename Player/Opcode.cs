@@ -65,9 +65,6 @@ namespace MCSpleef
 		/// <summary> Extended server packet. Tells client which block to hold. </summary>
 		HoldThis = 20,
 
-		/// <summary> Extended server packet. Defines chat macros ties to hotkeys. </summary>
-		SetTextHotKey = 21,
-
 		/// <summary> Extended server packet. Adds or updates a name to the player list. </summary>
 		ExtAddPlayerName = 22,
 

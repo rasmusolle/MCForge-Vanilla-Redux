@@ -701,9 +701,8 @@ namespace MCSpleef
 				if (type == 0x42)
 				{
 					extension = true;
-					SendExtInfo(8);
+					SendExtInfo(7);
 					SendExtEntry("HeldBlock", 1);
-					SendExtEntry("TextHotKey", 1);
 					SendExtEntry("SelectionCuboid", 1);
 					SendExtEntry("BlockPermissions", 1);
 					SendExtEntry("EnvMapAppearance", 1);
@@ -1781,15 +1780,6 @@ namespace MCSpleef
 			buffer[0] = type;
 			buffer[1] = locked;
 			SendRaw(OpCode.HoldThis, buffer);
-		}
-		public void SendTextHotKey(string label, string command, int keycode, byte mods)
-		{
-			byte[] buffer = new byte[133];
-			StringFormat(label, 64).CopyTo(buffer, 0);
-			StringFormat(command, 64).CopyTo(buffer, 64);
-			BitConverter.GetBytes(keycode).CopyTo(buffer, 128);
-			buffer[132] = mods;
-			SendRaw(OpCode.SetTextHotKey, buffer);
 		}
 		public void SendEnvSetColor(byte type, short r, short g, short b)
 		{

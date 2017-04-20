@@ -21,7 +21,6 @@ namespace MCSpleef
 	public partial class Player
 	{
 		public int HeldBlock = 0;
-		public int TextHotKey = 0;
 		public int SelectionCuboid = 0;
 		public int BlockPermissions = 0;
 		public int EnvMapAppearance = 0;
@@ -37,9 +36,6 @@ namespace MCSpleef
 				{
 					case "HeldBlock":
 						HeldBlock = version;
-						break;
-					case "TextHotKey":
-						TextHotKey = version;
 						break;
 					case "SelectionCuboid":
 						SelectionCuboid = version;
@@ -69,7 +65,6 @@ namespace MCSpleef
 			switch (Extension)
 			{
 				case "HeldBlock": return HeldBlock == version;
-				case "TextHotKey": return TextHotKey == version;
 				case "SelectionCuboid": return SelectionCuboid == version;
 				case "BlockPermissions": return BlockPermissions == version;
 				case "EnvMapAppearance": return EnvMapAppearance == version;
