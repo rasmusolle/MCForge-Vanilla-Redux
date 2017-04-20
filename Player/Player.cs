@@ -707,7 +707,6 @@ namespace MCSpleef
 					SendExtEntry("BlockPermissions", 1);
 					SendExtEntry("EnvMapAppearance", 1);
 					SendExtEntry("HackControl", 1);
-					SendExtEntry("EmoteFix", 1);
 					SendExtEntry("MessageTypes", 1);
 				}
 
@@ -1581,7 +1580,7 @@ namespace MCSpleef
 					string newLine = line;
 					if (newLine.TrimEnd(' ')[newLine.TrimEnd(' ').Length - 1] < '!')
 					{
-						if (HasExtension("EmoteFix")) { newLine += '\''; }
+						//if (HasExtension("EmoteFix")) { newLine += '\''; }
 					}
 
 					if (HasBadColorCodes(newLine))

@@ -25,7 +25,6 @@ namespace MCSpleef
 		public int BlockPermissions = 0;
 		public int EnvMapAppearance = 0;
 		public int HackControl = 0;
-		public int EmoteFix = 0;
 		public int MessageTypes = 0;
 
 		public void AddExtension(string Extension, int version)
@@ -49,9 +48,6 @@ namespace MCSpleef
 					case "HackControl":
 						HackControl = version;
 						break;
-					case "EmoteFix":
-						EmoteFix = version;
-						break;
 					case "MessageTypes":
 						MessageTypes = version;
 						break;
@@ -69,7 +65,6 @@ namespace MCSpleef
 				case "BlockPermissions": return BlockPermissions == version;
 				case "EnvMapAppearance": return EnvMapAppearance == version;
 				case "HackControl": return HackControl == version;
-				case "EmoteFix": return EmoteFix == version;
 				case "MessageTypes": return MessageTypes == version;
 				default: return false;
 			}
