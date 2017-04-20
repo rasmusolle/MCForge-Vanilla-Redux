@@ -701,7 +701,7 @@ namespace MCSpleef
 				if (type == 0x42)
 				{
 					extension = true;
-					SendExtInfo(12);
+					SendExtInfo(11);
 					SendExtEntry("ClickDistance", 1);
 					SendExtEntry("HeldBlock", 1);
 					SendExtEntry("TextHotKey", 1);
@@ -710,7 +710,6 @@ namespace MCSpleef
 					SendExtEntry("BlockPermissions", 1);
 					SendExtEntry("ChangeModel", 1);
 					SendExtEntry("EnvMapAppearance", 1);
-					SendExtEntry("EnvWeatherType", 1);
 					SendExtEntry("HackControl", 1);
 					SendExtEntry("EmoteFix", 1);
 					SendExtEntry("MessageTypes", 1);
@@ -1690,9 +1689,6 @@ namespace MCSpleef
 				GC.Collect();
 				GC.WaitForPendingFinalizers();
 			}
-			/*
-			if (HasExtension("EnvWeatherType")) { SendSetMapWeather(level.weather); }
-			*/
 		}
 		public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty, string displayName, string skinName)
 		{
@@ -1881,12 +1877,7 @@ namespace MCSpleef
 			HTNO(sidelevel).CopyTo(buffer, 66);
 			SendRaw(OpCode.EnvMapAppearance, buffer);
 		}
-		public void SendSetMapWeather(byte weather)
-		{ // 0 - sunny; 1 - raining; 2 - snowing
-			byte[] buffer = new byte[1];
-			buffer[0] = weather;
-			SendRaw(OpCode.EnvWeatherType, buffer);
-		}
+
 		public void SendHackControl(byte allowflying, byte allownoclip, byte allowspeeding, byte allowrespawning, byte allowthirdperson, byte allowchangingweather, short maxjumpheight)
 		{
 			byte[] buffer = new byte[7];
