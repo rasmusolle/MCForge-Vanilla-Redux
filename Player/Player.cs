@@ -189,7 +189,7 @@ namespace MCSpleef
 
 		#endregion
 
-		public void ClearChat() { OnChat = null; }
+		//public void ClearChat() { OnChat = null; }
 		/// <summary>
 		/// List of all server players.
 		/// </summary>
@@ -741,9 +741,6 @@ namespace MCSpleef
 
 			SetPrefix();
 
-			if (PlayerConnect != null)
-				PlayerConnect(this);
-
 			//Re-implenting MCLawl-Era Dev recognition.
 			if (isDev)
 			{
@@ -1019,11 +1016,13 @@ namespace MCSpleef
 			ushort y = NTHO(message, 3);
 			ushort z = NTHO(message, 5);
 
+			/*
 			if (cancelmove)
 			{
 				unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
 				return;
 			}
+			*/
 			byte rotx = message[7];
 			byte roty = message[8];
 			pos = new ushort[3] { x, y, z };
@@ -1194,22 +1193,10 @@ namespace MCSpleef
 					string newtext = text;
 					GlobalChat(this, newtext);
 					Server.s.Log("<" + name + "> " + newtext);
-					if (OnChat != null)
-						OnChat(this, text);
-					if (PlayerChat != null)
-						PlayerChat(this, text);
 					return;
 				}
 				Server.s.Log("<" + name + "> " + text);
-				if (OnChat != null)
-					OnChat(this, text);
-				if (PlayerChat != null)
-					PlayerChat(this, text);
-				if (cancelchat)
-				{
-					cancelchat = false;
-					return;
-				}
+
 				GlobalChat(this, text);
 			}
 			catch (Exception e) { Server.ErrorLog(e); Player.GlobalMessage("An error occurred: " + e.Message); }
@@ -1240,11 +1227,7 @@ namespace MCSpleef
 
 				if (CommandHasBadColourCodes(this, message))
 					return;
-				if (cancelcommand)
-				{
-					cancelcommand = false;
-					return;
-				}
+
 				try
 				{
 					int foundCb = int.Parse(cmd);
@@ -1537,15 +1520,7 @@ namespace MCSpleef
 			if (HasBadColorCodes(message))
 				return;
 			int totalTries = 0;
-			if (MessageRecieve != null)
-				MessageRecieve(this, message);
-			if (OnMessageRecieve != null)
-				OnMessageRecieve(this, message);
-			if (cancelmessage)
-			{
-				cancelmessage = false;
-				return;
-			}
+
 		retryTag: try
 			{
 				foreach (string line in Wordwrap(message))
@@ -2212,9 +2187,6 @@ namespace MCSpleef
 					Server.s.PlayerListUpdate();
 					try { left.Add(this.name.ToLower(), this.ip); }
 					catch (Exception) { }
-
-					if (PlayerDisconnect != null)
-						PlayerDisconnect(this, kickString);
 
 					this.Dispose();
 				}

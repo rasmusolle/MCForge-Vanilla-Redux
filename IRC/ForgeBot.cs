@@ -41,11 +41,6 @@ namespace MCSpleef {
 				con.Port = Server.ircPort;
 				connection = new Connection(con, false, false);
 
-				// Regster events for outgoing
-				Player.PlayerChat += new Player.OnPlayerChat(Player_PlayerChat);
-				Player.PlayerConnect += new Player.OnPlayerConnect(Player_PlayerConnect);
-				Player.PlayerDisconnect += new Player.OnPlayerDisconnect(Player_PlayerDisconnect);
-
 				// Regster events for incoming
 				connection.Listener.OnNick += new NickEventHandler(Listener_OnNick);
 				connection.Listener.OnRegistered += new RegisteredEventHandler(Listener_OnRegistered);
