@@ -452,20 +452,13 @@ namespace MCSpleef
 				{
 					extraTimer.Stop();
 
-					try
-					{
-						if (!Group.Find("Nobody").commands.Contains("pay") && !Group.Find("Nobody").commands.Contains("give") && !Group.Find("Nobody").commands.Contains("take")) SendMessage("You currently have &a" + money + Server.DefaultColor + " " + Server.moneys);
-					}
-					catch { }
+
+					SendMessage("You currently have &a" + money + Server.DefaultColor + " " + Server.moneys);
 					if (players.Count == 1)
 						SendMessage("There is currently &a" + players.Count + " player online.");
 					else
 						SendMessage("There are currently &a" + players.Count + " players online.");
-					try
-					{
-						if (!Group.Find("Nobody").commands.Contains("award") && !Group.Find("Nobody").commands.Contains("awards") && !Group.Find("Nobody").commands.Contains("awardmod")) SendMessage("You have " + Awards.awardAmount(name) + " awards.");
-					}
-					catch { }
+					SendMessage("You have " + Awards.awardAmount(name) + " awards.");
 
 					extraTimer.Dispose();
 				};
