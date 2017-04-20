@@ -248,8 +248,6 @@ namespace MCSpleef
 
 		public bool deleteMode = false;
 		public bool ignorePermission = false;
-		public bool parseSmiley = true;
-		public bool smileySaved = true;
 		public bool opchat = false;
 		public bool whisper = false;
 		public string whisperTo = "";
@@ -472,24 +470,6 @@ namespace MCSpleef
 		public void save()
 		{
 			PlayerDB.Save(this);
-
-			try
-			{
-				if (!smileySaved)
-				{
-					if (parseSmiley)
-						emoteList.RemoveAll(s => s == name);
-					else
-						emoteList.Add(name);
-
-					File.WriteAllLines("text/emotelist.txt", emoteList.ToArray());
-					smileySaved = true;
-				}
-			}
-			catch (Exception e)
-			{
-				Server.ErrorLog(e);
-			}
 		}
 
 		#region == INCOMING ==
@@ -800,7 +780,7 @@ namespace MCSpleef
 
 			Loading = false;
 
-			if (emoteList.Contains(name)) parseSmiley = false;
+			//if (emoteList.Contains(name)) parseSmiley = false;
 
 			loggedIn = true;
 			lastlogin = DateTime.Now;
