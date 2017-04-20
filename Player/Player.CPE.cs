@@ -23,7 +23,6 @@ namespace MCSpleef
 		public int ClickDistance = 0;
 		public int HeldBlock = 0;
 		public int TextHotKey = 0;
-		public int EnvColors = 0;
 		public int SelectionCuboid = 0;
 		public int BlockPermissions = 0;
 		public int EnvMapAppearance = 0;
@@ -45,9 +44,6 @@ namespace MCSpleef
 						break;
 					case "TextHotKey":
 						TextHotKey = version;
-						break;
-					case "EnvColors":
-						EnvColors = version;
 						break;
 					case "SelectionCuboid":
 						SelectionCuboid = version;
@@ -79,7 +75,6 @@ namespace MCSpleef
 				case "ClickDistance": return ClickDistance == version;
 				case "HeldBlock": return HeldBlock == version;
 				case "TextHotKey": return TextHotKey == version;
-				case "EnvColors": return EnvColors == version;
 				case "SelectionCuboid": return SelectionCuboid == version;
 				case "BlockPermissions": return BlockPermissions == version;
 				case "EnvMapAppearance": return EnvMapAppearance == version;

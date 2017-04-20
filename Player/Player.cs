@@ -701,11 +701,10 @@ namespace MCSpleef
 				if (type == 0x42)
 				{
 					extension = true;
-					SendExtInfo(10);
+					SendExtInfo(9);
 					SendExtEntry("ClickDistance", 1);
 					SendExtEntry("HeldBlock", 1);
 					SendExtEntry("TextHotKey", 1);
-					SendExtEntry("EnvColors", 1);
 					SendExtEntry("SelectionCuboid", 1);
 					SendExtEntry("BlockPermissions", 1);
 					SendExtEntry("EnvMapAppearance", 1);
