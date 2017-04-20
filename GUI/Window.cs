@@ -21,9 +21,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-namespace MCSpleef.Gui 
+namespace MCSpleef.Gui
 {
-	public partial class Window : Form 
+	public partial class Window : Form
 	{
 		delegate void StringCallback(string s);
 		delegate void PlayerListCallback(List<Player> players);
@@ -332,47 +332,5 @@ namespace MCSpleef.Gui
 		private void dgvPlayers_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e) {
 			e.PaintParts &= ~DataGridViewPaintParts.Focus;
 		}
-
-		#region Colored Reader Context Menu
-
-		private void nightModeToolStripMenuItem_Click_1(object sender, EventArgs e) {
-			if ( MessageBox.Show("Changing to and from night mode will clear your logs. Do you still want to change?", "You sure?", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No )
-				return;
-
-			txtLog.NightMode = nightModeToolStripMenuItem.Checked;
-			nightModeToolStripMenuItem.Checked = !nightModeToolStripMenuItem.Checked;
-		}
-
-		private void colorsToolStripMenuItem_Click_1(object sender, EventArgs e) {
-			txtLog.Colorize = !colorsToolStripMenuItem.Checked;
-			colorsToolStripMenuItem.Checked = !colorsToolStripMenuItem.Checked;
-
-		}
-
-		private void dateStampToolStripMenuItem_Click(object sender, EventArgs e) {
-			txtLog.DateStamp = !dateStampToolStripMenuItem.Checked;
-			dateStampToolStripMenuItem.Checked = !dateStampToolStripMenuItem.Checked;
-		}
-
-		private void autoScrollToolStripMenuItem_Click(object sender, EventArgs e) {
-			txtLog.AutoScroll = !autoScrollToolStripMenuItem.Checked;
-			autoScrollToolStripMenuItem.Checked = !autoScrollToolStripMenuItem.Checked;
-		}
-
-		private void copySelectedToolStripMenuItem_Click(object sender, EventArgs e) {
-			if ( String.IsNullOrEmpty(txtLog.SelectedText) )
-				return;
-
-			Clipboard.SetText(txtLog.SelectedText, TextDataFormat.Text);
-		}
-		private void copyAllToolStripMenuItem_Click(object sender, EventArgs e) {
-			Clipboard.SetText(txtLog.Text, TextDataFormat.Text);
-		}
-		private void clearToolStripMenuItem_Click(object sender, EventArgs e) {
-			if ( MessageBox.Show("Are you sure you want to clear logs?", "You sure?", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes ) {
-				txtLog.Clear();
-			}
-		}
-		#endregion
 	}
 }

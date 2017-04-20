@@ -68,16 +68,6 @@ namespace MCSpleef.Gui
 			this.btnProperties = new System.Windows.Forms.Button();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.Restart = new System.Windows.Forms.Button();
-			this.txtLogMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.nightModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.dateStampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.autoScrollToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.copySelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.copyAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.gBChat = new System.Windows.Forms.GroupBox();
 			this.txtLog = new MCSpleef.Gui.Components.ColoredTextBox();
@@ -100,7 +90,6 @@ namespace MCSpleef.Gui
 			this.grpRCSettings = new System.Windows.Forms.GroupBox();
 			this.grpConnectedRCs = new System.Windows.Forms.GroupBox();
 			this.iconContext.SuspendLayout();
-			this.txtLogMenuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.gBChat.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvPlayers)).BeginInit();
@@ -112,9 +101,9 @@ namespace MCSpleef.Gui
 			// iconContext
 			// 
 			this.iconContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.openConsole,
-			this.shutdownServer,
-			this.restartServerToolStripMenuItem});
+            this.openConsole,
+            this.shutdownServer,
+            this.restartServerToolStripMenuItem});
 			this.iconContext.Name = "iconContext";
 			this.iconContext.Size = new System.Drawing.Size(164, 70);
 			// 
@@ -174,86 +163,6 @@ namespace MCSpleef.Gui
 			this.Restart.UseVisualStyleBackColor = true;
 			this.Restart.Click += new System.EventHandler(this.Restart_Click);
 			// 
-			// txtLogMenuStrip
-			// 
-			this.txtLogMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.nightModeToolStripMenuItem,
-			this.colorsToolStripMenuItem,
-			this.dateStampToolStripMenuItem,
-			this.autoScrollToolStripMenuItem,
-			this.toolStripSeparator2,
-			this.copySelectedToolStripMenuItem,
-			this.copyAllToolStripMenuItem,
-			this.toolStripSeparator3,
-			this.clearToolStripMenuItem});
-			this.txtLogMenuStrip.Name = "txtLogMenuStrip";
-			this.txtLogMenuStrip.Size = new System.Drawing.Size(150, 170);
-			// 
-			// nightModeToolStripMenuItem
-			// 
-			this.nightModeToolStripMenuItem.Name = "nightModeToolStripMenuItem";
-			this.nightModeToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-			this.nightModeToolStripMenuItem.Text = "Night Theme";
-			this.nightModeToolStripMenuItem.Click += new System.EventHandler(this.nightModeToolStripMenuItem_Click_1);
-			// 
-			// colorsToolStripMenuItem
-			// 
-			this.colorsToolStripMenuItem.Checked = true;
-			this.colorsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
-			this.colorsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-			this.colorsToolStripMenuItem.Text = "Colors";
-			this.colorsToolStripMenuItem.Click += new System.EventHandler(this.colorsToolStripMenuItem_Click_1);
-			// 
-			// dateStampToolStripMenuItem
-			// 
-			this.dateStampToolStripMenuItem.Checked = true;
-			this.dateStampToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.dateStampToolStripMenuItem.Name = "dateStampToolStripMenuItem";
-			this.dateStampToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-			this.dateStampToolStripMenuItem.Text = "Date Stamp";
-			this.dateStampToolStripMenuItem.Click += new System.EventHandler(this.dateStampToolStripMenuItem_Click);
-			// 
-			// autoScrollToolStripMenuItem
-			// 
-			this.autoScrollToolStripMenuItem.Checked = true;
-			this.autoScrollToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.autoScrollToolStripMenuItem.Name = "autoScrollToolStripMenuItem";
-			this.autoScrollToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-			this.autoScrollToolStripMenuItem.Text = "Auto Scroll";
-			this.autoScrollToolStripMenuItem.Click += new System.EventHandler(this.autoScrollToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(146, 6);
-			// 
-			// copySelectedToolStripMenuItem
-			// 
-			this.copySelectedToolStripMenuItem.Name = "copySelectedToolStripMenuItem";
-			this.copySelectedToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-			this.copySelectedToolStripMenuItem.Text = "Copy Selected";
-			this.copySelectedToolStripMenuItem.Click += new System.EventHandler(this.copySelectedToolStripMenuItem_Click);
-			// 
-			// copyAllToolStripMenuItem
-			// 
-			this.copyAllToolStripMenuItem.Name = "copyAllToolStripMenuItem";
-			this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-			this.copyAllToolStripMenuItem.Text = "Copy All";
-			this.copyAllToolStripMenuItem.Click += new System.EventHandler(this.copyAllToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(146, 6);
-			// 
-			// clearToolStripMenuItem
-			// 
-			this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-			this.clearToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-			this.clearToolStripMenuItem.Text = "Clear";
-			this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
-			// 
 			// tabPage1
 			// 
 			this.tabPage1.BackColor = System.Drawing.Color.Transparent;
@@ -285,7 +194,6 @@ namespace MCSpleef.Gui
 			// txtLog
 			// 
 			this.txtLog.BackColor = System.Drawing.SystemColors.Window;
-			this.txtLog.ContextMenuStrip = this.txtLogMenuStrip;
 			this.txtLog.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtLog.Location = new System.Drawing.Point(6, 30);
 			this.txtLog.Name = "txtLog";
@@ -494,7 +402,6 @@ namespace MCSpleef.Gui
 			this.Load += new System.EventHandler(this.Window_Load);
 			this.Resize += new System.EventHandler(this.Window_Resize);
 			this.iconContext.ResumeLayout(false);
-			this.txtLogMenuStrip.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
 			this.gBChat.ResumeLayout(false);
@@ -518,16 +425,6 @@ namespace MCSpleef.Gui
 		private ToolStripMenuItem shutdownServer;
 		private Button Restart;
 		private ToolStripMenuItem restartServerToolStripMenuItem;
-		private ContextMenuStrip txtLogMenuStrip;
-		private ToolStripMenuItem nightModeToolStripMenuItem;
-		private ToolStripMenuItem colorsToolStripMenuItem;
-		private ToolStripSeparator toolStripSeparator2;
-		private ToolStripMenuItem copySelectedToolStripMenuItem;
-		private ToolStripMenuItem copyAllToolStripMenuItem;
-		private ToolStripSeparator toolStripSeparator3;
-		private ToolStripMenuItem clearToolStripMenuItem;
-		private ToolStripMenuItem dateStampToolStripMenuItem;
-		private ToolStripMenuItem autoScrollToolStripMenuItem;
 		private Button btnProperties;
 		private GroupBox grpRCUsers;
 		private GroupBox grpRCSettings;

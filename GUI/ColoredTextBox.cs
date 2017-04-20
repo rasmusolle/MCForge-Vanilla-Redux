@@ -23,169 +23,48 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using MCSpleef.Gui.Utils;
-namespace MCSpleef.Gui.Components {
-
-	/// <summary>
-	/// A rich text box, that can parse Minecraft/MCForge color codes.
-	/// </summary>
-	public partial class ColoredTextBox : RichTextBox {
-
-		private bool _nightMode = false;
-		private bool _colorize = true;
-		private bool _showDateStamp = true;
-		private bool _autoScroll = true;
-
-		/// <summary>
-		/// Gets or sets a value indicating whether to scroll automaticly
-		/// </summary>
-		/// <value>
-		///   <c>true</c> if [auto scroll]; otherwise, <c>false</c>.
-		/// </value>
-		[Browsable(true)]
-		[Category("MCForge")]
-		[DefaultValue(true)]
-		public bool AutoScroll {
-			get {
-				return _autoScroll;
-			}
-			set {
-				_autoScroll = value;
-				if ( value )
-					ScrollToEnd();
-			}
-		}
-
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="ColoredTextBox"/> is colorized.
-		/// </summary>
-		/// <value>
-		///   <c>true</c> if colorized; otherwise, <c>false</c>.
-		/// </value>
-		[Browsable(true)]
-		[Category("MCForge")]
-		[DefaultValue(true)]
-		public bool Colorize {
-			get {
-				return _colorize;
-			}
-			set {
-				_colorize = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets a value indicating whether it will include a date stamp in the log
-		/// </summary>
-		/// <value>
-		///   <c>true</c> if [date stamp]; otherwise, <c>false</c>.
-		/// </value>
-		[Browsable(true)]
-		[Category("MCForge")]
-		[DefaultValue(true)]
-		public bool DateStamp {
-			get {
-				return _showDateStamp;
-			}
-			set {
-				_showDateStamp = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets a value indicating whether the TextBox is in nightmode. This will clear the text box when changed.
-		/// </summary>
-		/// <value>
-		///   <c>true</c> if [night mode]; otherwise, <c>false</c>.
-		/// </value>
-		[Browsable(true)]
-		[Category("MCForge")]
-		[DefaultValue(false)]
-		public bool NightMode {
-			get {
-				return _nightMode;
-			}
-			set {
-				_nightMode = value;
-
-				Clear();
-
-				ForeColor = value ? Color.Black : Color.White;
-				BackColor = value ? Color.White : Color.Black;
-
-				Invalidate();
-			}
-		}
-
-
-		private string dateStamp {
-			get {
-				return "[" + DateTime.Now.ToString("T") + "] ";
-			}
-		}
+namespace MCSpleef.Gui.Components
+{
+	public partial class ColoredTextBox : RichTextBox
+	{
+		private string dateStamp { get { return "[" + DateTime.Now.ToString("T") + "] "; } }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ColoredTextBox"/> class.
 		/// </summary>
-		public ColoredTextBox()
-			: base() {
-			InitializeComponent();
-		}
+		public ColoredTextBox() : base() { InitializeComponent(); }
 
 		/// <summary>
 		/// Appends the log.
 		/// </summary>
 		/// <param name="text">The text to log.</param>
-		public void AppendLog(string text, Color foreColor) {
-			if ( InvokeRequired ) {
-				Invoke((MethodInvoker)( () => AppendLog ( text, foreColor ) ));
+		public void AppendLog(string text, Color foreColor)
+		{
+			if (InvokeRequired) {
+				Invoke((MethodInvoker)(() => AppendLog(text, foreColor)));
 				return;
 			}
+			Append(dateStamp, Color.Gray, BackColor);
 
-			if ( DateStamp )
-				Append(dateStamp, Color.Gray, BackColor);
-
-			if ( !Colorize ) {
-				AppendText(text);
-
-				if ( AutoScroll )
-					ScrollToEnd();
-				return;
-			}
-			if ( !text.Contains('&') && !text.Contains('%') ) {
+			if (!text.Contains('&') && !text.Contains('%')) {
 				Append(text, foreColor, BackColor);
-
-				if ( AutoScroll )
-					ScrollToEnd();
-
+				ScrollToEnd();
 				return;
 			}
 
 			string[] messagesSplit = text.Split(new[] { '%', '&' }, StringSplitOptions.RemoveEmptyEntries);
 
-			for ( int i = 0; i < messagesSplit.Length; i++ ) {
+			for (int i = 0; i < messagesSplit.Length; i++) {
 				string split = messagesSplit[i];
-				if ( String.IsNullOrEmpty(split.Trim()) )
+				if (String.IsNullOrEmpty(split.Trim()))
 					continue;
 				Color? color = Utilities.GetDimColorFromChar(split[0]);
 				Append(color != null ? split.Substring(1) : split, color ?? foreColor, BackColor);
 			}
-
-			if ( AutoScroll )
-				ScrollToEnd();
-
+			ScrollToEnd();
 		}
 
-		/// <summary>
-		/// Appends the log.
-		/// </summary>
-		/// <param name="text">The text to log.</param>
-		public void AppendLog(string text) {
-			AppendLog(text, ForeColor);
-
-			if ( AutoScroll )
-				ScrollToEnd();
-		}
+		public void AppendLog(string text) { AppendLog(text, ForeColor); ScrollToEnd(); }
 
 		/// <summary>
 		/// Appends the log.
@@ -193,9 +72,10 @@ namespace MCSpleef.Gui.Components {
 		/// <param name="text">The text to log.</param>
 		/// <param name="foreColor">Color of the foreground.</param>
 		/// <param name="bgColor">Color of the background.</param>
-		private void Append(string text, Color foreColor, Color bgColor) {
-			if ( InvokeRequired ) {
-				Invoke((MethodInvoker)( () => Append ( text, foreColor, bgColor ) ));
+		private void Append(string text, Color foreColor, Color bgColor)
+		{
+			if (InvokeRequired) {
+				Invoke((MethodInvoker)(() => Append(text, foreColor, bgColor)));
 				return;
 			}
 
@@ -209,9 +89,10 @@ namespace MCSpleef.Gui.Components {
 
 		}
 
-		private void ColoredReader_LinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e) {
-			if ( !e.LinkText.StartsWith("http://www.minecraft.net/classic/play/") ) {
-				if ( MessageBox.Show("Never open links from people that you don't trust!", "Warning!!", MessageBoxButtons.OKCancel) == DialogResult.Cancel )
+		private void ColoredReader_LinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e)
+		{
+			if (!e.LinkText.StartsWith("http://www.minecraft.net/classic/play/")) {
+				if (MessageBox.Show("Never open links from people that you don't trust!", "Warning!!", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
 					return;
 			}
 
@@ -223,33 +104,30 @@ namespace MCSpleef.Gui.Components {
 		/// <summary>
 		/// Scrolls to the end of the log
 		/// </summary>
-		public void ScrollToEnd() {
-			if ( InvokeRequired ) {
+		public void ScrollToEnd()
+		{
+			if (InvokeRequired) {
 				Invoke((MethodInvoker)ScrollToEnd);
 				return;
 			}
-
 			Select(Text.Length - 1, 1);
 			ScrollToCaret();
 			Invalidate();
 			Refresh();
 		}
 
-
-
-
-
 		#region Border Style
 
 		private RECT _border;
 
-		protected override void WndProc(ref Message m) {
-			if ( Environment.OSVersion.Platform != PlatformID.Win32NT ) {
+		protected override void WndProc(ref Message m)
+		{
+			if (Environment.OSVersion.Platform != PlatformID.Win32NT) {
 				base.WndProc(ref m);
 				return;
 			}
 
-			switch ( m.Msg ) {
+			switch (m.Msg) {
 				case Natives.WM_NCPAINT:
 					RenderStyle(ref m);
 					break;
@@ -265,20 +143,20 @@ namespace MCSpleef.Gui.Components {
 			}
 		}
 
-		private void CalculateSize(ref Message m) {
+		private void CalculateSize(ref Message m)
+		{
 			base.WndProc(ref m);
 
-			if ( !Natives.CanRender() )
+			if (!Natives.CanRender())
 				return;
 
 			Natives.NCCALCSIZE_PARAMS par = new Natives.NCCALCSIZE_PARAMS();
 
 			RECT windowRect;
 
-			if ( m.WParam == IntPtr.Zero ) {
+			if (m.WParam == IntPtr.Zero) {
 				windowRect = (RECT)Marshal.PtrToStructure(m.LParam, typeof(RECT));
-			}
-			else {
+			} else {
 				par = (Natives.NCCALCSIZE_PARAMS)Marshal.PtrToStructure(m.LParam, typeof(Natives.NCCALCSIZE_PARAMS));
 				windowRect = par.rgrc0;
 			}
@@ -287,7 +165,7 @@ namespace MCSpleef.Gui.Components {
 			IntPtr hDC = Natives.GetWindowDC(this.Handle);
 			IntPtr hTheme = Natives.OpenThemeData(this.Handle, "EDIT");
 
-			if ( Natives.GetThemeBackgroundContentRect(hTheme, hDC, Natives.EP_EDITTEXT, Natives.ETS_NORMAL, ref windowRect, out contentRect) == Natives.S_OK ) {
+			if (Natives.GetThemeBackgroundContentRect(hTheme, hDC, Natives.EP_EDITTEXT, Natives.ETS_NORMAL, ref windowRect, out contentRect) == Natives.S_OK) {
 				contentRect.Inflate(-1, -1);
 				this._border = new Margins(contentRect.Left - windowRect.Left,
 																		contentRect.Top - windowRect.Top,
@@ -295,10 +173,9 @@ namespace MCSpleef.Gui.Components {
 																		 windowRect.Bottom - contentRect.Bottom);
 
 
-				if ( m.WParam == IntPtr.Zero ) {
+				if (m.WParam == IntPtr.Zero) {
 					Marshal.StructureToPtr(contentRect, m.LParam, false);
-				}
-				else {
+				} else {
 					par.rgrc0 = contentRect;
 					Marshal.StructureToPtr(par, m.LParam, false);
 				}
@@ -311,17 +188,16 @@ namespace MCSpleef.Gui.Components {
 
 		}
 
-		private void RenderStyle(ref Message m) {
+		private void RenderStyle(ref Message m)
+		{
 			base.WndProc(ref m);
 
-			if ( !Natives.CanRender() ) {
-				return;
-			}
+			if (!Natives.CanRender()) { return; }
 
 			int partId = Natives.EP_EDITTEXT;
 
 			int stateId;
-			if ( this.Enabled )
+			if (this.Enabled)
 				stateId = this.ReadOnly ? Natives.ETS_READONLY : Natives.ETS_NORMAL;
 			else
 				stateId = Natives.ETS_DISABLED;
@@ -345,7 +221,7 @@ namespace MCSpleef.Gui.Components {
 
 			IntPtr hTheme = Natives.OpenThemeData(this.Handle, "EDIT");
 
-			if ( Natives.IsThemeBackgroundPartiallyTransparent(hTheme, Natives.EP_EDITTEXT, Natives.ETS_NORMAL) != 0 )
+			if (Natives.IsThemeBackgroundPartiallyTransparent(hTheme, Natives.EP_EDITTEXT, Natives.ETS_NORMAL) != 0)
 				Natives.DrawThemeParentBackground(this.Handle, hDC, ref windowRect);
 
 
@@ -355,20 +231,19 @@ namespace MCSpleef.Gui.Components {
 			m.Result = IntPtr.Zero;
 		}
 
-		protected override CreateParams CreateParams {
-
-			get {
+		protected override CreateParams CreateParams
+		{
+			get
+			{
 				CreateParams p = base.CreateParams;
 
-				if ( Natives.CanRender() && ( p.ExStyle & Natives.WS_EX_CLIENTEDGE ) == Natives.WS_EX_CLIENTEDGE )
+				if (Natives.CanRender() && (p.ExStyle & Natives.WS_EX_CLIENTEDGE) == Natives.WS_EX_CLIENTEDGE)
 					p.ExStyle ^= Natives.WS_EX_CLIENTEDGE;
 
 				return p;
 			}
-
 		}
 
 		#endregion
-
 	}
 }
