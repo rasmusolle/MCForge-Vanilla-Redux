@@ -701,7 +701,7 @@ namespace MCSpleef
 				if (type == 0x42)
 				{
 					extension = true;
-					SendExtInfo(7);
+					SendExtInfo(6);
 					SendExtEntry("HeldBlock", 1);
 					SendExtEntry("SelectionCuboid", 1);
 					SendExtEntry("BlockPermissions", 1);
@@ -1779,15 +1779,6 @@ namespace MCSpleef
 			buffer[0] = type;
 			buffer[1] = locked;
 			SendRaw(OpCode.HoldThis, buffer);
-		}
-		public void SendEnvSetColor(byte type, short r, short g, short b)
-		{
-			byte[] buffer = new byte[7];
-			buffer[0] = type;
-			HTNO(r).CopyTo(buffer, 1);
-			HTNO(g).CopyTo(buffer, 3);
-			HTNO(b).CopyTo(buffer, 5);
-			SendRaw(OpCode.EnvSetColor, buffer);
 		}
 		public void SendMakeSelection(byte id, string label, short smallx, short smally, short smallz, short bigx, short bigy, short bigz, short r, short g, short b, short opacity)
 		{
