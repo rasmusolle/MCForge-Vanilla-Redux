@@ -14,18 +14,14 @@ http://www.gnu.org/licenses/gpl-3.0.html
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using MCSpleef.Gui.Utils;
-
 namespace MCSpleef.Gui.Components {
 
 	/// <summary>
