@@ -69,12 +69,6 @@ namespace MCSpleef
 
 			return sb.ToString();
 		}
-		public static void UncapitalizeAll(string file) {
-			string[] complete = File.ReadAllLines(file);
-			for (int i = 0; i < complete.Length; i++)
-				complete[i] = complete[i].ToLower();
-			File.WriteAllLines(file, complete);
-		}
 
 		public static string getPlural(string groupName)
 		{

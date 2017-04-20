@@ -225,8 +225,6 @@ namespace MCSpleef
 
 				foreach (Group grp in Group.GroupList)
 					grp.playerList = PlayerList.Load(grp.fileName, grp);
-				Extensions.UncapitalizeAll("ranks/banned.txt");
-				Extensions.UncapitalizeAll("ranks/muted.txt");
 			});
 
 			ml.Queue(delegate
