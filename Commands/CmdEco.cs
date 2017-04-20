@@ -120,7 +120,7 @@ namespace MCSpleef.Commands
 			Player.SendMessage(p, "/eco give [player] <amount> - Gives [player] <amount> " + Server.moneys);
 			Player.SendMessage(p, "/eco pay [player] <amount> - Pays <amount> of " + Server.moneys + " to [player]");
 			Player.SendMessage(p, "/eco take [player] <amount> - Takes <amount> of " + Server.moneys + " from [player]");
+			Player.SendMessage(p, "/eco money - Displays money of all players online");
 		}
-
 	}
 }
