@@ -65,18 +65,6 @@ namespace MCSpleef
 		/// <summary> Extended server packet. Tells client which block to hold. </summary>
 		HoldThis = 20,
 
-		/// <summary> Extended server packet. Adds or updates a name to the player list. </summary>
-		ExtAddPlayerName = 22,
-
-		/// <summary> Extended server packet. Adds or updates an entity (replaces AddEntity). </summary>
-		ExtAddEntity = 23,
-
-		/// <summary> Extended server packet. Removes a name from the player list. </summary>
-		ExtRemovePlayerName = 24,
-
-		/// <summary> Extended server packet. Sets environmental colors (sky/cloud/fog/ambient/diffuse color). </summary>
-		EnvSetColor = 25,
-
 		/// <summary> Extended server packet. Adds or updates a selection cuboid. </summary>
 		MakeSelection = 26,
 
