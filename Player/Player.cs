@@ -701,14 +701,13 @@ namespace MCSpleef
 				if (type == 0x42)
 				{
 					extension = true;
-					SendExtInfo(11);
+					SendExtInfo(10);
 					SendExtEntry("ClickDistance", 1);
 					SendExtEntry("HeldBlock", 1);
 					SendExtEntry("TextHotKey", 1);
 					SendExtEntry("EnvColors", 1);
 					SendExtEntry("SelectionCuboid", 1);
 					SendExtEntry("BlockPermissions", 1);
-					SendExtEntry("ChangeModel", 1);
 					SendExtEntry("EnvMapAppearance", 1);
 					SendExtEntry("HackControl", 1);
 					SendExtEntry("EmoteFix", 1);
@@ -798,12 +797,6 @@ namespace MCSpleef
 					{
 						if (p.level == level && p != this && !p.hidden)
 							SendSpawn(p.id, p.color + p.name, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1], p.DisplayName, p.SkinName);
-						if (HasExtension("ChangeModel"))
-						{
-							if (p == this)
-								unchecked { SendChangeModel((byte)-1, model); }
-							else SendChangeModel(p.id, p.model);
-						}
 					}
 					if (HasExtension("EnvMapAppearance"))
 						SendSetMapAppearance(Server.textureUrl, 7, 8, (short)(level.depth/2));
@@ -1716,21 +1709,6 @@ namespace MCSpleef
 				buffer[136] = roty;
 				SendRaw((OpCode)33, buffer);
 			}
-
-			if (HasExtension("ChangeModel"))
-			{
-				Player.players.ForEach(p =>
-				{
-					if (p.level == this.level)
-						if (p == this) unchecked { SendChangeModel((byte)-1, model); }
-						else
-						{
-							SendChangeModel(p.id, p.model);
-							if (p.HasExtension("ChangeModel"))
-								p.SendChangeModel(this.id, model);
-						}
-				});
-			}
 		}
 		public void SendPos(byte id, ushort x, ushort y, ushort z, byte rotx, byte roty)
 		{
@@ -1860,14 +1838,7 @@ namespace MCSpleef
 			buffer[2] = candelete;
 			SendRaw(OpCode.SetBlockPermission, buffer);
 		}
-		public void SendChangeModel(byte id, string model)
-		{
-			if (!HasExtension("ChangeModel")) { return; }
-			byte[] buffer = new byte[65];
-			buffer[0] = id;
-			StringFormat(model, 64).CopyTo(buffer, 1);
-			SendRaw(OpCode.ChangeModel, buffer);
-		}
+
 		public void SendSetMapAppearance(string url, byte sideblock, byte edgeblock, short sidelevel)
 		{
 			byte[] buffer = new byte[68];

@@ -26,7 +26,6 @@ namespace MCSpleef
 		public int EnvColors = 0;
 		public int SelectionCuboid = 0;
 		public int BlockPermissions = 0;
-		public int ChangeModel = 0;
 		public int EnvMapAppearance = 0;
 		public int HackControl = 0;
 		public int EmoteFix = 0;
@@ -56,9 +55,6 @@ namespace MCSpleef
 					case "BlockPermissions":
 						BlockPermissions = version;
 						break;
-					case "ChangeModel":
-						ChangeModel = version;
-						break;
 					case "EnvMapAppearance":
 						EnvMapAppearance = version;
 						break;
@@ -86,7 +82,6 @@ namespace MCSpleef
 				case "EnvColors": return EnvColors == version;
 				case "SelectionCuboid": return SelectionCuboid == version;
 				case "BlockPermissions": return BlockPermissions == version;
-				case "ChangeModel": return ChangeModel == version;
 				case "EnvMapAppearance": return EnvMapAppearance == version;
 				case "HackControl": return HackControl == version;
 				case "EmoteFix": return EmoteFix == version;
