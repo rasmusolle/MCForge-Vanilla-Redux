@@ -23,14 +23,11 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using MCSpleef;
-
 namespace MCSpleef.Gui
 {
 	public static class Program
 	{
 		public static DateTime startTime;
-		public static bool usingConsole = false;
 		public static string parent = Path.GetFileName(Assembly.GetEntryAssembly().Location);
 		public static string parentfullpath = Assembly.GetEntryAssembly().Location;
 		public static string parentfullpathdir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
@@ -217,25 +214,13 @@ namespace MCSpleef.Gui
 					saveAll(true);
 
 					if (Server.listen != null) Server.listen.Close();
-					if (!usingConsole)
-					{
-						Process.Start(parent);
-						Environment.Exit(0);
-					}
-					else
-					{
-						Application.Exit();
-						Application.Restart();
-					}
+					Process.Start(parent);
+					Environment.Exit(0);
 				}
 				else
 				{
 					saveAll(false);
 					Application.Exit();
-					if (usingConsole)
-					{
-						Process.GetProcessById(Process.GetCurrentProcess().Id).Kill();
-					}
 					Environment.Exit(0);
 				}
 			})).Start();
