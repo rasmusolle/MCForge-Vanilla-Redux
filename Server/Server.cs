@@ -79,7 +79,6 @@ namespace MCSpleef
 		public static PlayerList bannedIP;
 		public static PlayerList ircControllers;
 		public static PlayerList muted;
-		public static PlayerList ignored;
 
 		// The Developer List
 		internal static readonly List<string> devs = new List<string>();
