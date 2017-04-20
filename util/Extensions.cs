@@ -80,14 +80,10 @@ namespace MCSpleef
 		{
 			try {
 				string last2 = groupName.Substring(groupName.Length - 2).ToLower();
-				if ((last2 != "ed" || groupName.Length <= 3) && last2[1] != 's') {
-					return groupName + "s";
-				}
+				if ((last2 != "ed" || groupName.Length <= 3) && last2[1] != 's') { return groupName + "s"; }
 				return groupName;
 			}
-			catch {
-				return groupName;
-			}
+			catch { return groupName; }
 		}
 	}
 }
