@@ -19,7 +19,6 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
 */
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -377,8 +376,8 @@ namespace MCSpleef
 							BitConverter.GetBytes(spawny).CopyTo(header, 10);
 							header[12] = rotx;
 							header[13] = roty;
-							header[14] = (byte)permissionvisit;
-							header[15] = (byte)permissionbuild;
+							header[14] = (byte)LevelPermission.Guest;
+							header[15] = (byte)LevelPermission.Guest;
 							gs.Write(header, 0, header.Length);
 							var level = new byte[blocks.Length * 2];
 							for (int i = 0; i < blocks.Length; ++i)
@@ -545,7 +544,7 @@ namespace MCSpleef
 
 					var level = new Level(givenName, vars[0], vars[2], vars[1], "empty")
 									{
-										permissionbuild = (LevelPermission)30,
+										permissionbuild = (LevelPermission)0,
 										spawnx = vars[3],
 										spawnz = vars[4],
 										spawny = vars[5],
