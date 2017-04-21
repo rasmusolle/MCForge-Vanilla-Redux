@@ -17,7 +17,6 @@
 */
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -28,7 +27,6 @@ namespace MCSpleef.Gui
 		delegate void StringCallback(string s);
 		delegate void PlayerListCallback(List<Player> players);
 		delegate void VoidDelegate();
-		public static bool fileexists = false;
 		public static Window thisWindow;
 
 		PlayerCollection pc = new PlayerCollection(new PlayerListView());
@@ -57,13 +55,12 @@ namespace MCSpleef.Gui
 				s.HeartBeatFail += HeartBeatFail;
 				s.OnURLChange += UpdateUrl;
 				s.OnPlayerListChange += UpdateClientList;
-				s.OnSettingsUpdate += SettingsUpdate;
 				s.Start();
 
 				RunOnUiThread(() => btnProperties.Enabled = true);
 			}).Start();
 
-			notifyIcon1.Text = ( "Server: " + Server.name ).Truncate(64);
+			notifyIcon1.Text = ("Server: " + Server.name).Truncate(64);
 
 			this.notifyIcon1.ContextMenuStrip = this.iconContext;
 			this.notifyIcon1.Icon = this.Icon;
@@ -77,30 +74,16 @@ namespace MCSpleef.Gui
 		}
 
 		public void RunOnUiThread(Action act) {
-			var d = new VoidDelegate(() => Invoke(new VoidDelegate(act)));  //SOME ADVANCED STUFF RIGHT HERR
+			var d = new VoidDelegate(() => Invoke(new VoidDelegate(act)));
 			d.Invoke();
-		}
-
-		void SettingsUpdate() {
-			if ( Server.shuttingDown ) return;
-			if ( txtLog.InvokeRequired ) {
-				this.Invoke(new VoidDelegate(SettingsUpdate));
-			}
-			else {
-				this.Text = Server.name + " - MCForge " + Server.VersionString;
-				notifyIcon1.Text = ( "MCForge Server: " + Server.name ).Truncate(64);
-			}
 		}
 
 		void HeartBeatFail() { WriteLine("Recent Heartbeat Failed"); }
 
 		void newError(string message) {
 			try {
-				if ( txtErrors.InvokeRequired ) {
-					this.Invoke(new LogDelegate(newError), new object[] { message });
-				} else {
-					txtErrors.AppendText(Environment.NewLine + message);
-				}
+				if (txtErrors.InvokeRequired) { this.Invoke(new LogDelegate(newError), new object[] { message }); }
+				else { txtErrors.AppendText(Environment.NewLine + message); }
 			}
 			catch { }
 		}
@@ -108,59 +91,44 @@ namespace MCSpleef.Gui
 		delegate void LogDelegate(string message);
 
 		public void WriteLine(string s) {
-			if ( Server.shuttingDown ) return;
-			if ( this.InvokeRequired ) {
+			if (Server.shuttingDown) return;
+			if (this.InvokeRequired) {
 				this.Invoke(new LogDelegate(WriteLine), new object[] { s });
 			} else {
 				string cleaned = s;
 
 				int substr = s.IndexOf(')');
-				if ( substr == -1 ) {
-					cleaned = s;
-				} else {
-					cleaned = s.Substring(substr + 1);
-				}
+				if (substr == -1) { cleaned = s; } else { cleaned = s.Substring(substr + 1); }
 
 				txtLog.AppendLog(cleaned + Environment.NewLine);
 			}
 		}
 
 		public void UpdateClientList(List<Player> players) {
-
-			if ( InvokeRequired ) {
-				Invoke(new PlayerListCallback(UpdateClientList), players);
-			}
+			if (InvokeRequired) { Invoke(new PlayerListCallback(UpdateClientList), players); }
 			else {
 
-				if ( dgvPlayers.DataSource == null )
+				if (dgvPlayers.DataSource == null)
 					dgvPlayers.DataSource = pc;
 
 				// Try to keep the same selection on update
 				string selected = null;
-				if ( pc.Count > 0 && dgvPlayers.SelectedRows.Count > 0 ) {
-					selected = ( from DataGridViewRow row in dgvPlayers.Rows where row.Selected select pc[row.Index] ).First().name;
+				if (pc.Count > 0 && dgvPlayers.SelectedRows.Count > 0) {
+					selected = (from DataGridViewRow row in dgvPlayers.Rows where row.Selected select pc[row.Index]).First().name;
 				}
-
-				// Update the data source and control
-				//dgvPlayers.SuspendLayout();
 
 				pc = new PlayerCollection(new PlayerListView());
 				Player.players.ForEach(p => pc.Add(p));
 
-				//dgvPlayers.Invalidate();
 				dgvPlayers.DataSource = pc;
-				// Reselect player
-				if ( selected != null ) {
-					foreach ( Player t in Player.players )
-						for ( int j = 0; j < dgvPlayers.Rows.Count; j++ )
-							if ( Equals(dgvPlayers.Rows[j].Cells[0].Value, selected) )
+				if (selected != null) {
+					foreach (Player t in Player.players)
+						for (int j = 0; j < dgvPlayers.Rows.Count; j++)
+							if (Equals(dgvPlayers.Rows[j].Cells[0].Value, selected))
 								dgvPlayers.Rows[j].Selected = true;
 				}
-
 				dgvPlayers.Refresh();
-				//dgvPlayers.ResumeLayout();
 			}
-
 		}
 
 		public void PopupNotify(string message, ToolTipIcon icon = ToolTipIcon.Info) {
@@ -170,7 +138,7 @@ namespace MCSpleef.Gui
 		public delegate void UpdateList();
 
 		public void UpdateUrl(string s) {
-			if ( this.InvokeRequired ) {
+			if (this.InvokeRequired) {
 				StringCallback d = UpdateUrl;
 				this.Invoke(d, new object[] { s });
 			}
@@ -187,10 +155,7 @@ namespace MCSpleef.Gui
 					MCSpleef.Gui.Program.ExitProgram(false);
 				}
 			}
-			else {
-				// Prevents form from closing when user clicks the X and then hits 'cancel'
-				e.Cancel = true;
-			}
+			else { e.Cancel = true; }
 		}
 
 		private void txtInput_KeyDown(object sender, KeyEventArgs e)
@@ -261,14 +226,10 @@ namespace MCSpleef.Gui
 
 		private void btnClose_Click_1(object sender, EventArgs e) { Close(); }
 
-		public void newCommand(string p) {
-			WriteLine(p);
-		}
-
-		public static bool prevLoaded = false;
+		public void newCommand(string p) { WriteLine(p); }
 
 		private void Window_Resize(object sender, EventArgs e) {
-			this.ShowInTaskbar = ( this.WindowState != FormWindowState.Minimized );
+			this.ShowInTaskbar = (this.WindowState != FormWindowState.Minimized);
 		}
 
 		private void notifyIcon1_MouseClick(object sender, MouseEventArgs e) {
@@ -283,54 +244,24 @@ namespace MCSpleef.Gui
 			WindowState = FormWindowState.Normal;
 		}
 
-		private void shutdownServer_Click(object sender, EventArgs e) {
-			Close();
-		}
+		private void shutdownServer_Click(object sender, EventArgs e) { Close(); }
 
 		private Player GetSelectedPlayer() {
-
-			if ( this.dgvPlayers.SelectedRows.Count <= 0 )
-				return null;
+			if (this.dgvPlayers.SelectedRows.Count <= 0) { return null; }
 
 			return (Player)( this.dgvPlayers.SelectedRows[0].DataBoundItem );
 		}
 
 		private void Restart_Click(object sender, EventArgs e) {
-			if ( MessageBox.Show("Are you sure you want to restart?", "Restart", MessageBoxButtons.OKCancel) == DialogResult.OK ) {
+			if (MessageBox.Show("Are you sure you want to restart?", "Restart", MessageBoxButtons.OKCancel) == DialogResult.OK) {
 				MCSpleef.Gui.Program.ExitProgram(true);
 			}
-
 		}
 
-		private void restartServerToolStripMenuItem_Click(object sender, EventArgs e) {
-			Restart_Click(sender, e);
-		}
+		private void restartServerToolStripMenuItem_Click(object sender, EventArgs e) { Restart_Click(sender, e); }
 
-		private void DatePicker1_ValueChanged(object sender, EventArgs e) {
-			string dayofmonth = dateTimePicker1.Value.Day.ToString().PadLeft(2, '0');
-			string year = dateTimePicker1.Value.Year.ToString();
-			string month = dateTimePicker1.Value.Month.ToString().PadLeft(2, '0');
+		private void txtUrl_DoubleClick(object sender, EventArgs e) { txtUrl.SelectAll(); }
 
-			string ymd = year + "-" + month + "-" + dayofmonth;
-			string filename = ymd + ".txt";
-
-			if ( !File.Exists(Path.Combine("logs/", filename)) ) {
-				//MessageBox.Show("Sorry, the log for " + ymd + " doesn't exist, please select another one");
-				LogsTxtBox.Text = "No logs found for: " + ymd;
-			}
-			else {
-				LogsTxtBox.Text = null;
-				LogsTxtBox.Text = File.ReadAllText(Path.Combine("logs/", filename));
-			}
-
-		}
-
-		private void txtUrl_DoubleClick(object sender, EventArgs e) {
-			txtUrl.SelectAll();
-		}
-
-		private void dgvPlayers_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e) {
-			e.PaintParts &= ~DataGridViewPaintParts.Focus;
-		}
+		private void dgvPlayers_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e) { e.PaintParts &= ~DataGridViewPaintParts.Focus; }
 	}
 }

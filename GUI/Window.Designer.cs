@@ -80,10 +80,6 @@ namespace MCSpleef.Gui
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.txtErrors = new System.Windows.Forms.TextBox();
-			this.tabPage5 = new System.Windows.Forms.TabPage();
-			this.label3 = new System.Windows.Forms.Label();
-			this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-			this.LogsTxtBox = new System.Windows.Forms.RichTextBox();
 			this.tabPage10 = new System.Windows.Forms.TabPage();
 			this.grpRCUsers = new System.Windows.Forms.GroupBox();
 			this.liRCUsers = new System.Windows.Forms.ListBox();
@@ -95,7 +91,6 @@ namespace MCSpleef.Gui
 			((System.ComponentModel.ISupportInitialize)(this.dgvPlayers)).BeginInit();
 			this.tabControl1.SuspendLayout();
 			this.tabPage3.SuspendLayout();
-			this.tabPage5.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// iconContext
@@ -274,7 +269,6 @@ namespace MCSpleef.Gui
 			// 
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage3);
-			this.tabControl1.Controls.Add(this.tabPage5);
 			this.tabControl1.Cursor = System.Windows.Forms.Cursors.Default;
 			this.tabControl1.Font = new System.Drawing.Font("Calibri", 8.25F);
 			this.tabControl1.Location = new System.Drawing.Point(1, 12);
@@ -305,47 +299,6 @@ namespace MCSpleef.Gui
 			this.txtErrors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.txtErrors.Size = new System.Drawing.Size(754, 471);
 			this.txtErrors.TabIndex = 1;
-			// 
-			// tabPage5
-			// 
-			this.tabPage5.BackColor = System.Drawing.SystemColors.Control;
-			this.tabPage5.Controls.Add(this.label3);
-			this.tabPage5.Controls.Add(this.dateTimePicker1);
-			this.tabPage5.Controls.Add(this.LogsTxtBox);
-			this.tabPage5.Location = new System.Drawing.Point(4, 22);
-			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(826, 491);
-			this.tabPage5.TabIndex = 4;
-			this.tabPage5.Text = "Logs";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(8, 11);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(78, 13);
-			this.label3.TabIndex = 3;
-			this.label3.Text = "View logs from:";
-			// 
-			// dateTimePicker1
-			// 
-			this.dateTimePicker1.Location = new System.Drawing.Point(92, 5);
-			this.dateTimePicker1.Name = "dateTimePicker1";
-			this.dateTimePicker1.Size = new System.Drawing.Size(200, 21);
-			this.dateTimePicker1.TabIndex = 2;
-			this.dateTimePicker1.Value = new System.DateTime(2011, 7, 20, 18, 31, 50, 0);
-			this.dateTimePicker1.ValueChanged += new System.EventHandler(this.DatePicker1_ValueChanged);
-			// 
-			// LogsTxtBox
-			// 
-			this.LogsTxtBox.BackColor = System.Drawing.SystemColors.Window;
-			this.LogsTxtBox.Location = new System.Drawing.Point(3, 32);
-			this.LogsTxtBox.Name = "LogsTxtBox";
-			this.LogsTxtBox.ReadOnly = true;
-			this.LogsTxtBox.Size = new System.Drawing.Size(755, 453);
-			this.LogsTxtBox.TabIndex = 0;
-			this.LogsTxtBox.Text = "";
 			// 
 			// tabPage10
 			// 
@@ -409,8 +362,6 @@ namespace MCSpleef.Gui
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
-			this.tabPage5.ResumeLayout(false);
-			this.tabPage5.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -442,9 +393,5 @@ namespace MCSpleef.Gui
 		private TabControl tabControl1;
 		private TabPage tabPage3;
 		private TextBox txtErrors;
-		private TabPage tabPage5;
-		private Label label3;
-		private DateTimePicker dateTimePicker1;
-		internal RichTextBox LogsTxtBox;
 	}
 }
