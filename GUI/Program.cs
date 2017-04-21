@@ -244,4 +244,3 @@ namespace MCSpleef.Gui
 		}
 	}
 }
-

@@ -81,4 +81,3 @@ namespace MCSpleef
 		HackControl = 32,
 	}
 }
-
