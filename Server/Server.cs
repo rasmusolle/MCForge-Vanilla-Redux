@@ -24,7 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
-
 namespace MCSpleef
 {
 	public enum LogType { Process, Main, Op, Admin }

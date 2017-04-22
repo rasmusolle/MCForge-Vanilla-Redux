@@ -21,7 +21,6 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-
 namespace MCSpleef
 {
 	public static class Logger

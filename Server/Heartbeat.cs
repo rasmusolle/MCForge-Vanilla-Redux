@@ -20,12 +20,10 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
-
 namespace MCSpleef
 {
 	public static class Heartbeat
 	{
-
 		static string hash;
 		public static string serverURL;
 		static string staticVars;
@@ -122,7 +120,6 @@ namespace MCSpleef
 			}
 			return output.ToString();
 		}
-
 
 		public static char[] reservedChars = { ' ', '!', '*', '\'', '(', ')', ';', ':', '@', '&',
 												 '=', '+', '$', ',', '/', '?', '%', '#', '[', ']' };

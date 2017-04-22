@@ -28,7 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-
 namespace MCSpleef
 {
 	public delegate void MainLoopResult(object result);
