@@ -50,7 +50,6 @@ namespace MCSpleef
 		public delegate void OnLevelUnload(Level l);
 
 		#endregion
-		public bool Death;
 
 		public static bool cancelload;
 		public static bool cancelsave;
@@ -74,7 +73,6 @@ namespace MCSpleef
 		public LevelPermission permissionbuild = LevelPermission.Guest;
 		public LevelPermission permissionvisit = LevelPermission.Guest;
 
-		public bool realistic = true;
 		public byte rotx;
 		public byte roty;
 		public ushort spawnx;
@@ -114,11 +112,6 @@ namespace MCSpleef
 		public ushort length { get { return height; } }
 		public List<Player> players { get { return getPlayers(); } }
 
-		public static event OnLevelUnload LevelUnload = null;
-		public static event OnLevelSave LevelSave = null;
-		public static event OnLevelLoad LevelLoad = null;
-		public static event OnLevelLoaded LevelLoaded;
-
 		public void CopyBlocks(byte[] source, int offset)
 		{
 			blocks = new ushort[width * depth * height];
@@ -148,8 +141,6 @@ namespace MCSpleef
 		public bool Unload(bool silent = false, bool save = true)
 		{
 			if (Server.mainLevel == this) return false;
-			if (LevelUnload != null)
-				LevelUnload(this);
 
 			Player.players.ForEach(
 				delegate(Player pl) { if (pl.level == this) Command.all.Find("goto").Use(pl, Server.mainLevel.name); });
@@ -342,8 +333,6 @@ namespace MCSpleef
 		{
 			if (blocks == null) return;
 			string path = "levels/" + name + ".mcf";
-			if (LevelSave != null)
-				LevelSave(this);
 			if (cancelsave1) { cancelsave1 = false; return; }
 			if (cancelsave) { cancelsave = false; return; }
 			try
@@ -485,8 +474,6 @@ namespace MCSpleef
 		public static Level Load(string givenName, byte phys, bool bite = false) 
 		{
 			GC.Collect();
-			if (LevelLoad != null)
-				LevelLoad(givenName);
 			if (cancelload)
 			{
 				cancelload = false;
@@ -566,8 +553,6 @@ namespace MCSpleef
 					level.backedup = true;
 
 					Server.s.Log(string.Format("Level \"{0}\" loaded.", level.name));
-					if (LevelLoaded != null)
-						LevelLoaded(level);
 					GC.Collect();
 					GC.WaitForPendingFinalizers();
 					return level;
