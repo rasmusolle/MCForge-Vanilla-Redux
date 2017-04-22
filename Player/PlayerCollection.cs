@@ -40,12 +40,8 @@ namespace MCSpleef
 
 		#endregion
 	}
-
 	public interface IPlayerViewBuilder { PropertyDescriptorCollection GetView(); }
-
-	public class PlayerListView : IPlayerViewBuilder
-	{
-		public PropertyDescriptorCollection GetView()
+	public class PlayerListView : IPlayerViewBuilder { public PropertyDescriptorCollection GetView()
 		{
 			List<PropertyDescriptor> props = new List<PropertyDescriptor>();
 
@@ -56,11 +52,8 @@ namespace MCSpleef
 			PropertyDescriptor[] propArray = new PropertyDescriptor[props.Count];
 			props.CopyTo(propArray);
 			return new PropertyDescriptorCollection(propArray);
-		}
-	}
-
+		} }
 	public delegate object PlayerMethodDelegate(Player player);
-
 	public class PlayerMethodDescriptor : PropertyDescriptor
 	{
 		protected PlayerMethodDelegate _method;
