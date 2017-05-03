@@ -19,14 +19,16 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace MCSpleef.Gui.Utils {
-	internal class Natives {
+namespace MCSpleef.Gui.Utils
+{
+	internal class Natives
+	{
 		private const int SOURCE_COPY = 0x00CC0020;
 		private const int BI_RGB = 0;
 		private const int DIB_RGB_COLORS = 0;
 
-		private const int DTT_COMPOSITED = ( int ) ( 1UL << 13 );
-		private const int DTT_GLOWSIZE = ( int ) ( 1UL << 11 );
+		private const int DTT_COMPOSITED = (int)(1UL << 13);
+		private const int DTT_GLOWSIZE = (int)(1UL << 11);
 
 		private const int DT_SINGLELINE = 0x00000020;
 		private const int DT_CENTER = 0x00000001;
@@ -55,12 +57,13 @@ namespace MCSpleef.Gui.Utils {
 		public const int WS_EX_CLIENTEDGE = 0x200;
 		public const int WVR_HREDRAW = 0x100;
 		public const int WVR_VREDRAW = 0x200;
-		public const int WVR_REDRAW = ( WVR_HREDRAW | WVR_VREDRAW );
+		public const int WVR_REDRAW = (WVR_HREDRAW | WVR_VREDRAW);
 
 		#region Enums/Structs
 
-		[StructLayout( LayoutKind.Sequential )]
-		public struct DLLVersionInfo {
+		[StructLayout(LayoutKind.Sequential)]
+		public struct DLLVersionInfo
+		{
 			public int cbSize;
 			public int dwMajorVersion;
 			public int dwMinorVersion;
@@ -68,8 +71,9 @@ namespace MCSpleef.Gui.Utils {
 			public int dwPlatformID;
 		}
 
-		[StructLayout( LayoutKind.Sequential )]
-		public struct NCCALCSIZE_PARAMS {
+		[StructLayout(LayoutKind.Sequential)]
+		public struct NCCALCSIZE_PARAMS
+		{
 			public RECT rgrc0, rgrc1, rgrc2;
 			public IntPtr lppos;
 		}
@@ -78,93 +82,94 @@ namespace MCSpleef.Gui.Utils {
 
 		#region P/Invoke API Calls
 
-		[DllImport( "dwmapi.dll", PreserveSig = false )]
+		[DllImport("dwmapi.dll", PreserveSig = false)]
 		private static extern bool DwmIsCompositionEnabled();
 
-		[DllImport( "dwmapi.dll" )]
-		private static extern void DwmExtendFrameIntoClientArea( IntPtr hWnd, ref Margins margin );
+		[DllImport("dwmapi.dll")]
+		private static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Margins margin);
 
-		[DllImport( "gdi32.dll", ExactSpelling = true, SetLastError = true )]
-		private static extern int SaveDC( IntPtr hdc );
+		[DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
+		private static extern int SaveDC(IntPtr hdc);
 
-		[DllImport( "user32.dll", ExactSpelling = true, SetLastError = true )]
-		private static extern int ReleaseDC( IntPtr hdc, int state );
+		[DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
+		private static extern int ReleaseDC(IntPtr hdc, int state);
 
-		[DllImport( "user32.dll", ExactSpelling = true, SetLastError = true )]
-		private static extern IntPtr GetDC( IntPtr hdc );
+		[DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
+		private static extern IntPtr GetDC(IntPtr hdc);
 
-		[DllImport( "gdi32.dll", ExactSpelling = true, SetLastError = true )]
-		private static extern IntPtr CreateCompatibleDC( IntPtr hDC );
+		[DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
+		private static extern IntPtr CreateCompatibleDC(IntPtr hDC);
 
-		[DllImport( "gdi32.dll", ExactSpelling = true )]
-		private static extern IntPtr SelectObject( IntPtr hDC, IntPtr hObject );
+		[DllImport("gdi32.dll", ExactSpelling = true)]
+		private static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
 
-		[DllImport( "gdi32.dll", ExactSpelling = true, SetLastError = true )]
-		private static extern bool DeleteObject( IntPtr hObject );
+		[DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
+		private static extern bool DeleteObject(IntPtr hObject);
 
-		[DllImport( "gdi32.dll", ExactSpelling = true, SetLastError = true )]
-		private static extern bool DeleteDC( IntPtr hdc );
+		[DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
+		private static extern bool DeleteDC(IntPtr hdc);
 
-		[DllImport( "gdi32.dll" )]
-		private static extern bool BitBlt( IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, uint dwRop );
+		[DllImport("gdi32.dll")]
+		private static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, uint dwRop);
 
-		[DllImport( "gdi32.dll", ExactSpelling = true, SetLastError = true )]
-		private static extern IntPtr CreateDIBSection( IntPtr hdc, uint iUsage, int ppvBits, IntPtr hSection, uint dwOffset );
+		[DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
+		private static extern IntPtr CreateDIBSection(IntPtr hdc, uint iUsage, int ppvBits, IntPtr hSection, uint dwOffset);
 
-		[DllImport( "user32.dll", CharSet = CharSet.Auto, SetLastError = false )]
-		public static extern IntPtr SendMessage( IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam );
+		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
+		public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-		[DllImport( "user32.dll", SetLastError = false )]
-		public static extern bool PostMessage( IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam );
+		[DllImport("user32.dll", SetLastError = false)]
+		public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-		[DllImport( "UxTheme.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode )]
-		private static extern int DrawThemeTextEx( IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, string text, int iCharCount, int dwFlags, ref RECT pRect);
+		[DllImport("UxTheme.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
+		private static extern int DrawThemeTextEx(IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, string text, int iCharCount, int dwFlags, ref RECT pRect);
 
-		[DllImport( "UxTheme.dll", CharSet = CharSet.Auto )]
+		[DllImport("UxTheme.dll", CharSet = CharSet.Auto)]
 		public static extern bool IsAppThemed();
 
-		[DllImport( "UxTheme.dll", CharSet = CharSet.Auto )]
+		[DllImport("UxTheme.dll", CharSet = CharSet.Auto)]
 		public static extern bool IsThemeActive();
 
-		[DllImport( "comctl32.dll", CharSet = CharSet.Auto )]
-		public static extern int DllGetVersion( ref DLLVersionInfo version );
+		[DllImport("comctl32.dll", CharSet = CharSet.Auto)]
+		public static extern int DllGetVersion(ref DLLVersionInfo version);
 
-		[DllImport( "uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode )]
-		public static extern IntPtr OpenThemeData( IntPtr hWnd, String classList );
+		[DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
+		public static extern IntPtr OpenThemeData(IntPtr hWnd, String classList);
 
-		[DllImport( "uxtheme.dll", ExactSpelling = true )]
-		public extern static Int32 CloseThemeData( IntPtr hTheme );
+		[DllImport("uxtheme.dll", ExactSpelling = true)]
+		public extern static Int32 CloseThemeData(IntPtr hTheme);
 
-		[DllImport( "uxtheme", ExactSpelling = true )]
-		public extern static Int32 DrawThemeBackground( IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, ref RECT pRect, IntPtr pClipRect );
+		[DllImport("uxtheme", ExactSpelling = true)]
+		public extern static Int32 DrawThemeBackground(IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, ref RECT pRect, IntPtr pClipRect);
 
-		[DllImport( "uxtheme", ExactSpelling = true )]
-		public extern static int IsThemeBackgroundPartiallyTransparent( IntPtr hTheme, int iPartId, int iStateId );
+		[DllImport("uxtheme", ExactSpelling = true)]
+		public extern static int IsThemeBackgroundPartiallyTransparent(IntPtr hTheme, int iPartId, int iStateId);
 
-		[DllImport( "uxtheme", ExactSpelling = true )]
-		public extern static Int32 GetThemeBackgroundContentRect( IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, ref RECT pBoundingRect, out RECT pContentRect );
+		[DllImport("uxtheme", ExactSpelling = true)]
+		public extern static Int32 GetThemeBackgroundContentRect(IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, ref RECT pBoundingRect, out RECT pContentRect);
 
-		[DllImport( "uxtheme", ExactSpelling = true )]
-		public extern static Int32 DrawThemeParentBackground( IntPtr hWnd, IntPtr hdc, ref RECT pRect );
+		[DllImport("uxtheme", ExactSpelling = true)]
+		public extern static Int32 DrawThemeParentBackground(IntPtr hWnd, IntPtr hdc, ref RECT pRect);
 
-		[DllImport( "uxtheme", ExactSpelling = true )]
-		public extern static Int32 DrawThemeBackground( IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, ref RECT pRect, ref RECT pClipRect );
+		[DllImport("uxtheme", ExactSpelling = true)]
+		public extern static Int32 DrawThemeBackground(IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, ref RECT pRect, ref RECT pClipRect);
 
-		[DllImport( "user32.dll" )]
-		public static extern IntPtr GetWindowDC( IntPtr hWnd );
+		[DllImport("user32.dll")]
+		public static extern IntPtr GetWindowDC(IntPtr hWnd);
 
-		[DllImport( "user32.dll" )]
-		public static extern int ReleaseDC( IntPtr hWnd, IntPtr hDC );
+		[DllImport("user32.dll")]
+		public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
-		[DllImport( "user32.dll" )]
-		public static extern bool GetWindowRect( IntPtr hWnd, out RECT lpRect );
+		[DllImport("user32.dll")]
+		public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
-		[DllImport( "gdi32.dll" )]
-		public static extern int ExcludeClipRect( IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect );
+		[DllImport("gdi32.dll")]
+		public static extern int ExcludeClipRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 
 		#endregion
 
-		public static bool CanRender() {
+		public static bool CanRender()
+		{
 			Type t = typeof(Application);
 			System.Reflection.PropertyInfo pi = t.GetProperty("RenderWithVisualStyles");
 
@@ -175,10 +180,8 @@ namespace MCSpleef.Gui.Utils {
 					version.cbSize = Marshal.SizeOf(typeof(DLLVersionInfo));
 					if (DllGetVersion(ref version) == 0) { return (version.dwMajorVersion > 5) && IsThemeActive() && IsAppThemed(); }
 				}
-
 				return false;
-			}
-			else {
+			} else {
 				bool result = (bool)pi.GetValue(null, null);
 				return result;
 			}

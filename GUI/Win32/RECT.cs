@@ -16,8 +16,10 @@
 	permissions and limitations under the Licenses.
 */
 using System.Drawing;
-namespace MCSpleef.Gui.Utils {
-	public struct RECT {
+namespace MCSpleef.Gui.Utils
+{
+	public struct RECT
+	{
 		private int left;
 		private int top;
 		private int right;
@@ -28,7 +30,7 @@ namespace MCSpleef.Gui.Utils {
 		public int Bottom { get { return bottom; } set { bottom = value; } }
 		public int Left { get { return left; } set { left = value; } }
 
-		public RECT( int left, int right, int top, int bottom ) {
+		public RECT(int left, int right, int top, int bottom) {
 			this.top = top;
 			this.bottom = bottom;
 			this.right = right;
@@ -37,13 +39,13 @@ namespace MCSpleef.Gui.Utils {
 
 		public int Height { get { return Bottom - Top + 1; } }
 		public int Width { get { return Right - Left + 1; } }
-		public Size Size { get { return new Size( Width, Height ); } }
-		public Point Location { get { return new Point( Left, Top ); } }
+		public Size Size { get { return new Size(Width, Height); } }
+		public Point Location { get { return new Point(Left, Top); } }
 
-		public static implicit operator Rectangle( RECT margs ) { return new Margins( margs.Left, margs.Right, margs.Top, margs.Bottom ); }
-		public static implicit operator RECT( Rectangle margs ) { return new Margins( margs.Left, margs.Right, margs.Top, margs.Bottom ); }
+		public static implicit operator Rectangle(RECT margs) { return new Margins(margs.Left, margs.Right, margs.Top, margs.Bottom); }
+		public static implicit operator RECT(Rectangle margs) { return new Margins(margs.Left, margs.Right, margs.Top, margs.Bottom); }
 
-		public void Inflate( int width, int height ) {
+		public void Inflate(int width, int height) {
 			this.Left -= width; this.Top -= height; this.Right += width; this.Bottom += height;
 		}
 	}

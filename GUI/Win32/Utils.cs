@@ -16,36 +16,40 @@
 	permissions and limitations under the Licenses.
 */
 using System.Drawing;
-namespace MCSpleef.Gui.Utils {
-	public class Utilities {
-		public static Color? GetDimColorFromChar( char c ) {
-			switch ( c ) {
+namespace MCSpleef.Gui.Utils
+{
+	public class Utilities
+	{
+		public static Color? GetDimColorFromChar(char c)
+		{
+			switch (c) {
 				case '0': return Color.Black;
-				case '1': return Color.FromArgb( 255, 0, 0, 161 );
-				case '2': return Color.FromArgb( 255, 0, 161, 0 );
-				case '3': return Color.FromArgb( 255, 0, 161, 161 );
-				case '4': return Color.FromArgb( 255, 161, 0, 0 );
-				case '5': return Color.FromArgb( 255, 161, 0, 161 );
-				case '6': return Color.FromArgb( 255, 161, 161, 0 );
-				case '7': return Color.FromArgb( 255, 161, 161, 161 );
-				case '8': return Color.FromArgb( 255, 34, 34, 34 );
-				case '9': return Color.FromArgb( 255, 34, 34, 225 );
-				case 'a': return Color.FromArgb( 255, 34, 225, 34 );
-				case 'b': return Color.FromArgb( 255, 34, 225, 225 );
-				case 'c': return Color.FromArgb( 255, 225, 34, 34 );
-				case 'd': return Color.FromArgb( 255, 225, 34, 225 );
-				case 'e': return Color.FromArgb( 255, 225, 225, 34 );
+				case '1': return Color.FromArgb(255, 0, 0, 161);
+				case '2': return Color.FromArgb(255, 0, 161, 0);
+				case '3': return Color.FromArgb(255, 0, 161, 161);
+				case '4': return Color.FromArgb(255, 161, 0, 0);
+				case '5': return Color.FromArgb(255, 161, 0, 161);
+				case '6': return Color.FromArgb(255, 161, 161, 0);
+				case '7': return Color.FromArgb(255, 161, 161, 161);
+				case '8': return Color.FromArgb(255, 34, 34, 34);
+				case '9': return Color.FromArgb(255, 34, 34, 225);
+				case 'a': return Color.FromArgb(255, 34, 225, 34);
+				case 'b': return Color.FromArgb(255, 34, 225, 225);
+				case 'c': return Color.FromArgb(255, 225, 34, 34);
+				case 'd': return Color.FromArgb(255, 225, 34, 225);
+				case 'e': return Color.FromArgb(255, 225, 225, 34);
 				case 'f': return Color.Black;
 				default: return null;
 			}
 		}
-		public static int HexIntFromChar( char hexChar ) {
-			hexChar = char.ToUpper( hexChar );
+		public static int HexIntFromChar(char hexChar)
+		{
+			hexChar = char.ToUpper(hexChar);
 
-			return ( int ) hexChar < ( int ) 'A' ?
-				( ( int ) hexChar - ( int ) '0' ) :
-				10 + ( ( int ) hexChar - ( int ) 'A' );
+			return (int)hexChar < (int)'A' ?
+				((int)hexChar - (int)'0') :
+				10 + ((int)hexChar - (int)'A');
 		}
-		public static char HexCharFromInt( int hexInt ) { return char.Parse(hexInt.ToString()); }
+		public static char HexCharFromInt(int hexInt) { return char.Parse(hexInt.ToString()); }
 	}
 }

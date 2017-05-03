@@ -18,10 +18,11 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-namespace MCSpleef.Gui.Utils {
-	[StructLayout( LayoutKind.Sequential )]
-	public struct Margins {
-
+namespace MCSpleef.Gui.Utils
+{
+	[StructLayout(LayoutKind.Sequential)]
+	public struct Margins
+	{
 		private int _Left;
 		private int _Right;
 		private int _Top;
@@ -32,26 +33,21 @@ namespace MCSpleef.Gui.Utils {
 		public int Top { get { return _Top; } set { _Top = value; } }
 		public int Bottom { get { return _Bottom; } set { _Bottom = value; } }
 
-		public Margins( int left, int right, int top, int bottom ) {
-			_Top = top;
-			_Bottom = bottom;
-			_Right = right;
-			_Left = left;
-		}
+		public Margins(int left, int right, int top, int bottom) { _Top = top; _Bottom = bottom; _Right = right; _Left = left; }
 
-		public Margins( int allMargs ) : this( allMargs, allMargs, allMargs, allMargs ) { }
+		public Margins(int allMargs) : this(allMargs, allMargs, allMargs, allMargs) { }
 		public bool IsEmpty { get { return Left <= 0 && Right <= 0 && Top <= 0 && Bottom <= 0; } }
 
-		public bool IsTouchingGlass( Point point ) {
+		public bool IsTouchingGlass(Point point) {
 			if (IsEmpty) { return true; }
 			return ( point.X < _Left || point.X > _Right || point.Y < _Top || point.Y > _Bottom );
 		}
 
-		public static implicit operator RECT( Margins margs ) { return new RECT( margs.Left, margs.Top, margs.Right, margs.Bottom ); }
-		public static implicit operator Padding( Margins margs ) { return new Padding( margs.Left, margs.Top, margs.Right, margs.Bottom );}
-		public static implicit operator Rectangle( Margins margs ) { return new Rectangle( margs.Left, margs.Top, margs.Right, margs.Bottom ); }
-		public static implicit operator Margins( RECT margs ) { return new Margins( margs.Left, margs.Right, margs.Top, margs.Bottom ); }
-		public static implicit operator Margins( Rectangle rect ) { return new Margins( rect.X, rect.Width, rect.Y, rect.Height ); }
-		public static implicit operator Margins( Padding margs ) { return new Margins( margs.Left, margs.Right, margs.Top, margs.Bottom ); }
+		public static implicit operator RECT(Margins margs) { return new RECT(margs.Left, margs.Top, margs.Right, margs.Bottom); }
+		public static implicit operator Padding(Margins margs) { return new Padding(margs.Left, margs.Top, margs.Right, margs.Bottom);}
+		public static implicit operator Rectangle(Margins margs) { return new Rectangle(margs.Left, margs.Top, margs.Right, margs.Bottom); }
+		public static implicit operator Margins(RECT margs) { return new Margins(margs.Left, margs.Right, margs.Top, margs.Bottom); }
+		public static implicit operator Margins(Rectangle rect) { return new Margins(rect.X, rect.Width, rect.Y, rect.Height); }
+		public static implicit operator Margins(Padding margs) { return new Margins(margs.Left, margs.Right, margs.Top, margs.Bottom); }
 	}
 }
