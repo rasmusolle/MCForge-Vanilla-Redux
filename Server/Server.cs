@@ -201,14 +201,12 @@ namespace MCSpleef
 						{
 							mainLevel = new Level(level, 128, 64, 128) { permissionvisit = LevelPermission.Guest, permissionbuild = LevelPermission.Guest };
 							mainLevel.Save();
-							Level.CreateLeveldb(level);
 						}
 					}
 					else
 					{
 						mainLevel = new Level(level, 128, 64, 128) { permissionvisit = LevelPermission.Guest, permissionbuild = LevelPermission.Guest };
 						mainLevel.Save();
-						Level.CreateLeveldb(level);
 					}
 
 					addLevel(mainLevel);

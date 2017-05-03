@@ -464,11 +464,6 @@ namespace MCSpleef
 			return -1;
 		}
 
-		//TODO: Remove this.
-		public static void CreateLeveldb(string givenName) {
-
-		}
-
 		public static Level Load(string givenName) { return Load(givenName, 0); }
 
 		public static Level Load(string givenName, byte phys, bool bite = false) 
@@ -479,7 +474,6 @@ namespace MCSpleef
 				cancelload = false;
 				return null;
 			}
-			CreateLeveldb(givenName);
 
 			string path = string.Format("levels/{0}.{1}", bite ? "byte/" + givenName : givenName, bite ? "lvl" : "mcf"); //OMG RLLY? .MCF??
 			if (File.Exists(path))
