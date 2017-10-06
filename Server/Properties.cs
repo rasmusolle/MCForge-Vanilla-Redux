@@ -104,9 +104,6 @@ namespace MCSpleef
 									catch { }
 									break;
 
-								case "money-name":
-									if (value != "") { Server.moneys = value; }
-									break;
 								case "texture-url":
 									if (value != "") { Server.textureUrl = value; }
 									break;
@@ -157,7 +154,6 @@ namespace MCSpleef
 			w.WriteLine();
 			w.WriteLine("# other options");
 			w.WriteLine("deathcount = " + Server.deathcount.ToString().ToLower());
-			w.WriteLine("money-name = " + Server.moneys);
 			w.WriteLine("host-state = " + Server.ZallState.ToString());
 			w.WriteLine();
 			try { w.WriteLine("default-rank = " + Server.defaultRank); }

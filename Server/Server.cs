@@ -147,7 +147,7 @@ namespace MCSpleef
 
 		public static string defaultRank = "guest";
 
-		public static string moneys = "moneys";
+		public static string moneys = "$";
 
 		public static bool shuttingDown = false;
 		public static bool restarting = false;
@@ -263,7 +263,7 @@ namespace MCSpleef
 				if(Server.irc) IRC = new ForgeBot(Server.ircChannel, Server.ircOpChannel, Server.ircNick, Server.ircServer);
 				if (Server.irc) IRC.Connect();
 
-				new AutoSaver(Server.backupInterval);
+				//new AutoSaver(Server.backupInterval);
 
 				blockThread = new Thread(new ThreadStart(delegate
 				{
