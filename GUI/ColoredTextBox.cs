@@ -91,14 +91,7 @@ namespace MCSpleef.Gui.Components
 
 		private void ColoredReader_LinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e)
 		{
-			if (!e.LinkText.StartsWith("http://www.minecraft.net/classic/play/")) {
-				if (MessageBox.Show("Never open links from people that you don't trust!", "Warning!!", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-					return;
-			}
-
-			try { Process.Start(e.LinkText); }
-			catch { }
-
+			Process.Start(e.LinkText);
 		}
 
 		/// <summary>
