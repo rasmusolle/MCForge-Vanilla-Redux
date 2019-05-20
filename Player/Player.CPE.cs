@@ -16,10 +16,8 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-namespace MCSpleef
-{
-	public partial class Player
-	{
+namespace MCSpleef {
+	public partial class Player {
 		public int HeldBlock = 0;
 		public int SelectionCuboid = 0;
 		public int BlockPermissions = 0;
@@ -27,12 +25,9 @@ namespace MCSpleef
 		public int HackControl = 0;
 		public int MessageTypes = 0;
 
-		public void AddExtension(string Extension, int version)
-		{
-			lock (this)
-			{
-				switch (Extension.Trim())
-				{
+		public void AddExtension(string Extension, int version) {
+			lock (this) {
+				switch (Extension.Trim()) {
 					case "HeldBlock":
 						HeldBlock = version;
 						break;
@@ -55,18 +50,18 @@ namespace MCSpleef
 			}
 		}
 
-		public bool HasExtension(string Extension, int version = 1)
-		{
-			if (!extension) return false;
-			switch (Extension)
-			{
+		public bool HasExtension(string Extension, int version = 1) {
+			if (!extension)
+				return false;
+			switch (Extension) {
 				case "HeldBlock": return HeldBlock == version;
 				case "SelectionCuboid": return SelectionCuboid == version;
 				case "BlockPermissions": return BlockPermissions == version;
 				case "EnvMapAppearance": return EnvMapAppearance == version;
 				case "HackControl": return HackControl == version;
 				case "MessageTypes": return MessageTypes == version;
-				default: return false;
+				default:
+					return false;
 			}
 		}
 	}

@@ -17,14 +17,11 @@
 */
 using System;
 using System.IO;
-namespace MCSpleef.Commands
-{
-	public class CmdInfo : Command
-	{
+namespace MCSpleef.Commands {
+	public class CmdInfo : Command {
 		public override string name { get { return "info"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			Player.SendMessage(p, "You're on \"" + Server.name + "\" with the MOTD " + Server.motd + ".");
 			//Player.SendMessage(p, "&d" + Player.players.Count + Server.DefaultColor + " players are currently online.");
 			Player.SendMessage(p, "This server runs on &bMCSpleef" + Server.DefaultColor + ", which was originally based off of &bMCLawl" + Server.DefaultColor + ", but was remade as a MCForge fork.");
@@ -37,12 +34,8 @@ namespace MCSpleef.Commands
 			else
 				Player.SendMessage(p, "A total of " + count + " unique player have visited this server.");
 			Player.SendMessage(p, "Currently $banned people are %0banned.");
-
-			if (Server.irc)
-				Player.SendMessage(p, Server.IRCColour + "Irc is &aEnabled " + Server.IRCColour + "(" + Server.ircChannel + " @ " + Server.ircServer + ")");
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/info - Displays information about the server.");
 		}
 	}

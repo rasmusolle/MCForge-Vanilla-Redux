@@ -19,10 +19,8 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace MCSpleef.Gui.Utils
-{
-	internal class Natives
-	{
+namespace MCSpleef.Gui.Utils {
+	internal class Natives {
 		private const int SOURCE_COPY = 0x00CC0020;
 		private const int BI_RGB = 0;
 		private const int DIB_RGB_COLORS = 0;
@@ -62,8 +60,7 @@ namespace MCSpleef.Gui.Utils
 		#region Enums/Structs
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct DLLVersionInfo
-		{
+		public struct DLLVersionInfo {
 			public int cbSize;
 			public int dwMajorVersion;
 			public int dwMinorVersion;
@@ -72,8 +69,7 @@ namespace MCSpleef.Gui.Utils
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct NCCALCSIZE_PARAMS
-		{
+		public struct NCCALCSIZE_PARAMS {
 			public RECT rgrc0, rgrc1, rgrc2;
 			public IntPtr lppos;
 		}
@@ -168,8 +164,7 @@ namespace MCSpleef.Gui.Utils
 
 		#endregion
 
-		public static bool CanRender()
-		{
+		public static bool CanRender() {
 			Type t = typeof(Application);
 			System.Reflection.PropertyInfo pi = t.GetProperty("RenderWithVisualStyles");
 

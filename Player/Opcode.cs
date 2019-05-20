@@ -1,11 +1,9 @@
 ﻿// Part of fCraft | Copyright 2009-2013 Matvei Stefarov <me@matvei.org> | BSD-3 | See LICENSE.txt
 
-namespace MCSpleef
-{
+namespace MCSpleef {
 	/// <summary> Minecraft protocol's opCodes. 
 	/// For detailed explanation of Minecraft Classic protocol, see http://wiki.vg/Classic_Protocol </summary>
-	public enum OpCode
-	{
+	public enum OpCode {
 		/// <summary> Client/server packet. Client provides name and mppass.
 		/// Server responds with name, MOTD, and permission byte. </summary>
 		Handshake = 0,

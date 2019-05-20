@@ -16,14 +16,11 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-namespace MCSpleef.Commands
-{
-	public class CmdRank : Command
-	{
+namespace MCSpleef.Commands {
+	public class CmdRank : Command {
 		public override string name { get { return "rank"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			if (message.Split(' ').Length < 2) { Help(p); return; }
 			Player who = Player.Find(message.Split(' ')[0]);
 			Group newRank = Group.Find(message.Split(' ')[1]);
@@ -31,20 +28,17 @@ namespace MCSpleef.Commands
 			if (newRank == null) { Player.SendMessage(p, "Could not find specified rank."); return; }
 
 			Group bannedGroup = Group.findPerm(LevelPermission.Banned);
-			if (who == null)
-			{
+			if (who == null) {
 				string foundName = message.Split(' ')[0];
-				if (Group.findPlayerGroup(foundName) == bannedGroup || newRank == bannedGroup)
-				{
+				if (Group.findPlayerGroup(foundName) == bannedGroup || newRank == bannedGroup) {
 					Player.SendMessage(p, "Cannot change the rank to or from \"" + bannedGroup.name + "\".");
 					return;
 				}
 
-				if (p != null)
-				{
-					if (Group.findPlayerGroup(foundName).Permission >= p.group.Permission || newRank.Permission >= p.group.Permission)
-					{
-						Player.SendMessage(p, "Cannot change the rank of someone equal or higher than you"); return;
+				if (p != null) {
+					if (Group.findPlayerGroup(foundName).Permission >= p.group.Permission || newRank.Permission >= p.group.Permission) {
+						Player.SendMessage(p, "Cannot change the rank of someone equal or higher than you");
+						return;
 					}
 				}
 
@@ -56,24 +50,19 @@ namespace MCSpleef.Commands
 				newRank.playerList.Save();
 
 				Player.GlobalMessage(foundName + " &f(offline)" + Server.DefaultColor + "'s rank was set to " + newRank.color + newRank.name);
-			}
-			else if (who == p)
-			{
-				Player.SendMessage(p, "Cannot change your own rank."); return;
-			}
-			else
-			{
-				if (p != null)
-				{
-					if (who.group == bannedGroup || newRank == bannedGroup)
-					{
+			} else if (who == p) {
+				Player.SendMessage(p, "Cannot change your own rank.");
+				return;
+			} else {
+				if (p != null) {
+					if (who.group == bannedGroup || newRank == bannedGroup) {
 						Player.SendMessage(p, "Cannot change the rank to or from \"" + bannedGroup.name + "\".");
 						return;
 					}
 
-					if (who.group.Permission >= p.group.Permission || newRank.Permission >= p.group.Permission)
-					{
-						Player.SendMessage(p, "Cannot change the rank of someone equal or higher to yourself."); return;
+					if (who.group.Permission >= p.group.Permission || newRank.Permission >= p.group.Permission) {
+						Player.SendMessage(p, "Cannot change the rank of someone equal or higher to yourself.");
+						return;
 					}
 				}
 
@@ -91,8 +80,7 @@ namespace MCSpleef.Commands
 				Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
 			}
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/rank <player> <rank> - Sets a players rank.");
 		}
 	}

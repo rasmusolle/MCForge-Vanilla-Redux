@@ -17,17 +17,14 @@
 */
 using System;
 using System.IO;
-namespace MCSpleef.Commands
-{
-	public class CmdView : Command
-	{
+namespace MCSpleef.Commands {
+	public class CmdView : Command {
 		public override string name { get { return "view"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
-		public override void Use(Player p, string message)
-		{
-			if (!Directory.Exists("text/view")) Directory.CreateDirectory("text/view");
-			if (message == "")
-			{
+		public override void Use(Player p, string message) {
+			if (!Directory.Exists("text/view"))
+				Directory.CreateDirectory("text/view");
+			if (message == "") {
 				DirectoryInfo di = new DirectoryInfo("text/view");
 				string allFiles = "";
 				foreach (FileInfo fi in di.GetFiles("*.txt")) { allFiles += ", " + fi.Name; }
@@ -38,25 +35,18 @@ namespace MCSpleef.Commands
 					Player.SendMessage(p, "Available files:");
 					Player.SendMessage(p, allFiles.Remove(0, 2));
 				}
-			}
-			else
-			{
-				rulesretry:
-				if (File.Exists("text/view/" + message + ".txt"))
-				{
-					try
-					{
+			} else {
+			rulesretry:
+				if (File.Exists("text/view/" + message + ".txt")) {
+					try {
 						string[] allLines = File.ReadAllLines("text/view/" + message + ".txt");
-						for (int i = 0; i < allLines.Length; i++) 
+						for (int i = 0; i < allLines.Length; i++)
 							Player.SendMessage(p, allLines[i]);
 					} catch { Player.SendMessage(p, "An error occurred when retrieving the file"); }
-				}
-				else if (message == "rules") { File.AppendAllText("text/view/rules.txt", "(This text's customizable in text/view/rules.txt!)" + Environment.NewLine + "Use common sense!"); goto rulesretry; }
-				else { Player.SendMessage(p, "File specified doesn't exist"); }
+				} else if (message == "rules") { File.AppendAllText("text/view/rules.txt", "(This text's customizable in text/view/rules.txt!)" + Environment.NewLine + "Use common sense!"); goto rulesretry; } else { Player.SendMessage(p, "File specified doesn't exist"); }
 			}
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/view [file] - Views [file]'s contents");
 			Player.SendMessage(p, "/view by itself will list all files you can view");
 		}

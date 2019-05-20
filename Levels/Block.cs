@@ -17,10 +17,8 @@
 */
 using System.Collections.Generic;
 
-namespace MCSpleef
-{
-	public class Block
-	{
+namespace MCSpleef {
+	public class Block {
 		public const int maxblocks = 261;
 
 		public const ushort air = (ushort)0;
@@ -82,15 +80,13 @@ namespace MCSpleef
 		// Block.Zero is 255
 
 		public static List<Blocks> BlockList = new List<Blocks>();
-		public class Blocks
-		{
+		public class Blocks {
 			public ushort type;
 			public LevelPermission lowestRank;
 			public List<LevelPermission> disallow = new List<LevelPermission>();
 			public List<LevelPermission> allow = new List<LevelPermission>();
 
-			public bool IncludeInBlockProperties()
-			{
+			public bool IncludeInBlockProperties() {
 				if (Block.Name(type).ToLower() == "unknown")
 					return false;
 
@@ -98,14 +94,12 @@ namespace MCSpleef
 			}
 		}
 
-		public static void SetBlocks()
-		{
+		public static void SetBlocks() {
 			BlockList = new List<Blocks>();
 			Blocks b = new Blocks();
 			b.lowestRank = LevelPermission.Guest;
 
-			for (int i = 0; i < (maxblocks+ 1); i++)
-			{
+			for (int i = 0; i < (maxblocks + 1); i++) {
 				b = new Blocks();
 				b.type = (ushort)i;
 				BlockList.Add(b);
@@ -113,13 +107,11 @@ namespace MCSpleef
 
 			List<Blocks> storedList = new List<Blocks>();
 
-			foreach (Blocks bs in BlockList)
-			{
+			foreach (Blocks bs in BlockList) {
 				b = new Blocks();
 				b.type = bs.type;
 
-				switch (bs.type)
-				{
+				switch (bs.type) {
 					case Zero:
 						b.lowestRank = LevelPermission.Admin;
 						break;
@@ -145,13 +137,11 @@ namespace MCSpleef
 		}
 
 		public static bool canPlace(Player p, ushort b) { return canPlace(p.group.Permission, b); }
-		public static bool canPlace(LevelPermission givenPerm, ushort givenBlock)
-		{
-			foreach (Blocks b in BlockList)
-			{
-				if (givenBlock == b.type)
-				{
-					if ((b.lowestRank <= givenPerm && !b.disallow.Contains(givenPerm)) || b.allow.Contains(givenPerm)) return true;
+		public static bool canPlace(LevelPermission givenPerm, ushort givenBlock) {
+			foreach (Blocks b in BlockList) {
+				if (givenBlock == b.type) {
+					if ((b.lowestRank <= givenPerm && !b.disallow.Contains(givenPerm)) || b.allow.Contains(givenPerm))
+						return true;
 					return false;
 				}
 			}
@@ -159,10 +149,8 @@ namespace MCSpleef
 			return false;
 		}
 
-		public static bool Walkthrough(ushort type)
-		{
-			switch (type)
-			{
+		public static bool Walkthrough(ushort type) {
+			switch (type) {
 				case air:
 				case water:
 				case waterstill:
@@ -178,10 +166,8 @@ namespace MCSpleef
 			return false;
 		}
 
-		public static bool AnyBuild(ushort type)
-		{
-			switch (type)
-			{
+		public static bool AnyBuild(ushort type) {
+			switch (type) {
 				case Block.rock:
 				case Block.grass:
 				case Block.dirt:
@@ -231,15 +217,12 @@ namespace MCSpleef
 			return false;
 		}
 
-		public static bool AllowBreak(ushort type)
-		{
+		public static bool AllowBreak(ushort type) {
 			return false;
 		}
 
-		public static bool Placable(ushort type)
-		{
-			switch (type)
-			{
+		public static bool Placable(ushort type) {
+			switch (type) {
 				case Block.blackrock:
 				case Block.water:
 				case Block.waterstill:
@@ -252,12 +235,11 @@ namespace MCSpleef
 			return true;
 		}
 
-		public static bool RightClick(ushort type, bool countAir = false)
-		{
-			if (countAir && type == Block.air) return true;
+		public static bool RightClick(ushort type, bool countAir = false) {
+			if (countAir && type == Block.air)
+				return true;
 
-			switch (type)
-			{
+			switch (type) {
 				case Block.water:
 				case Block.lava:
 				case Block.waterstill:
@@ -267,10 +249,8 @@ namespace MCSpleef
 			return false;
 		}
 
-		public static bool OPBlocks(ushort type)
-		{
-			switch (type)
-			{
+		public static bool OPBlocks(ushort type) {
+			switch (type) {
 				case Block.blackrock:
 
 				case Block.Zero:
@@ -279,10 +259,8 @@ namespace MCSpleef
 			return false;
 		}
 
-		public static bool Death(ushort type)
-		{
-			switch (type)
-			{
+		public static bool Death(ushort type) {
+			switch (type) {
 				case Block.deathlava:
 				case activedeathlava:
 					return true;
@@ -290,10 +268,8 @@ namespace MCSpleef
 			return false;
 		}
 
-		public static bool BuildIn(ushort type)
-		{
-			switch (Block.Convert(type))
-			{
+		public static bool BuildIn(ushort type) {
+			switch (Block.Convert(type)) {
 				case 0:
 				case water:
 				case lava:
@@ -304,10 +280,8 @@ namespace MCSpleef
 			return false;
 		}
 
-		public static bool LightPass(ushort type)
-		{
-			switch (Convert(type))
-			{
+		public static bool LightPass(ushort type) {
+			switch (Convert(type)) {
 				case Block.air:
 				case Block.glass:
 				case Block.leaf:
@@ -323,144 +297,249 @@ namespace MCSpleef
 			}
 		}
 
-		public static string Name(ushort type)
-		{
-			switch (type)
-			{
-				case 0: return "air";
-				case 1: return "stone";
-				case 2: return "grass";
-				case 3: return "dirt";
-				case 4: return "cobblestone";
-				case 5: return "wood";
-				case 6: return "plant";
-				case 7: return "adminium";
-				case 8: return "active_water";
-				case 9: return "water";
-				case 10: return "active_lava";
-				case 11: return "lava";
-				case 12: return "sand";
-				case 13: return "gravel";
-				case 14: return "gold_ore";
-				case 15: return "iron_ore";
-				case 16: return "coal";
-				case 17: return "tree";
-				case 18: return "leaves";
-				case 19: return "sponge";
-				case 20: return "glass";
-				case 21: return "red";
-				case 22: return "orange";
-				case 23: return "yellow";
-				case 24: return "greenyellow";
-				case 25: return "green";
-				case 26: return "springgreen";
-				case 27: return "cyan";
-				case 28: return "blue";
-				case 29: return "blueviolet";
-				case 30: return "indigo";
-				case 31: return "purple";
-				case 32: return "magenta";
-				case 33: return "pink";
-				case 34: return "black";
-				case 35: return "gray";
-				case 36: return "white";
-				case 37: return "yellow_flower";
-				case 38: return "red_flower";
-				case 39: return "brown_shroom";
-				case 40: return "red_shroom";
-				case 41: return "gold";
-				case 42: return "iron";
-				case 43: return "double_stair";
-				case 44: return "stair";
-				case 45: return "brick";
-				case 46: return "tnt";
-				case 47: return "bookcase";
-				case 48: return "mossy_cobblestone";
-				case 49: return "obsidian";
+		public static string Name(ushort type) {
+			switch (type) {
+				case 0:
+					return "air";
+				case 1:
+					return "stone";
+				case 2:
+					return "grass";
+				case 3:
+					return "dirt";
+				case 4:
+					return "cobblestone";
+				case 5:
+					return "wood";
+				case 6:
+					return "plant";
+				case 7:
+					return "adminium";
+				case 8:
+					return "active_water";
+				case 9:
+					return "water";
+				case 10:
+					return "active_lava";
+				case 11:
+					return "lava";
+				case 12:
+					return "sand";
+				case 13:
+					return "gravel";
+				case 14:
+					return "gold_ore";
+				case 15:
+					return "iron_ore";
+				case 16:
+					return "coal";
+				case 17:
+					return "tree";
+				case 18:
+					return "leaves";
+				case 19:
+					return "sponge";
+				case 20:
+					return "glass";
+				case 21:
+					return "red";
+				case 22:
+					return "orange";
+				case 23:
+					return "yellow";
+				case 24:
+					return "greenyellow";
+				case 25:
+					return "green";
+				case 26:
+					return "springgreen";
+				case 27:
+					return "cyan";
+				case 28:
+					return "blue";
+				case 29:
+					return "blueviolet";
+				case 30:
+					return "indigo";
+				case 31:
+					return "purple";
+				case 32:
+					return "magenta";
+				case 33:
+					return "pink";
+				case 34:
+					return "black";
+				case 35:
+					return "gray";
+				case 36:
+					return "white";
+				case 37:
+					return "yellow_flower";
+				case 38:
+					return "red_flower";
+				case 39:
+					return "brown_shroom";
+				case 40:
+					return "red_shroom";
+				case 41:
+					return "gold";
+				case 42:
+					return "iron";
+				case 43:
+					return "double_stair";
+				case 44:
+					return "stair";
+				case 45:
+					return "brick";
+				case 46:
+					return "tnt";
+				case 47:
+					return "bookcase";
+				case 48:
+					return "mossy_cobblestone";
+				case 49:
+					return "obsidian";
 
-				case 190: return "hot_lava";
-				case activedeathlava: return "active_hot_lava";
+				case 190:
+					return "hot_lava";
+				case activedeathlava:
+					return "active_hot_lava";
 
-				default: return "unknown";
+				default:
+					return "unknown";
 			}
 		}
-		public static ushort Ushort(string type)
-		{
-			switch (type.ToLower())
-			{
-				case "air": return 0;
-				case "stone": return 1;
-				case "grass": return 2;
-				case "dirt": return 3;
-				case "cobblestone": return 4;
-				case "wood": return 5;
-				case "plant": return 6;
+		public static ushort Ushort(string type) {
+			switch (type.ToLower()) {
+				case "air":
+					return 0;
+				case "stone":
+					return 1;
+				case "grass":
+					return 2;
+				case "dirt":
+					return 3;
+				case "cobblestone":
+					return 4;
+				case "wood":
+					return 5;
+				case "plant":
+					return 6;
 				case "solid":
 				case "admintite":
 				case "blackrock":
-				case "adminium": return 7;
+				case "adminium":
+					return 7;
 				case "activewater":
-				case "active_water": return 8;
-				case "water": return 9;
+				case "active_water":
+					return 8;
+				case "water":
+					return 9;
 				case "activelava":
-				case "active_lava": return 10;
-				case "lava": return 11;
-				case "sand": return 12;
-				case "gravel": return 13;
-				case "gold_ore": return 14;
-				case "iron_ore": return 15;
-				case "coal": return 16;
-				case "tree": return 17;
-				case "leaves": return 18;
-				case "sponge": return 19;
-				case "glass": return 20;
-				case "red": return 21;
-				case "orange": return 22;
-				case "yellow": return 23;
-				case "greenyellow": return 24;
-				case "green": return 25;
-				case "springgreen": return 26;
-				case "cyan": return 27;
-				case "blue": return 28;
-				case "blueviolet": return 29;
-				case "indigo": return 30;
-				case "purple": return 31;
-				case "magenta": return 32;
-				case "pink": return 33;
-				case "black": return 34;
-				case "gray": return 35;
-				case "white": return 36;
-				case "yellow_flower": return 37;
-				case "red_flower": return 38;
-				case "brown_shroom": return 39;
-				case "red_shroom": return 40;
-				case "gold": return 41;
-				case "iron": return 42;
-				case "double_stair": return 43;
-				case "stair": return 44;
-				case "brick": return 45;
-				case "tnt": return 46;
-				case "bookcase": return 47;
-				case "mossy_cobblestone": return 48;
-				case "obsidian": return 49;
+				case "active_lava":
+					return 10;
+				case "lava":
+					return 11;
+				case "sand":
+					return 12;
+				case "gravel":
+					return 13;
+				case "gold_ore":
+					return 14;
+				case "iron_ore":
+					return 15;
+				case "coal":
+					return 16;
+				case "tree":
+					return 17;
+				case "leaves":
+					return 18;
+				case "sponge":
+					return 19;
+				case "glass":
+					return 20;
+				case "red":
+					return 21;
+				case "orange":
+					return 22;
+				case "yellow":
+					return 23;
+				case "greenyellow":
+					return 24;
+				case "green":
+					return 25;
+				case "springgreen":
+					return 26;
+				case "cyan":
+					return 27;
+				case "blue":
+					return 28;
+				case "blueviolet":
+					return 29;
+				case "indigo":
+					return 30;
+				case "purple":
+					return 31;
+				case "magenta":
+					return 32;
+				case "pink":
+					return 33;
+				case "black":
+					return 34;
+				case "gray":
+					return 35;
+				case "white":
+					return 36;
+				case "yellow_flower":
+					return 37;
+				case "red_flower":
+					return 38;
+				case "brown_shroom":
+					return 39;
+				case "red_shroom":
+					return 40;
+				case "gold":
+					return 41;
+				case "iron":
+					return 42;
+				case "double_stair":
+					return 43;
+				case "stair":
+					return 44;
+				case "brick":
+					return 45;
+				case "tnt":
+					return 46;
+				case "bookcase":
+					return 47;
+				case "mossy_cobblestone":
+					return 48;
+				case "obsidian":
+					return 49;
 
-				case "hot_lava": return 190;
+				case "hot_lava":
+					return 190;
 				case "ahl":
-				case "active_hot_lava": return activedeathlava;
+				case "active_hot_lava":
+					return activedeathlava;
 
-				default: return Zero;
+				default:
+					return Zero;
 			}
 		}
 
-		public static ushort Convert(ushort b)
-		{
-			switch (b)
-			{
-				case Block.deathlava: return lavastill;
-				case activedeathlava: return lava;
+		public static ushort Convert(ushort b) {
+			switch (b) {
+				case Block.deathlava:
+					return lavastill;
+				case activedeathlava:
+					return lava;
 
 				default:
-					if (b < 66 || b == Block.air) return b; else return 22;
+					if (b < 66 || b == Block.air)
+						return b;
+					else
+						return 22;
 			}
 		}
 	}

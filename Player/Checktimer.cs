@@ -16,21 +16,17 @@
 	permiusing MCForge;ssions and limitations under the Licenses.
 */
 ﻿using System;
-namespace MCSpleef
-{
-	public static class Checktimer
-	{
+namespace MCSpleef {
+	public static class Checktimer {
 		static System.Timers.Timer t;
-		public static void StartTimer()
-		{
+		public static void StartTimer() {
 			t = new System.Timers.Timer();
 			t.AutoReset = false;
 			t.Elapsed += new System.Timers.ElapsedEventHandler(t_Elapsed);
 			t.Interval = GetInterval();
 			t.Start();
 		}
-		static double GetInterval()
-		{
+		static double GetInterval() {
 			DateTime now = DateTime.Now;
 			return ((60 - now.Second) * 1000 - now.Millisecond);
 		}
@@ -39,8 +35,7 @@ namespace MCSpleef
 		/// </summary>
 		/// <param name="sender">For the timer</param>
 		/// <param name="e">For the timer</param>
-		static void t_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-		{
+		static void t_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
 			t.Interval = GetInterval();
 			t.Start();
 

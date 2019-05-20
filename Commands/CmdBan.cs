@@ -16,32 +16,25 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-namespace MCSpleef.Commands
-{
-	public class CmdBan : Command
-	{
+namespace MCSpleef.Commands {
+	public class CmdBan : Command {
 		public override string name { get { return "ban"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-		public override void Use(Player p, string message)
-		{
-			try
-			{
+		public override void Use(Player p, string message) {
+			try {
 				if (message == "") { Help(p); return; }
 
 				Player who = Player.Find(message);
 
-				if (who == null)
-				{
-					if (!Player.ValidName(message))
-					{
+				if (who == null) {
+					if (!Player.ValidName(message)) {
 						Player.SendMessage(p, "Invalid name \"" + message + "\".");
 						return;
 					}
 
 					Group foundGroup = Group.findPlayerGroup(message);
 
-					if (foundGroup.Permission == LevelPermission.Banned)
-					{
+					if (foundGroup.Permission == LevelPermission.Banned) {
 						Player.SendMessage(p, "Player is already banned.");
 						return;
 					}
@@ -51,17 +44,13 @@ namespace MCSpleef.Commands
 
 					Player.GlobalMessage(message + " &f(offline)" + Server.DefaultColor + " is now &8banned" + Server.DefaultColor + "!");
 					Group.findPerm(LevelPermission.Banned).playerList.Add(message);
-				}
-				else
-				{
-					if (!Player.ValidName(who.name))
-					{
+				} else {
+					if (!Player.ValidName(who.name)) {
 						Player.SendMessage(p, "Invalid name \"" + who.name + "\".");
 						return;
 					}
 
-					if (who.group.Permission == LevelPermission.Banned)
-					{
+					if (who.group.Permission == LevelPermission.Banned) {
 						Player.SendMessage(p, "Player is already banned.");
 						return;
 					}
@@ -79,14 +68,11 @@ namespace MCSpleef.Commands
 				}
 				Group.findPerm(LevelPermission.Banned).playerList.Save();
 
-				Server.IRC.Say(message + " was banned.");
 				Server.s.Log("BANNED: " + message.ToLower());
 
-			}
-			catch (Exception e) { Server.ErrorLog(e); }
+			} catch (Exception e) { Server.ErrorLog(e); }
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/ban <player> - Bans a player.");
 		}
 	}

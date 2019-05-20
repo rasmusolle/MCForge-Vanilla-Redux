@@ -64,7 +64,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>MCForge.ico</ApplicationIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
@@ -102,15 +102,10 @@
   <ItemGroup>
     <Compile Include="Commands\CmdEco.cs" />
     <Compile Include="Commands\CmdGamble.cs" />
-    <Compile Include="Commands\CmdIrc.cs" />
     <Compile Include="Database\BlockDB.cs" />
     <Compile Include="GUI\Win32\Margins.cs" />
     <Compile Include="Player\Opcode.cs" />
     <Compile Include="Player\Player.CPE.cs" />
-    <Compile Include="IRC\Sharkbite.thresher.cs" />
-    <Compile Include="util\MainLoop.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Server\AutoSaver.cs" />
     <Compile Include="GUI\ColoredTextBox.cs">
       <SubType>Component</SubType>
@@ -125,8 +120,6 @@
     <Compile Include="Player\Awards.cs" />
     <Compile Include="Commands\CmdAward.cs" />
     <Compile Include="Commands\CmdAwards.cs" />
-    <Compile Include="Commands\CmdXban.cs" />
-    <Compile Include="IRC\ForgeBot.cs" />
     <Compile Include="Levels\BlockQueue.cs" />
     <Compile Include="Player\Player.Events.cs" />
     <Compile Include="Player\Checktimer.cs" />
@@ -134,17 +127,14 @@
     <Compile Include="Commands\CmdViewRanks.cs" />
     <Compile Include="Commands\CmdBan.cs" />
     <Compile Include="Commands\CmdBanip.cs" />
-    <Compile Include="Commands\CmdColor.cs" />
     <Compile Include="Commands\CmdCuboid.cs" />
     <Compile Include="Commands\CmdHelp.cs" />
     <Compile Include="Commands\CmdInfo.cs" />
     <Compile Include="Commands\CmdKick.cs" />
     <Compile Include="Commands\CmdMe.cs" />
     <Compile Include="Commands\CmdMute.cs" />
-    <Compile Include="Commands\CmdPlayers.cs" />
     <Compile Include="Commands\CmdRules.cs" />
     <Compile Include="Commands\CmdSay.cs" />
-    <Compile Include="Commands\CmdServerReport.cs" />
     <Compile Include="Commands\CmdRank.cs" />
     <Compile Include="Commands\CmdSetspawn.cs" />
     <Compile Include="Commands\CmdSpawn.cs" />
@@ -153,7 +143,6 @@
     <Compile Include="Commands\CmdWhois.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandList.cs" />
-    <Compile Include="Commands\CmdTitle.cs" />
     <Compile Include="Commands\CmdView.cs" />
     <Compile Include="Player\PlayerCollection.cs" />
     <Compile Include="Levels\Level.cs" />
@@ -230,8 +219,7 @@
     <Content Include="LICENSE.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MCForge.ico" />
-    <Content Include="mcpony.png" />
+    <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

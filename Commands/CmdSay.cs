@@ -16,22 +16,16 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-namespace MCSpleef.Commands
-{
-	class CmdSay : Command
-	{
+namespace MCSpleef.Commands {
+	class CmdSay : Command {
 		public override string name { get { return "say"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			if (message == "") { Help(p); return; }
 			message = message.Replace("%", "&"); // Alow colors in global messages
 			Player.GlobalChat(p, message, false);
-			message = message.Replace("&", ""); // converts the MC color codes to IRC. Doesn't seem to work with multiple colors
-			Server.IRC.Say(message);
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/say - broadcasts a global message to everyone in the server.");
 		}
 	}

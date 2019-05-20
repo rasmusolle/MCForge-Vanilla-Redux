@@ -20,10 +20,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-namespace MCSpleef.Gui
-{
-	public partial class Window : Form
-	{
+namespace MCSpleef.Gui {
+	public partial class Window : Form {
 		delegate void StringCallback(string s);
 		delegate void PlayerListCallback(List<Player> players);
 		delegate void VoidDelegate();
@@ -40,7 +38,6 @@ namespace MCSpleef.Gui
 		public Window() { InitializeComponent(); }
 
 		private void Window_Load(object sender, EventArgs e) {
-			btnProperties.Enabled = false;
 			MaximizeBox = false;
 			this.Text = "Starting Server...";
 			this.Show();
@@ -57,7 +54,6 @@ namespace MCSpleef.Gui
 				s.OnPlayerListChange += UpdateClientList;
 				s.Start();
 
-				RunOnUiThread(() => btnProperties.Enabled = true);
 			}).Start();
 
 			notifyIcon1.Text = ("Server: " + Server.name).Truncate(64);
@@ -68,9 +64,9 @@ namespace MCSpleef.Gui
 			this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
 
 			UpdateListTimer.Elapsed += delegate {
-				try { UpdateClientList(Player.players); }
-				catch { }
-			}; UpdateListTimer.Start();
+				try { UpdateClientList(Player.players); } catch { }
+			};
+			UpdateListTimer.Start();
 		}
 
 		public void RunOnUiThread(Action act) {
@@ -82,16 +78,14 @@ namespace MCSpleef.Gui
 
 		void newError(string message) {
 			try {
-				if (txtErrors.InvokeRequired) { this.Invoke(new LogDelegate(newError), new object[] { message }); }
-				else { txtErrors.AppendText(Environment.NewLine + message); }
-			}
-			catch { }
+			} catch { }
 		}
 
 		delegate void LogDelegate(string message);
 
 		public void WriteLine(string s) {
-			if (Server.shuttingDown) return;
+			if (Server.shuttingDown)
+				return;
 			if (this.InvokeRequired) {
 				this.Invoke(new LogDelegate(WriteLine), new object[] { s });
 			} else {
@@ -105,8 +99,7 @@ namespace MCSpleef.Gui
 		}
 
 		public void UpdateClientList(List<Player> players) {
-			if (InvokeRequired) { Invoke(new PlayerListCallback(UpdateClientList), players); }
-			else {
+			if (InvokeRequired) { Invoke(new PlayerListCallback(UpdateClientList), players); } else {
 
 				if (dgvPlayers.DataSource == null)
 					dgvPlayers.DataSource = pc;
@@ -141,8 +134,7 @@ namespace MCSpleef.Gui
 			if (this.InvokeRequired) {
 				StringCallback d = UpdateUrl;
 				this.Invoke(d, new object[] { s });
-			}
-			else
+			} else
 				txtUrl.Text = s;
 		}
 
@@ -154,27 +146,22 @@ namespace MCSpleef.Gui
 				if (!Server.shuttingDown) {
 					MCSpleef.Gui.Program.ExitProgram(false);
 				}
-			}
-			else { e.Cancel = true; }
+			} else { e.Cancel = true; }
 		}
 
-		private void txtInput_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.Enter)
-			{
+		private void txtInput_KeyDown(object sender, KeyEventArgs e) {
+			if (e.KeyCode == Keys.Enter) {
 				string text = txtInput.Text.Trim();
-				if (String.IsNullOrEmpty(text)) return;
-				switch (text[0])
-				{
+				if (String.IsNullOrEmpty(text))
+					return;
+				switch (text[0]) {
 					case '#':
 						text = text.Remove(0, 1);
 						Player.GlobalMessageOps(text);
 						Server.s.Log("(OPs): Console: " + text, false, LogType.Op);
-						Server.IRC.Say("Console: " + text, true);
 						break;
 					default:
 						Player.GlobalMessage("Console [&a" + Server.ZallState + Server.DefaultColor + "]:&f " + text);
-						Server.IRC.Say("Console [" + Server.ZallState + "]: " + text);
 						WriteLine("<CONSOLE> " + text);
 						break;
 				}
@@ -183,23 +170,23 @@ namespace MCSpleef.Gui
 		}
 
 		private void txtCommands_KeyDown(object sender, KeyEventArgs e) {
-			if ( e.KeyCode != Keys.Enter )
+			if (e.KeyCode != Keys.Enter)
 				return;
 			string sentCmd, sentMsg = "";
 
-			if ( txtCommands.Text == null || txtCommands.Text.Trim() == "" ) {
+			if (txtCommands.Text == null || txtCommands.Text.Trim() == "") {
 				newCommand("CONSOLE: Whitespace commands are not allowed.");
 				txtCommands.Clear();
 				return;
 			}
 
-			if ( txtCommands.Text[0] == '/' && txtCommands.Text.Length > 1 )
+			if (txtCommands.Text[0] == '/' && txtCommands.Text.Length > 1)
 				txtCommands.Text = txtCommands.Text.Substring(1);
 
-			if ( txtCommands.Text.IndexOf(' ') != -1 ) {
+			if (txtCommands.Text.IndexOf(' ') != -1) {
 				sentCmd = txtCommands.Text.Split(' ')[0];
 				sentMsg = txtCommands.Text.Substring(txtCommands.Text.IndexOf(' ') + 1);
-			} else if ( txtCommands.Text != "" ) {
+			} else if (txtCommands.Text != "") {
 				sentCmd = txtCommands.Text;
 			} else {
 				return;
@@ -208,14 +195,13 @@ namespace MCSpleef.Gui
 			new Thread(() => {
 				try {
 					Command commandcmd = Command.all.Find(sentCmd);
-					if ( commandcmd == null ) {
+					if (commandcmd == null) {
 						Server.s.Log("No such command!");
 						return;
 					}
 					commandcmd.Use(null, sentMsg);
 					newCommand("CONSOLE: USED /" + sentCmd + " " + sentMsg);
-				}
-				catch ( Exception ex ) {
+				} catch (Exception ex) {
 					Server.ErrorLog(ex);
 					newCommand("CONSOLE: Failed command.");
 				}
@@ -249,7 +235,7 @@ namespace MCSpleef.Gui
 		private Player GetSelectedPlayer() {
 			if (this.dgvPlayers.SelectedRows.Count <= 0) { return null; }
 
-			return (Player)( this.dgvPlayers.SelectedRows[0].DataBoundItem );
+			return (Player)(this.dgvPlayers.SelectedRows[0].DataBoundItem);
 		}
 
 		private void Restart_Click(object sender, EventArgs e) {

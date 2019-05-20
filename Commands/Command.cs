@@ -18,10 +18,8 @@
 using System;
 using System.Collections.Generic;
 using MCSpleef.Commands;
-namespace MCSpleef
-{
-	public abstract class Command
-	{
+namespace MCSpleef {
+	public abstract class Command {
 		public abstract string name { get; }
 		public abstract LevelPermission defaultRank { get; }
 		public abstract void Use(Player p, string message);
@@ -33,29 +31,23 @@ namespace MCSpleef
 
 		public static CommandList all = new CommandList();
 		public static CommandList core = new CommandList();
-		public static void InitAll()
-		{
+		public static void InitAll() {
 			all.Add(new CmdBan());
 			all.Add(new CmdBanip());
-			all.Add(new CmdColor());
 			all.Add(new CmdCuboid());
 			all.Add(new CmdEco());
 			all.Add(new CmdGamble());
 			all.Add(new CmdHelp());
 			all.Add(new CmdInfo());
-			all.Add(new CmdIrc());
 			all.Add(new CmdKick());
 			all.Add(new CmdMe());
 			all.Add(new CmdMute());
-			all.Add(new CmdPlayers());
 			all.Add(new CmdRestart());
 			all.Add(new CmdRules());
 			all.Add(new CmdSay());
-			all.Add(new CmdServerReport());
 			all.Add(new CmdRank());
 			all.Add(new CmdSetspawn());
 			all.Add(new CmdSpawn());
-			all.Add(new CmdTitle());
 			all.Add(new CmdUnban());
 			all.Add(new CmdUnbanip());
 			all.Add(new CmdView());
@@ -63,7 +55,6 @@ namespace MCSpleef
 			all.Add(new CmdWhoip());
 			all.Add(new CmdWhois());
 			all.Add(new CmdWhowas());
-			all.Add(new CmdXban());
 			all.Add(new CmdAward());
 			all.Add(new CmdAwards());
 

@@ -18,11 +18,9 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-namespace MCSpleef.Gui.Utils
-{
+namespace MCSpleef.Gui.Utils {
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Margins
-	{
+	public struct Margins {
 		private int _Left;
 		private int _Right;
 		private int _Top;
@@ -40,11 +38,11 @@ namespace MCSpleef.Gui.Utils
 
 		public bool IsTouchingGlass(Point point) {
 			if (IsEmpty) { return true; }
-			return ( point.X < _Left || point.X > _Right || point.Y < _Top || point.Y > _Bottom );
+			return (point.X < _Left || point.X > _Right || point.Y < _Top || point.Y > _Bottom);
 		}
 
 		public static implicit operator RECT(Margins margs) { return new RECT(margs.Left, margs.Top, margs.Right, margs.Bottom); }
-		public static implicit operator Padding(Margins margs) { return new Padding(margs.Left, margs.Top, margs.Right, margs.Bottom);}
+		public static implicit operator Padding(Margins margs) { return new Padding(margs.Left, margs.Top, margs.Right, margs.Bottom); }
 		public static implicit operator Rectangle(Margins margs) { return new Rectangle(margs.Left, margs.Top, margs.Right, margs.Bottom); }
 		public static implicit operator Margins(RECT margs) { return new Margins(margs.Left, margs.Right, margs.Top, margs.Bottom); }
 		public static implicit operator Margins(Rectangle rect) { return new Margins(rect.X, rect.Width, rect.Y, rect.Height); }

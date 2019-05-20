@@ -16,41 +16,33 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-namespace MCSpleef.Commands
-{
-	public class CmdViewRanks : Command
-	{
+namespace MCSpleef.Commands {
+	public class CmdViewRanks : Command {
 		public override string name { get { return "viewranks"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			if (message == "") { Help(p); return; }
 
 			Group foundGroup = Group.Find(message);
-			if (foundGroup == null)
-			{
+			if (foundGroup == null) {
 				Player.SendMessage(p, "Could not find group");
 				return;
 			}
 
-
 			string totalList = "";
-			foreach (string s in foundGroup.playerList.All())
-			{
+			foreach (string s in foundGroup.playerList.All()) {
 				totalList += ", " + s;
 			}
 
-			if (totalList == "")
-			{
+			if (totalList == "") {
 				Player.SendMessage(p, "No one has the rank of " + foundGroup.color + foundGroup.name);
 				return;
 			}
-			
+
 			Player.SendMessage(p, "People with the rank of " + foundGroup.color + foundGroup.name + ":");
 			Player.SendMessage(p, totalList.Remove(0, 2));
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/viewranks [rank] - Shows all users who have [rank]");
 			Player.SendMessage(p, "Available ranks: ");
 			Command.all.Find("help").Use(null, "ranks");

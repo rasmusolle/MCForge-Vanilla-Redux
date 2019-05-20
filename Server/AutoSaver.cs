@@ -15,48 +15,37 @@
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-/*
 using System;
 using System.Threading;
-namespace MCSpleef
-{
-	public class AutoSaver
-	{
+namespace MCSpleef {
+	public class AutoSaver {
 		static int _interval;
 
 		static int count = 1;
-		public AutoSaver(int interval)
-		{
+		public AutoSaver(int interval) {
 			_interval = interval * 1000;
 
-			new Thread(new ThreadStart(delegate
-			{
-				while (true)
-				{
+			new Thread(new ThreadStart(delegate {
+				while (true) {
 					Thread.Sleep(_interval);
 					Server.ml.Queue(delegate { Run(); });
 				}
 			})).Start();
 		}
 
-		public static void Run()
-		{
-			try
-			{
+		public static void Run() {
+			try {
 				count--;
-				Server.levels.ForEach(delegate(Level l)
-				{
-					try
-					{
-						if (!l.changed) return;
+				Server.levels.ForEach(delegate(Level l) {
+					try {
+						if (!l.changed)
+							return;
 						l.Save();
-					}
-					catch { Server.s.Log("Save for " + l.name + " has caused an error."); }
+					} catch { Server.s.Log("Save for " + l.name + " has caused an error."); }
 				});
-				if (count <= 0) count = 15;
-			}
-			catch (Exception e) { Server.ErrorLog(e); }
+				if (count <= 0)
+					count = 15;
+			} catch (Exception e) { Server.ErrorLog(e); }
 		}
 	}
 }
-*/

@@ -15,10 +15,8 @@
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-namespace MCSpleef
-{
-	public static class c
-	{
+namespace MCSpleef {
+	public static class c {
 		public const string black = "&0";
 		public const string navy = "&1";
 		public const string green = "&2";
@@ -36,97 +34,46 @@ namespace MCSpleef
 		public const string yellow = "&e";
 		public const string white = "&f";
 
-		public static string Parse(string str)
-		{
-			switch (str.ToLower())
-			{
-				case "black": return black;
-				case "navy": return navy;
-				case "green": return green;
-				case "teal": return teal;
-				case "maroon": return maroon;
-				case "purple": return purple;
-				case "gold": return gold;
-				case "silver": return silver;
-				case "gray": return gray;
-				case "blue": return blue;
-				case "lime": return lime;
-				case "aqua": return aqua;
-				case "red": return red;
-				case "pink": return pink;
-				case "yellow": return yellow;
-				case "white": return white;
-				default: return "";
+		public static string Parse(string str) {
+			switch (str.ToLower()) {
+				case "black":	return black;
+				case "navy":	return navy;
+				case "green":	return green;
+				case "teal":	return teal;
+				case "maroon":	return maroon;
+				case "purple":	return purple;
+				case "gold":	return gold;
+				case "silver":	return silver;
+				case "gray":	return gray;
+				case "blue":	return blue;
+				case "lime":	return lime;
+				case "aqua":	return aqua;
+				case "red":		return red;
+				case "pink":	return pink;
+				case "yellow":	return yellow;
+				case "white":	return white;
+				default:		return "";
 			}
 		}
-		public static string Name(string str)
-		{
-			switch (str)
-			{
-				case black: return "black";
-				case navy: return "navy";
-				case green: return "green";
-				case teal: return "teal";
-				case maroon: return "maroon";
-				case purple: return "purple";
-				case gold: return "gold";
-				case silver: return "silver";
-				case gray: return "gray";
-				case blue: return "blue";
-				case lime: return "lime";
-				case aqua: return "aqua";
-				case red: return "red";
-				case pink: return "pink";
-				case yellow: return "yellow";
-				case white: return "white";
-				default: return "";
-			}
-		}
-
-		public static byte MCtoIRC(string str)
-		{
-			switch (str)
-			{
-				case white: return 0;
-				case black: return 1;
-				case navy: return 2;
-				case green: return 3;
-				case red: return 4;
-				case maroon: return 5;
-				case purple: return 6;
-				case gold: return 7;
-				case yellow: return 8;
-				case lime: return 9;
-				case teal: return 10;
-				case aqua: return 11;
-				case blue: return 12;
-				case pink: return 13;
-				case gray: return 14;
-				case silver: return 15;
-				default: return 0;
-			}
-		}
-		public static string IRCtoMC(byte str)
-		{
-			switch (str)
-			{
-				case 0: return white;
-				case 1: return black;
-				case 2: return navy;
-				case 3: return green;
-				case 4: return red;
-				case 5: return maroon;
-				case 6: return purple;
-				case 7: return gold;
-				case 8: return yellow;
-				case 9: return lime;
-				case 10: return teal;
-				case 11: return aqua;
-				case 12: return blue;
-				case 13: return pink;
-				case 14: return gray;
-				case 15: return silver;
-				default: return "";
+		public static string Name(string str) {
+			switch (str) {
+				case black:		return "black";
+				case navy:		return "navy";
+				case green:		return "green";
+				case teal:		return "teal";
+				case maroon:	return "maroon";
+				case purple:	return "purple";
+				case gold:		return "gold";
+				case silver:	return "silver";
+				case gray:		return "gray";
+				case blue:		return "blue";
+				case lime:		return "lime";
+				case aqua:		return "aqua";
+				case red:		return "red";
+				case pink:		return "pink";
+				case yellow:	return "yellow";
+				case white:		return "white";
+				default:		return "";
 			}
 		}
 	}

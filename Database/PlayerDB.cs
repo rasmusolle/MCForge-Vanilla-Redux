@@ -20,74 +20,7 @@ using System.IO;
 namespace MCSpleef {
 	public class PlayerDB {
 		public static bool Load(Player p) {
-			if (File.Exists("players/" + p.name.ToLower() + "DB.txt")) {
-				foreach (string line in File.ReadAllLines("players/" + p.name.ToLower() + "DB.txt")) {
-					if (!string.IsNullOrEmpty(line) && !line.StartsWith("#")) {
-						string key = line.Split('=')[0].Trim();
-						string value = line.Split('=')[1].Trim();
-						string section = "nowhere yet...";
-
-						try {
-							switch (key.ToLower()) {
-								case "title":
-								p.title = value;
-								section = key;
-								break;
-								case "titlecolor":
-								p.titlecolor = value;
-								section = key;
-								break;
-								case "color":
-								p.color = value;
-								section = key;
-								break;
-								case "money":
-								p.money = int.Parse(value);
-								section = key;
-								break;
-								case "timespent":
-								p.time = value ;
-								section = key;
-								break;
-								case "firstlogin":
-								p.firstLogin = DateTime.Parse(value);
-								section = key;
-								break;
-								case "lastlogin":
-								p.lastlogin = DateTime.Parse(value);
-								section = key;
-								break;
-								case "totallogins":
-								p.totalLogins = int.Parse(value) + 1;
-								section = key;
-								break;
-								case "totalkicked":
-								p.totalKicked = int.Parse(value);
-								section = key;
-								break;
-								case "overalldeath":
-								p.overallDeath = int.Parse(value);
-								section = key;
-								break;
-								case "overallblocks":
-								p.overallBlocks = int.Parse(value);
-								section = key;
-								break;
-								case "nick":
-								p.DisplayName = value;
-								section = key;
-								break;
-							}
-						} catch(Exception e) {
-							Server.s.Log("Loading " + p.name + "'s database failed at section: " + section);
-							Server.ErrorLog(e);
-						}
-
-						p.timeLogged = DateTime.Now;
-					}
-				}
-				return true;
-			} else {
+			if (!File.Exists("players/" + p.name.ToLower() + "DB.txt")) {
 				p.title = "";
 				p.titlecolor = "";
 				p.color = p.group.color;
@@ -104,6 +37,72 @@ namespace MCSpleef {
 				Save(p);
 				return false;
 			}
+			foreach (string line in File.ReadAllLines("players/" + p.name.ToLower() + "DB.txt")) {
+				if (!string.IsNullOrEmpty(line) && !line.StartsWith("#")) {
+					string key = line.Split('=')[0].Trim();
+					string value = line.Split('=')[1].Trim();
+					string section = "nowhere yet...";
+
+					try {
+						switch (key.ToLower()) {
+							case "title":
+								p.title = value;
+								section = key;
+							break;
+							case "titlecolor":
+								p.titlecolor = value;
+								section = key;
+							break;
+							case "color":
+								p.color = value;
+								section = key;
+							break;
+							case "money":
+								p.money = int.Parse(value);
+								section = key;
+							break;
+							case "timespent":
+								p.time = value ;
+								section = key;
+							break;
+							case "firstlogin":
+								p.firstLogin = DateTime.Parse(value);
+								section = key;
+							break;
+							case "lastlogin":
+								p.lastlogin = DateTime.Parse(value);
+								section = key;
+							break;
+							case "totallogins":
+								p.totalLogins = int.Parse(value) + 1;
+								section = key;
+							break;
+							case "totalkicked":
+								p.totalKicked = int.Parse(value);
+								section = key;
+							break;
+							case "overalldeath":
+								p.overallDeath = int.Parse(value);
+								section = key;
+							break;
+							case "overallblocks":
+								p.overallBlocks = int.Parse(value);
+								section = key;
+							break;
+							case "nick":
+								p.DisplayName = value;
+								section = key;
+							break;
+						}
+					} catch(Exception e) {
+						Server.s.Log("Loading " + p.name + "'s database failed at section: " + section);
+						Server.ErrorLog(e);
+					}
+
+					p.timeLogged = DateTime.Now;
+				}
+			}
+			return true;
 		}
 
 		public static void Save(Player p) {

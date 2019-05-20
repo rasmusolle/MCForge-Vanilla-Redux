@@ -17,35 +17,29 @@
 */
 using System;
 using System.IO;
-namespace MCSpleef.Commands
-{
-	public class CmdWhoip : Command
-	{
+namespace MCSpleef.Commands {
+	public class CmdWhoip : Command {
 		public override string name { get { return "whoip"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			if (message == "") { Help(p); return; }
 			if (message.IndexOf("'") != -1) { Player.SendMessage(p, "Cannot parse request."); return; }
 
 			string playerNames = "Players with this IP: ";
-			foreach (string fileName in Directory.GetFiles("players/"))
-			{
+			foreach (string fileName in Directory.GetFiles("players/")) {
 				string contents = File.ReadAllText(fileName);
-				if (contents.Contains(message))
-				{
+				if (contents.Contains(message)) {
 					playerNames += fileName.Replace("DB.txt", "").Replace("players/", "") + ", ";
 				}
 			}
-			if (playerNames == "")
-			{
-				Player.SendMessage(p, "Could not find anyone with this IP"); return;
+			if (playerNames == "") {
+				Player.SendMessage(p, "Could not find anyone with this IP");
+				return;
 			}
 			playerNames = playerNames.Remove(playerNames.Length - 2);
 			Player.SendMessage(p, playerNames);
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			p.SendMessage("/whoip <ip address> - Displays players associated with a given IP address.");
 		}
 	}

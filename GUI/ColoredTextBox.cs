@@ -16,17 +16,14 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using MCSpleef.Gui.Utils;
-namespace MCSpleef.Gui.Components
-{
-	public partial class ColoredTextBox : RichTextBox
-	{
+namespace MCSpleef.Gui.Components {
+	public partial class ColoredTextBox : RichTextBox {
 		private string dateStamp { get { return "[" + DateTime.Now.ToString("T") + "] "; } }
 
 		/// <summary>
@@ -38,8 +35,7 @@ namespace MCSpleef.Gui.Components
 		/// Appends the log.
 		/// </summary>
 		/// <param name="text">The text to log.</param>
-		public void AppendLog(string text, Color foreColor)
-		{
+		public void AppendLog(string text, Color foreColor) {
 			if (InvokeRequired) {
 				Invoke((MethodInvoker)(() => AppendLog(text, foreColor)));
 				return;
@@ -72,8 +68,7 @@ namespace MCSpleef.Gui.Components
 		/// <param name="text">The text to log.</param>
 		/// <param name="foreColor">Color of the foreground.</param>
 		/// <param name="bgColor">Color of the background.</param>
-		private void Append(string text, Color foreColor, Color bgColor)
-		{
+		private void Append(string text, Color foreColor, Color bgColor) {
 			if (InvokeRequired) {
 				Invoke((MethodInvoker)(() => Append(text, foreColor, bgColor)));
 				return;
@@ -86,19 +81,16 @@ namespace MCSpleef.Gui.Components
 			AppendText(text);
 			SelectionBackColor = BackColor;
 			SelectionColor = ForeColor;
-
 		}
 
-		private void ColoredReader_LinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e)
-		{
+		private void ColoredReader_LinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e) {
 			Process.Start(e.LinkText);
 		}
 
 		/// <summary>
 		/// Scrolls to the end of the log
 		/// </summary>
-		public void ScrollToEnd()
-		{
+		public void ScrollToEnd() {
 			if (InvokeRequired) {
 				Invoke((MethodInvoker)ScrollToEnd);
 				return;
@@ -113,8 +105,7 @@ namespace MCSpleef.Gui.Components
 
 		private RECT _border;
 
-		protected override void WndProc(ref Message m)
-		{
+		protected override void WndProc(ref Message m) {
 			if (Environment.OSVersion.Platform != PlatformID.Win32NT) {
 				base.WndProc(ref m);
 				return;
@@ -136,8 +127,7 @@ namespace MCSpleef.Gui.Components
 			}
 		}
 
-		private void CalculateSize(ref Message m)
-		{
+		private void CalculateSize(ref Message m) {
 			base.WndProc(ref m);
 
 			if (!Natives.CanRender())
@@ -181,8 +171,7 @@ namespace MCSpleef.Gui.Components
 
 		}
 
-		private void RenderStyle(ref Message m)
-		{
+		private void RenderStyle(ref Message m) {
 			base.WndProc(ref m);
 
 			if (!Natives.CanRender()) { return; }
@@ -224,10 +213,8 @@ namespace MCSpleef.Gui.Components
 			m.Result = IntPtr.Zero;
 		}
 
-		protected override CreateParams CreateParams
-		{
-			get
-			{
+		protected override CreateParams CreateParams {
+			get {
 				CreateParams p = base.CreateParams;
 
 				if (Natives.CanRender() && (p.ExStyle & Natives.WS_EX_CLIENTEDGE) == Natives.WS_EX_CLIENTEDGE)

@@ -16,14 +16,11 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-namespace MCSpleef.Commands
-{
-	public class CmdSetspawn : Command
-	{
+namespace MCSpleef.Commands {
+	public class CmdSetspawn : Command {
 		public override string name { get { return "setspawn"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			if (message != "") { Help(p); return; }
 			Player.SendMessage(p, "Spawn location changed.");
 			p.level.spawnx = (ushort)(p.pos[0] / 32);
@@ -32,8 +29,7 @@ namespace MCSpleef.Commands
 			p.level.rotx = p.rot[0];
 			p.level.roty = 0;
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/setspawn - Set the default spawn location.");
 		}
 	}

@@ -16,14 +16,11 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-namespace MCSpleef.Commands
-{
-	class CmdEco : Command
-	{
+namespace MCSpleef.Commands {
+	class CmdEco : Command {
 		public override string name { get { return "eco"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			string[] command = message.Trim().Split(' ');
 			string par0 = String.Empty;
 			string par1 = String.Empty;
@@ -32,12 +29,11 @@ namespace MCSpleef.Commands
 				par0 = command[0].ToLower();
 				par1 = command[1].ToLower();
 				par2 = command[2];
-			}
-			catch { }
+			} catch { }
 
 			if (par0 == String.Empty) { Help(p); return; }
 
-			switch (par0) { 
+			switch (par0) {
 				case "give":
 					if (p.group.Permission >= LevelPermission.Operator) {
 						if (message.IndexOf(' ') == -1) { Help(p); return; }
@@ -48,8 +44,7 @@ namespace MCSpleef.Commands
 						//if (givep == p) { Player.SendMessage(p, "You can't give yourself money."); return; }
 
 						int amountGiven;
-						try { amountGiven = int.Parse(par2); }
-						catch { Player.SendMessage(p, "Invalid amount"); return; }
+						try { amountGiven = int.Parse(par2); } catch { Player.SendMessage(p, "Invalid amount"); return; }
 
 						if (givep.money + amountGiven > 16777215) { Player.SendMessage(p, "Invalid amount"); return; }
 						if (amountGiven < 0) { Player.SendMessage(p, "Cannot give someone negative " + Server.moneys); return; }
@@ -60,7 +55,7 @@ namespace MCSpleef.Commands
 						Player.SendMessage(p, "This command's only for operators and higher.");
 						return;
 					}
-				break;
+					break;
 				case "pay":
 					if (message.IndexOf(' ') == -1) { Help(p); return; }
 					if (message.Split(' ').Length != 3) { Help(p); return; }
@@ -70,8 +65,7 @@ namespace MCSpleef.Commands
 					if (payp == p) { Player.SendMessage(p, "You can't pay yourself."); return; }
 
 					int amountPaid;
-					try { amountPaid = int.Parse(par2); }
-					catch { Player.SendMessage(p, "Invalid amount"); return; }
+					try { amountPaid = int.Parse(par2); } catch { Player.SendMessage(p, "Invalid amount"); return; }
 
 					if (payp.money + amountPaid > 16777215) { Player.SendMessage(p, "Invalid amount"); return; }
 					if (p.money - amountPaid < 0) { Player.SendMessage(p, "You don't have that much " + Server.moneys); return; }
@@ -80,7 +74,7 @@ namespace MCSpleef.Commands
 					payp.money += amountPaid;
 					p.money -= amountPaid;
 					Player.GlobalMessage(p.color + p.name + Server.DefaultColor + " paid " + payp.color + payp.name + Server.DefaultColor + " " + amountPaid + " " + Server.moneys);
-				break;
+					break;
 				case "take":
 					if (message.IndexOf(' ') == -1) { Help(p); return; }
 					if (message.Split(' ').Length != 3) { Help(p); return; }
@@ -90,33 +84,30 @@ namespace MCSpleef.Commands
 					if (takep == p) { Player.SendMessage(p, "Sorry. Can't allow you to take money from yourself"); return; }
 
 					int amountTaken;
-					try { amountTaken = int.Parse(par2); }
-					catch { Player.SendMessage(p, "Invalid amount"); return; }
+					try { amountTaken = int.Parse(par2); } catch { Player.SendMessage(p, "Invalid amount"); return; }
 
 					if (takep.money - amountTaken < 0) { Player.SendMessage(p, "Invalid amount"); return; }
 					if (amountTaken < 0) { Player.SendMessage(p, "Cannot take negative " + Server.moneys); return; }
 
 					takep.money -= amountTaken;
 					Player.GlobalMessage(takep.color + takep.prefix + takep.name + Server.DefaultColor + " was rattled down for " + amountTaken + " " + Server.moneys);
-				break;
+					break;
 				case "money":
 					if (Player.players.Count != 1)
 						Player.SendMessage(p, "Money of currently active players:");
 					else
 						Player.SendMessage(p, "Money of currently active player:");
-					foreach (Player pl in Player.players)
-					{
+					foreach (Player pl in Player.players) {
 						Player.SendMessage(p, pl.name + " - " + pl.money + " " + Server.moneys);
 					}
-				break;
+					break;
 				default:
 					Help(p);
-				return;
+					return;
 
 			}
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/eco give [player] <amount> - Gives [player] <amount> " + Server.moneys);
 			Player.SendMessage(p, "/eco pay [player] <amount> - Pays <amount> of " + Server.moneys + " to [player]");
 			Player.SendMessage(p, "/eco take [player] <amount> - Takes <amount> of " + Server.moneys + " from [player]");

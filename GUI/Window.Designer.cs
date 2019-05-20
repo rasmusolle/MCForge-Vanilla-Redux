@@ -65,32 +65,24 @@ namespace MCSpleef.Gui
 			this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
 			this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
 			this.restartServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.btnProperties = new System.Windows.Forms.Button();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.Restart = new System.Windows.Forms.Button();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabPage10 = new System.Windows.Forms.TabPage();
+			this.grpRCUsers = new System.Windows.Forms.GroupBox();
+			this.liRCUsers = new System.Windows.Forms.ListBox();
+			this.grpRCSettings = new System.Windows.Forms.GroupBox();
+			this.grpConnectedRCs = new System.Windows.Forms.GroupBox();
 			this.gBChat = new System.Windows.Forms.GroupBox();
-			this.txtLog = new MCSpleef.Gui.Components.ColoredTextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.txtCommands = new System.Windows.Forms.TextBox();
 			this.txtInput = new System.Windows.Forms.TextBox();
 			this.txtUrl = new System.Windows.Forms.TextBox();
 			this.dgvPlayers = new System.Windows.Forms.DataGridView();
 			this.label1 = new System.Windows.Forms.Label();
-			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.txtErrors = new System.Windows.Forms.TextBox();
-			this.tabPage10 = new System.Windows.Forms.TabPage();
-			this.grpRCUsers = new System.Windows.Forms.GroupBox();
-			this.liRCUsers = new System.Windows.Forms.ListBox();
-			this.grpRCSettings = new System.Windows.Forms.GroupBox();
-			this.grpConnectedRCs = new System.Windows.Forms.GroupBox();
+			this.txtLog = new MCSpleef.Gui.Components.ColoredTextBox();
 			this.iconContext.SuspendLayout();
-			this.tabPage1.SuspendLayout();
 			this.gBChat.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvPlayers)).BeginInit();
-			this.tabControl1.SuspendLayout();
-			this.tabPage3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// iconContext
@@ -123,24 +115,13 @@ namespace MCSpleef.Gui
 			this.restartServerToolStripMenuItem.Text = "Restart Server";
 			this.restartServerToolStripMenuItem.Click += new System.EventHandler(this.restartServerToolStripMenuItem_Click);
 			// 
-			// btnProperties
-			// 
-			this.btnProperties.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnProperties.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnProperties.Location = new System.Drawing.Point(536, 5);
-			this.btnProperties.Name = "btnProperties";
-			this.btnProperties.Size = new System.Drawing.Size(92, 23);
-			this.btnProperties.TabIndex = 34;
-			this.btnProperties.Text = "Properties";
-			this.btnProperties.UseVisualStyleBackColor = true;
-			// 
 			// btnClose
 			// 
 			this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.btnClose.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnClose.Location = new System.Drawing.Point(747, 5);
+			this.btnClose.Location = new System.Drawing.Point(720, 12);
 			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(88, 23);
+			this.btnClose.Size = new System.Drawing.Size(88, 25);
 			this.btnClose.TabIndex = 35;
 			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = true;
@@ -150,155 +131,13 @@ namespace MCSpleef.Gui
 			// 
 			this.Restart.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.Restart.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.Restart.Location = new System.Drawing.Point(634, 5);
+			this.Restart.Location = new System.Drawing.Point(514, 12);
 			this.Restart.Name = "Restart";
-			this.Restart.Size = new System.Drawing.Size(107, 23);
+			this.Restart.Size = new System.Drawing.Size(107, 25);
 			this.Restart.TabIndex = 36;
 			this.Restart.Text = "Restart";
 			this.Restart.UseVisualStyleBackColor = true;
 			this.Restart.Click += new System.EventHandler(this.Restart_Click);
-			// 
-			// tabPage1
-			// 
-			this.tabPage1.BackColor = System.Drawing.Color.Transparent;
-			this.tabPage1.Controls.Add(this.gBChat);
-			this.tabPage1.Controls.Add(this.label2);
-			this.tabPage1.Controls.Add(this.txtCommands);
-			this.tabPage1.Controls.Add(this.txtInput);
-			this.tabPage1.Controls.Add(this.txtUrl);
-			this.tabPage1.Controls.Add(this.dgvPlayers);
-			this.tabPage1.Controls.Add(this.label1);
-			this.tabPage1.Location = new System.Drawing.Point(4, 22);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(826, 491);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "Main";
-			// 
-			// gBChat
-			// 
-			this.gBChat.Controls.Add(this.txtLog);
-			this.gBChat.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.gBChat.Location = new System.Drawing.Point(13, 34);
-			this.gBChat.Name = "gBChat";
-			this.gBChat.Size = new System.Drawing.Size(493, 415);
-			this.gBChat.TabIndex = 32;
-			this.gBChat.TabStop = false;
-			this.gBChat.Text = "Chat";
-			// 
-			// txtLog
-			// 
-			this.txtLog.BackColor = System.Drawing.SystemColors.Window;
-			this.txtLog.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtLog.Location = new System.Drawing.Point(6, 30);
-			this.txtLog.Name = "txtLog";
-			this.txtLog.ReadOnly = true;
-			this.txtLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-			this.txtLog.Size = new System.Drawing.Size(480, 379);
-			this.txtLog.TabIndex = 0;
-			this.txtLog.Text = "";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(512, 462);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(57, 13);
-			this.label2.TabIndex = 29;
-			this.label2.Text = "Command:";
-			// 
-			// txtCommands
-			// 
-			this.txtCommands.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtCommands.Location = new System.Drawing.Point(575, 459);
-			this.txtCommands.Name = "txtCommands";
-			this.txtCommands.Size = new System.Drawing.Size(234, 21);
-			this.txtCommands.TabIndex = 28;
-			this.txtCommands.Text = "/";
-			this.txtCommands.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommands_KeyDown);
-			// 
-			// txtInput
-			// 
-			this.txtInput.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtInput.Location = new System.Drawing.Point(57, 459);
-			this.txtInput.Name = "txtInput";
-			this.txtInput.Size = new System.Drawing.Size(449, 21);
-			this.txtInput.TabIndex = 27;
-			this.txtInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInput_KeyDown);
-			// 
-			// txtUrl
-			// 
-			this.txtUrl.Cursor = System.Windows.Forms.Cursors.Default;
-			this.txtUrl.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtUrl.Location = new System.Drawing.Point(13, 7);
-			this.txtUrl.Name = "txtUrl";
-			this.txtUrl.ReadOnly = true;
-			this.txtUrl.Size = new System.Drawing.Size(493, 21);
-			this.txtUrl.TabIndex = 25;
-			this.txtUrl.DoubleClick += new System.EventHandler(this.txtUrl_DoubleClick);
-			// 
-			// dgvPlayers
-			// 
-			this.dgvPlayers.AllowUserToAddRows = false;
-			this.dgvPlayers.AllowUserToDeleteRows = false;
-			this.dgvPlayers.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-			this.dgvPlayers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-			this.dgvPlayers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvPlayers.Location = new System.Drawing.Point(512, 7);
-			this.dgvPlayers.MultiSelect = false;
-			this.dgvPlayers.Name = "dgvPlayers";
-			this.dgvPlayers.ReadOnly = true;
-			this.dgvPlayers.RowHeadersVisible = false;
-			this.dgvPlayers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dgvPlayers.Size = new System.Drawing.Size(297, 442);
-			this.dgvPlayers.TabIndex = 37;
-			this.dgvPlayers.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvPlayers_RowPrePaint);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(19, 462);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(31, 13);
-			this.label1.TabIndex = 26;
-			this.label1.Text = "Chat:";
-			// 
-			// tabControl1
-			// 
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Controls.Add(this.tabPage3);
-			this.tabControl1.Cursor = System.Windows.Forms.Cursors.Default;
-			this.tabControl1.Font = new System.Drawing.Font("Calibri", 8.25F);
-			this.tabControl1.Location = new System.Drawing.Point(1, 12);
-			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(834, 517);
-			this.tabControl1.TabIndex = 2;
-			// 
-			// tabPage3
-			// 
-			this.tabPage3.BackColor = System.Drawing.Color.Transparent;
-			this.tabPage3.Controls.Add(this.txtErrors);
-			this.tabPage3.Location = new System.Drawing.Point(4, 22);
-			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(826, 491);
-			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "Errors";
-			// 
-			// txtErrors
-			// 
-			this.txtErrors.BackColor = System.Drawing.Color.White;
-			this.txtErrors.Cursor = System.Windows.Forms.Cursors.Arrow;
-			this.txtErrors.Location = new System.Drawing.Point(7, 6);
-			this.txtErrors.Multiline = true;
-			this.txtErrors.Name = "txtErrors";
-			this.txtErrors.ReadOnly = true;
-			this.txtErrors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtErrors.Size = new System.Drawing.Size(754, 471);
-			this.txtErrors.TabIndex = 1;
 			// 
 			// tabPage10
 			// 
@@ -338,15 +177,106 @@ namespace MCSpleef.Gui
 			this.grpConnectedRCs.TabIndex = 0;
 			this.grpConnectedRCs.TabStop = false;
 			// 
+			// gBChat
+			// 
+			this.gBChat.Controls.Add(this.txtLog);
+			this.gBChat.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.gBChat.Location = new System.Drawing.Point(12, 41);
+			this.gBChat.Name = "gBChat";
+			this.gBChat.Size = new System.Drawing.Size(493, 415);
+			this.gBChat.TabIndex = 43;
+			this.gBChat.TabStop = false;
+			this.gBChat.Text = "Chat";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.Location = new System.Drawing.Point(511, 469);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(57, 13);
+			this.label2.TabIndex = 42;
+			this.label2.Text = "Command:";
+			// 
+			// txtCommands
+			// 
+			this.txtCommands.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtCommands.Location = new System.Drawing.Point(574, 466);
+			this.txtCommands.Name = "txtCommands";
+			this.txtCommands.Size = new System.Drawing.Size(234, 21);
+			this.txtCommands.TabIndex = 41;
+			this.txtCommands.Text = "/";
+			// 
+			// txtInput
+			// 
+			this.txtInput.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtInput.Location = new System.Drawing.Point(56, 466);
+			this.txtInput.Name = "txtInput";
+			this.txtInput.Size = new System.Drawing.Size(449, 21);
+			this.txtInput.TabIndex = 40;
+			// 
+			// txtUrl
+			// 
+			this.txtUrl.Cursor = System.Windows.Forms.Cursors.Default;
+			this.txtUrl.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtUrl.Location = new System.Drawing.Point(12, 14);
+			this.txtUrl.Name = "txtUrl";
+			this.txtUrl.ReadOnly = true;
+			this.txtUrl.Size = new System.Drawing.Size(493, 21);
+			this.txtUrl.TabIndex = 38;
+			// 
+			// dgvPlayers
+			// 
+			this.dgvPlayers.AllowUserToAddRows = false;
+			this.dgvPlayers.AllowUserToDeleteRows = false;
+			this.dgvPlayers.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+			this.dgvPlayers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+			this.dgvPlayers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvPlayers.Location = new System.Drawing.Point(511, 43);
+			this.dgvPlayers.MultiSelect = false;
+			this.dgvPlayers.Name = "dgvPlayers";
+			this.dgvPlayers.ReadOnly = true;
+			this.dgvPlayers.RowHeadersVisible = false;
+			this.dgvPlayers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.dgvPlayers.Size = new System.Drawing.Size(297, 413);
+			this.dgvPlayers.TabIndex = 44;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.Location = new System.Drawing.Point(18, 469);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(31, 13);
+			this.label1.TabIndex = 39;
+			this.label1.Text = "Chat:";
+			// 
+			// txtLog
+			// 
+			this.txtLog.BackColor = System.Drawing.SystemColors.Window;
+			this.txtLog.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtLog.Location = new System.Drawing.Point(6, 30);
+			this.txtLog.Name = "txtLog";
+			this.txtLog.ReadOnly = true;
+			this.txtLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+			this.txtLog.Size = new System.Drawing.Size(480, 379);
+			this.txtLog.TabIndex = 0;
+			this.txtLog.Text = "";
+			// 
 			// Window
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(847, 525);
+			this.ClientSize = new System.Drawing.Size(824, 497);
+			this.Controls.Add(this.gBChat);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.txtCommands);
+			this.Controls.Add(this.txtInput);
+			this.Controls.Add(this.txtUrl);
+			this.Controls.Add(this.dgvPlayers);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.btnClose);
-			this.Controls.Add(this.btnProperties);
 			this.Controls.Add(this.Restart);
-			this.Controls.Add(this.tabControl1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
@@ -355,14 +285,10 @@ namespace MCSpleef.Gui
 			this.Load += new System.EventHandler(this.Window_Load);
 			this.Resize += new System.EventHandler(this.Window_Resize);
 			this.iconContext.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
 			this.gBChat.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgvPlayers)).EndInit();
-			this.tabControl1.ResumeLayout(false);
-			this.tabPage3.ResumeLayout(false);
-			this.tabPage3.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -376,12 +302,10 @@ namespace MCSpleef.Gui
 		private ToolStripMenuItem shutdownServer;
 		private Button Restart;
 		private ToolStripMenuItem restartServerToolStripMenuItem;
-		private Button btnProperties;
 		private GroupBox grpRCUsers;
 		private GroupBox grpRCSettings;
 		private GroupBox grpConnectedRCs;
 		public ListBox liRCUsers;
-		private TabPage tabPage1;
 		private GroupBox gBChat;
 		private Components.ColoredTextBox txtLog;
 		private Label label2;
@@ -390,8 +314,5 @@ namespace MCSpleef.Gui
 		private TextBox txtUrl;
 		private DataGridView dgvPlayers;
 		private Label label1;
-		private TabControl tabControl1;
-		private TabPage tabPage3;
-		private TextBox txtErrors;
 	}
 }

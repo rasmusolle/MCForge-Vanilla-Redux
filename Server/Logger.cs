@@ -1,14 +1,14 @@
 /*
 	Copyright 2009 MCSharp team (Modified for use with MCZall/MCLawl/MCForge/MCForge-Redux/MCSpleef)
-	
+
 	Dual-licensed under the	Educational Community License, Version 2.0 and
 	the GNU General Public License, Version 3 (the "Licenses"); you may
 	not use this file except in compliance with the Licenses. You may
 	obtain a copy of the Licenses at
-	
+
 	http://www.opensource.org/licenses/ecl2.php
 	http://www.gnu.org/licenses/gpl-3.0.html
-	
+
 	Unless required by applicable law or agreed to in writing,
 	software distributed under the Licenses are distributed on an "AS IS"
 	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -21,10 +21,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-namespace MCSpleef
-{
-	public static class Logger
-	{
+namespace MCSpleef {
+	public static class Logger {
 		public static void Write(string str) { PidgeonLogger.LogMessage(str); }
 		public static void WriteError(Exception ex) { PidgeonLogger.LogError(ex); }
 		public static string LogPath { get { return PidgeonLogger.MessageLogPath; } set { PidgeonLogger.MessageLogPath = value; } }
@@ -33,8 +31,7 @@ namespace MCSpleef
 		public static void Dispose() { PidgeonLogger.Dispose(); }
 	}
 
-	static class PidgeonLogger
-	{
+	static class PidgeonLogger {
 		static bool NeedRestart = false;
 
 		static bool _disposed;
@@ -47,8 +44,7 @@ namespace MCSpleef
 		static Queue<string> _messageCache = new Queue<string>();
 		static Queue<string> _errorCache = new Queue<string>(); //always handle this first!
 
-		static public void Init()
-		{
+		static public void Init() {
 			//Should be done as part of the config
 			if (!Directory.Exists("logs")) Directory.CreateDirectory("logs");
 			if (!Directory.Exists("logs/errors")) Directory.CreateDirectory("logs/errors");
@@ -61,29 +57,22 @@ namespace MCSpleef
 		public static string MessageLogPath { get { return _messagePath; } set { _messagePath = value; } }
 		public static string ErrorLogPath { get { return _errorPath; } set { _errorPath = value; } }
 
-		public static void LogMessage(string message)
-		{
-			try
-			{
+		public static void LogMessage(string message) {
+			try {
 				if (!string.IsNullOrEmpty(message))
-					lock (_lockObject)
-					{
+					lock (_lockObject) {
 						_messageCache.Enqueue(message);
 						Monitor.Pulse(_lockObject);
 					}
-			}
-			catch { }
+			} catch { }
 		}
-		public static void LogError(Exception ex)
-		{
-			try
-			{
+		public static void LogError(Exception ex) {
+			try {
 				StringBuilder sb = new StringBuilder();
 				Exception e = ex;
 
 				sb.AppendLine("----" + DateTime.Now + " ----");
-				while (e != null)
-				{
+				while (e != null) {
 					sb.AppendLine(getErrorText(e));
 					e = e.InnerException;
 				}
@@ -94,8 +83,7 @@ namespace MCSpleef
 
 				lock (_lockObject) { _errorCache.Enqueue(sb.ToString()); Monitor.Pulse(_lockObject); }
 
-				if (NeedRestart)
-				{
+				if (NeedRestart) {
 					Server.listen.Close();
 					Server.Setup();
 
@@ -107,12 +95,9 @@ namespace MCSpleef
 			}
 		}
 
-		static void WorkerThread()
-		{
-			while (!_disposed)
-			{
-				lock (_lockObject)
-				{
+		static void WorkerThread() {
+			while (!_disposed) {
+				lock (_lockObject) {
 					if (_errorCache.Count > 0) { FlushCache(_errorPath, _errorCache); }
 					if (_messageCache.Count > 0) { FlushCache(_messagePath, _messageCache); }
 				}
@@ -120,16 +105,12 @@ namespace MCSpleef
 			}
 		}
 
-		static void FlushCache(string path, Queue<string> cache)
-		{
-			lock (_fileLockObject)
-			{
+		static void FlushCache(string path, Queue<string> cache) {
+			lock (_fileLockObject) {
 				FileStream fs = null;
-				try
-				{
+				try {
 					fs = new FileStream(path, FileMode.Append, FileAccess.Write);
-					while (cache.Count > 0)
-					{
+					while (cache.Count > 0) {
 						byte[] tmp = Encoding.Default.GetBytes(cache.Dequeue());
 						fs.Write(tmp, 0, tmp.Length);
 					}
@@ -138,8 +119,7 @@ namespace MCSpleef
 				finally { fs.Dispose(); }
 			}
 		}
-		static string getErrorText(Exception e)
-		{
+		static string getErrorText(Exception e) {
 			if(e == null)
 				return String.Empty;
 
@@ -158,13 +138,11 @@ namespace MCSpleef
 		}
 
 		#region IDisposable Members
-		public static void Dispose()
-		{
+		public static void Dispose() {
 			if (_disposed)
 				return;
 			_disposed = true;
-			lock (_lockObject)
-			{
+			lock (_lockObject) {
 				if (_errorCache.Count > 0) { FlushCache(_errorPath, _errorCache); }
 
 				_messageCache.Clear();

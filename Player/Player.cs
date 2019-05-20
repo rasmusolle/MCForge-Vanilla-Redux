@@ -1,14 +1,14 @@
 /*
 	Copyright 2011-2014 MCForge-Redux (Modified for use with MCSpleef)
-		
+
 	Dual-licensed under the	Educational Community License, Version 2.0 and
 	the GNU General Public License, Version 3 (the "Licenses"); you may
 	not use this file except in compliance with the Licenses. You may
 	obtain a copy of the Licenses at
-	
+
 	http://www.opensource.org/licenses/ecl2.php
 	http://www.gnu.org/licenses/gpl-3.0.html
-	
+
 	Unless required by applicable law or agreed to in writing,
 	software distributed under the Licenses are distributed on an "AS IS"
 	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -25,16 +25,14 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-namespace MCSpleef
-{
-	public partial class Player : IDisposable
-	{
+namespace MCSpleef {
+	public partial class Player : IDisposable {
 		#region EMOTES
 		private static readonly char[] UnicodeReplacements = " ☺☻♥♦♣♠•◘○\n♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼".ToCharArray();
 
 		/// <summary> List of chat keywords, and emotes that they stand for. </summary>
 		public Dictionary<string, object> ExtraData = new Dictionary<string, object>();
-		public static readonly Dictionary<string, char> EmoteKeywords = new Dictionary<string, char> 
+		public static readonly Dictionary<string, char> EmoteKeywords = new Dictionary<string, char>
 		{
 			{ "darksmile", '\u0001' },
 
@@ -139,53 +137,53 @@ namespace MCSpleef
 
 			{ "house", '\u007F' } // ⌂
 		};
-		public static string ReplaceEmoteKeywords(string message ) {
-			if ( message == null )
-				throw new ArgumentNullException( "message" );
-			int startIndex = message.IndexOf( '(' );
-			if ( startIndex == -1 ) {
+		public static string ReplaceEmoteKeywords(string message) {
+			if (message == null)
+				throw new ArgumentNullException("message");
+			int startIndex = message.IndexOf('(');
+			if (startIndex == -1) {
 				return message; // break out early if there are no opening braces
 			}
 
-			StringBuilder output = new StringBuilder( message.Length );
+			StringBuilder output = new StringBuilder(message.Length);
 			int lastAppendedIndex = 0;
-			while ( startIndex != -1 ) {
-				int endIndex = message.IndexOf( ')', startIndex + 1 );
-				if ( endIndex == -1 ) {
+			while (startIndex != -1) {
+				int endIndex = message.IndexOf(')', startIndex + 1);
+				if (endIndex == -1) {
 					break; // abort if there are no more closing braces
 				}
 
 				// see if emote was escaped (if odd number of backslashes precede it)
 				bool escaped = false;
-				for ( int i = startIndex - 1; i >= 0 && message[i] == '\\'; i-- ) {
+				for (int i = startIndex - 1; i >= 0 && message[i] == '\\'; i--) {
 					escaped = !escaped;
 				}
 				// extract the keyword
-				string keyword = message.Substring( startIndex + 1, endIndex - startIndex - 1 );
+				string keyword = message.Substring(startIndex + 1, endIndex - startIndex - 1);
 				char substitute;
-				if ( EmoteKeywords.TryGetValue( keyword.ToLowerInvariant(), out substitute ) ) {
-					if ( escaped ) {
+				if (EmoteKeywords.TryGetValue(keyword.ToLowerInvariant(), out substitute)) {
+					if (escaped) {
 						// it was escaped; remove escaping character
 						startIndex++;
-						output.Append( message, lastAppendedIndex, startIndex - lastAppendedIndex - 2 );
+						output.Append(message, lastAppendedIndex, startIndex - lastAppendedIndex - 2);
 						lastAppendedIndex = startIndex - 1;
 					} else {
 						// it was not escaped; insert substitute character
-						output.Append( message, lastAppendedIndex, startIndex - lastAppendedIndex );
-						output.Append( substitute );
+						output.Append(message, lastAppendedIndex, startIndex - lastAppendedIndex);
+						output.Append(substitute);
 						startIndex = endIndex + 1;
 						lastAppendedIndex = startIndex;
 					}
 				} else {
 					startIndex++; // unrecognized macro, keep going
 				}
-				startIndex = message.IndexOf( '(', startIndex );
+				startIndex = message.IndexOf('(', startIndex);
 			}
 			// append the leftovers
-			output.Append( message, lastAppendedIndex, message.Length - lastAppendedIndex );
+			output.Append(message, lastAppendedIndex, message.Length - lastAppendedIndex);
 			return output.ToString();
 		}
-		private static readonly Regex EmoteSymbols = new Regex( "[\x00-\x1F\x7F☺☻♥♦♣♠•◘○\n♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼⌂]" );
+		private static readonly Regex EmoteSymbols = new Regex("[\x00-\x1F\x7F☺☻♥♦♣♠•◘○\n♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼⌂]");
 
 		#endregion
 
@@ -316,7 +314,6 @@ namespace MCSpleef
 		public bool loggedIn;
 		public Dictionary<string, string> sounds = new Dictionary<string, string>();
 
-		public bool isDev, isMod; //is this player a dev/mod?
 		public bool isStaff;
 		public bool verifiedName;
 
@@ -325,8 +322,7 @@ namespace MCSpleef
 		public List<string> extensions = new List<string>();
 		public bool extension;
 
-		public struct OfflinePlayer
-		{
+		public struct OfflinePlayer {
 			public string name, color, title, titleColor;
 			public int money;
 			//need moar? add moar! just make sure you adjust Player.FindOffline() method
@@ -341,13 +337,11 @@ namespace MCSpleef
 			public OfflinePlayer(string nm, string clr, string tl, string tlclr, int mon) { name = nm; color = clr; title = tl; titleColor = tlclr; money = mon; }
 		}
 
-		public bool CheckIfInsideBlock()
-		{
+		public bool CheckIfInsideBlock() {
 			return CheckIfInsideBlock(this);
 		}
 
-		public static bool CheckIfInsideBlock(Player p)
-		{
+		public static bool CheckIfInsideBlock(Player p) {
 			ushort x, y, z;
 			x = (ushort)(p.pos[0] / 32);
 			y = (ushort)(p.pos[1] / 32);
@@ -357,8 +351,7 @@ namespace MCSpleef
 			ushort b = p.level.GetTile(x, y, z);
 			ushort b1 = p.level.GetTile(x, (ushort)(y - 1), z);
 
-			if (Block.Walkthrough(Block.Convert(b)) && Block.Walkthrough(Block.Convert(b1)))
-			{
+			if (Block.Walkthrough(Block.Convert(b)) && Block.Walkthrough(Block.Convert(b1))) {
 				return false;
 			}
 			return Block.Convert(b) != Block.Zero;
@@ -371,10 +364,8 @@ namespace MCSpleef
 		public NetworkStream Stream;
 		public BinaryReader Reader;
 
-		public Player(Socket s)
-		{
-			try
-			{
+		public Player(Socket s) {
+			try {
 				socket = s;
 				ip = socket.RemoteEndPoint.ToString().Split(':')[0];
 
@@ -382,15 +373,13 @@ namespace MCSpleef
 
 				Server.s.Log(ip + " connected to the server.");
 
-				for (byte i = 0; i < 128; ++i) bindings[i] = i;
+				for (byte i = 0; i < 128; ++i)
+					bindings[i] = i;
 
 				socket.BeginReceive(tempbuffer, 0, tempbuffer.Length, SocketFlags.None, new AsyncCallback(Receive), this);
-				timespent.Elapsed += delegate
-				{
-					if (!Loading)
-					{
-						try
-						{
+				timespent.Elapsed += delegate {
+					if (!Loading) {
+						try {
 							int Days = Convert.ToInt32(time.Split(' ')[0]);
 							int Hours = Convert.ToInt32(time.Split(' ')[1]);
 							int Minutes = Convert.ToInt32(time.Split(' ')[2]);
@@ -400,54 +389,43 @@ namespace MCSpleef
 							if (Minutes >= 60) { Hours++; Minutes = 0; }
 							if (Hours >= 24) { Days++; Hours = 0; }
 							time = "" + Days + " " + Hours + " " + Minutes + " " + Seconds;
-						}
-						catch { time = "0 0 0 1"; }
+						} catch { time = "0 0 0 1"; }
 					}
 				};
 				timespent.Start();
-				loginTimer.Elapsed += delegate
-				{
-					if (!Loading)
-					{
+				loginTimer.Elapsed += delegate {
+					if (!Loading) {
 						loginTimer.Stop();
 						// Makes so if the permission's Player or Banned, can't place blocks.
-						if (this.group.Permission <= LevelPermission.Guest)
-						{
-							for (byte blockid = 1; blockid <= 49; blockid++)
-							{
+						if (this.group.Permission <= LevelPermission.Guest) {
+							for (byte blockid = 1; blockid <= 49; blockid++) {
 								SendSetBlockPermission(blockid, 0, 1);
 							}
 						}
-						if (File.Exists("text/welcome.txt"))
-						{
-							try
-							{
-								using (StreamReader wm = File.OpenText("text/welcome.txt"))
-								{
+						if (File.Exists("text/welcome.txt")) {
+							try {
+								using (StreamReader wm = File.OpenText("text/welcome.txt")) {
 									List<string> welcome = new List<string>();
 									while (!wm.EndOfStream)
 										welcome.Add(wm.ReadLine());
 									foreach (string w in welcome)
 										SendMessage(w);
 								}
-							}
-							catch { }
-						}
-						else
-						{
+							} catch { }
+						} else {
 							File.WriteAllText("text/welcome.txt", "Welcome to my server!");
 							SendMessage("Welcome to my server!");
 						}
 						extraTimer.Start();
 						loginTimer.Dispose();
 					}
-				}; loginTimer.Start();
+				};
+				loginTimer.Start();
 
 				pingTimer.Elapsed += delegate { SendPing(); };
 				pingTimer.Start();
 
-				extraTimer.Elapsed += delegate
-				{
+				extraTimer.Elapsed += delegate {
 					extraTimer.Stop();
 
 
@@ -462,24 +440,20 @@ namespace MCSpleef
 				};
 
 				connections.Add(this);
-			}
-			catch (Exception e) { Kick("Login failed!"); Server.ErrorLog(e); }
+			} catch (Exception e) { Kick("Login failed!"); Server.ErrorLog(e); }
 		}
 
 		public DateTime lastlogin;
-		public void save()
-		{
+		public void save() {
 			PlayerDB.Save(this);
 		}
 
 		#region == INCOMING ==
-		static void Receive(IAsyncResult result)
-		{
+		static void Receive(IAsyncResult result) {
 			Player p = (Player)result.AsyncState;
 			if (p.disconnected || p.socket == null)
 				return;
-			try
-			{
+			try {
 				int length = p.socket.EndReceive(result);
 				if (length == 0) { p.Disconnect(); return; }
 
@@ -488,8 +462,7 @@ namespace MCSpleef
 				Buffer.BlockCopy(p.tempbuffer, 0, b, p.buffer.Length, length);
 
 				p.buffer = p.HandleMessage(b);
-				if (p.dontmindme && p.buffer.Length == 0)
-				{
+				if (p.dontmindme && p.buffer.Length == 0) {
 					Server.s.Log("Disconnected");
 					p.socket.Close();
 					p.disconnected = true;
@@ -498,28 +471,21 @@ namespace MCSpleef
 				if (!p.disconnected)
 					p.socket.BeginReceive(p.tempbuffer, 0, p.tempbuffer.Length, SocketFlags.None,
 										  new AsyncCallback(Receive), p);
-			}
-			catch (SocketException) { p.Disconnect(); }
-			catch (ObjectDisposedException)
-			{
+			} catch (SocketException) { p.Disconnect(); } catch (ObjectDisposedException) {
 				if (connections.Contains(p))
 					connections.Remove(p);
 				p.disconnected = true;
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				Server.ErrorLog(e);
 				p.Kick("Error!");
 			}
 		}
-		byte[] HandleMessage(byte[] buffer)
-		{
-			try
-			{
-				int length = 0; byte msg = buffer[0];
+		byte[] HandleMessage(byte[] buffer) {
+			try {
+				int length = 0;
+				byte msg = buffer[0];
 				// Get the length of the message by checking the first byte
-				switch (msg)
-				{
+				switch (msg) {
 					case 0:
 						length = 130;
 						break; // login
@@ -554,8 +520,7 @@ namespace MCSpleef
 							Server.s.Log(Encoding.UTF8.GetString(buffer, 0, buffer.Length));
 						return new byte[0];
 				}
-				if (buffer.Length > length)
-				{
+				if (buffer.Length > length) {
 					byte[] message = new byte[length];
 					Buffer.BlockCopy(buffer, 1, message, 0, length);
 
@@ -565,8 +530,7 @@ namespace MCSpleef
 					buffer = tempbuffer;
 
 					// Thread thread = null;
-					switch (msg)
-					{
+					switch (msg) {
 						case 0:
 							HandleLogin(message);
 							break;
@@ -598,38 +562,32 @@ namespace MCSpleef
 					else
 						return new byte[0];
 				}
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				Server.ErrorLog(e);
 			}
 			return buffer;
 		}
 
-		public void HandleExtInfo(byte[] message)
-		{
+		public void HandleExtInfo(byte[] message) {
 			appName = enc.GetString(message, 0, 64).Trim();
 			extensionCount = message[65];
 		}
 		public struct CPE { public string name; public int version; }
 		public List<CPE> ExtEntry = new List<CPE>();
-		void HandleExtEntry(byte[] msg)
-		{
+		void HandleExtEntry(byte[] msg) {
 			AddExtension(enc.GetString(msg, 0, 64).Trim(), NTHO_Int(msg, 64));
 			extensionCount--;
 		}
 
-		public static int NTHO_Int(byte[] x, int offset)
-		{
+		public static int NTHO_Int(byte[] x, int offset) {
 			byte[] y = new byte[4];
-			Buffer.BlockCopy(x, offset, y, 0, 4); Array.Reverse(y);
+			Buffer.BlockCopy(x, offset, y, 0, 4);
+			Array.Reverse(y);
 			return BitConverter.ToInt32(y, 0);
 		}
 
-		void HandleLogin(byte[] message)
-		{
-			try
-			{
+		void HandleLogin(byte[] message) {
+			try {
 				if (loggedIn)
 					return;
 				byte version = message[0];
@@ -642,8 +600,7 @@ namespace MCSpleef
 				ushort type = message[129];
 
 				verifiedName = Server.verify ? true : false;
-				if (Server.verify)
-				{
+				if (Server.verify) {
 					if (verify == BitConverter.ToString(md5.ComputeHash(enc.GetBytes(Server.salt + truename))).Replace("-", "").ToLower().TrimStart('0'))
 						identified = true;
 
@@ -656,23 +613,16 @@ namespace MCSpleef
 				if (Group.findPlayerGroup(name) == Group.findPerm(LevelPermission.Banned)) { Kick("You're banned!"); return; }
 
 				//server maxplayer check
-				if (!isDev && !isMod)
-				{
-					if (Player.players.Count >= Server.players && !IPInPrivateRange(ip)) { Kick("Server full!"); return; }
-				}
+				if (Player.players.Count >= Server.players && !IPInPrivateRange(ip)) { Kick("Server full!"); return; }
 
 				if (version != Server.version) { Kick("Wrong version!"); return; }
 
-				foreach (Player p in players)
-				{
-					if (p.name == name)
-					{
-						if (Server.verify) { p.Kick("Someone logged in as you!"); break; }
-						else { Kick("Already logged in!"); return; }
+				foreach (Player p in players) {
+					if (p.name == name) {
+						if (Server.verify) { p.Kick("Someone logged in as you!"); break; } else { Kick("Already logged in!"); return; }
 					}
 				}
-				if (type == 0x42)
-				{
+				if (type == 0x42) {
 					extension = true;
 					SendExtInfo(6);
 					SendExtEntry("HeldBlock", 1);
@@ -684,8 +634,7 @@ namespace MCSpleef
 				}
 
 
-				try { left.Remove(name.ToLower()); }
-				catch { }
+				try { left.Remove(name.ToLower()); } catch { }
 
 				group = Group.findPlayerGroup(name);
 
@@ -693,7 +642,8 @@ namespace MCSpleef
 				SendMap();
 				Loading = true;
 
-				if (disconnected) return;
+				if (disconnected)
+					return;
 
 				this.id = FreeId();
 
@@ -706,34 +656,29 @@ namespace MCSpleef
 				//Test code to show when people come back with different accounts on the same IP
 				string temp = name + " is lately known as:";
 				bool found = false;
-				if (!ip.StartsWith("127.0.0."))
-				{
-					foreach (KeyValuePair<string, string> prev in left)
-					{
-						if (prev.Value == ip)
-						{
+				if (!ip.StartsWith("127.0.0.")) {
+					foreach (KeyValuePair<string, string> prev in left) {
+						if (prev.Value == ip) {
 							found = true;
 							temp += " " + prev.Key;
 						}
 					}
 					if (found) { Server.s.Log(temp); }
 				}
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				Server.ErrorLog(e);
 				Player.GlobalMessage("An error occurred: " + e.Message);
 			}
 			//OpenClassic Client Check
 			SendBlockchange(0, 0, 0, 0);
 
-			if(!Directory.Exists("players"))
-				Directory.CreateDirectory ("players");
+			if (!Directory.Exists("players"))
+				Directory.CreateDirectory("players");
 
-			PlayerDB.Load (this);
-				SendMessage("Welcome back " + color + prefix + name + Server.DefaultColor + "! You've been here " + totalLogins + " times!"); {
-				if (Server.muted.Contains(name))
-				{
+			PlayerDB.Load(this);
+			SendMessage("Welcome back " + color + prefix + name + Server.DefaultColor + "! You've been here " + totalLogins + " times!");
+			{
+				if (Server.muted.Contains(name)) {
 					muted = true;
 					GlobalMessage(name + " is still muted from the last time they went offline.");
 				}
@@ -741,34 +686,22 @@ namespace MCSpleef
 
 			SetPrefix();
 
-			//Re-implenting MCLawl-Era Dev recognition.
-			if (isDev)
-			{
-				if (color == Group.standard.color) { color = "&9"; }
-				if (prefix == "") { title = "Dev"; }
-				SetPrefix();
-			}
-
-			if (!spawned)
-			{
-				try
-				{
+			if (!spawned) {
+				try {
 					ushort x = (ushort)((0.5 + level.spawnx) * 32);
 					ushort y = (ushort)((1 + level.spawny) * 32);
 					ushort z = (ushort)((0.5 + level.spawnz) * 32);
-					pos = new ushort[3] { x, y, z }; rot = new byte[2] { level.rotx, level.roty };
+					pos = new ushort[3] { x, y, z };
+					rot = new byte[2] { level.rotx, level.roty };
 
 					GlobalSpawn(this, x, y, z, rot[0], rot[1], true);
-					foreach (Player p in players)
-					{
+					foreach (Player p in players) {
 						if (p.level == level && p != this && !p.hidden)
 							SendSpawn(p.id, p.color + p.name, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1], p.DisplayName, p.SkinName);
 					}
 					if (HasExtension("EnvMapAppearance"))
-						SendSetMapAppearance(Server.textureUrl, 7, 8, (short)(level.depth/2));
-				}
-				catch (Exception e)
-				{
+						SendSetMapAppearance(Server.textureUrl, 7, 8, (short)(level.depth / 2));
+				} catch (Exception e) {
 					Server.ErrorLog(e);
 					Server.s.Log("Error spawning player \"" + name + "\"");
 				}
@@ -790,42 +723,30 @@ namespace MCSpleef
 
 			Player.players.ForEach(p1 => { Player.SendMessage(p1, joinm); });
 
-			try
-			{
-				if (File.Exists("ranks/muted.txt"))
-				{
-					using (StreamReader read = new StreamReader("ranks/muted.txt"))
-					{
+			try {
+				if (File.Exists("ranks/muted.txt")) {
+					using (StreamReader read = new StreamReader("ranks/muted.txt")) {
 						string line;
-						while ((line = read.ReadLine()) != null)
-						{
-							if (line.ToLower() == this.name.ToLower())
-							{
+						while ((line = read.ReadLine()) != null) {
+							if (line.ToLower() == this.name.ToLower()) {
 								this.muted = true;
 								Player.SendMessage(this, "!%cYou are still %8muted%c since your last login.");
 								break;
 							}
 						}
 					}
-				}
-				else { File.Create("ranks/muted.txt").Close(); }
-			}
-			catch { muted = false; }
+				} else { File.Create("ranks/muted.txt").Close(); }
+			} catch { muted = false; }
 			Server.s.Log(name + " [" + ip + "] + has joined the server.");
 		}
 
-		public void SetPrefix()
-		{
-			string viptitle = isDev ? string.Format("{1}[{0}Dev{1}] ", c.Parse("blue"), color) : isMod ? string.Format("{1}[{0}Mod{1}] ", c.Parse("lime"), color) : "";
+		public void SetPrefix() {
 			prefix = (title == "") ? "" : (titlecolor == "") ? color + "[" + title + "] " : color + "[" + titlecolor + title + color + "] ";
-			prefix = viptitle + prefix;
 		}
 
-		void HandleBlockchange(byte[] message)
-		{
+		void HandleBlockchange(byte[] message) {
 			int section = 0;
-			try
-			{
+			try {
 				if (!loggedIn)
 					return;
 				if (CheckBlockSpam())
@@ -839,19 +760,15 @@ namespace MCSpleef
 				ushort type = message[7];
 
 				manualChange(x, y, z, action, type);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				GlobalMessageOps(name + " has triggered a block change error");
 				GlobalMessageOps(e.GetType().ToString() + ": " + e.Message);
 				Server.ErrorLog(e);
 			}
 		}
 
-		public void manualChange(ushort x, ushort y, ushort z, byte action, ushort type)
-		{
-			if (type > 65)
-			{
+		public void manualChange(ushort x, ushort y, ushort z, byte action, ushort type) {
+			if (type > 65) {
 				Kick("Unknown block type!");
 				return;
 			}
@@ -860,14 +777,12 @@ namespace MCSpleef
 
 			if (b == Block.Zero) { return; }
 
-			if (!deleteMode)
-			{
+			if (!deleteMode) {
 				string info = level.foundInfo(x, y, z);
 				if (info.Contains("wait")) { return; }
 			}
 
-			if (!canBuild)
-			{
+			if (!canBuild) {
 				SendBlockchange(x, y, z, b);
 				return;
 			}
@@ -876,16 +791,16 @@ namespace MCSpleef
 			bP.username = name;
 			bP.level = level.name;
 			bP.timePerformed = DateTime.Now;
-			bP.x = x; bP.y = y; bP.z = z;
+			bP.x = x;
+			bP.y = y;
+			bP.z = z;
 			bP.type = type;
 
 			lastClick[0] = x;
 			lastClick[1] = y;
 			lastClick[2] = z;
-			if (Blockchange != null)
-			{
-				if (Blockchange.Method.ToString().IndexOf("AboutBlockchange") == -1 && !level.name.Contains("Museum " + Server.DefaultColor))
-				{
+			if (Blockchange != null) {
+				if (Blockchange.Method.ToString().IndexOf("AboutBlockchange") == -1 && !level.name.Contains("Museum " + Server.DefaultColor)) {
 					bP.deleted = true;
 					level.blockCache.Add(bP);
 				}
@@ -893,46 +808,42 @@ namespace MCSpleef
 				Blockchange(this, x, y, z, type);
 				return;
 			}
-			if (cancelBlock)
-			{
+			if (cancelBlock) {
 				cancelBlock = false;
 				return;
 			}
 
-			if (group.Permission == LevelPermission.Banned) return;
-			if (group.Permission == LevelPermission.Guest)
-			{
+			if (group.Permission == LevelPermission.Banned)
+				return;
+			if (group.Permission == LevelPermission.Guest) {
 				int Diff = 0;
 
 				Diff = Math.Abs((int)(pos[0] / 32) - x);
 				Diff += Math.Abs((int)(pos[1] / 32) - y);
 				Diff += Math.Abs((int)(pos[2] / 32) - z);
 
-				if (Diff > 12)
-				{
+				if (Diff > 12) {
 					Server.s.Log(name + " attempted to build with a " + Diff.ToString() + " distance offset");
 					GlobalMessageOps("To Ops &f-" + color + name + "&f- attempted to build with a " + Diff.ToString() + " distance offset");
 					SendMessage("You can't build that far away.");
-					SendBlockchange(x, y, z, b); return;
+					SendBlockchange(x, y, z, b);
+					return;
 				}
 			}
 
-			if (!Block.canPlace(this, b) && !Block.BuildIn(b) && !Block.AllowBreak(b))
-			{
+			if (!Block.canPlace(this, b) && !Block.BuildIn(b) && !Block.AllowBreak(b)) {
 				SendMessage("Cannot build here!");
 				SendBlockchange(x, y, z, b);
 				return;
 			}
 
-			if (!Block.canPlace(this, type))
-			{
+			if (!Block.canPlace(this, type)) {
 				SendMessage("You can't place this block type!");
 				SendBlockchange(x, y, z, b);
 				return;
 			}
 
-			if (b >= 200 && b < 220)
-			{
+			if (b >= 200 && b < 220) {
 				SendMessage("Block is active, you cant disturb it!");
 				SendBlockchange(x, y, z, b);
 				return;
@@ -942,19 +853,16 @@ namespace MCSpleef
 
 			ushort oldType = type;
 			type = bindings[(int)type];
-			if (b == (byte)(( action == 1) ? type : (byte)0))
-			{
-				if (oldType != type) { SendBlockchange(x, y, z, b); } return;
+			if (b == (byte)((action == 1) ? type : (byte)0)) {
+				if (oldType != type) { SendBlockchange(x, y, z, b); }
+				return;
 			}
 
-			if (action == 0)
-			{
+			if (action == 0) {
 				bP.deleted = true;
 				level.blockCache.Add(bP);
 				deleteBlock(b, type, x, y, z);
-			}
-			else
-			{
+			} else {
 				bP.deleted = false;
 				level.blockCache.Add(bP);
 				placeBlock(b, type, x, y, z);
@@ -963,26 +871,23 @@ namespace MCSpleef
 
 		private bool checkOp() { return group.Permission < LevelPermission.Operator; }
 
-		private void deleteBlock(ushort b, ushort type, ushort x, ushort y, ushort z)
-		{
+		private void deleteBlock(ushort b, ushort type, ushort x, ushort y, ushort z) {
 			Random rand = new Random();
 			level.Blockchange(this, x, y, z, (ushort)Block.air);
 		}
 
-		public void placeBlock(ushort b, ushort type, ushort x, ushort y, ushort z)
-		{
-			switch (blockAction)
-			{
+		public void placeBlock(ushort b, ushort type, ushort x, ushort y, ushort z) {
+			switch (blockAction) {
 				case 0:
-					switch (type)
-					{
+					switch (type) {
 						case Block.dirt: //instant dirt to grass
-							if (Block.LightPass(level.GetTile(x, (ushort)(y + 1), z))) level.Blockchange(this, x, y, z, (byte)(Block.grass));
-							else level.Blockchange(this, x, y, z, (byte)(Block.dirt));
+							if (Block.LightPass(level.GetTile(x, (ushort)(y + 1), z)))
+								level.Blockchange(this, x, y, z, (byte)(Block.grass));
+							else
+								level.Blockchange(this, x, y, z, (byte)(Block.dirt));
 							break;
 						case Block.staircasestep: //stair handler
-							if (level.GetTile(x, (ushort)(y - 1), z) == Block.staircasestep)
-							{
+							if (level.GetTile(x, (ushort)(y - 1), z) == Block.staircasestep) {
 								SendBlockchange(x, y, z, Block.air); //send the air block back only to the user.
 								level.Blockchange(this, x, (ushort)(y - 1), z, (byte)(Block.staircasefull));
 								break;
@@ -1005,8 +910,7 @@ namespace MCSpleef
 			}
 		}
 
-		void HandleInput(object m)
-		{
+		void HandleInput(object m) {
 			if (!loggedIn)
 				return;
 
@@ -1017,8 +921,7 @@ namespace MCSpleef
 			ushort z = NTHO(message, 5);
 
 			/*
-			if (cancelmove)
-			{
+			if (cancelmove) {
 				unchecked { SendPos((byte)-1, pos[0], pos[1], pos[2], rot[0], rot[1]); }
 				return;
 			}
@@ -1029,18 +932,19 @@ namespace MCSpleef
 			rot = new byte[2] { rotx, roty };
 		}
 
-		public void CheckBlock(ushort x, ushort y, ushort z)
-		{
+		public void CheckBlock(ushort x, ushort y, ushort z) {
 			y = (ushort)Math.Round((decimal)(((y * 32) + 4) / 32));
 
 			ushort b = this.level.GetTile(x, y, z);
 			ushort b1 = this.level.GetTile(x, (ushort)((int)y - 1), z);
 
-			if (Block.Death(b)) HandleDeath(b); else if (Block.Death(b1)) HandleDeath(b1);
+			if (Block.Death(b))
+				HandleDeath(b);
+			else if (Block.Death(b1))
+				HandleDeath(b1);
 		}
 
-		public void HandleDeath(ushort b, string customMessage = "", bool explode = false)
-		{
+		public void HandleDeath(ushort b, string customMessage = "", bool explode = false) {
 			ushort x = (ushort)(pos[0] / (ushort)32);
 			ushort y = (ushort)(pos[1] / 32);
 			ushort z = (ushort)(pos[2] / 32);
@@ -1048,27 +952,27 @@ namespace MCSpleef
 			ushort xx = pos[0];
 			ushort yy = pos[1];
 			ushort zz = pos[2];
-			if (lastDeath.AddSeconds(2) < DateTime.Now)
-			{
-				switch (b)
-				{   
+			if (lastDeath.AddSeconds(2) < DateTime.Now) {
+				switch (b) {
 					case Block.deathlava:
-					case Block.activedeathlava: GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " stood in &cmagma and melted.", false); break;
+					case Block.activedeathlava:
+						GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " stood in &cmagma and melted.", false);
+						break;
 				}
 				Command.all.Find("spawn").Use(this, "");
 				overallDeath++;
 
 				if (Server.deathcount)
-					if (overallDeath > 0 && overallDeath % 10 == 0) GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " has died &3" + overallDeath + " times", false);
+					if (overallDeath > 0 && overallDeath % 10 == 0)
+						GlobalChat(this, this.color + this.prefix + this.name + Server.DefaultColor + " has died &3" + overallDeath + " times", false);
 				lastDeath = DateTime.Now;
 			}
 		}
 
-		void HandleChat(byte[] message)
-		{
-			try
-			{
-				if (!loggedIn) return;
+		void HandleChat(byte[] message) {
+			try {
+				if (!loggedIn)
+					return;
 
 				string text = enc.GetString(message, 1, 64).Trim();
 				text = text.Trim('\0');
@@ -1077,56 +981,49 @@ namespace MCSpleef
 				if (text.Truncate(6) == "/womid")
 					return;
 
-				if (MessageHasBadColorCodes(this, text)) return;
-				if (storedMessage != "")
-				{
-					if (!text.EndsWith(">") && !text.EndsWith("<"))
-					{
+				if (MessageHasBadColorCodes(this, text))
+					return;
+				if (storedMessage != "") {
+					if (!text.EndsWith(">") && !text.EndsWith("<")) {
 						text = storedMessage.Replace("|>|", " ").Replace("|<|", "") + text;
 						storedMessage = "";
 					}
 				}
-				if (text.StartsWith(">") || text.StartsWith("<")) return;
-				if (text.EndsWith(">"))
-				{
+				if (text.StartsWith(">") || text.StartsWith("<"))
+					return;
+				if (text.EndsWith(">")) {
 					storedMessage += text.Replace(">", "|>|");
 					SendMessage(c.teal + "Partial message: " + c.white + storedMessage.Replace("|>|", " ").Replace("|<|", ""));
 					return;
 				}
-				if (text.EndsWith("<"))
-				{
+				if (text.EndsWith("<")) {
 					storedMessage += text.Replace("<", "|<|");
 					SendMessage(c.teal + "Partial message: " + c.white + storedMessage.Replace("|<|", "").Replace("|>|", " "));
 					return;
 				}
-				if (Regex.IsMatch(text, "%[^a-f0-9]"))//This causes all players to crash!
-				{
+				if (Regex.IsMatch(text, "%[^a-f0-9]")) { //This causes all players to crash!
 					SendMessage(this, "You're not allowed to send that message!");
 					return;
 				}
 
 				text = Regex.Replace(text, @"\s\s+", " ");
-				if (text.Any(ch => ch < 32 || ch >= 127 || ch == '&'))
-				{
+				if (text.Any(ch => ch < 32 || ch >= 127 || ch == '&')) {
 					Kick("Illegal character in chat message!");
 					return;
 				}
 				if (text.Length == 0)
 					return;
 
-				if (text.StartsWith("//"))
-				{
+				if (text.StartsWith("//")) {
 					text = text.Remove(0, 1);
 					goto hello;
 				}
 
-				if (text[0] == '/' || text[0] == '!')
-				{
+				if (text[0] == '/' || text[0] == '!') {
 					text = text.Remove(0, 1);
 
 					int pos = text.IndexOf(' ');
-					if (pos == -1)
-					{
+					if (pos == -1) {
 						HandleCommand(text.ToLower(), "");
 						return;
 					}
@@ -1141,55 +1038,47 @@ namespace MCSpleef
 
 				Player.lastMSG = this.name;
 
-				if (text.Length >= 2 && text[0] == '@' && text[1] == '@')
-				{
+				if (text.Length >= 2 && text[0] == '@' && text[1] == '@') {
 					text = text.Remove(0, 2);
 					if (text.Length < 1) { SendMessage("No message entered"); return; }
 					SendChat(this, Server.DefaultColor + "[<] Console: &f" + text);
 					Server.s.Log("[>] " + this.name + ": " + text);
 					return;
 				}
-				if (text[0] == '@' || whisper)
-				{
+				if (text[0] == '@' || whisper) {
 					string newtext = text;
-					if (text[0] == '@') newtext = text.Remove(0, 1).Trim();
+					if (text[0] == '@')
+						newtext = text.Remove(0, 1).Trim();
 
-					if (whisperTo == "")
-					{
+					if (whisperTo == "") {
 						int pos = newtext.IndexOf(' ');
-						if (pos != -1)
-						{
+						if (pos != -1) {
 							string to = newtext.Substring(0, pos);
 							string msg = newtext.Substring(pos + 1);
-							HandleQuery(to, msg); return;
-						}
-						else
-						{
+							HandleQuery(to, msg);
+							return;
+						} else {
 							SendMessage("No message entered");
 							return;
 						}
-					}
-					else
-					{
+					} else {
 						HandleQuery(whisperTo, newtext);
 						return;
 					}
 				}
-				if (text[0] == '#' || opchat)
-				{
+				if (text[0] == '#' || opchat) {
 					string newtext = text;
-					if (text[0] == '#') newtext = text.Remove(0, 1).Trim();
+					if (text[0] == '#')
+						newtext = text.Remove(0, 1).Trim();
 
 					GlobalMessageOps("To Ops &f-" + color + name + "&f- " + newtext);
 					if (group.Permission < LevelPermission.Operator && !isStaff)
 						SendMessage("To Ops &f-" + color + name + "&f- " + newtext);
 					Server.s.Log("(OPs): " + name + ": " + newtext);
-					Server.IRC.Say(name + ": " + newtext, true);
 					return;
 				}
 
-				if (text[0] == '%')
-				{
+				if (text[0] == '%') {
 					string newtext = text;
 					GlobalChat(this, newtext);
 					Server.s.Log("<" + name + "> " + newtext);
@@ -1198,65 +1087,40 @@ namespace MCSpleef
 				Server.s.Log("<" + name + "> " + text);
 
 				GlobalChat(this, text);
-			}
-			catch (Exception e) { Server.ErrorLog(e); Player.GlobalMessage("An error occurred: " + e.Message); }
+			} catch (Exception e) { Server.ErrorLog(e); Player.GlobalMessage("An error occurred: " + e.Message); }
 		}
 
-		public void HandleCommand(string cmd, string message)
-		{
-			try
-			{
+		public void HandleCommand(string cmd, string message) {
+			try {
 				if (cmd == String.Empty) { SendMessage("No command entered."); return; }
 
-				if (cmd.ToLower() == "care") { SendMessage("Dmitchell94 now loves you with all his heart."); return; }
-				if (cmd.ToLower() == "facepalm") { SendMessage("Fenderrock87's bot army just simultaneously facepalm'd at your use of this command."); return; }
-				if (cmd.ToLower() == "alpaca") { SendMessage("Leitrean's Alpaca Army just raped your woman and pillaged your villages!"); return; }
-
 				if (cmd.ToLower() == "crashserver") { Kick("Server crash! Error code 0x0005A4"); return; }
-				//DO NOT REMOVE THE TWO COMMANDS BELOW, /PONY AND /RAINBOWDASHLIKESCOOLTHINGS. -EricKilla
-				if (cmd.ToLower() == "pony")
-				{
-					GlobalMessage(this.color + this.name + Server.DefaultColor + " just so happens to be a proud brony! Everyone give " + this.color + this.name + Server.DefaultColor + " a brohoof!");
-					return;
-				}
-				if (cmd.ToLower() == "rainbowdashlikescoolthings")
-				{
-					GlobalMessage("&1T&2H&3I&4S &5S&6E&7R&8V&9E&aR &bJ&cU&dS&eT &fG&0O&1T &22&30 &4P&CE&7R&DC&EE&9N&1T &5C&6O&7O&8L&9E&aR&b!");
-					return;
-				}
 
 				if (CommandHasBadColourCodes(this, message))
 					return;
 
-				try
-				{
+				try {
 					int foundCb = int.Parse(cmd);
 					if (messageBind[foundCb] == null) { SendMessage("No CMD is stored on /" + cmd); return; }
 					message = messageBind[foundCb] + " " + message;
 					message = message.TrimEnd(' ');
 					cmd = cmdBind[foundCb];
-				}
-				catch { }
+				} catch { }
 
 				Command command = Command.all.Find(cmd);
-				if (command != null)
-				{
-					if (group.CanExecute(command))
-					{
+				if (command != null) {
+					if (group.CanExecute(command)) {
 						//TODO: /repeat doesn't exist. Try to rewrite it.
-						if (cmd != "repeat") lastCMD = cmd + " " + message;
-						if (this.muted == true && cmd.ToLower() == "me")
-						{
+						if (cmd != "repeat")
+							lastCMD = cmd + " " + message;
+						if (this.muted == true && cmd.ToLower() == "me") {
 							SendMessage("Cannot use /me while muted");
 							return;
 						}
 						Server.s.CommandUsed(name + " used /" + cmd + " " + message);
 
-						this.commThread = new Thread(new ThreadStart(delegate
-						{
-							try { command.Use(this, message); }
-							catch (Exception e)
-							{
+						this.commThread = new Thread(new ThreadStart(delegate {
+							try { command.Use(this, message); } catch (Exception e) {
 								Server.ErrorLog(e);
 								Player.SendMessage(this, "An error occured when using the command!");
 								Player.SendMessage(this, e.GetType().ToString() + ": " + e.Message);
@@ -1264,76 +1128,82 @@ namespace MCSpleef
 							//finally { if (old != null) this.group = old; }
 						}));
 						commThread.Start();
-					}
-					else { SendMessage("You are not allowed to use \"" + cmd + "\"!"); }
-				}
-				else if (Block.Ushort(cmd.ToLower()) != Block.Zero)
+					} else { SendMessage("You are not allowed to use \"" + cmd + "\"!"); }
+				} else if (Block.Ushort(cmd.ToLower()) != Block.Zero)
 					HandleCommand("mode", cmd.ToLower());
-				else
-				{
+				else {
 					bool retry = true;
 
-					switch (cmd.ToLower())
-					{
-						case "ops": message = "op"; cmd = "viewranks"; break;
-						case "banned": message = cmd; cmd = "viewranks"; break;
+					switch (cmd.ToLower()) {
+						case "ops":
+							message = "op";
+							cmd = "viewranks";
+							break;
+						case "banned":
+							message = cmd;
+							cmd = "viewranks";
+							break;
 
 						case "cmdlist":
-						case "commands": cmd = "help"; message = "commands"; break;
-						case "colour": cmd = "color"; break;
+						case "commands":
+							cmd = "help";
+							message = "commands";
+							break;
+						case "colour":
+							cmd = "color";
+							break;
 
 						//Shortcuts
-						case "z": cmd = "cuboid"; break;
-						case "k": cmd = "kick"; break;
+						case "z":
+							cmd = "cuboid";
+							break;
+						case "k":
+							cmd = "kick";
+							break;
 
-						default: retry = false; break; //Unknown command, then
+						default:
+							retry = false;
+							break; //Unknown command, then
 					}
 
-					if (retry) HandleCommand(cmd, message);
-					else SendMessage("Unknown command \"" + cmd + "\"!");
+					if (retry)
+						HandleCommand(cmd, message);
+					else
+						SendMessage("Unknown command \"" + cmd + "\"!");
 				}
-			}
-			catch (Exception e) { Server.ErrorLog(e); SendMessage("Command failed."); }
+			} catch (Exception e) { Server.ErrorLog(e); SendMessage("Command failed."); }
 		}
 
-		void HandleQuery(string to, string message)
-		{
+		void HandleQuery(string to, string message) {
 			Player p = Find(to);
 			if (p == this) { SendMessage("Trying to talk to yourself, huh?"); return; }
 			if (p == null) { SendMessage("Could not find player."); return; }
 			if (p.hidden) { if (this.hidden == false) { Player.SendMessage(p, "Could not find player."); } }
-			if (p.ignoreglobal == true)
-			{
-					if (this.group.Permission >= LevelPermission.Operator)
-					{
-						if (p.group.Permission < this.group.Permission)
-						{
-							Server.s.Log(name + " @" + p.name + ": " + message);
-							SendChat(this, Server.DefaultColor + "[<] " + p.color + p.prefix + p.name + ": &f" + message);
-							SendChat(p, "&9[>] " + this.color + this.prefix + this.name + ": &f" + message);
-							return;
-						}
+			if (p.ignoreglobal == true) {
+				if (this.group.Permission >= LevelPermission.Operator) {
+					if (p.group.Permission < this.group.Permission) {
+						Server.s.Log(name + " @" + p.name + ": " + message);
+						SendChat(this, Server.DefaultColor + "[<] " + p.color + p.prefix + p.name + ": &f" + message);
+						SendChat(p, "&9[>] " + this.color + this.prefix + this.name + ": &f" + message);
+						return;
 					}
+				}
 				Server.s.Log(name + " @" + p.name + ": " + message);
 				SendChat(this, Server.DefaultColor + "[<] " + p.color + p.prefix + p.name + ": &f" + message);
 				return;
 			}
-			foreach (string ignored2 in p.listignored)
-			{
-				if (ignored2 == this.name)
-				{
+			foreach (string ignored2 in p.listignored) {
+				if (ignored2 == this.name) {
 					Server.s.Log(name + " @" + p.name + ": " + message);
 					SendChat(this, Server.DefaultColor + "[<] " + p.color + p.prefix + p.name + ": &f" + message);
 					return;
 				}
 			}
-			if (p != null && !p.hidden || p.hidden && this.group.Permission >= p.group.Permission)
-			{
+			if (p != null && !p.hidden || p.hidden && this.group.Permission >= p.group.Permission) {
 				Server.s.Log(name + " @" + p.name + ": " + message);
 				SendChat(this, Server.DefaultColor + "[<] " + p.color + p.prefix + p.name + ": &f" + message);
 				SendChat(p, "&9[>] " + this.color + this.prefix + this.name + ": &f" + message);
-			}
-			else { SendMessage("Player \"" + to + "\" doesn't exist!"); }
+			} else { SendMessage("Player \"" + to + "\" doesn't exist!"); }
 		}
 
 		#endregion
@@ -1341,21 +1211,17 @@ namespace MCSpleef
 
 		public void SendRaw(OpCode id) { SendRaw(id, new byte[0]); }
 		public void SendRaw(OpCode id, byte send) { SendRaw(id, new byte[] { send }); }
-		public void SendRaw(OpCode id, byte[] send)
-		{
+		public void SendRaw(OpCode id, byte[] send) {
 			// Abort if socket has been closed
 			if (socket == null || !socket.Connected)
 				return;
 			byte[] buffer = new byte[send.Length + 1];
 			buffer[0] = (byte)id;
 			for (int i = 0; i < send.Length; i++) { buffer[i + 1] = send[i]; }
-			try
-			{
+			try {
 				socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, delegate(IAsyncResult result) { }, Block.air);
 				buffer = null;
-			}
-			catch (SocketException e)
-			{
+			} catch (SocketException e) {
 				buffer = null;
 				Disconnect();
 #if DEBUG
@@ -1364,22 +1230,14 @@ namespace MCSpleef
 			}
 		}
 
-		public static void SendMessage(Player p, string message)
-		{
+		public static void SendMessage(Player p, string message) {
 			if (p == null) { Server.s.Log(message); return; }
 			SendMessage(p, MessageType.Chat, message, true);
 		}
-		public static void SendMessage(Player p, MessageType type, string message, bool colorParse)
-		{
-			if (p == null)
-			{
-				if (storeHelp) { storedHelp += message + "\r\n"; }
-				else
-				{
-					if (!Server.irc || String.IsNullOrEmpty(Server.IRC.usedCmd))
-						Server.s.Log(message);
-					else
-						Server.IRC.Pm(Server.IRC.usedCmd, message);
+		public static void SendMessage(Player p, MessageType type, string message, bool colorParse) {
+			if (p == null) {
+				if (storeHelp) { storedHelp += message + "\r\n"; } else {
+					Server.s.Log(message);
 				}
 				return;
 			}
@@ -1387,23 +1245,19 @@ namespace MCSpleef
 		}
 
 		public void SendMessage(string message) { SendMessage(message, true); }
-		public void SendMessage(string message, bool colorParse)
-		{
+		public void SendMessage(string message, bool colorParse) {
 			if (this == null) { Server.s.Log(message); return; }
 			unchecked { SendMessage(MessageType.Chat, Server.DefaultColor + message, colorParse); }
 		}
-		public void SendChat(Player p, string message)
-		{
+		public void SendChat(Player p, string message) {
 			if (this == null) { Server.s.Log(message); return; }
 			Player.SendMessage(p, message);
 		}
-		public void SendMessage(byte id, string message)
-		{
+		public void SendMessage(byte id, string message) {
 			SendMessage(MessageType.Chat, message, true);
 		}
 
-		public enum MessageType
-		{
+		public enum MessageType {
 			Chat = (byte)0,
 			Status1 = (byte)1,
 			Status2 = (byte)2,
@@ -1414,69 +1268,66 @@ namespace MCSpleef
 			Announcement = (byte)100
 		}
 
-		public void SendMessage (MessageType type, string message, bool colorParse)
-		{
+		public void SendMessage(MessageType type, string message, bool colorParse) {
 			if (this == null) {
-				Server.s.Log (message);
+				Server.s.Log(message);
 				return;
 			}
 
 			byte[] buffer = new byte[65];
 			unchecked {
-				buffer [0] = (byte)type;
+				buffer[0] = (byte)type;
 			}
 
-			StringBuilder sb = new StringBuilder (message);
+			StringBuilder sb = new StringBuilder(message);
 
 			if (colorParse) {
 				for (int i = 0; i < 10; i++) {
-					sb.Replace ("%" + i, "&" + i);
-					sb.Replace ("&" + i + " &", " &");
+					sb.Replace("%" + i, "&" + i);
+					sb.Replace("&" + i + " &", " &");
 				}
 				for (char ch = 'a'; ch <= 'f'; ch++) {
-					sb.Replace ("%" + ch, "&" + ch);
-					sb.Replace ("&" + ch + " &", " &");
+					sb.Replace("%" + ch, "&" + ch);
+					sb.Replace("&" + ch + " &", " &");
 				}
 				// Begin fix to replace all invalid color codes typed in console or chat with "."
 				for (char ch = (char)0; ch <= (char)47; ch++) // Characters that cause clients to disconnect
-					sb.Replace ("&" + ch, String.Empty);
+					sb.Replace("&" + ch, String.Empty);
 				for (char ch = (char)58; ch <= (char)96; ch++) // Characters that cause clients to disconnect
-					sb.Replace ("&" + ch, String.Empty);
+					sb.Replace("&" + ch, String.Empty);
 				for (char ch = (char)103; ch <= (char)127; ch++) // Characters that cause clients to disconnect
-					sb.Replace ("&" + ch, String.Empty);
+					sb.Replace("&" + ch, String.Empty);
 				// End fix
 			}
 
-			sb.Replace ("$name", name);
-			sb.Replace ("$date", DateTime.Now.ToString ("yyyy-MM-dd"));
-			sb.Replace ("$time", DateTime.Now.ToString ("HH:mm:ss"));
-			sb.Replace ("$ip", ip);
-			sb.Replace ("$serverip", IsLocalIpAddress (ip) ? ip : Server.IP);
+			sb.Replace("$name", name);
+			sb.Replace("$date", DateTime.Now.ToString("yyyy-MM-dd"));
+			sb.Replace("$time", DateTime.Now.ToString("HH:mm:ss"));
+			sb.Replace("$ip", ip);
+			sb.Replace("$serverip", IsLocalIpAddress(ip) ? ip : Server.IP);
 			if (colorParse)
-				sb.Replace ("$color", color);
-			sb.Replace ("$rank", group.name);
-			sb.Replace ("$level", level.name);
-			sb.Replace ("$deaths", overallDeath.ToString ());
-			sb.Replace ("$money", money.ToString ());
-			sb.Replace ("$blocks", overallBlocks.ToString ());
-			sb.Replace ("$first", firstLogin.ToString ());
-			sb.Replace ("$kicked", totalKicked.ToString ());
-			sb.Replace ("$server", Server.name);
-			sb.Replace ("$motd", Server.motd);
-			sb.Replace ("$banned", Player.GetBannedCount ().ToString ());
-			sb.Replace ("$irc", Server.ircServer + " > " + Server.ircChannel);
+				sb.Replace("$color", color);
+			sb.Replace("$rank", group.name);
+			sb.Replace("$level", level.name);
+			sb.Replace("$deaths", overallDeath.ToString());
+			sb.Replace("$money", money.ToString());
+			sb.Replace("$blocks", overallBlocks.ToString());
+			sb.Replace("$first", firstLogin.ToString());
+			sb.Replace("$kicked", totalKicked.ToString());
+			sb.Replace("$server", Server.name);
+			sb.Replace("$motd", Server.motd);
+			sb.Replace("$banned", Player.GetBannedCount().ToString());
 
 			foreach (var customReplacement in Server.customdollars) {
-				if (!customReplacement.Key.StartsWith ("//")) {
-					try { sb.Replace (customReplacement.Key, customReplacement.Value); }
-					catch { }
+				if (!customReplacement.Key.StartsWith("//")) {
+					try { sb.Replace(customReplacement.Key, customReplacement.Value); } catch { }
 				}
 			}
 
 			sb.Replace(":)", "(darksmile)");
 			sb.Replace(":D", "(smile)");
 			sb.Replace("<3", "(heart)");
-			
+
 			byte[] stored = new byte[1];
 
 			stored[0] = (byte)1;
@@ -1521,13 +1372,11 @@ namespace MCSpleef
 				return;
 			int totalTries = 0;
 
-		retryTag: try
-			{
-				foreach (string line in Wordwrap(message))
-				{
+		retryTag:
+			try {
+				foreach (string line in Wordwrap(message)) {
 					string newLine = line;
-					if (newLine.TrimEnd(' ')[newLine.TrimEnd(' ').Length - 1] < '!')
-					{
+					if (newLine.TrimEnd(' ')[newLine.TrimEnd(' ').Length - 1] < '!') {
 						//if (HasExtension("EmoteFix")) { newLine += '\''; }
 					}
 
@@ -1537,18 +1386,17 @@ namespace MCSpleef
 					StringFormat(newLine, 64).CopyTo(buffer, 1);
 					SendRaw(OpCode.Message, buffer);
 				}
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				message = "&f" + message;
 				totalTries++;
-				if (totalTries < 10) goto retryTag;
-				else Server.ErrorLog(e);
+				if (totalTries < 10)
+					goto retryTag;
+				else
+					Server.ErrorLog(e);
 			}
 		}
 
-		public void SendMotd()
-		{
+		public void SendMotd() {
 			byte[] buffer = new byte[130];
 			buffer[0] = (byte)8;
 			StringFormat(Server.name, 64).CopyTo(buffer, 1);
@@ -1562,16 +1410,14 @@ namespace MCSpleef
 
 		}
 
-		public void SendUserMOTD()
-		{
+		public void SendUserMOTD() {
 			byte[] buffer = new byte[130];
 			buffer[0] = Server.version;
-			if (level.motd == "ignore")
-			{
+			if (level.motd == "ignore") {
 				StringFormat(Server.name, 64).CopyTo(buffer, 1);
 				StringFormat(Server.motd, 64).CopyTo(buffer, 65);
-			}
-			else StringFormat(level.motd, 128).CopyTo(buffer, 1);
+			} else
+				StringFormat(level.motd, 128).CopyTo(buffer, 1);
 
 			if (Block.canPlace(this.group.Permission, Block.blackrock))
 				buffer[129] = 100;
@@ -1580,21 +1426,19 @@ namespace MCSpleef
 			SendRaw(0, buffer);
 		}
 
-		public void SendMap()
-		{
-			if (level.blocks == null) return;
-			try
-			{
+		public void SendMap() {
+			if (level.blocks == null)
+				return;
+			try {
 				byte[] buffer = new byte[level.blocks.Length + 4];
 				BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
-			for ( int i = 0; i < level.blocks.Length; ++i ) {
-				buffer[4 + i] = (byte)Block.Convert( level.blocks[i] );
-			}
+				for (int i = 0; i < level.blocks.Length; ++i) {
+					buffer[4 + i] = (byte)Block.Convert(level.blocks[i]);
+				}
 				SendRaw(OpCode.MapBegin);
 				buffer = buffer.GZip();
 				int number = (int)Math.Ceiling(((double)buffer.Length) / 1024);
-				for (int i = 1; buffer.Length > 0; ++i)
-				{
+				for (int i = 1; buffer.Length > 0; ++i) {
 					short length = (short)Math.Min(buffer.Length, 1024);
 					byte[] send = new byte[1027];
 					HTNO(length).CopyTo(send, 0);
@@ -1604,44 +1448,40 @@ namespace MCSpleef
 					buffer = tempbuffer;
 					send[1026] = (byte)(i * 100 / number);
 					SendRaw(OpCode.MapChunk, send);
-					if (ip == "127.0.0.1") { }
-					else if (Server.updateTimer.Interval > 1000) Thread.Sleep(100);
-					else Thread.Sleep(10);
-				} buffer = new byte[6];
+					if (ip == "127.0.0.1") { } else if (Server.updateTimer.Interval > 1000)
+						Thread.Sleep(100);
+					else
+						Thread.Sleep(10);
+				}
+				buffer = new byte[6];
 				HTNO((short)level.width).CopyTo(buffer, 0);
 				HTNO((short)level.depth).CopyTo(buffer, 2);
 				HTNO((short)level.height).CopyTo(buffer, 4);
 
 				SendRaw(OpCode.MapEnd, buffer);
 				Loading = false;
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				Command.all.Find("goto").Use(this, Server.mainLevel.name);
 				SendMessage("There was an error sending the map data, you have been sent to the main level.");
 				Server.ErrorLog(ex);
-			}
-			finally
-			{
+			} finally {
 				GC.Collect();
 				GC.WaitForPendingFinalizers();
 			}
 		}
-		public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty, string displayName, string skinName)
-		{
-			if (!HasExtension("ExtPlayerList", 2))
-			{
+		public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty, string displayName, string skinName) {
+			if (!HasExtension("ExtPlayerList", 2)) {
 				name = name.TrimEnd('+');
-				byte[] buffer = new byte[73]; buffer[0] = id;
+				byte[] buffer = new byte[73];
+				buffer[0] = id;
 				StringFormat(name, 64).CopyTo(buffer, 1);
 				HTNO(x).CopyTo(buffer, 65);
 				HTNO(y).CopyTo(buffer, 67);
 				HTNO(z).CopyTo(buffer, 69);
-				buffer[71] = rotx; buffer[72] = roty;
+				buffer[71] = rotx;
+				buffer[72] = roty;
 				SendRaw(OpCode.AddEntity, buffer);
-			}
-			else
-			{
+			} else {
 				byte[] buffer = new byte[137];
 				buffer[0] = id;
 				StringFormat(displayName, 64).CopyTo(buffer, 1);
@@ -1654,43 +1494,54 @@ namespace MCSpleef
 				SendRaw((OpCode)33, buffer);
 			}
 		}
-		public void SendPos(byte id, ushort x, ushort y, ushort z, byte rotx, byte roty)
-		{
-			if (x < 0) x = 32;
-			if (y < 0) y = 32;
-			if (z < 0) z = 32;
-			if (x > level.width * 32) x = (ushort)(level.width * 32 - 32);
-			if (z > level.height * 32) z = (ushort)(level.height * 32 - 32);
-			if (x > 32767) x = 32730;
-			if (y > 32767) y = 32730;
-			if (z > 32767) z = 32730;
+		public void SendPos(byte id, ushort x, ushort y, ushort z, byte rotx, byte roty) {
+			if (x < 0)
+				x = 32;
+			if (y < 0)
+				y = 32;
+			if (z < 0)
+				z = 32;
+			if (x > level.width * 32)
+				x = (ushort)(level.width * 32 - 32);
+			if (z > level.height * 32)
+				z = (ushort)(level.height * 32 - 32);
+			if (x > 32767)
+				x = 32730;
+			if (y > 32767)
+				y = 32730;
+			if (z > 32767)
+				z = 32730;
 
-			pos[0] = x; pos[1] = y; pos[2] = z;
-			rot[0] = rotx; rot[1] = roty;
+			pos[0] = x;
+			pos[1] = y;
+			pos[2] = z;
+			rot[0] = rotx;
+			rot[1] = roty;
 
-			byte[] buffer = new byte[9]; buffer[0] = id;
+			byte[] buffer = new byte[9];
+			buffer[0] = id;
 			HTNO(x).CopyTo(buffer, 1);
 			HTNO(y).CopyTo(buffer, 3);
 			HTNO(z).CopyTo(buffer, 5);
-			buffer[7] = rotx; buffer[8] = roty;
+			buffer[7] = rotx;
+			buffer[8] = roty;
 			SendRaw(OpCode.Teleport, buffer);
 		}
 		// Update user type for weather or not they are opped
-		public void SendUserType(bool op)
-		{
+		public void SendUserType(bool op) {
 			SendRaw(OpCode.SetPermission, op ? (byte)100 : (byte)0);
 		}
 		public void SendDie(byte id) { SendRaw(OpCode.RemoveEntity, new byte[1] { id }); }
-		public void SendBlockchange(ushort x, ushort y, ushort z, ushort type)
-		{
+		public void SendBlockchange(ushort x, ushort y, ushort z, ushort type) {
 			if (type == Block.air) { type = 0; }
-			if (x < 0 || y < 0 || z < 0) return;
-			if (type > Block.maxblocks)
-			{
+			if (x < 0 || y < 0 || z < 0)
+				return;
+			if (type > Block.maxblocks) {
 				this.SendMessage("The server was not able to detect your held block, please try again!");
 				return;
 			}
-			if (x >= level.width || y >= level.depth || z >= level.height) return;
+			if (x >= level.width || y >= level.depth || z >= level.height)
+				return;
 
 			byte[] buffer = new byte[7];
 			HTNO(x).CopyTo(buffer, 0);
@@ -1702,16 +1553,14 @@ namespace MCSpleef
 		void SendKick(string message) { SendRaw(OpCode.Kick, StringFormat(message, 64)); }
 		void SendPing() { SendRaw(OpCode.Ping); }
 
-		public void SendExtInfo(short count)
-		{
+		public void SendExtInfo(short count) {
 			byte[] buffer = new byte[66];
 			//StringFormat("MCForge Version: " + Server.Version, 64).CopyTo(buffer, 0);
 			StringFormat("lol.wom", 64).CopyTo(buffer, 0);
 			HTNO(count).CopyTo(buffer, 64);
 			SendRaw(OpCode.ExtInfo, buffer);
 		}
-		public void SendExtEntry(string name, int version)
-		{
+		public void SendExtEntry(string name, int version) {
 			byte[] version_ = BitConverter.GetBytes(version);
 			if (BitConverter.IsLittleEndian)
 				Array.Reverse(version_);
@@ -1721,15 +1570,13 @@ namespace MCSpleef
 			SendRaw(OpCode.ExtEntry, buffer);
 		}
 
-		public void SendHoldThis(byte type, byte locked)
-		{
+		public void SendHoldThis(byte type, byte locked) {
 			byte[] buffer = new byte[2];
 			buffer[0] = type;
 			buffer[1] = locked;
 			SendRaw(OpCode.HoldThis, buffer);
 		}
-		public void SendMakeSelection(byte id, string label, short smallx, short smally, short smallz, short bigx, short bigy, short bigz, short r, short g, short b, short opacity)
-		{
+		public void SendMakeSelection(byte id, string label, short smallx, short smally, short smallz, short bigx, short bigy, short bigz, short r, short g, short b, short opacity) {
 			byte[] buffer = new byte[85];
 			buffer[0] = id;
 			StringFormat(label, 64).CopyTo(buffer, 1);
@@ -1745,14 +1592,12 @@ namespace MCSpleef
 			HTNO(opacity).CopyTo(buffer, 83);
 			SendRaw(OpCode.MakeSelection, buffer);
 		}
-		public void SendDeleteSelection(byte id)
-		{
+		public void SendDeleteSelection(byte id) {
 			byte[] buffer = new byte[1];
 			buffer[0] = id;
 			SendRaw(OpCode.RemoveSelection, buffer);
 		}
-		public void SendSetBlockPermission(byte type, byte canplace, byte candelete)
-		{
+		public void SendSetBlockPermission(byte type, byte canplace, byte candelete) {
 			byte[] buffer = new byte[3];
 			buffer[0] = type;
 			buffer[1] = canplace;
@@ -1760,8 +1605,7 @@ namespace MCSpleef
 			SendRaw(OpCode.SetBlockPermission, buffer);
 		}
 
-		public void SendSetMapAppearance(string url, byte sideblock, byte edgeblock, short sidelevel)
-		{
+		public void SendSetMapAppearance(string url, byte sideblock, byte edgeblock, short sidelevel) {
 			byte[] buffer = new byte[68];
 			StringFormat(url, 64).CopyTo(buffer, 0);
 			buffer[64] = sideblock;
@@ -1770,8 +1614,7 @@ namespace MCSpleef
 			SendRaw(OpCode.EnvMapAppearance, buffer);
 		}
 
-		public void SendHackControl(byte allowflying, byte allownoclip, byte allowspeeding, byte allowrespawning, byte allowthirdperson, byte allowchangingweather, short maxjumpheight)
-		{
+		public void SendHackControl(byte allowflying, byte allownoclip, byte allowspeeding, byte allowrespawning, byte allowthirdperson, byte allowchangingweather, short maxjumpheight) {
 			byte[] buffer = new byte[7];
 			buffer[0] = allowflying;
 			buffer[1] = allownoclip;
@@ -1783,15 +1626,13 @@ namespace MCSpleef
 			SendRaw(OpCode.HackControl, buffer);
 		}
 
-		public void UpdatePosition()
-		{
+		public void UpdatePosition() {
 			byte changed = 0;
 
 			if (oldpos[0] != pos[0] || oldpos[1] != pos[1] || oldpos[2] != pos[2])
 				changed |= 1;
 
-			if (oldrot[0] != rot[0] || oldrot[1] != rot[1])
-			{
+			if (oldrot[0] != rot[0] || oldrot[1] != rot[1]) {
 				changed |= 2;
 			}
 
@@ -1799,80 +1640,71 @@ namespace MCSpleef
 				changed |= 4;
 			if (changed == 0) { if (oldpos[0] != pos[0] || oldpos[1] != pos[1] || oldpos[2] != pos[2]) changed |= 1; }
 
-			byte[] buffer = new byte[0]; OpCode msg = 0;
-			if ((changed & 4) != 0)
-			{
+			byte[] buffer = new byte[0];
+			OpCode msg = 0;
+			if ((changed & 4) != 0) {
 				msg = OpCode.Teleport;
-				buffer = new byte[9]; buffer[0] = id;
+				buffer = new byte[9];
+				buffer[0] = id;
 				HTNO(pos[0]).CopyTo(buffer, 1);
 				HTNO(pos[1]).CopyTo(buffer, 3);
 				HTNO(pos[2]).CopyTo(buffer, 5);
 				buffer[7] = rot[0];
-				
+
 				buffer[8] = rot[1];
-			}
-			else if (changed == 1)
-			{
-				try
-				{
+			} else if (changed == 1) {
+				try {
 					msg = OpCode.Move;
-					buffer = new byte[4]; buffer[0] = id;
+					buffer = new byte[4];
+					buffer[0] = id;
 					Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[0] - oldpos[0])), 0, buffer, 1, 1);
 					Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[1] - oldpos[1])), 0, buffer, 2, 1);
 					Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[2] - oldpos[2])), 0, buffer, 3, 1);
-				}
-				catch { }
-			}
-			else if (changed == 2)
-			{
+				} catch { }
+			} else if (changed == 2) {
 				msg = OpCode.Rotate;
-				buffer = new byte[3]; buffer[0] = id;
+				buffer = new byte[3];
+				buffer[0] = id;
 				buffer[1] = rot[0];
 
 				buffer[2] = rot[1];
-			}
-			else if (changed == 3)
-			{
-				try
-				{
+			} else if (changed == 3) {
+				try {
 					msg = OpCode.MoveRotate;
-					buffer = new byte[6]; buffer[0] = id;
+					buffer = new byte[6];
+					buffer[0] = id;
 					Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[0] - oldpos[0])), 0, buffer, 1, 1);
 					Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[1] - oldpos[1])), 0, buffer, 2, 1);
 					Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[2] - oldpos[2])), 0, buffer, 3, 1);
 					buffer[4] = rot[0];
 
 					buffer[5] = rot[1];
-				}
-				catch { }
+				} catch { }
 			}
 
-			oldpos = pos; oldrot = rot;
+			oldpos = pos;
+			oldrot = rot;
 			if (changed != 0)
-				try
-				{
+				try {
 					foreach (Player p in players) { if (p != this && p.level == level) { p.SendRaw(msg, buffer); } }
-				}
-				catch { }
+				} catch { }
 		}
 		#endregion
 		#region == GLOBAL MESSAGES ==
-		public static void GlobalBlockchange(Level level, int b, ushort type)
-		{
+		public static void GlobalBlockchange(Level level, int b, ushort type) {
 			ushort x, y, z;
 			level.IntToPos(b, out x, out y, out z);
 			GlobalBlockchange(level, x, y, z, type);
 		}
-		public static void GlobalBlockchange(Level level, ushort x, ushort y, ushort z, ushort type)
-		{
+		public static void GlobalBlockchange(Level level, ushort x, ushort y, ushort z, ushort type) {
 			players.ForEach(delegate(Player p) { if (p.level == level) { p.SendBlockchange(x, y, z, type); } });
 		}
 
 		// THIS IS NOT FOR SENDING GLOBAL MESSAGES!!! IT IS TO SEND A MESSAGE FROM A SPECIFIED PLAYER!!!!!!!!!!!!!!
 		public static void GlobalChat(Player from, string message) { GlobalChat(from, message, true); }
-		public static void GlobalChat(Player from, string message, bool showname)
-		{
-			if (from == null) return;
+		public static void GlobalChat(Player from, string message, bool showname) {
+			if (from == null)
+				return;
 
 			if (MessageHasBadColorCodes(from, message))
 				return;
@@ -1880,25 +1712,19 @@ namespace MCSpleef
 			if (showname)
 				message = from.color + from.prefix + from.DisplayName + ": &f" + message;
 
-			players.ForEach(delegate(Player p)
-			{
-				if (from != null)
-				{
-					if (!p.listignored.Contains(from.name))
-					{
+			players.ForEach(delegate(Player p) {
+				if (from != null) {
+					if (!p.listignored.Contains(from.name)) {
 						Player.SendMessage(p, message);
 						return;
 					}
 					return;
 				}
-				if (from.group.Permission >= LevelPermission.Operator)
-				{
+				if (from.group.Permission >= LevelPermission.Operator) {
 					if (p.group.Permission < from.group.Permission) { Player.SendMessage(p, message); }
 				}
-				if (from != null)
-				{
-					if (from == p)
-					{
+				if (from != null) {
+					if (from == p) {
 						Player.SendMessage(from, message);
 						return;
 					}
@@ -1906,21 +1732,17 @@ namespace MCSpleef
 			});
 		}
 
-		public static bool MessageHasBadColorCodes(Player from, string message)
-		{
-			if (HasBadColorCodes(message))
-			{
+		public static bool MessageHasBadColorCodes(Player from, string message) {
+			if (HasBadColorCodes(message)) {
 				SendMessage(from, "Message not sent. You have bad color codes.");
 				return true;
 			}
 			return false;
 		}
 
-		public static bool HasBadColorCodes(string message)
-		{
+		public static bool HasBadColorCodes(string message) {
 			string[] sections = message.Split(new[] { '&', '%' });
-			for (int i = 0; i < sections.Length; i++)
-			{
+			for (int i = 0; i < sections.Length; i++) {
 				if (String.IsNullOrEmpty(sections[i].Trim()) && i == 0) { continue; }
 				if (String.IsNullOrEmpty(sections[i].Trim()) && i - 1 != sections.Length) { continue; }
 				if (String.IsNullOrEmpty(sections[i]) && i - 1 != sections.Length) { return true; }
@@ -1932,139 +1754,105 @@ namespace MCSpleef
 
 		public static bool IsValidColorChar(char color) { return (color >= '0' && color <= '9') || (color >= 'a' && color <= 'f') || (color >= 'A' && color <= 'F'); }
 
-		public static bool HasBadColorCodesTwo(string message)
-		{
+		public static bool HasBadColorCodesTwo(string message) {
 			string[] split = message.Split('&');
-			for (int i = 0; i < split.Length; i++)
-			{
+			for (int i = 0; i < split.Length; i++) {
 				string section = split[i];
 
 				if (String.IsNullOrEmpty(section.Trim()))
 					return true;
-
 				if (!IsValidColorChar(section[0]))
 					return true;
-
 			}
-
 			return false;
 		}
 
-		public static bool CommandHasBadColourCodes(Player who, string message)
-		{
+		public static bool CommandHasBadColourCodes(Player who, string message) {
 			string[] checkmessagesplit = message.Split(' ');
 			bool lastendwithcolour = false;
-			foreach (string s in checkmessagesplit)
-			{
+			foreach (string s in checkmessagesplit) {
 				s.Trim();
-				if (s.StartsWith("%"))
-				{
-					if (lastendwithcolour)
-					{
-						if (who != null)
-						{
+				if (s.StartsWith("%")) {
+					if (lastendwithcolour) {
+						if (who != null) {
 							who.SendMessage("Sorry, Your colour codes in this command were invalid (You cannot use 2 colour codes next to each other");
 							who.SendMessage("Command failed.");
 							Server.s.Log(who.name + " attempted to send a command with invalid colours codes (2 colour codes were next to each other)!");
 							GlobalMessageOps(who.color + who.name + " " + Server.DefaultColor + " attempted to send a command with invalid colours codes (2 colour codes were next to each other)!");
 						}
 						return true;
-					}
-					else if (s.Length == 2) { lastendwithcolour = true; }
+					} else if (s.Length == 2) { lastendwithcolour = true; }
 				}
-				if (s.TrimEnd(Server.ColourCodesNoPercent).EndsWith("%")) { lastendwithcolour = true; }
-				else { lastendwithcolour = false; }
+				if (s.TrimEnd(Server.ColourCodesNoPercent).EndsWith("%")) { lastendwithcolour = true; } else { lastendwithcolour = false; }
 			}
 			return false;
 		}
 
-		public static string EscapeColours(string message)
-		{
-			try
-			{
+		public static string EscapeColours(string message) {
+			try {
 				int index = 1;
 				StringBuilder sb = new StringBuilder();
 				Regex r = new Regex("^[0-9a-f]$");
-				foreach (char c in message)
-				{
-					if (c == '%')
-					{
+				foreach (char c in message) {
+					if (c == '%') {
 						if (message.Length >= index)
 							sb.Append(r.IsMatch(message[index].ToString()) ? '&' : '%');
 						else
 							sb.Append('%');
-					}
-					else
+					} else
 						sb.Append(c);
 					index++;
 				}
 				return sb.ToString();
-			}
-			catch { return message; }
+			} catch { return message; }
 		}
 
 		public static void GlobalMessage(string message) { GlobalMessage(MessageType.Chat, message); }
 
-		public static void GlobalMessage(MessageType type, string message)
-		{
-			players.ForEach(delegate(Player p)
-			{
+		public static void GlobalMessage(MessageType type, string message) {
+			players.ForEach(delegate(Player p) {
 				Player.SendMessage(p, message);
 			});
 		}
 
-		public static void GlobalMessageOps(string message)
-		{
-			try
-			{
-				players.ForEach(delegate(Player p)
-				{
-					if (p.group.Permission >= LevelPermission.Operator || p.isStaff)
-					{
+		public static void GlobalMessageOps(string message) {
+			try {
+				players.ForEach(delegate(Player p) {
+					if (p.group.Permission >= LevelPermission.Operator || p.isStaff) {
 						Player.SendMessage(p, message);
 					}
 				});
 
-			}
-			catch { Server.s.Log("Error occured with Op Chat"); }
+			} catch { Server.s.Log("Error occured with Op Chat"); }
 		}
 
-		public static void GlobalSpawn(Player from, ushort x, ushort y, ushort z, byte rotx, byte roty, bool self, string possession = "")
-		{
-			players.ForEach(delegate(Player p)
-			{
+		public static void GlobalSpawn(Player from, ushort x, ushort y, ushort z, byte rotx, byte roty, bool self, string possession = "") {
+			players.ForEach(delegate(Player p) {
 				if (p.Loading && p != from) { return; }
 				if (p.level != from.level || (from.hidden && !self)) { return; }
-				if (p != from)
-				{
+				if (p != from) {
 					p.SendSpawn(from.id, from.color + from.name + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName);
-				}
-				else if (self)
-				{
-					if (!p.ignorePermission)
-					{
-						p.pos = new ushort[3] { x, y, z }; p.rot = new byte[2] { rotx, roty };
-						p.oldpos = p.pos; p.oldrot = p.rot;
+				} else if (self) {
+					if (!p.ignorePermission) {
+						p.pos = new ushort[3] { x, y, z };
+						p.rot = new byte[2] { rotx, roty };
+						p.oldpos = p.pos;
+						p.oldrot = p.rot;
 						unchecked { p.SendSpawn((byte)-1, from.color + from.name + possession, x, y, z, rotx, roty, from.DisplayName, from.SkinName); }
 					}
 				}
 			});
 		}
-		
-		public static void GlobalDie(Player from, bool self)
-		{
-			players.ForEach(delegate(Player p)
-			{
+
+		public static void GlobalDie(Player from, bool self) {
+			players.ForEach(delegate(Player p) {
 				if (p.level != from.level || (from.hidden && !self)) { return; }
-				if (p != from) { p.SendDie(from.id); }
-				else if (self) { p.SendDie(255); }
+				if (p != from) { p.SendDie(from.id); } else if (self) { p.SendDie(255); }
 			});
 		}
 
-		public bool MarkPossessed(string marker = "")
-		{
-			if (marker != "")
-			{
+		public bool MarkPossessed(string marker = "") {
+			if (marker != "") {
 				Player controller = Player.Find(marker);
 				if (controller == null) { return false; }
 				marker = " (" + controller.color + controller.name + color + ")";
@@ -2080,36 +1868,29 @@ namespace MCSpleef
 		public void Disconnect() { leftGame(); }
 		public void Kick(string kickString) { leftGame(kickString); }
 
-		internal void CloseSocket()
-		{
+		internal void CloseSocket() {
 			// Try to close the socket.
 			// Sometimes its already closed so these lines will cause an error
 			// We just trap them and hide them from view :P
-			try
-			{
+			try {
 				// Close the damn socket connection!
 				socket.Shutdown(SocketShutdown.Both);
 #if DEBUG
 				Server.s.Log("Socket was shutdown for " + this.name ?? this.ip);
 #endif
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 #if DEBUG
 				Exception ex = new Exception("Failed to shutdown socket for " + this.name ?? this.ip, e);
 				Server.ErrorLog(ex);
 #endif
 			}
 
-			try
-			{
+			try {
 				socket.Close();
 #if DEBUG
 				Server.s.Log("Socket was closed for " + this.name ?? this.ip);
 #endif
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 #if DEBUG
 				Exception ex = new Exception("Failed to close socket for " + this.name ?? this.ip, e);
 				Server.ErrorLog(ex);
@@ -2117,10 +1898,8 @@ namespace MCSpleef
 			}
 		}
 
-		public void leftGame(string kickString = "", bool skip = false)
-		{
-			if (name == "")
-			{
+		public void leftGame(string kickString = "", bool skip = false) {
+			if (name == "") {
 				if (socket != null)
 					CloseSocket();
 				if (connections.Contains(this))
@@ -2128,10 +1907,8 @@ namespace MCSpleef
 				disconnected = true;
 				return;
 			}
-			try
-			{
-				if (disconnected)
-				{
+			try {
+				if (disconnected) {
 					this.CloseSocket();
 					if (connections.Contains(this))
 						connections.Remove(this);
@@ -2146,68 +1923,52 @@ namespace MCSpleef
 				timespent.Stop();
 				timespent.Dispose();
 
-				if (kickString == "") kickString = "Disconnected.";
+				if (kickString == "")
+					kickString = "Disconnected.";
 
 				SendKick(kickString);
 
-				if (loggedIn)
-				{
+				if (loggedIn) {
 					GlobalDie(this, false);
-					if (kickString == "Disconnected." || kickString.IndexOf("Server shutdown") != -1 || kickString == "Server shutdown. Rejoin in 10 seconds.")
-					{
-						if (!hidden)
-						{
+					if (kickString == "Disconnected." || kickString.IndexOf("Server shutdown") != -1 || kickString == "Server shutdown. Rejoin in 10 seconds.") {
+						if (!hidden) {
 							string leavem = "&c- " + color + prefix + name + Server.DefaultColor + " Disconnected";
-							Player.players.ForEach(delegate(Player p1)
-							{
+							Player.players.ForEach(delegate(Player p1) {
 								Player.SendMessage(p1, leavem);
 							});
 						}
-						Server.IRC.Say(name + " left the game.");
 						Server.s.Log(name + " disconnected.");
-					}
-					else
-					{
+					} else {
 						totalKicked++;
 						GlobalChat(this, "&c- " + color + prefix + name + Server.DefaultColor + " kicked (" + kickString + Server.DefaultColor + ").", false);
-						Server.IRC.Say(name + " kicked (" + kickString + ").");
 						Server.s.Log(name + " kicked (" + kickString + ").");
 					}
 
-					try { save(); }
-					catch (Exception e) { Server.ErrorLog(e); }
+					try { save(); } catch (Exception e) { Server.ErrorLog(e); }
 					players.Remove(this);
-					players.ForEach(delegate(Player p)
-					{
-						if (p != this && p.extension)
-						{
+					players.ForEach(delegate(Player p) {
+						if (p != this && p.extension) {
 							//TODO: Remove this.
 						}
 					});
 					Server.s.PlayerListUpdate();
-					try { left.Add(this.name.ToLower(), this.ip); }
-					catch (Exception) { }
+					try { left.Add(this.name.ToLower(), this.ip); } catch (Exception) { }
 
 					this.Dispose();
-				}
-				else
-				{
+				} else {
 					connections.Remove(this);
 
 					Server.s.Log(ip + " disconnected.");
 				}
 
-			}
-			catch (Exception e) { Server.ErrorLog(e); }
-			finally
-			{
+			} catch (Exception e) { Server.ErrorLog(e); } finally {
 				CloseSocket();
 			}
 		}
 
-		public void Dispose()
-		{
-			if (connections.Contains(this)) connections.Remove(this);
+		public void Dispose() {
+			if (connections.Contains(this))
+				connections.Remove(this);
 			spamBlockLog.Clear();
 
 		}
@@ -2219,34 +1980,35 @@ namespace MCSpleef
 		public static List<Player> GetPlayers() { return new List<Player>(players); }
 		public static bool Exists(string name) { foreach (Player p in players) { if (p.name.ToLower() == name.ToLower()) { return true; } } return false; }
 		public static bool Exists(byte id) { foreach (Player p in players) { if (p.id == id) { return true; } } return false; }
-		public static Player Find(string name)
-		{
+		public static Player Find(string name) {
 			List<Player> tempList = new List<Player>();
 			tempList.AddRange(players);
-			Player tempPlayer = null; bool returnNull = false;
+			Player tempPlayer = null;
+			bool returnNull = false;
 
-			foreach (Player p in tempList)
-			{
-				if (p.name.ToLower() == name.ToLower()) return p;
-				if (p.name.ToLower().IndexOf(name.ToLower()) != -1)
-				{
-					if (tempPlayer == null) tempPlayer = p;
-					else returnNull = true;
+			foreach (Player p in tempList) {
+				if (p.name.ToLower() == name.ToLower())
+					return p;
+				if (p.name.ToLower().IndexOf(name.ToLower()) != -1) {
+					if (tempPlayer == null)
+						tempPlayer = p;
+					else
+						returnNull = true;
 				}
 			}
 
-			if (returnNull == true) return null;
-			if (tempPlayer != null) return tempPlayer;
+			if (returnNull == true)
+				return null;
+			if (tempPlayer != null)
+				return tempPlayer;
 			return null;
 		}
 		public static Group GetGroup(string name) { return Group.findPlayerGroup(name); }
 		public static string GetColor(string name) { return GetGroup(name).color; }
 		#endregion
 		#region == OTHER ==
-		static byte FreeId()
-		{
-			for (ushort i = 0; i < Block.maxblocks; i++)
-			{
+		static byte FreeId() {
+			for (ushort i = 0; i < Block.maxblocks; i++) {
 				bool used = players.Any(p => p.id == i);
 
 				if (!used)
@@ -2254,25 +2016,22 @@ namespace MCSpleef
 			}
 			return (byte)1;
 		}
-		public static byte[] StringFormat(string str, int size)
-		{
+		public static byte[] StringFormat(string str, int size) {
 			byte[] bytes = new byte[size];
 			bytes = enc.GetBytes(str.PadRight(size).Substring(0, size));
 			return bytes;
 		}
 
 		// TODO: Optimize this using a StringBuilder
-		static List<string> Wordwrap(string message)
-		{
+		static List<string> Wordwrap(string message) {
 			List<string> lines = new List<string>();
 			message = Regex.Replace(message, @"(&[0-9a-f])+(&[0-9a-f])", "$2");
 			message = Regex.Replace(message, @"(&[0-9a-f])+$", "");
 
-			int limit = 64; string color = "";
-			while (message.Length > 0)
-			{
-				if (lines.Count > 0)
-				{
+			int limit = 64;
+			string color = "";
+			while (message.Length > 0) {
+				if (lines.Count > 0) {
 					if (message[0].ToString() == "&")
 						message = "> " + message.Trim();
 					else
@@ -2284,8 +2043,7 @@ namespace MCSpleef
 
 				if (message.Length <= limit) { lines.Add(message); break; }
 				for (int i = limit - 1; i > limit - 20; --i)
-					if (message[i] == ' ')
-					{
+					if (message[i] == ' ') {
 						lines.Add(message.Substring(0, i));
 						goto Next;
 					}
@@ -2293,40 +2051,32 @@ namespace MCSpleef
 			retry:
 				if (message.Length == 0 || limit == 0) { return lines; }
 
-				try
-				{
-					if (message.Substring(limit - 2, 1) == "&" || message.Substring(limit - 1, 1) == "&")
-					{
+				try {
+					if (message.Substring(limit - 2, 1) == "&" || message.Substring(limit - 1, 1) == "&") {
 						message = message.Remove(limit - 2, 1);
 						limit -= 2;
 						goto retry;
-					}
-					else if (message[limit - 1] < 32 || message[limit - 1] > 127)
-					{
+					} else if (message[limit - 1] < 32 || message[limit - 1] > 127) {
 						message = message.Remove(limit - 1, 1);
 						limit -= 1;
 					}
-				}
-				catch { return lines; }
+				} catch { return lines; }
 				lines.Add(message.Substring(0, limit));
 
-			Next: message = message.Substring(lines[lines.Count - 1].Length);
-				if (lines.Count == 1) limit = 60;
+			Next:
+				message = message.Substring(lines[lines.Count - 1].Length);
+				if (lines.Count == 1)
+					limit = 60;
 
 				int index = lines[lines.Count - 1].LastIndexOf('&');
-				if (index != -1)
-				{
-					if (index < lines[lines.Count - 1].Length - 1)
-					{
+				if (index != -1) {
+					if (index < lines[lines.Count - 1].Length - 1) {
 						char next = lines[lines.Count - 1][index + 1];
 						if ("0123456789abcdef".IndexOf(next) != -1) { color = "&" + next; }
-						if (index == lines[lines.Count - 1].Length - 1)
-						{
+						if (index == lines[lines.Count - 1].Length - 1) {
 							lines[lines.Count - 1] = lines[lines.Count - 1].Substring(0, lines[lines.Count - 1].Length - 2);
 						}
-					}
-					else if (message.Length != 0)
-					{
+					} else if (message.Length != 0) {
 						char next = message[0];
 						if ("0123456789abcdef".IndexOf(next) != -1) { color = "&" + next; }
 						lines[lines.Count - 1] = lines[lines.Count - 1].Substring(0, lines[lines.Count - 1].Length - 1);
@@ -2335,11 +2085,9 @@ namespace MCSpleef
 				}
 			}
 			char[] temp;
-			for (int i = 0; i < lines.Count; i++)
-			{
+			for (int i = 0; i < lines.Count; i++) {
 				temp = lines[i].ToCharArray();
-				if (temp[temp.Length - 2] == '%' || temp[temp.Length - 2] == '&')
-				{
+				if (temp[temp.Length - 2] == '%' || temp[temp.Length - 2] == '&') {
 					temp[temp.Length - 1] = ' ';
 					temp[temp.Length - 2] = ' ';
 				}
@@ -2349,38 +2097,32 @@ namespace MCSpleef
 			}
 			return lines;
 		}
-		public static bool ValidName(string name, Player p = null)
-		{
+		public static bool ValidName(string name, Player p = null) {
 			string allowedchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890._@+";
 			return name.All(ch => allowedchars.IndexOf(ch) != -1);
 		}
 
-		public static int GetBannedCount()
-		{
-			try { return File.ReadAllLines("ranks/banned.txt").Length; }
-			catch { return 0; }
+		public static int GetBannedCount() {
+			try { return File.ReadAllLines("ranks/banned.txt").Length; } catch { return 0; }
 		}
 
 		#endregion
 		#region == Host <> Network ==
 		public static byte[] HTNO(ushort x) { byte[] y = BitConverter.GetBytes(x); Array.Reverse(y); return y; }
-		public static ushort NTHO(byte[] x, int offset)
-		{
+		public static ushort NTHO(byte[] x, int offset) {
 			byte[] y = new byte[2];
-			Buffer.BlockCopy(x, offset, y, 0, 2); Array.Reverse(y);
+			Buffer.BlockCopy(x, offset, y, 0, 2);
+			Array.Reverse(y);
 			return BitConverter.ToUInt16(y, 0);
 		}
 		public static byte[] HTNO(short x) { byte[] y = BitConverter.GetBytes(x); Array.Reverse(y); return y; }
 		#endregion
 
-		bool CheckBlockSpam()
-		{
-			if (spamBlockLog.Count >= spamBlockCount)
-			{
+		bool CheckBlockSpam() {
+			if (spamBlockLog.Count >= spamBlockCount) {
 				DateTime oldestTime = spamBlockLog.Dequeue();
 				double spamTimer = DateTime.Now.Subtract(oldestTime).TotalSeconds;
-				if (spamTimer < spamBlockTimer)
-				{
+				if (spamTimer < spamBlockTimer) {
 					this.Kick("You were kicked by antigrief system. Slow down.");
 					SendMessage(c.red + name + " was kicked for suspected griefing.");
 					Server.s.Log(name + " was kicked for block spam (" + spamBlockCount + " blocks in " + spamTimer + " seconds)");
@@ -2395,18 +2137,18 @@ namespace MCSpleef
 		public ushort[] footLocation { get { return getLoc(false); } }
 		public ushort[] headLocation { get { return getLoc(true); } }
 
-		public ushort[] getLoc(bool head)
-		{
+		public ushort[] getLoc(bool head) {
 			ushort[] myPos = pos;
 			myPos[0] /= 32;
-			if (head) myPos[1] = (ushort)((myPos[1] + 4) / 32);
-			else myPos[1] = (ushort)((myPos[1] + 4) / 32 - 1);
+			if (head)
+				myPos[1] = (ushort)((myPos[1] + 4) / 32);
+			else
+				myPos[1] = (ushort)((myPos[1] + 4) / 32 - 1);
 			myPos[2] /= 32;
 			return myPos;
 		}
 
-		public void setLoc(ushort[] myPos)
-		{
+		public void setLoc(ushort[] myPos) {
 			myPos[0] *= 32;
 			myPos[1] *= 32;
 			myPos[2] *= 32;
@@ -2415,40 +2157,35 @@ namespace MCSpleef
 
 		#endregion
 
-		public static bool IPInPrivateRange(string ip)
-		{
+		public static bool IPInPrivateRange(string ip) {
 			if (ip.StartsWith("172.") && (int.Parse(ip.Split('.')[1]) >= 16 && int.Parse(ip.Split('.')[1]) <= 31))
 				return true;
 			return IPAddress.IsLoopback(IPAddress.Parse(ip)) || ip.StartsWith("192.168.") || ip.StartsWith("10.");
 		}
 
-		public static bool IsLocalIpAddress(string host)
-		{
-			try
-			{
+		public static bool IsLocalIpAddress(string host) {
+			try {
 				IPAddress[] hostIPs = Dns.GetHostAddresses(host);
 				IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
 
-				foreach (IPAddress hostIP in hostIPs)
-				{
-					if (IPAddress.IsLoopback(hostIP)) return true;
+				foreach (IPAddress hostIP in hostIPs) {
+					if (IPAddress.IsLoopback(hostIP))
+						return true;
 					foreach (IPAddress localIP in localIPs) { if (hostIP.Equals(localIP)) return true; }
 				}
-			}
-			catch { }
+			} catch { }
 			return false;
 		}
 
-		public bool EnoughMoney(int amount)
-		{
+		public bool EnoughMoney(int amount) {
 			if (this.money >= amount)
 				return true;
 			return false;
 		}
 
-		public string ReadString(int count = 64)
-		{
-			if (Reader == null) return null;
+		public string ReadString(int count = 64) {
+			if (Reader == null)
+				return null;
 			var chars = new byte[count];
 			Reader.Read(chars, 0, count);
 			return Encoding.UTF8.GetString(chars).TrimEnd().Replace("\0", string.Empty);

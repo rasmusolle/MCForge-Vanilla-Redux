@@ -1,14 +1,14 @@
 /*
 	Copyright 2009 MCSharp team (Modified for use with MCZall/MCLawl/MCForge/MCForge-Redux/MCSpleef)
-	
+
 	Dual-licensed under the	Educational Community License, Version 2.0 and
 	the GNU General Public License, Version 3 (the "Licenses"); you may
 	not use this file except in compliance with the Licenses. You may
 	obtain a copy of the Licenses at
-	
+
 	http://www.opensource.org/licenses/ecl2.php
 	http://www.gnu.org/licenses/gpl-3.0.html
-	
+
 	Unless required by applicable law or agreed to in writing,
 	software distributed under the Licenses are distributed on an "AS IS"
 	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -24,11 +24,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
-namespace MCSpleef
-{
+namespace MCSpleef {
 	public enum LogType { Process, Main, Op, Admin }
-	public class Server
-	{
+	public class Server {
 		public static bool cancelcommand = false;
 		public static bool canceladmin = false;
 		public static bool cancellog = false;
@@ -56,7 +54,6 @@ namespace MCSpleef
 		public event MessageEventHandler OnURLChange;
 		public event PlayerListHandler OnPlayerListChange;
 		public event VoidHandler OnSettingsUpdate;
-		public static ForgeBot IRC;
 		public static Thread locationChecker;
 		public static Thread blockThread;
 
@@ -76,13 +73,8 @@ namespace MCSpleef
 		//Other
 		public static bool ServerSetupFinished = false;
 		public static PlayerList bannedIP;
-		public static PlayerList ircControllers;
 		public static PlayerList muted;
-
-		// The Developer List
-		internal static readonly List<string> devs = new List<string>();
-		public static List<string> Devs { get { return new List<string>(devs); } }
-
+		
 		public static Thread checkPosThread;
 
 		public static PerformanceCounter PCCounter = null;
@@ -102,7 +94,6 @@ namespace MCSpleef
 
 		//Color list as a char array
 		public static Char[] ColourCodesNoPercent = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-
 
 		public static int vulnerable = 1;
 
@@ -126,16 +117,6 @@ namespace MCSpleef
 		public static string level = "main";
 		public static string errlog = "error.log";
 
-		public static bool irc = false;
-		public static bool ircColorsEnable = false;
-		public static int ircPort = 6667;
-		public static string ircNick = "ForgeBot";
-		public static string ircServer = "irc.mcforge.org";
-		public static string ircChannel = "#changethis";
-		public static string ircOpChannel = "#changethistoo";
-		public static bool ircIdentify = false;
-		public static string ircPassword = "";
-		
 		public static int backupInterval = 300;
 		public static int blockInterval = 60;
 		public static string backupLocation = Application.StartupPath + "/levels/backups";
@@ -143,7 +124,6 @@ namespace MCSpleef
 		public static bool deathcount = true;
 
 		public static string DefaultColor = "&e";
-		public static string IRCColour = "&5";
 
 		public static string defaultRank = "guest";
 
@@ -156,15 +136,13 @@ namespace MCSpleef
 
 		public static MainLoop ml;
 		public static Server s;
-		public Server()
-		{
+		public Server() {
 			ml = new MainLoop("server");
 			Server.s = this;
 		}
 		//True = cancel event
 		//Fale = dont cacnel event
-		public static bool Check(string cmd, string message)
-		{
+		public static bool Check(string cmd, string message) {
 			if (ConsoleCommand != null)
 				ConsoleCommand(cmd, message);
 			return cancelcommand;
@@ -173,9 +151,7 @@ namespace MCSpleef
 		public string table = "Players";
 		public string column = "bigtnt";
 
-		public void Start()
-		{
-
+		public void Start() {
 			shuttingDown = false;
 			Log("Starting Server");
 
@@ -184,94 +160,71 @@ namespace MCSpleef
 			if (!Directory.Exists("text")) Directory.CreateDirectory("text");
 			LoadAllSettings();
 			timeOnline = DateTime.Now;
-			UpdateStaffList();
 
 			if (levels != null)
 				foreach (Level l in levels) { l.Unload(); }
-			ml.Queue(delegate
-			{
-				try
-				{
+			ml.Queue(delegate {
+				try {
 					levels = new List<Level>(maps);
 
-					if (File.Exists("levels/" + level + ".mcf"))
-					{
+					if (File.Exists("levels/" + level + ".mcf")) {
 						mainLevel = Level.Load(level);
-						if (mainLevel == null)
-						{
+						if (mainLevel == null) {
 							mainLevel = new Level(level, 128, 64, 128) { permissionvisit = LevelPermission.Guest, permissionbuild = LevelPermission.Guest };
 							mainLevel.Save();
 						}
-					}
-					else
-					{
+					} else {
 						mainLevel = new Level(level, 128, 64, 128) { permissionvisit = LevelPermission.Guest, permissionbuild = LevelPermission.Guest };
 						mainLevel.Save();
 					}
 
 					addLevel(mainLevel);
 
-				}
-				catch (Exception e) { ErrorLog(e); }
+				} catch (Exception e) { ErrorLog(e); }
 			});
-			ml.Queue(delegate
-			{
+			ml.Queue(delegate {
 				bannedIP = PlayerList.Load("banned-ip.txt", null);
-				ircControllers = PlayerList.Load("IRC_Controllers.txt", null);
 				muted = PlayerList.Load("muted.txt", null);
 
 				foreach (Group grp in Group.GroupList)
 					grp.playerList = PlayerList.Load(grp.fileName, grp);
 			});
 
-			ml.Queue(delegate
-			{
+			ml.Queue(delegate {
 				Log("Creating listening socket on port " + port + "... ");
 				Setup();
 			});
 
-			ml.Queue(delegate
-			{
+			ml.Queue(delegate {
 				updateTimer.Elapsed += delegate { Player.GlobalUpdate(); };
 				updateTimer.Start();
 			});
 
 			// Heartbeat
-			ml.Queue(delegate
-			{
+			ml.Queue(delegate {
 				try { Heartbeat.Init(); }
 				catch (Exception e) { Server.ErrorLog(e); }
 			});
 
-			ml.Queue(delegate
-			{
+			ml.Queue(delegate {
 				messageTimer.Elapsed += delegate { RandomMessage(); };
 				messageTimer.Start();
 
 				process = System.Diagnostics.Process.GetCurrentProcess();
 
-				if (File.Exists("text/messages.txt"))
-				{
-					using (StreamReader r = File.OpenText("text/messages.txt"))
-					{
-						while (!r.EndOfStream)
-							messages.Add(r.ReadLine());
+				if (File.Exists("text/messages.txt")) {
+					using (StreamReader r = File.OpenText("text/messages.txt")) {
+						while (!r.EndOfStream) messages.Add(r.ReadLine());
 					}
 				}
 				else File.Create("text/messages.txt").Close();
 
-				if(Server.irc) IRC = new ForgeBot(Server.ircChannel, Server.ircOpChannel, Server.ircNick, Server.ircServer);
-				if (Server.irc) IRC.Connect();
+				new AutoSaver(Server.backupInterval);
 
-				//new AutoSaver(Server.backupInterval);
-
-				blockThread = new Thread(new ThreadStart(delegate
-				{
-					while (true)
-					{
+				blockThread = new Thread(new ThreadStart(delegate {
+					while (true) {
 						Thread.Sleep(blockInterval * 1000);
-						levels.ForEach(delegate(Level l)
-						{
+						levels.ForEach(delegate(Level l) {
 							try { l.saveChanges(); }
 							catch (Exception e) { Server.ErrorLog(e); }
 						});
@@ -280,18 +233,14 @@ namespace MCSpleef
 				blockThread.Start();
 
 
-				locationChecker = new Thread(new ThreadStart(delegate
-				{
+				locationChecker = new Thread(new ThreadStart(delegate {
 					Player p;
 					ushort x, y, z;
 					int i;
-					while (true)
-					{
+					while (true) {
 						Thread.Sleep(3);
-						for (i = 0; i < Player.players.Count; i++)
-						{
-							try
-							{
+						for (i = 0; i < Player.players.Count; i++) {
+							try {
 								p = Player.players[i];
 
 								x = (ushort)(p.pos[0] / 32);
@@ -317,21 +266,17 @@ namespace MCSpleef
 			});
 		}
 
-		public static void LoadAllSettings()
-		{
+		public static void LoadAllSettings() {
 			SrvProperties.Load("properties/server.properties");
 			Group.InitAll();
 			Command.InitAll();
-			BlocksDB.Load ();
 			GrpCommands.fillRanks();
 			Block.SetBlocks();
 			Awards.Load();
 		}
 
-		public static void Setup()
-		{
-			try
-			{
+		public static void Setup() {
+			try {
 				IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, port);
 				listen = new Socket(endpoint.Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 				listen.Bind(endpoint);
@@ -342,27 +287,21 @@ namespace MCSpleef
 			catch (Exception e) { ErrorLog(e); s.Log("Error Creating listener, socket shutting down"); }
 		}
 
-		static void Accept(IAsyncResult result)
-		{
+		static void Accept(IAsyncResult result) {
 			if (shuttingDown) return;
 
 			Player p = null;
 			bool begin = false;
-			try
-			{
+			try {
 				p = new Player(listen.EndAccept(result));
 				listen.BeginAccept(Accept, Block.air);
 				begin = true;
-			}
-			catch (SocketException)
-			{
+			} catch (SocketException) {
 				if (p != null)
 					p.Disconnect();
 				if (!begin)
 					listen.BeginAccept(Accept, Block.air);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				ErrorLog(e);
 				if (p != null)
 					p.Disconnect();
@@ -371,12 +310,10 @@ namespace MCSpleef
 			}
 		}
 
-		public static void Exit(bool AutoRestart)
-		{
+		public static void Exit(bool AutoRestart) {
 			List<string> players = new List<string>();
 			foreach (Player p in Player.players) { p.save(); players.Add(p.name); }
-			foreach (string p in players)
-			{
+			foreach (string p in players) {
 				if (!AutoRestart)
 					Player.Find(p).Kick("Server shutdown. Rejoin in 10 seconds.");
 				else
@@ -385,8 +322,7 @@ namespace MCSpleef
 
 			//Player.players.ForEach(delegate(Player p) { p.Kick("Server shutdown. Rejoin in 10 seconds."); });
 			Player.connections.ForEach(
-			delegate(Player p)
-			{
+			delegate(Player p) {
 				if (!AutoRestart)
 					p.Kick("Server shutdown. Rejoin in 10 seconds.");
 				else
@@ -395,8 +331,6 @@ namespace MCSpleef
 			);
 
 			if (listen != null) { listen.Close(); }
-			try { IRC.Disconnect(!AutoRestart ? "Server is shutting down." : "Server is restarting."); }
-			catch { }
 		}
 
 		public static void addLevel(Level level) { levels.Add(level); }
@@ -407,8 +341,7 @@ namespace MCSpleef
 
 		public void UpdateUrl(string url) { if (OnURLChange != null) OnURLChange(url); }
 
-		public void Log(string message, bool systemMsg = false, LogType type = LogType.Main)
-		{
+		public void Log(string message, bool systemMsg = false, LogType type = LogType.Main) {
 			retry :
 			if ( message.Trim().EndsWith( "!" ) || message.Trim().EndsWith( ":" ) ) {
 				message = message.Substring( 0, message.Length - 1 );
@@ -417,55 +350,43 @@ namespace MCSpleef
 
 			if ( type == LogType.Process && !message.Trim().EndsWith( ".." ) ) { message += "..."; }
 
-			if (type == LogType.Main)
-			{
-				if (ServerLog != null)
-				{
+			if (type == LogType.Main) {
+				if (ServerLog != null) {
 					ServerLog(message);
-					if (cancellog)
-					{
+					if (cancellog) {
 						cancellog = false;
 						return;
 					}
 				}
-				if (OnLog != null)
-				{
+				if (OnLog != null) {
 					if (!systemMsg) OnLog(DateTime.Now.ToString("(HH:mm:ss) ") + message);
 					else OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
 				}
 				Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
 			}
-			if(type == LogType.Op)
-			{
-				if (ServerOpLog != null)
-				{
+			if(type == LogType.Op) {
+				if (ServerOpLog != null) {
 					Log(message, false, LogType.Op);
-					if (canceloplog)
-					{
+					if (canceloplog) {
 						canceloplog = false;
 						return;
 					}
 				}
-				if (OnOp != null)
-				{
+				if (OnOp != null) {
 					if (!systemMsg) OnOp(DateTime.Now.ToString("(HH:mm:ss) ") + message);
 					else OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
 				}
 				Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
 			}
-			if(type == LogType.Admin)
-			{
-				if (ServerAdminLog != null)
-				{
+			if(type == LogType.Admin) {
+				if (ServerAdminLog != null) {
 					ServerAdminLog(message);
-					if (canceladmin)
-					{
+					if (canceladmin) {
 						canceladmin = false;
 						return;
 					}
 				}
-				if (OnAdmin != null)
-				{
+				if (OnAdmin != null) {
 					if (!systemMsg) OnAdmin(DateTime.Now.ToString("(HH:mm:ss) ") + message);
 					else OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
 				}
@@ -473,20 +394,17 @@ namespace MCSpleef
 			}
 		}
 
-		public void ErrorCase(string message)
-		{
+		public void ErrorCase(string message) {
 			if (OnError != null)
 				OnError(message);
 		}
 
-		public void CommandUsed(string message)
-		{
+		public void CommandUsed(string message) {
 			if (OnCommand != null) OnCommand(DateTime.Now.ToString("(HH:mm:ss) ") + message);
 			Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
 		}
 
-		public static void ErrorLog(Exception ex)
-		{
+		public static void ErrorLog(Exception ex) {
 			if (ServerError != null)
 				ServerError(ex);
 			Logger.WriteError(ex);
@@ -494,24 +412,16 @@ namespace MCSpleef
 			catch { }
 		}
 
-		public static void RandomMessage()
-		{
+		public static void RandomMessage() {
 			if (Player.number != 0 && messages.Count > 0)
 				Player.GlobalMessage(messages[new Random().Next(0, messages.Count)]);
 		}
 
 		internal void SettingsUpdate() { if (OnSettingsUpdate != null) OnSettingsUpdate(); }
 
-		public static string FindColor(string Username)
-		{
+		public static string FindColor(string Username) {
 			foreach (Group grp in Group.GroupList.Where(grp => grp.playerList.Contains(Username))) { return grp.color; }
 			return Group.standard.color;
-		}
-
-		public void UpdateStaffList()
-		{
-			devs.Clear();
-			devs.Add("rasmusolle");
 		}
 	}
 }

@@ -1,14 +1,14 @@
 ﻿/*
 	Copyright 2017 MCSpleef
-	
+
 	Dual-licensed under the	Educational Community License, Version 2.0 and
 	the GNU General Public License, Version 3 (the "Licenses"); you may
 	not use this file except in compliance with the Licenses. You may
 	obtain a copy of the Licenses at
-	
+
 	http://www.opensource.org/licenses/ecl2.php
 	http://www.gnu.org/licenses/gpl-3.0.html
-	
+
 	Unless required by applicable law or agreed to in writing,
 	software distributed under the Licenses are distributed on an "AS IS"
 	BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -20,10 +20,8 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
-namespace MCSpleef
-{
-	public static class Heartbeat
-	{
+namespace MCSpleef {
+	public static class Heartbeat {
 		static string hash;
 		public static string serverURL;
 		static string staticVars;
@@ -32,8 +30,7 @@ namespace MCSpleef
 
 		static System.Timers.Timer heartbeatTimer = new System.Timers.Timer(500);
 
-		public static void Init()
-		{
+		public static void Init() {
 			staticVars = "port=" + Server.port +
 							"&users=" + 10 +
 							"&max=" + Server.players +
@@ -43,10 +40,8 @@ namespace MCSpleef
 							"&version=" + Server.version +
 							"&software=MCForge-Redux";
 
-			Thread backupThread = new Thread(new ThreadStart(delegate
-			{
-				heartbeatTimer.Elapsed += delegate
-				{
+			Thread backupThread = new Thread(new ThreadStart(delegate {
+				heartbeatTimer.Elapsed += delegate {
 					heartbeatTimer.Interval = 55000;
 					try { Pump(); }
 					catch (Exception e) { Server.ErrorLog(e); }
@@ -56,8 +51,7 @@ namespace MCSpleef
 			backupThread.Start();
 		}
 
-		public static bool Pump()
-		{
+		public static bool Pump() {
 			string postVars = staticVars;
 
 			string url = "http://www.classicube.net/heartbeat.jsp";
@@ -106,8 +100,7 @@ namespace MCSpleef
 			return true;
 		}
 
-		public static string UrlEncode(string input)
-		{
+		public static string UrlEncode(string input) {
 			StringBuilder output = new StringBuilder();
 			for (int i = 0; i < input.Length; i++) {
 				if ((input[i] >= '0' && input[i] <= '9') ||

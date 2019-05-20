@@ -15,19 +15,15 @@
 	or implied. See the Licenses for the specific language governing
 	permissions and limitations under the Licenses.
 */
-namespace MCSpleef.Commands
-{
-	class CmdRules : Command
-	{
+namespace MCSpleef.Commands {
+	class CmdRules : Command {
 		public override string name { get { return "rules"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			Player.SendMessage(p, "Server Rules:");
 			Command.all.Find("view").Use(p, "rules");
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/rules - Displays server rules.");
 		}
 	}

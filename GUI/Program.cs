@@ -23,10 +23,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-namespace MCSpleef.Gui
-{
-	public static class Program
-	{
+namespace MCSpleef.Gui {
+	public static class Program {
 		public static DateTime startTime;
 		public static string parent = Path.GetFileName(Assembly.GetEntryAssembly().Location);
 		public static string parentfullpath = Assembly.GetEntryAssembly().Location;
@@ -36,28 +34,23 @@ namespace MCSpleef.Gui
 		public static extern IntPtr GetConsoleWindow();
 		[DllImport("user32.dll")]
 		public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-		public static void GlobalExHandler(object sender, UnhandledExceptionEventArgs e)
-		{
+		public static void GlobalExHandler(object sender, UnhandledExceptionEventArgs e) {
 			Exception ex = (Exception)e.ExceptionObject;
 			Server.ErrorLog(ex);
 			Thread.Sleep(500);
 		}
 
-		public static void ThreadExHandler(object sender, ThreadExceptionEventArgs e)
-		{
+		public static void ThreadExHandler(object sender, ThreadExceptionEventArgs e) {
 			Exception ex = e.Exception;
 			Server.ErrorLog(ex);
 			Thread.Sleep(500);
 		}
 
 		[STAThread]
-		public static void Main(string[] args)
-		{
+		public static void Main(string[] args) {
 			startTime = DateTime.Now;
-			if (Process.GetProcessesByName("MCForge").Length != 1)
-			{
-				foreach (Process pr in Process.GetProcessesByName("MCForge"))
-				{
+			if (Process.GetProcessesByName("MCForge").Length != 1) {
+				foreach (Process pr in Process.GetProcessesByName("MCForge")) {
 					if (pr.MainModule.BaseAddress == Process.GetCurrentProcess().MainModule.BaseAddress)
 						if (pr.Id != Process.GetCurrentProcess().Id)
 							pr.Kill();
@@ -72,17 +65,14 @@ namespace MCSpleef.Gui
 			Application.Run(new MCSpleef.Gui.Window());
 		}
 
-		private static void WriteToConsole(string message)
-		{
-			if (!message.Contains("&") && !message.Contains("%"))
-			{
+		private static void WriteToConsole(string message) {
+			if (!message.Contains("&") && !message.Contains("%")) {
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.WriteLine(message);
 				return;
 			}
 			string[] splitted = message.Split('&', '%');
-			for (int i = 0; i < splitted.Length; i++)
-			{
+			for (int i = 0; i < splitted.Length; i++) {
 				string elString = splitted[i];
 				if (String.IsNullOrEmpty(elString))
 					continue;
@@ -95,80 +85,85 @@ namespace MCSpleef.Gui
 			}
 		}
 
-		private static ConsoleColor GetColor(char c)
-		{
-			switch (c)
-			{
-				case 'e': return ConsoleColor.Yellow;
-				case '0': return ConsoleColor.Black;
-				case '1': return ConsoleColor.DarkBlue;
-				case '2': return ConsoleColor.DarkGreen;
-				case '3': return ConsoleColor.DarkCyan;
-				case '4': return ConsoleColor.DarkMagenta;
-					//No love for purples
-				case '7': return ConsoleColor.Gray;
-				case '6': return ConsoleColor.DarkYellow;
-				case '8': return ConsoleColor.DarkGray;
-				case '9': return ConsoleColor.Blue;
-				case 'a': return ConsoleColor.Green;
-				case 'b': return ConsoleColor.Cyan;
-				case 'c': return ConsoleColor.Red;
-				case 'd': return ConsoleColor.Magenta;
+		private static ConsoleColor GetColor(char c) {
+			switch (c) {
+				case 'e':
+					return ConsoleColor.Yellow;
+				case '0':
+					return ConsoleColor.Black;
+				case '1':
+					return ConsoleColor.DarkBlue;
+				case '2':
+					return ConsoleColor.DarkGreen;
+				case '3':
+					return ConsoleColor.DarkCyan;
+				case '4':
+					return ConsoleColor.DarkMagenta;
+				//No love for purples
+				case '7':
+					return ConsoleColor.Gray;
+				case '6':
+					return ConsoleColor.DarkYellow;
+				case '8':
+					return ConsoleColor.DarkGray;
+				case '9':
+					return ConsoleColor.Blue;
+				case 'a':
+					return ConsoleColor.Green;
+				case 'b':
+					return ConsoleColor.Cyan;
+				case 'c':
+					return ConsoleColor.Red;
+				case 'd':
+					return ConsoleColor.Magenta;
 				//Dont need f, it will default to white.
 				default:
 					return ConsoleColor.White;
 			}
 		}
 
-		public static void handleComm()
-		{
+		public static void handleComm() {
 			string s, msg;
-			while (true)
-			{
-				try
-				{
+			while (true) {
+				try {
 					string sentCmd = String.Empty, sentMsg = String.Empty;
 					s = Console.ReadLine().Trim(); // Make sure we have no whitespace!
 
-					if (s.Length < 1) continue;
-					if (s[0] == '/') s = s.Remove(0, 1);
-					else goto talk;
-					if (s.IndexOf(' ') != -1)
-					{
+					if (s.Length < 1)
+						continue;
+					if (s[0] == '/')
+						s = s.Remove(0, 1);
+					else
+						goto talk;
+					if (s.IndexOf(' ') != -1) {
 						sentCmd = s.Substring(0, s.IndexOf(' '));
 						sentMsg = s.Substring(s.IndexOf(' ') + 1);
-					}
-					else if (s != String.Empty) sentCmd = s;
-					else goto talk;
+					} else if (s != String.Empty)
+						sentCmd = s;
+					else
+						goto talk;
 
-					try
-					{
+					try {
 						if (Server.Check(sentCmd, sentMsg)) { Server.cancelcommand = false; continue; }
 						Command cmd = Command.all.Find(sentCmd);
-						if (cmd != null)
-						{
+						if (cmd != null) {
 							cmd.Use(null, sentMsg);
 							Console.WriteLine("CONSOLE: USED /" + sentCmd + " " + sentMsg);
 							if (sentCmd.ToLower() != "restart")
 								continue;
 							break;
-						}
-						else
-						{
+						} else {
 							Console.WriteLine("CONSOLE: Unknown command.");
 							continue;
 						}
-					}
-					catch (Exception e)
-					{
+					} catch (Exception e) {
 						Server.ErrorLog(e);
 						Console.WriteLine("CONSOLE: Failed command.");
 						continue;
 					}
 
 				talk:
-					if (s[0] == '@')
-					{
+					if (s[0] == '@') {
 						s = s.Remove(0, 1);
 						int spacePos = s.IndexOf(' ');
 						if (spacePos == -1) { Console.WriteLine("No message entered."); continue; }
@@ -176,23 +171,15 @@ namespace MCSpleef.Gui
 						if (pl == null) { Console.WriteLine("Player not found."); continue; }
 						msg = String.Format("&9[>] {0}Console [&a{1}{0}]: &f{2}", Server.DefaultColor, Server.ZallState, s.Substring(spacePos + 1));
 						Player.SendMessage(pl, msg);
-					}
-					else if (s[0] == '#')
-					{
+					} else if (s[0] == '#') {
 						msg = String.Format("To Ops -{0}Console [&a{1}{0}]&f- {2}", Server.DefaultColor, Server.ZallState, s);
 						Player.GlobalMessageOps(msg);
-						Server.IRC.Say(msg, true);
-					}
-					else
-					{
+					} else {
 						msg = String.Format("{0}Console [&a{1}{0}]: &f{2}", Server.DefaultColor, Server.ZallState, s);
 						Player.GlobalMessage(msg);
-						Server.IRC.Say(msg);
 					}
 					WriteToConsole(msg);
-				}
-				catch (Exception ex)
-				{
+				} catch (Exception ex) {
 					Server.ErrorLog(ex);
 				}
 			}
@@ -200,25 +187,21 @@ namespace MCSpleef.Gui
 
 		public static System.Timers.Timer updateTimer = new System.Timers.Timer(120 * 60 * 1000);
 
-		static public void ExitProgram(bool AutoRestart)
-		{
+		static public void ExitProgram(bool AutoRestart) {
 			Server.restarting = AutoRestart;
 			Server.shuttingDown = true;
 
 			Server.Exit(AutoRestart);
 
-			new Thread(new ThreadStart(delegate
-			{
-				if (AutoRestart)
-				{
+			new Thread(new ThreadStart(delegate {
+				if (AutoRestart) {
 					saveAll(true);
 
-					if (Server.listen != null) Server.listen.Close();
+					if (Server.listen != null)
+						Server.listen.Close();
 					Process.Start(parent);
 					Environment.Exit(0);
-				}
-				else
-				{
+				} else {
 					saveAll(false);
 					Application.Exit();
 					Environment.Exit(0);
@@ -226,21 +209,17 @@ namespace MCSpleef.Gui
 			})).Start();
 		}
 
-		static public void saveAll(bool restarting)
-		{
-			try
-			{
+		static public void saveAll(bool restarting) {
+			try {
 				List<Player> kickList = new List<Player>();
 				kickList.AddRange(Player.players);
-				foreach (Player p in kickList)
-				{
+				foreach (Player p in kickList) {
 					if (restarting)
 						p.Kick("Server restarted! Rejoin!");
 					else
 						p.Kick("Server is shutting down.");
 				}
-			}
-			catch (Exception exc) { Server.ErrorLog(exc); }
+			} catch (Exception exc) { Server.ErrorLog(exc); }
 		}
 	}
 }

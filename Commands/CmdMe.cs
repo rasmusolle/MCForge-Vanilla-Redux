@@ -16,19 +16,14 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-namespace MCSpleef.Commands
-{
-	public class CmdMe : Command
-	{
+namespace MCSpleef.Commands {
+	public class CmdMe : Command {
 		public override string name { get { return "me"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			Player.GlobalChat(p, p.color + "*" + p.name + " " + message, false);
-			Server.IRC.Say("*" + p.name + " " + message);
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Command.all.Find("award").Use(p, p.name + " Needing Help");
 			Player.SendMessage(p, "What do you need help with, m'boy?! Are you stuck down a well?!");
 		}

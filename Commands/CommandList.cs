@@ -17,19 +17,15 @@
 */
 using System.Collections.Generic;
 using System.Linq;
-namespace MCSpleef
-{
-	public class CommandList
-	{
+namespace MCSpleef {
+	public class CommandList {
 		public List<Command> commands = new List<Command>();
 		public CommandList() { }
 		public void Add(Command cmd) { commands.Add(cmd); }
-		public void AddRange(List<Command> listCommands)
-		{
+		public void AddRange(List<Command> listCommands) {
 			listCommands.ForEach(delegate(Command cmd) { commands.Add(cmd); });
 		}
-		public List<string> commandNames()
-		{
+		public List<string> commandNames() {
 			var tempList = new List<string>();
 
 			commands.ForEach(cmd => tempList.Add(cmd.name));
@@ -39,13 +35,11 @@ namespace MCSpleef
 
 		public bool Remove(Command cmd) { return commands.Remove(cmd); }
 		public bool Contains(Command cmd) { return commands.Contains(cmd); }
-		public bool Contains(string name)
-		{
+		public bool Contains(string name) {
 			name = name.ToLower();
 			return commands.Any(cmd => cmd.name == name.ToLower());
 		}
-		public Command Find(string name)
-		{
+		public Command Find(string name) {
 			name = name.ToLower();
 			return commands.FirstOrDefault(cmd => cmd.name == name);
 		}

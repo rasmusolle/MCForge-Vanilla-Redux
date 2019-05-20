@@ -16,19 +16,15 @@
 	permissions and limitations under the Licenses.
 */
 using System;
-namespace MCSpleef.Commands
-{
-	public class CmdCuboid : Command
-	{
+namespace MCSpleef.Commands {
+	public class CmdCuboid : Command {
 		public override string name { get { return "cuboid"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			p.level.Blockchange(p, 5, 5, 5, Block.stone);
 		}
-		
-		public override void Help(Player p)
-		{
+
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/cuboid [type] - create a cuboid of blocks.");
 		}
 

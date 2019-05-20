@@ -18,57 +18,44 @@
 //TODO: Cleanup this
 using System;
 using System.Collections.Generic;
-namespace MCSpleef.Commands
-{
-	public class CmdAwards : Command
-	{
+namespace MCSpleef.Commands {
+	public class CmdAwards : Command {
 		public override string name { get { return "awards"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
-		public override void Use(Player p, string message)
-		{
+		public override void Use(Player p, string message) {
 			if (message.Split(' ').Length > 1) { Help(p); return; }
 
 			int totalCount = 0;
 			string foundPlayer = "";
 
-			if (message != "")
-			{
-				if (message.Split(' ').Length == 2)
-				{
+			if (message != "") {
+				if (message.Split(' ').Length == 2) {
 					foundPlayer = message.Split(' ')[0];
 					Player who = Player.Find(foundPlayer);
-					if (who != null) foundPlayer = who.name;
-					try { totalCount = int.Parse(message.Split(' ')[1]); }
-					catch { Help(p); return; }
-				}
-				else
-				{
-					if (message.Length <= 3)
-					{
-						try { totalCount = int.Parse(message); }
-						catch
-						{
+					if (who != null)
+						foundPlayer = who.name;
+					try { totalCount = int.Parse(message.Split(' ')[1]); } catch { Help(p); return; }
+				} else {
+					if (message.Length <= 3) {
+						try { totalCount = int.Parse(message); } catch {
 							foundPlayer = message;
 							Player who = Player.Find(foundPlayer);
-							if (who != null) foundPlayer = who.name;
+							if (who != null)
+								foundPlayer = who.name;
 						}
-					}
-					else
-					{
+					} else {
 						foundPlayer = message;
 						Player who = Player.Find(foundPlayer);
-						if (who != null) foundPlayer = who.name;
+						if (who != null)
+							foundPlayer = who.name;
 					}
 				}
 			}
 
 
 			List<Awards.awardData> awardList = new List<Awards.awardData>();
-			if (foundPlayer == "") { awardList = Awards.allAwards; }
-			else
-			{
-				foreach (string s in Awards.getPlayersAwards(foundPlayer))
-				{
+			if (foundPlayer == "") { awardList = Awards.allAwards; } else {
+				foreach (string s in Awards.getPlayersAwards(foundPlayer)) {
 					Awards.awardData aD = new Awards.awardData();
 					aD.awardName = s;
 					aD.description = Awards.getDescription(s);
@@ -78,13 +65,11 @@ namespace MCSpleef.Commands
 
 			if (awardList.Count == 0) { Player.SendMessage(p, "No awards found."); return; }
 
-			if (foundPlayer != "") { Player.SendMessage(p, Server.FindColor(foundPlayer) + foundPlayer + Server.DefaultColor + " has the following awards:"); }
-			else { Player.SendMessage(p, "Awards available: "); }
+			if (foundPlayer != "") { Player.SendMessage(p, Server.FindColor(foundPlayer) + foundPlayer + Server.DefaultColor + " has the following awards:"); } else { Player.SendMessage(p, "Awards available: "); }
 
 			foreach (Awards.awardData aD in awardList) { Player.SendMessage(p, "&6" + aD.awardName + ": &7" + aD.description); }
 		}
-		public override void Help(Player p)
-		{
+		public override void Help(Player p) {
 			Player.SendMessage(p, "/awards [player] - Gives a full list of awards");
 			Player.SendMessage(p, "If [player] is specified, shows awards for that player");
 		}
